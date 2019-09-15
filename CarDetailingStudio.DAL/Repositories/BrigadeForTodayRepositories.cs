@@ -10,6 +10,13 @@ namespace CarDetailingStudio.DAL.Repositories
 {
     public class BrigadeForTodayRepositories : IRepositories<brigadeForToday>
     {
+        private carWashEntities db;
+
+        public BrigadeForTodayRepositories(carWashEntities dbModel)
+        {
+            db = dbModel;
+        }
+
         public void Create(brigadeForToday item)
         {
             throw new NotImplementedException();

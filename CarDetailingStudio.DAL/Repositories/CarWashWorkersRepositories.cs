@@ -10,6 +10,12 @@ namespace CarDetailingStudio.DAL.Repositories
 {
     public class CarWashWorkersRepositories : IRepositories<CarWashWorkers>
     {
+        private carWashEntities db;
+        public CarWashWorkersRepositories(carWashEntities dbModel)
+        {
+            db = dbModel;
+        }
+
         public void Create(CarWashWorkers item)
         {
             throw new NotImplementedException();
