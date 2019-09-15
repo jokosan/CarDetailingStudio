@@ -50,15 +50,89 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="db\brigadeForToday.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\CarBody.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\CarWashWorkers.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\car_generation.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\car_mark.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\car_model.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\car_modification.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\car_serie.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\ClientsGroups.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\ClientsOfCarWash.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="db\dbCarDetailingStudioModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dbCarDetailingStudioModel.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="db\dbCarDetailingStudioModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="db\dbCarDetailingStudioModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dbCarDetailingStudioModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="db\Detailings.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\GroupWashServices.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\JobTitleTable.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\logo_mark_car.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\OrderServicesCarWash.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\ServisesCarWashOrder.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_helpdiagrams_Result.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sysdiagrams.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\ViewClientsOfCarWash.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\ViewDetailings.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\ViewWashServices.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\WashServices.cs">
+      <DependentUpon>dbCarDetailingStudioModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -79,6 +153,12 @@
     <Content Include="db\dbCarDetailingStudioModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>dbCarDetailingStudioModel.Context.cs</LastGenOutput>
+      <DependentUpon>dbCarDetailingStudioModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="db\dbCarDetailingStudioModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dbCarDetailingStudioModel.edmx</DependentUpon>
+      <LastGenOutput>dbCarDetailingStudioModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

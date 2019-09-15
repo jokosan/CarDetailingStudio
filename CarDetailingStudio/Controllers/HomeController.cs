@@ -8,9 +8,16 @@ namespace CarDetailingStudio.Controllers
 {
     public class HomeController : Controller
     {
+       
         public ActionResult Index()
         {
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Account/Login");
+            }
+
+            
+             return View();
         }
 
         public ActionResult About()

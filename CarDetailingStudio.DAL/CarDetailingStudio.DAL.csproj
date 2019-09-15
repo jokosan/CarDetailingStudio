@@ -49,10 +49,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BrigadeForTodayRepositories.cs" />
+    <Compile Include="Repositories\CarWashWorkersRepositories.cs" />
+    <Compile Include="Repositories\ClientsGroupsRepositories.cs" />
+    <Compile Include="Repositories\ClientsOfCarWashRepositories.cs" />
+    <Compile Include="Repositories\Interface\IRepositories.cs" />
+    <Compile Include="Repositories\OrderServicesCarWashRepositories.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarDetailingStudio.DataBase\CarDetailingStudio.DataBase.csproj">
+      <Project>{0f4b381d-b3a9-4a80-98d6-a8308b488654}</Project>
+      <Name>CarDetailingStudio.DataBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
