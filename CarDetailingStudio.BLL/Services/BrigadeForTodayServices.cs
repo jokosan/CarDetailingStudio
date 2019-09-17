@@ -21,7 +21,7 @@ namespace CarDetailingStudio.BLL.Services
 
         public void Create(brigadeForToday item)
         {
-            throw new NotImplementedException();
+            _unitOfWorks.BrigadeForTodayUW.Create(item);
         }
 
         public void Delete(int id)
@@ -31,12 +31,12 @@ namespace CarDetailingStudio.BLL.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _unitOfWorks.Dispose();
         }
 
         public IEnumerable<brigadeForToday> GetAll()
         {
-            throw new NotImplementedException();
+           return _unitOfWorks.BrigadeForTodayUW.GetAll();
         }
 
         public brigadeForToday GetId(int id)

@@ -65,8 +65,7 @@
                                         <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
                                     </div>
                                     @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email Asddres", @class = "form-control form-control-lg" })
-                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                                    @* <input type="text" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required="">*@
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })                                   
                                 </div>
 
                                 <div class="input-group mb-3">
@@ -74,8 +73,7 @@
                                         <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
                                     </div>
                                     @Html.PasswordFor(m => m.Password, new { @placeholder = "Password",  @class = "form-control form-control-lg" })
-                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                    @*<input type="text" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required="">*@
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })                                  
                                 </div>
 
                             </div>
@@ -85,8 +83,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <div class="p-t-20">
-                                        @*  <button class="btn btn-info" id="to-recover" type="button"><i class="fa fa-lock m-r-5"></i>  @Html.ActionLink("Забыли пароль?", "ForgotPassword")</button>*@
-                                        @*<button class="btn btn-info" id="to-recover" onclick="@Url.Action("Забыли пароль?", "ForgotPassword")" type="button"><i class="fa fa-lock m-r-5"></i> Забыли пароль?</button>*@
+                                  
                                         <input class="btn btn-info" id="to-recover" type="button" onclick="location.href='@Url.Action("Register")'" value="Регистрация нового пользователя" />
                                        
                                         <button class="btn btn-success float-right" type="submit">Login</button>

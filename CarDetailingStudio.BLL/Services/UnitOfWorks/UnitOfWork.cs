@@ -1,4 +1,5 @@
-﻿using CarDetailingStudio.DAL.Repositories;
+﻿using CarDetailingStudio.BLL.Services.IServices;
+using CarDetailingStudio.DAL.Repositories;
 using CarDetailingStudio.DAL.Repositories.Interface;
 using CarDetailingStudio.DataBase.db;
 using System;
@@ -16,7 +17,7 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
         private IRepositories<ClientsOfCarWash> _ClientsOfCarWash;
         private IRepositories<ClientsGroups> _ClientsGroups;
         private IRepositories<brigadeForToday> _BrigadeForToday;
-        private IRepositories<CarWashWorkers> _CarWashWorkers;
+        private IRepositories<CarWashWorkers> _CarWashWorkers;        
 
 
         private bool disposed = false;
@@ -45,7 +46,7 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
             _dbCarWashEntities.SaveChanges();
         }
 
-        public IRepositories<ClientsOfCarWash> ClientsOfCarWash
+        public IRepositories<ClientsOfCarWash> ClientsOfCarWashUW
         {
             get
             {
@@ -58,7 +59,7 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
             }
         }
 
-        public IRepositories<ClientsGroups> ClientsGroups
+        public IRepositories<ClientsGroups> ClientsGroupsUW
         {
             get
             {
@@ -70,7 +71,7 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
             }
         }
 
-        public IRepositories<brigadeForToday> BrigadeForToday
+        public IRepositories<brigadeForToday> BrigadeForTodayUW
         {
             get
             {
@@ -83,7 +84,8 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
             }
         }
 
-        public IRepositories<CarWashWorkers> CarWashWorkers
+
+        public IRepositories<CarWashWorkers> CarWashWorkersUW
         {
             get
             {

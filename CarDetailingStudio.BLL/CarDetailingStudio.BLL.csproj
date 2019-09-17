@@ -74,6 +74,7 @@
     <Compile Include="Services\BrigadeForTodayServices.cs" />
     <Compile Include="Services\CarWashWorkersServices.cs" />
     <Compile Include="Services\IServices\IServices.cs" />
+    <Compile Include="Services\ServiceLogic\FormationOfTheCurrentShift.cs" />
     <Compile Include="Services\UnitOfWorks\IUnitOfWork.cs" />
     <Compile Include="Services\UnitOfWorks\UnitOfWork.cs" />
   </ItemGroup>

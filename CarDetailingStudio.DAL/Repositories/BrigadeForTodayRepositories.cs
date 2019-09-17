@@ -19,37 +19,56 @@ namespace CarDetailingStudio.DAL.Repositories
 
         public void Create(brigadeForToday item)
         {
-            throw new NotImplementedException();
+            db.brigadeForToday.Add(item);
+           
         }
 
         public void Delete(int id)
         {
             throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        }       
 
         public IEnumerable<brigadeForToday> GetAll()
         {
-            throw new NotImplementedException();
+            return db.brigadeForToday;
         }
 
         public brigadeForToday GetId(int id)
         {
             throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
+        }       
 
         public void Update(brigadeForToday item)
         {
             throw new NotImplementedException();
         }
+
+        #region DisposeSave
+        private bool disposed = false;
+
+        public virtual void Dispose(bool disposed)
+        {
+            if (!this.disposed)
+            {
+                if (disposed)
+                {
+                    db.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
+        #endregion
     }
 }

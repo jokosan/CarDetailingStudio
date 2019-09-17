@@ -11,10 +11,10 @@ namespace CarDetailingStudio.Controllers
        
         public ActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Redirect("/Account/Login");
-            }
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    return Redirect("/Account/Login");
+            //}
 
             
              return View();
