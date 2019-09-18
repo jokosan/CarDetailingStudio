@@ -18,7 +18,7 @@ namespace CarDetailingStudio.DAL.Repositories
 
         public void Create(CarWashWorkers item)
         {
-           
+            throw new NotImplementedException();
         }
 
         public void Delete(int id)

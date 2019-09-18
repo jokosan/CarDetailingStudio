@@ -55,6 +55,7 @@
     <Compile Include="Repositories\ClientsOfCarWashRepositories.cs" />
     <Compile Include="Repositories\Interface\IRepositories.cs" />
     <Compile Include="Repositories\OrderServicesCarWashRepositories.cs" />
+    <Compile Include="Repositories\ServisesCarWashOrderRepositories.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

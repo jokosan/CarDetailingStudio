@@ -30,7 +30,9 @@ namespace CarDetailingStudio
             bundles.Add(new StyleBundle("~/Content/MatrixAdminCSS/css")
                 .Include("~/Content/MatrixAdminCSS/fullcalendar.min.css",
                          "~/Content/MatrixAdminCSS/calendar.css",
-                         "~/Content/MatrixAdminCSS/style.min.css"));
+                         "~/Content/MatrixAdminCSS/style.min.css",
+                         "~/Conteent/MatrixAdminCSS/materialdesignicons.min.css",
+                         "~/Conteent/MatrixAdminCSS/material-design-iconic-font.css"));
 
             // Login authentication-register
             bundles.Add(new StyleBundle("~/Content/MatrixAdminCSS/css")

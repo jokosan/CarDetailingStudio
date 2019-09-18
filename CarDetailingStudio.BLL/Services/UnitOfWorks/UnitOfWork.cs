@@ -17,8 +17,10 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
         private IRepositories<ClientsOfCarWash> _ClientsOfCarWash;
         private IRepositories<ClientsGroups> _ClientsGroups;
         private IRepositories<brigadeForToday> _BrigadeForToday;
-        private IRepositories<CarWashWorkers> _CarWashWorkers;        
-
+        private IRepositories<CarWashWorkers> _CarWashWorkers;
+        private IRepositories<OrderServicesCarWash> _OrderServicesCarWash;
+        private IRepositories<ServisesCarWashOrder> _ServisesCarWashOrder;
+        
 
         private bool disposed = false;
 
@@ -44,6 +46,31 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
         public void Save()
         {
             _dbCarWashEntities.SaveChanges();
+        }
+
+        public IRepositories<ServisesCarWashOrder> ServisesCarWashOrderUW
+        {
+            get
+            {
+                if(_ServisesCarWashOrder == null)
+                {
+                    _ServisesCarWashOrder = new ServisesCarWashOrderRepositories(_dbCarWashEntities);
+                }
+
+                return _ServisesCarWashOrder;
+            }
+        }
+
+        public IRepositories<OrderServicesCarWash> OrderServicesCarWashUW
+        {
+            get
+            {
+                if (_OrderServicesCarWash == null)
+                {
+                    _OrderServicesCarWash = new OrderServicesCarWashRepositories(_dbCarWashEntities);
+                }
+                return _OrderServicesCarWash;
+            }
         }
 
         public IRepositories<ClientsOfCarWash> ClientsOfCarWashUW
@@ -83,7 +110,6 @@ namespace CarDetailingStudio.BLL.Services.UnitOfWorks
                 return _BrigadeForToday;
             }
         }
-
 
         public IRepositories<CarWashWorkers> CarWashWorkersUW
         {

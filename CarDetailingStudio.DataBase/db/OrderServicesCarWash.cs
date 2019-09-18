@@ -15,7 +15,6 @@ namespace CarDetailingStudio.DataBase.db
     public partial class OrderServicesCarWash
     {
         public int Id { get; set; }
-        public string idClientDEL { get; set; }
         public Nullable<int> IdClientsOfCarWash { get; set; }
         public int IdServisesCarWashOrder { get; set; }
         public Nullable<int> idCarWashWorkers { get; set; }

@@ -8,6 +8,7 @@ using CarDetailingStudio.DataBase.db;
 using CarDetailingStudio.BLL.Services.IServices;
 using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.BLL.Services.ServiceLogic;
+using CarDetailingStudio.BLL.Services.Logic;
 
 namespace CarDetailingStudio.Utilities.Ninject
 {
@@ -36,6 +37,8 @@ namespace CarDetailingStudio.Utilities.Ninject
             kernel.Bind<CarWashWorkersServices>().To<CarWashWorkersServices>();
             kernel.Bind<BrigadeForTodayServices>().To<BrigadeForTodayServices>();
             kernel.Bind<FormationOfTheCurrentShift>().To<FormationOfTheCurrentShift>();
+            kernel.Bind<EntryCondition>().To<EntryCondition>();
+            kernel.Bind<OrderServicesCarWashServices>().To<OrderServicesCarWashServices>();           
         }
     }
 }

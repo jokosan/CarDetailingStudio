@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище carWashModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище carWashModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="brigadeForToday">
           <Key>
             <PropertyRef Name="id" />
@@ -180,7 +180,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="idClientDEL" Type="nchar" MaxLength="250" Nullable="false" />
           <Property Name="IdClientsOfCarWash" Type="int" />
           <Property Name="IdServisesCarWashOrder" Type="int" Nullable="false" />
           <Property Name="idCarWashWorkers" Type="int" />
@@ -227,19 +226,6 @@
           <Property Name="IdGroupWashServices" Type="int" Nullable="false" />
           <Property Name="mark" Type="bit" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6013: Первичный ключ в таблице или представлении "carWash.dbo.ViewCarWashWorkers" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
-        <EntityType Name="ViewCarWashWorkers">
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Surname" Type="nvarchar" MaxLength="50" />
-          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
-          <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
-          <Property Name="Experience" Type="nvarchar" MaxLength="50" />
-          <Property Name="DataRegistration" Type="nvarchar" MaxLength="15" />
-          <Property Name="DataDismissal" Type="nvarchar" MaxLength="15" />
-          <Property Name="status" Type="nvarchar" MaxLength="10" />
-          <Property Name="Position" Type="nvarchar" MaxLength="50" />
-        </EntityType>-->
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "carWash.dbo.ViewClientsOfCarWash" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="ViewClientsOfCarWash">
@@ -677,8 +663,7 @@
             <End Role="WashServices" EntitySet="WashServices" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="carWashModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -873,7 +858,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idClientDEL" Type="String" MaxLength="250" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="IdClientsOfCarWash" Type="Int32" />
           <Property Name="IdServisesCarWashOrder" Type="Int32" Nullable="false" />
           <Property Name="idCarWashWorkers" Type="Int32" />
@@ -1508,7 +1492,6 @@
             <EntityTypeMapping TypeName="carWashModel.OrderServicesCarWash">
               <MappingFragment StoreEntitySet="OrderServicesCarWash">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="idClientDEL" ColumnName="idClientDEL" />
                 <ScalarProperty Name="IdClientsOfCarWash" ColumnName="IdClientsOfCarWash" />
                 <ScalarProperty Name="IdServisesCarWashOrder" ColumnName="IdServisesCarWashOrder" />
                 <ScalarProperty Name="idCarWashWorkers" ColumnName="idCarWashWorkers" />

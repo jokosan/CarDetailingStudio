@@ -27,22 +27,12 @@ namespace CarDetailingStudio.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<ClientsOfCarWash> GetAll()
         {
-            throw new NotImplementedException();
+            return db.ClientsOfCarWash;
         }
 
         public ClientsOfCarWash GetId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Save()
         {
             throw new NotImplementedException();
         }
@@ -51,5 +41,33 @@ namespace CarDetailingStudio.DAL.Repositories
         {
             throw new NotImplementedException();
         }
+
+        #region DisposeSave
+        private bool disposed = false;
+
+        public virtual void Dispose(bool disposed)
+        {
+            if (!this.disposed)
+            {
+                if (disposed)
+                {
+                    db.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
+        #endregion
     }
 }

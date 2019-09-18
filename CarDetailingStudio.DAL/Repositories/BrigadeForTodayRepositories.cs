@@ -19,8 +19,7 @@ namespace CarDetailingStudio.DAL.Repositories
 
         public void Create(brigadeForToday item)
         {
-            db.brigadeForToday.Add(item);
-           
+            db.brigadeForToday.Add(item);          
         }
 
         public void Delete(int id)

@@ -18,7 +18,7 @@
         <EntityTypeShape EntityType="carWashModel.Detailings" Width="1.5" PointX="3" PointY="18" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashModel.GroupWashServices" Width="1.5" PointX="0.75" PointY="19.125" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashModel.JobTitleTable" Width="1.5" PointX="0.75" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.OrderServicesCarWash" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.OrderServicesCarWash" Width="1.5" PointX="8.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashModel.ServisesCarWashOrder" Width="1.5" PointX="5.25" PointY="20.5" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashModel.WashServices" Width="1.5" PointX="3" PointY="22.75" IsExpanded="true" />

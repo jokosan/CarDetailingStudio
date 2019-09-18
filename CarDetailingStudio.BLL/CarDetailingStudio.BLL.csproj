@@ -73,8 +73,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BrigadeForTodayServices.cs" />
     <Compile Include="Services\CarWashWorkersServices.cs" />
+    <Compile Include="Services\ClientsOfCarWashServices.cs" />
     <Compile Include="Services\IServices\IServices.cs" />
+    <Compile Include="Services\Logic\EntryCondition.cs" />
+    <Compile Include="Services\OrderServicesCarWashServices.cs" />
     <Compile Include="Services\ServiceLogic\FormationOfTheCurrentShift.cs" />
+    <Compile Include="Services\ServisesCarWashOrderServices.cs" />
     <Compile Include="Services\UnitOfWorks\IUnitOfWork.cs" />
     <Compile Include="Services\UnitOfWorks\UnitOfWork.cs" />
   </ItemGroup>
