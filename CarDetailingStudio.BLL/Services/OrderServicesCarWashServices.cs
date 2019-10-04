@@ -1,51 +1,29 @@
-﻿using CarDetailingStudio.BLL.Services.IServices;
-using CarDetailingStudio.BLL.Services.UnitOfWorks;
-using CarDetailingStudio.DataBase.db;
+﻿using CarDetailingStudio.BLL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using CarDetailingStudio.BLL.Utilities.Map;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class OrderServicesCarWashServices : IServices<OrderServicesCarWash>
+    public class OrderServicesCarWashServices : IServices<OrderServicesCarWashBll>
     {
-        private UnitOfWork _unitOfWorks;
+        private IUnitOfWork _ubitOfWork;
+        private AutomapperConfig _automapper;
 
         public OrderServicesCarWashServices()
         {
-            _unitOfWorks = new UnitOfWork();
+            _ubitOfWork = new UnitOfWork();
+            _automapper = new AutomapperConfig();
         }
-
-        public void Create(OrderServicesCarWash item)
+        public IEnumerable<OrderServicesCarWashBll> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            _unitOfWorks.Dispose();
-        }
-
-        public IEnumerable<OrderServicesCarWash> GetAll()
-        {
-            return _unitOfWorks.OrderServicesCarWashUW.GetAll();
-        }
-
-        public OrderServicesCarWash GetId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(OrderServicesCarWash item)
-        {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_ubitOfWork.OrderServicesCarWashUnitOfWork.Get());
         }
     }
 }

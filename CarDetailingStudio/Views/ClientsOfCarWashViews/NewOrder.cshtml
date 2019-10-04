@@ -1,0 +1,105 @@
+﻿@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
+
+@{
+    ViewBag.Title = "NewOrder";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <form class="form-horizontal">
+                <div class="card-body">
+                    @*  <h4 class="card-title">Personal Info</h4>*@
+                    <div class="form-group row">
+                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Номер машины</label>
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                            @Html.DisplayFor(model => model.NumderCar)
+                        </label>
+
+                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Марка/Модель</label>
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                            @Html.DisplayFor(model => model.car_mark.name) @Html.DisplayFor(model => model.car_model.name)
+                        </label>
+
+                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Тип кузова</label>
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                            @Html.DisplayFor(model => model.CarBody.Name)
+                        </label>
+
+                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Ф.И.О</label>
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                            @Html.DisplayFor(model => model.Surname) @Html.DisplayFor(model => model.Name)  @Html.DisplayFor(model => model.PatronymicName)
+                        </label>
+                    </div>
+                </div>
+
+                @*<div class="border-top">
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>*@
+                @*<p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.ib }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>*@
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body col-md-6">
+        <h5 class="card-title m-b-0">Detailings</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>
+                        <label class="customcheckbox m-b-20">
+                            <input type="checkbox" id="mainCheckbox" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </th>
+                    <th scope="col">services_list</th>
+                    <th scope="col">validity</th>
+                    <th scope="col">Body</th>
+                </tr>
+            </thead>
+            <tbody class="customtable">
+                @foreach (var item in ViewBag.Detailings)
+                {
+                    <tr>
+                        <th>
+                            <label class="customcheckbox">
+                                <input type="checkbox" class="listCheckbox" />
+                                <span class="checkmark"></span>
+                            </label>
+                        </th>
+                        <td>@item.services_list</td>
+                        <td>@item.validity</td>
+                        @switch (Model.CarBody.Id)
+                        {
+                            case 1:
+                                <td>@Math.Ceiling(item.S)</td>
+                                break;
+                            case 2:
+                                <td>@Math.Ceiling(item.M)</td>
+                                break;
+                            case 3:
+                                <td>@Math.Ceiling(item.L)</td>
+                                break;
+                            case 4:
+                                <td>@Math.Ceiling(item.XL)</td>
+                                break;
+                        }
+                        <td>@item.currency</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

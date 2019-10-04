@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{61755942-DBA7-4F8D-B82F-95F7B83C5F8C}</ProjectGuid>
+    <ProjectGuid>{AF8D1052-2886-48A0-B01D-FF428B6A467E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CarDetailingStudio.BLL</RootNamespace>
@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,37 +33,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v19.1, Version=19.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v19.1, Version=19.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,34 +62,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\BrigadeForTodayBll.cs" />
+    <Compile Include="Model\CarBodyBll.cs" />
+    <Compile Include="Model\CarGenerationBll.cs" />
+    <Compile Include="Model\CarMarkBll.cs" />
+    <Compile Include="Model\CarModelBll.cs" />
+    <Compile Include="Model\CarModificationBll.cs" />
+    <Compile Include="Model\CarSerieBll.cs" />
+    <Compile Include="Model\CarWashWorkersBll.cs" />
+    <Compile Include="Model\ClientsGroupsBll.cs" />
+    <Compile Include="Model\ClientsOfCarWashBll.cs" />
+    <Compile Include="Model\DetailingsBll.cs" />
+    <Compile Include="Model\GroupWashServicesBll.cs" />
+    <Compile Include="Model\JobTitleTableBll.cs" />
+    <Compile Include="Model\OrderServicesCarWashBll.cs" />
+    <Compile Include="Model\ServisesCarWashOrderBll.cs" />
+    <Compile Include="Model\WashServicesBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BrigadeForTodayServices.cs" />
     <Compile Include="Services\CarWashWorkersServices.cs" />
     <Compile Include="Services\ClientsOfCarWashServices.cs" />
-    <Compile Include="Services\IServices\IServices.cs" />
-    <Compile Include="Services\Logic\EntryCondition.cs" />
+    <Compile Include="Services\Contract\IServices.cs" />
+    <Compile Include="Services\DetailingsServises.cs" />
+    <Compile Include="Services\Modules\ApiPrivatBank.cs" />
+    <Compile Include="Services\Modules\ExchangeRates.cs" />
+    <Compile Include="Services\Modules\ExchangeRatesModel.cs" />
     <Compile Include="Services\OrderServicesCarWashServices.cs" />
-    <Compile Include="Services\ServiceLogic\FormationOfTheCurrentShift.cs" />
-    <Compile Include="Services\ServisesCarWashOrderServices.cs" />
-    <Compile Include="Services\UnitOfWorks\IUnitOfWork.cs" />
-    <Compile Include="Services\UnitOfWorks\UnitOfWork.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IoC\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CarDetailingStudio.DAL\CarDetailingStudio.DAL.csproj">
-      <Project>{E7A45FCD-1ACB-4326-8AC2-83D75BA7FDFB}</Project>
-      <Name>CarDetailingStudio.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CarDetailingStudio.DataBase\CarDetailingStudio.DataBase.csproj">
-      <Project>{0F4B381D-B3A9-4A80-98D6-A8308B488654}</Project>
-      <Name>CarDetailingStudio.DataBase</Name>
-    </ProjectReference>
+    <Compile Include="Utilities\Map\AutomapperConfig.cs" />
+    <Compile Include="Utilities\Ninject\NinjectDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarDetailingStudio.DAL\CarDetailingStudio.DAL.csproj">
+      <Project>{82dbb8f1-9ecf-4b60-a7e3-77c20fd1d8de}</Project>
+      <Name>CarDetailingStudio.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

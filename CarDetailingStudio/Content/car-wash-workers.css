@@ -1,0 +1,54 @@
+﻿.auth-wrapper {
+	min-height: 100vh;
+	position: relative;
+}
+
+	.auth-wrapper .auth-box {
+		background: #fff;
+		padding: 20px;
+		-webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+		box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+		max-width: 400px;
+		width: 90%;
+		margin: 5% 0;
+	}
+
+		.auth-wrapper .auth-box .logo {
+			text-align: center;
+		}
+
+		.auth-wrapper .auth-box.on-sidebar {
+			top: 0px;
+			right: 0px;
+			height: 100%;
+			margin: 0px;
+			position: absolute;
+		}
+
+	.auth-wrapper #recoverform {
+		display: none;
+	}
+
+	.auth-wrapper .auth-sidebar {
+		position: fixed;
+		height: 100%;
+		right: 0px;
+		overflow: auto;
+		margin: 0px;
+		top: 0px;
+	}
+
+.comment-widgets .comment-row.active, .comment-widgets .comment-row:hover {
+	background: rgba(0, 0, 0, 0.28);
+}
+
+body {
+	margin: 0;
+	overflow-x: hidden;
+	color: #dfe7ef;
+	background: #fff;
+}
+
+.btn {
+	width: 100%;
+}

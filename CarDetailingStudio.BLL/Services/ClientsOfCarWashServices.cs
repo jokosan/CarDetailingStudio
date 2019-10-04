@@ -1,51 +1,36 @@
-﻿using CarDetailingStudio.BLL.Services.IServices;
-using CarDetailingStudio.BLL.Services.UnitOfWorks;
-using CarDetailingStudio.DataBase.db;
+﻿using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using CarDetailingStudio.BLL.Utilities.Map;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class ClientsOfCarWashServices : IServices<ClientsOfCarWash>
+    public class ClientsOfCarWashServices : IServices<ClientsOfCarWashBll>
     {
-        UnitOfWork _unitOfWork;
+        private UnitOfWork _unitOfWork;
+        private AutomapperConfig _automapper;
 
-        private ClientsOfCarWashServices()
+        public ClientsOfCarWashServices(UnitOfWork unitOfWork, AutomapperConfig maper)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
+            _automapper = maper;
         }
 
-        public void Create(ClientsOfCarWash item)
+        public IEnumerable<ClientsOfCarWashBll> GetAll()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsOfCarWashUnitOfWork.Get());
         }
 
-        public void Delete(int id)
+        public ClientsOfCarWashBll CustomerOrders(int? id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ClientsOfCarWash> GetAll()
-        {
-            return _unitOfWork.ClientsOfCarWashUW.GetAll();
-        }
-
-        public ClientsOfCarWash GetId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(ClientsOfCarWash item)
-        {
-            throw new NotImplementedException();
+            var resilt = Mapper.Map<ClientsOfCarWashBll>(_unitOfWork.ClientsOfCarWashUnitOfWork.GetById(id));
+            return resilt;
         }
     }
 }

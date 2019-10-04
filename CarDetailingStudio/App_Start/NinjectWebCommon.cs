@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using CarDetailingStudio.App_Start;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
 using Ninject.Web.Common.WebHost;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(CarDetailingStudio.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(CarDetailingStudio.App_Start.NinjectWebCommon), "Stop")]
-
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
 
 namespace CarDetailingStudio.App_Start
 {
@@ -41,9 +40,8 @@ namespace CarDetailingStudio.App_Start
         }
         private static void RegisterServices(IKernel kernel)
         {
-            //kernel.Bind<IRepo>().ToMethod(ctx => new Repo("Ninject Rocks!"));
             System.Web.Mvc.DependencyResolver.SetResolver(new
-                    CarDetailingStudio.Utilities.Ninject.NinjectDependencyResolver(kernel));
+                 CarDetailingStudio.Utilities.Ninjects.NinjectDependencyResolver(kernel));
         }
     }
 }

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.BrigadeForTodayView>
+
+    <link href="~/Content/brigade-for-today.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="card-title">Текущая смена</h4>
+                    </div>
+                    <div class="col-6 left">
+                        @Html.ActionLink("Добавить к смене", "Create", new { @class="card-title"}, new { @class = "badge badge-pill badge-info"})
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="comment-widgets scrollable">
+                <!-- Comment Row -->
+
+                @foreach (var item in Model)
+                {
+                    <div class="d-flex flex-row comment-row m-t-0">
+                        <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
+                        <div class="comment-text w-100">
+                            <h6 class="font-medium"> @Html.DisplayFor(model => item.CarWashWorkers.Name) @Html.DisplayFor(model => item.CarWashWorkers.Name) </h6>
+                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.CarWashWorkers.JobTitleTable.Position) | Тел. +38 @Html.DisplayFor(model => item.CarWashWorkers.MobilePhone)</span>
+
+                            <div class="comment-footer">
+                                <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "btn btn-cyan btn-sm" })
+                                @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "btn btn-danger btn-sm" })
+                            </div>
+                            <div class="m-t-20">
+                                <div class="d-flex no-block align-items-center">
+                                    <span> 35% Clicks</span>
+                                    <div class="ml-auto">
+                                        <span>125</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 35%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+

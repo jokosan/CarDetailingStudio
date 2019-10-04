@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.BrigadeForTodayView>
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title m-b-0">@ViewData["Info"]</h5>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">  @Html.DisplayNameFor(model => model.Date)</th>
+                    <th scope="col">Number of completed orders</th>
+                    <th scope="col">Accrued on salary</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td class="text-success">Progress</td>
+                        <td>
+                            210
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.id}, new {  @class = "badge badge-pill badge-info" })
+                        </td>
+
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+

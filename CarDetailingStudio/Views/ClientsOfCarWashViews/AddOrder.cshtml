@@ -1,0 +1,16 @@
+﻿@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
+
+@{
+    ViewBag.Title = "AddOrder";
+}
+
+<h2>AddOrder</h2>
+
+<div class="row">
+    <div class="col-6">
+        @Html.Partial("NewOrder", Model)
+    </div>
+    <div class="col-6">
+        @Html.Partial("PriceList", Model)
+    </div>
+</div>

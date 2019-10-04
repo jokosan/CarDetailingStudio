@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29306.81
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailingStudio", "CarDetailingStudio\CarDetailingStudio.csproj", "{8B1606CA-B3D7-4A66-A2A2-53F7BFE40A70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailingStudio", "CarDetailingStudio\CarDetailingStudio.csproj", "{256D8CA4-95D2-4EBA-8A3F-E8710AD7DF3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailingStudio.BLL", "CarDetailingStudio.BLL\CarDetailingStudio.BLL.csproj", "{61755942-DBA7-4F8D-B82F-95F7B83C5F8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailingStudio.BLL", "CarDetailingStudio.BLL\CarDetailingStudio.BLL.csproj", "{AF8D1052-2886-48A0-B01D-FF428B6A467E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailingStudio.DAL", "CarDetailingStudio.DAL\CarDetailingStudio.DAL.csproj", "{E7A45FCD-1ACB-4326-8AC2-83D75BA7FDFB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailingStudio.DataBase", "CarDetailingStudio.DataBase\CarDetailingStudio.DataBase.csproj", "{0F4B381D-B3A9-4A80-98D6-A8308B488654}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailingStudio.DAL", "CarDetailingStudio.DAL\CarDetailingStudio.DAL.csproj", "{82DBB8F1-9ECF-4B60-A7E3-77C20FD1D8DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,27 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8B1606CA-B3D7-4A66-A2A2-53F7BFE40A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B1606CA-B3D7-4A66-A2A2-53F7BFE40A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B1606CA-B3D7-4A66-A2A2-53F7BFE40A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B1606CA-B3D7-4A66-A2A2-53F7BFE40A70}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61755942-DBA7-4F8D-B82F-95F7B83C5F8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61755942-DBA7-4F8D-B82F-95F7B83C5F8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61755942-DBA7-4F8D-B82F-95F7B83C5F8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61755942-DBA7-4F8D-B82F-95F7B83C5F8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7A45FCD-1ACB-4326-8AC2-83D75BA7FDFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7A45FCD-1ACB-4326-8AC2-83D75BA7FDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7A45FCD-1ACB-4326-8AC2-83D75BA7FDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7A45FCD-1ACB-4326-8AC2-83D75BA7FDFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F4B381D-B3A9-4A80-98D6-A8308B488654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F4B381D-B3A9-4A80-98D6-A8308B488654}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F4B381D-B3A9-4A80-98D6-A8308B488654}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F4B381D-B3A9-4A80-98D6-A8308B488654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{256D8CA4-95D2-4EBA-8A3F-E8710AD7DF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{256D8CA4-95D2-4EBA-8A3F-E8710AD7DF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{256D8CA4-95D2-4EBA-8A3F-E8710AD7DF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{256D8CA4-95D2-4EBA-8A3F-E8710AD7DF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF8D1052-2886-48A0-B01D-FF428B6A467E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF8D1052-2886-48A0-B01D-FF428B6A467E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF8D1052-2886-48A0-B01D-FF428B6A467E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF8D1052-2886-48A0-B01D-FF428B6A467E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82DBB8F1-9ECF-4B60-A7E3-77C20FD1D8DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82DBB8F1-9ECF-4B60-A7E3-77C20FD1D8DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82DBB8F1-9ECF-4B60-A7E3-77C20FD1D8DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82DBB8F1-9ECF-4B60-A7E3-77C20FD1D8DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2BED2CC9-D8F3-4985-8809-218E5D0B2E90}
+		SolutionGuid = {D2764DDE-C789-42C2-B5A1-9D865CD0F40C}
 	EndGlobalSection
 EndGlobal

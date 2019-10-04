@@ -1,52 +1,37 @@
-﻿using CarDetailingStudio.BLL.Services.IServices;
-using CarDetailingStudio.DAL.Repositories.Interface;
-using CarDetailingStudio.DataBase.db;
+﻿using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Utilities.Map;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarDetailingStudio.BLL.Services.UnitOfWorks;
+using AutoMapper;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class BrigadeForTodayServices : IServices<brigadeForToday>
+    public class BrigadeForTodayServices : IServices<BrigadeForTodayBll>
     {
-        private UnitOfWork _unitOfWorks;
+        private IUnitOfWork _unitOfWork;
+        private AutomapperConfig _automapper;
 
         public BrigadeForTodayServices()
         {
-            _unitOfWorks = new UnitOfWork();
+            _unitOfWork = new UnitOfWork();
+            _automapper = new AutomapperConfig();
         }
 
-        public void Create(brigadeForToday item)
+        public IEnumerable<BrigadeForTodayBll> GetAll()
         {
-            _unitOfWorks.BrigadeForTodayUW.Create(item);
+            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeForTodayUnitOfWork.Get()
+                .Where(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
         }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            _unitOfWorks.Dispose();
-        }
-
-        public IEnumerable<brigadeForToday> GetAll()
-        {
-           return _unitOfWorks.BrigadeForTodayUW.GetAll();
-        }
-
-        public brigadeForToday GetId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(brigadeForToday item)
-        {
-            throw new NotImplementedException();
+        public IEnumerable<BrigadeForTodayBll> Info(int? id)
+        {            
+           return  Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeForTodayUnitOfWork.Get()
+                 .Where(x => x.IdCarWashWorkers == id)).OrderByDescending(x => x.id);
         }
     }
 }

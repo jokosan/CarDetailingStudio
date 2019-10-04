@@ -1,0 +1,117 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView>
+
+@{
+    ViewBag.Title = "Client";
+}
+
+<h2>Client</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatronymicName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateRegistration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.discont)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recommendation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumderCar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdClientsGroups)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Idmark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Idmodel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdBody)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.barcode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatronymicName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateRegistration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.discont)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Recommendation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumderCar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdClientsGroups)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Idmark)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Idmodel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdBody)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.barcode)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ib }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ib }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ib })
+        </td>
+    </tr>
+}
+
+</table>

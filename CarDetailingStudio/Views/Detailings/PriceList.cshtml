@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.DetailingsView>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.services_list)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.validity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.S)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.M)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.L)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.XL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.group)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.currency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdGroupWashServices)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.services_list)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.validity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.S)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.M)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.L)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.XL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.group)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.currency)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mark)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdGroupWashServices)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

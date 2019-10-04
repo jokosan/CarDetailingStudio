@@ -1,0 +1,115 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-lg-10">
+                <h5 class="card-title">Оформление заказа</h5>
+
+            </div>
+            <div class="col-lg-2">
+                @Html.ActionLink("Создать нового клиента", "Create", new { @class = "btn btn-primary" })
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                        <input type="text" id="Search" placeholder="Search" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            
+            <table  class="table table-striped">
+                <tr>
+                    <th>
+                        Номер машины
+                    </th>
+
+                    <th>
+                        Ф.И.О
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.discont)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.car_mark.name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.car_model.name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CarBody.Name)
+                    </th>
+
+                    <th>Action</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr  class="Search">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumderCar)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Surname)  @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.PatronymicName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.discont)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.car_mark.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.car_model.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CarBody.Name)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ib }, new { @class = "btn btn-cyan btn-sm"})
+                            @Html.ActionLink("Details", "NewOrder", new { id = item.ib }, new { @class = "btn btn-success btn-sm"})
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+
+</script>
