@@ -14,12 +14,6 @@ namespace CarDetailingStudio.DAL
     
     public partial class brigadeForToday
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public brigadeForToday()
-        {
-            this.OrderServicesCarWash = new HashSet<OrderServicesCarWash>();
-        }
-    
         public int id { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
@@ -28,7 +22,5 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> IdCarWashWorkers { get; set; }
     
         public virtual CarWashWorkers CarWashWorkers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderServicesCarWash> OrderServicesCarWash { get; set; }
     }
 }

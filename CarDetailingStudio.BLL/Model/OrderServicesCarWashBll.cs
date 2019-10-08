@@ -8,21 +8,23 @@ namespace CarDetailingStudio.BLL.Model
 {
     public class OrderServicesCarWashBll
     {
+        public OrderServicesCarWashBll()
+        {
+            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderBll>();
+        }
+
         public int Id { get; set; }
         public Nullable<int> IdClientsOfCarWash { get; set; }
-        public int IdServisesCarWashOrder { get; set; }
         public Nullable<int> idCarWashWorkers { get; set; }
-        public string discount { get; set; }
-        public string StatusOrder { get; set; }
-        public string PaymentState { get; set; }
-        public string OrderDate { get; set; }
-        public string ExecutionTime { get; set; }
-        public string ClosingData { get; set; }
-        public string ClosingTime { get; set; }
+        public Nullable<int> StatusOrder { get; set; }
+        public Nullable<int> PaymentState { get; set; }
+        public Nullable<System.DateTime> OrderDate { get; set; }
+        public Nullable<System.DateTime> ClosingData { get; set; }
         public Nullable<double> TotalCostOfAllServices { get; set; }
 
-        public virtual BrigadeForTodayBll brigadeForToday { get; set; }
         public virtual ClientsOfCarWashBll ClientsOfCarWash { get; set; }
-        public virtual ServisesCarWashOrderBll ServisesCarWashOrder { get; set; }
+        public virtual PaymentStateBll PaymentState1 { get; set; }
+        public virtual StatusOrderBll StatusOrder1 { get; set; }
+        public virtual ICollection<ServisesCarWashOrderBll> ServisesCarWashOrder { get; set; }
     }
 }

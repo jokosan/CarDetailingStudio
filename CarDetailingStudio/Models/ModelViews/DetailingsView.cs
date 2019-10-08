@@ -13,8 +13,10 @@ namespace CarDetailingStudio.Models.ModelViews
         {
             this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderView>();
         }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+       
         public int Id { get; set; }
         public string services_list { get; set; }
         public string validity { get; set; }
@@ -28,6 +30,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public string currency { get; set; }
         public Nullable<bool> mark { get; set; }
         public Nullable<int> IdGroupWashServices { get; set; }
+        public Nullable<int> IdTypeService { get; set; }
 
         public virtual GroupWashServicesView GroupWashServices { get; set; }
         public virtual ICollection<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }

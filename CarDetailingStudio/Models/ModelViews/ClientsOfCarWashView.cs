@@ -13,6 +13,7 @@ namespace CarDetailingStudio.Models.ModelViews
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWashView>();
         }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int ib { get; set; }
@@ -34,8 +35,6 @@ namespace CarDetailingStudio.Models.ModelViews
 
         public virtual CarMarkView car_mark { get; set; }
         public virtual CarModelView car_model { get; set; }
-
-        [Display(Prompt = "CarBody")]
         public virtual CarBodyView CarBody { get; set; }
         public virtual ClientsGroupsView ClientsGroups { get; set; }
         public virtual ICollection<OrderServicesCarWashView> OrderServicesCarWash { get; set; }

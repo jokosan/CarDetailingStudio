@@ -11,6 +11,7 @@ namespace CarDetailingStudio.BLL.Model
         public CarWashWorkersBll()
         {
             this.brigadeForToday = new HashSet<BrigadeForTodayBll>();
+            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderBll>();
         }
 
         public int id { get; set; }
@@ -28,5 +29,6 @@ namespace CarDetailingStudio.BLL.Model
 
         public virtual ICollection<BrigadeForTodayBll> brigadeForToday { get; set; }
         public virtual JobTitleTableBll JobTitleTable { get; set; }
+        public virtual ICollection<ServisesCarWashOrderBll> ServisesCarWashOrder { get; set; }
     }
 }

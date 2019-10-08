@@ -1,4 +1,5 @@
 ﻿using CarDetailingStudio.BLL.Services;
+using CarDetailingStudio.BLL.Services.Modules;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,8 @@ namespace CarDetailingStudio.Utilities.Ninjects
             kernel.Bind<CarWashWorkersServices>().To<CarWashWorkersServices>();
             kernel.Bind<ClientsOfCarWashServices>().To<ClientsOfCarWashServices>();
             kernel.Bind<BrigadeForTodayServices>().To<BrigadeForTodayServices>();
+            kernel.Bind<OrderServices>().To<OrderServices>();
+            kernel.Bind<ServisesCarWashOrderServices>().To<ServisesCarWashOrderServices>();
         }
     }
 }

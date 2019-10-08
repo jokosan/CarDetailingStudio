@@ -26,6 +26,7 @@ namespace CarDetailingStudio.BLL.Model
         public string currency { get; set; }
         public Nullable<bool> mark { get; set; }
         public Nullable<int> IdGroupWashServices { get; set; }
+        public Nullable<int> IdTypeService { get; set; }
 
         public virtual GroupWashServicesBll GroupWashServices { get; set; }
         public virtual ICollection<ServisesCarWashOrderBll> ServisesCarWashOrder { get; set; }

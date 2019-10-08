@@ -24,7 +24,21 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<JobTitleTable> JobTitleTableUW;
         private DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUW;
         private DbRepository<Detailings> DetailingsUW;
-        private DbRepository<WashServices> WashServicesUW;
+
+        public DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUnitOfWork
+        {
+            get
+            {
+                if (ServisesCarWashOrderUW == null)
+                {
+                    ServisesCarWashOrderUW = new DbRepository<ServisesCarWashOrder>(_entities);                
+                }
+
+                return ServisesCarWashOrderUW;
+            }
+
+            set { ServisesCarWashOrderUW = value; }
+        }
 
         public DbRepository<OrderServicesCarWash> OrderServicesCarWashUnitOfWork
         {
@@ -115,21 +129,6 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             }
 
             set { DetailingsUnitOfWork = value; }
-        }
-
-        public DbRepository<WashServices> WashServicesUnitOfWork
-        {
-            get
-            {
-                if (WashServicesUW == null)
-                {
-                    WashServicesUW = new DbRepository<WashServices>(_entities);
-                }
-
-                return WashServicesUW;
-            }
-
-            set { WashServicesUnitOfWork = value; }
         }
 
         #region Dispose

@@ -14,21 +14,25 @@ namespace CarDetailingStudio.DAL
     
     public partial class OrderServicesCarWash
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrderServicesCarWash()
+        {
+            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrder>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> IdClientsOfCarWash { get; set; }
-        public int IdServisesCarWashOrder { get; set; }
         public Nullable<int> idCarWashWorkers { get; set; }
-        public string discount { get; set; }
-        public string StatusOrder { get; set; }
-        public string PaymentState { get; set; }
-        public string OrderDate { get; set; }
-        public string ExecutionTime { get; set; }
-        public string ClosingData { get; set; }
-        public string ClosingTime { get; set; }
+        public Nullable<int> StatusOrder { get; set; }
+        public Nullable<int> PaymentState { get; set; }
+        public Nullable<System.DateTime> OrderDate { get; set; }
+        public Nullable<System.DateTime> ClosingData { get; set; }
         public Nullable<double> TotalCostOfAllServices { get; set; }
     
-        public virtual brigadeForToday brigadeForToday { get; set; }
         public virtual ClientsOfCarWash ClientsOfCarWash { get; set; }
-        public virtual ServisesCarWashOrder ServisesCarWashOrder { get; set; }
+        public virtual PaymentState PaymentState1 { get; set; }
+        public virtual StatusOrder StatusOrder1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
     }
 }

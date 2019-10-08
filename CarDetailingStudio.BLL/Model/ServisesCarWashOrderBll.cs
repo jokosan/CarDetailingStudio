@@ -8,21 +8,15 @@ namespace CarDetailingStudio.BLL.Model
 {
     public class ServisesCarWashOrderBll
     {
-        public ServisesCarWashOrderBll()
-        {
-            this.OrderServicesCarWash = new HashSet<OrderServicesCarWashBll>();
-        }
-
         public int Id { get; set; }
-        public int IdClientsOfCarWash { get; set; }
-        public int IdOrderServicesCarWash { get; set; }
+        public Nullable<int> IdClientsOfCarWash { get; set; }
+        public Nullable<int> IdOrderServicesCarWash { get; set; }
         public Nullable<int> idCarWashWorkers { get; set; }
         public Nullable<int> IdWashServices { get; set; }
         public Nullable<double> Price { get; set; }
 
+        public virtual CarWashWorkersBll CarWashWorkers { get; set; }
         public virtual DetailingsBll Detailings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderServicesCarWashBll> OrderServicesCarWash { get; set; }
-        public virtual WashServicesBll WashServices { get; set; }
+        public virtual OrderServicesCarWashBll OrderServicesCarWash { get; set; }
     }
 }

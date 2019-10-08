@@ -36,10 +36,7 @@ namespace CarDetailingStudio.Models
         public DbSet<JobTitleTableView> JobTitleTable { get; set; }
         public DbSet<OrderServicesCarWashView> OrderServicesCarWash { get; set; }
         public DbSet<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }
-     
-        public DbSet<WashServicesView> WashServices { get; set; }
 
-
-        
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.CloseOrderModel> CloseOrderModels { get; set; }
     }
 }

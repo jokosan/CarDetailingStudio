@@ -35,7 +35,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
         public virtual void Insert(T entity)
         {
             DbSeT.Add(entity);
-        }
+        }     
 
         public virtual void Delete(object id)
         {

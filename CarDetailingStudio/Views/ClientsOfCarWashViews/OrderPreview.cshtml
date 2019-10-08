@@ -1,0 +1,127 @@
+﻿@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
+
+@{
+    ViewBag.Title = "OrderPreview";
+}
+
+<h2>OrderPreview</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="form-horizontal">
+                    <div class="card-body">
+                        @*  <h4 class="card-title">Personal Info</h4>*@
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-1 text-right control-label col-form-label">Номер машины</label>
+                            <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                                @Html.DisplayFor(model => model.NumderCar)
+                            </label>
+
+                            <label for="fname" class="col-sm-1 text-right control-label col-form-label">Марка/Модель</label>
+                            <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                                @Html.DisplayFor(model => model.car_mark.name) @Html.DisplayFor(model => model.car_model.name)
+                            </label>
+
+                            <label for="fname" class="col-sm-1 text-right control-label col-form-label">Тип кузова</label>
+                            <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                                @Html.DisplayFor(model => model.CarBody.Name)
+                            </label>
+
+                            <label for="fname" class="col-sm-1 text-right control-label col-form-label">Ф.И.О</label>
+                            <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                                @Html.DisplayFor(model => model.Surname) @Html.DisplayFor(model => model.Name)  @Html.DisplayFor(model => model.PatronymicName)
+                            </label>
+                        </div>
+                    </div>
+
+                    @*<div class="border-top">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>*@
+                    @*<p>
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.ib }) |
+                            @Html.ActionLink("Back to List", "Index")
+                        </p>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body col-md-6">
+                    <h5 class="card-title m-b-0">Services</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+
+                        <tbody class="customtable">
+                            @foreach (var item in ViewBag.PriceList)
+                            {
+                                <tr>
+                                    <td>@item.services_list</td>
+                                    <td>@item.validity</td>
+                                
+                                    @switch (Model.CarBody.Id)
+                                    {
+                                        case 1:
+                                            <td>@Math.Ceiling(item.S)</td>
+                                            break;
+                                        case 2:
+                                            <td>@Math.Ceiling(item.M) </td>
+                                            break;
+                                        case 3:
+                                            <td>@Math.Ceiling(item.L) </td>
+                                            break;
+                                        case 4:
+                                            <td>@Math.Ceiling(item.XL) </td>
+                                            break;
+                                    }
+                                <td>грн.</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body col-md-6">
+                    <h5 class="card-title m-b-0">Services</h5>
+                </div>
+                <div class="table-responsive">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">дополниетельные услуги</label>
+
+                        <div class="col-md-10">
+                            @Html.TextBox("addPrice", null, new { @type = "number"})
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>  
+    <div>
+        <input type="submit" value="Create" class="btn btn-success" />
+        @Html.ActionLink("Back to List", "OrderPreview", new { id = Model.ib })
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

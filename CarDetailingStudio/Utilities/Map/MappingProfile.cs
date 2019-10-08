@@ -21,7 +21,6 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<ClientsOfCarWashView, ClientsOfCarWashBll>();
             CreateMap<ClientsOfCarWashBll, ClientsOfCarWashView>();
 
-
             CreateMap<JobTitleTableView, JobTitleTableBll>();
             CreateMap<JobTitleTableBll, JobTitleTableView>();
 
@@ -40,9 +39,6 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<CarMarkView, CarMarkBll>();
             CreateMap<CarMarkBll, CarMarkView>();
 
-            CreateMap<CarMarkView, CarMarkBll>();
-            CreateMap<CarMarkBll, CarMarkView>();
-
             CreateMap<CarModelView, CarModelBll>();
             CreateMap<CarModelBll, CarModelView>();
 
@@ -52,6 +48,14 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<CarSerieView, CarSerieBll>();
             CreateMap<CarSerieBll, CarSerieView>();
 
+            CreateMap<StatusOrderView, StatusOrderBll>();
+            CreateMap<StatusOrderBll, StatusOrderView>();
+
+            CreateMap<PaymentStateView, PaymentStateBll>();
+            CreateMap<PaymentStateBll, PaymentStateView>();
+
+            CreateMap<ServisesCarWashOrderView, ServisesCarWashOrderBll>();
+            CreateMap<ServisesCarWashOrderBll, ServisesCarWashOrderView>();
         }
     }
 }

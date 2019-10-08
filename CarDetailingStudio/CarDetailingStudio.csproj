@@ -218,6 +218,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarDetailingStudioContext.cs" />
+    <Compile Include="Models\CloseOrderModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModelViews\BrigadeForTodayView.cs" />
@@ -234,8 +235,9 @@
     <Compile Include="Models\ModelViews\GroupWashServicesView.cs" />
     <Compile Include="Models\ModelViews\JobTitleTableView.cs" />
     <Compile Include="Models\ModelViews\OrderServicesCarWashView.cs" />
+    <Compile Include="Models\ModelViews\PaymentStateView.cs" />
     <Compile Include="Models\ModelViews\ServisesCarWashOrderView.cs" />
-    <Compile Include="Models\ModelViews\WashServicesView.cs" />
+    <Compile Include="Models\ModelViews\StatusOrderView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Map\MappingProfile.cs" />
@@ -1047,8 +1049,10 @@
     <Content Include="Views\ClientsOfCarWashViews\Checkout.cshtml" />
     <Content Include="Views\Shared\View.cshtml" />
     <Content Include="Views\Detailings\PriceList.cshtml" />
-    <Content Include="Views\ClientsOfCarWashViews\AddOrder.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\NewOrder.cshtml" />
+    <Content Include="Views\ClientsOfCarWashViews\AddClient.cshtml" />
+    <Content Include="Views\ClientsOfCarWashViews\OrderPreview.cshtml" />
+    <Content Include="Views\Order\OrderInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

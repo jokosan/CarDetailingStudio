@@ -10,6 +10,8 @@ using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Modules;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -17,21 +19,27 @@ namespace CarDetailingStudio.Controllers
     {
         private ClientsOfCarWashServices _services;
         private DetailingsServises _detailings;
+        private OrderServices _orderServices;
+        private OrderServicesCarWashServices _orderServicesInsert;
 
-
-        public ClientsOfCarWashViewsController(ClientsOfCarWashServices clients, DetailingsServises detailingsView)
+        public ClientsOfCarWashViewsController(ClientsOfCarWashServices clients, DetailingsServises detailingsView, OrderServices order, OrderServicesCarWashServices orderServices)
         {
             _services = clients;
             _detailings = detailingsView;
+            _orderServices = order;
+            _orderServicesInsert = orderServices;
+
         }
+
+        IEnumerable<DetailingsView> Price { get; set; }
 
         // GET: ClientsOfCarWashViews
         public ActionResult Client()
         {
             var RedirectModel = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll());
-            return View(RedirectModel );
+            return View(RedirectModel);
         }
-                
+
         public ActionResult Checkout()
         {
             var RedirectModel = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll());
@@ -39,16 +47,22 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: ClientsOfCarWashViews/Details/5
-        public ActionResult NewOrder(int? id)
+        public ActionResult NewOrder(int? id, string body)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.CustomerOrders(id));
+            OrderServices.idClient = id;
+            OrderServices.body = body;
 
-            ViewBag.Detailings = Mapper.Map<IEnumerable<DetailingsView>>(_detailings.GetAll());
+            var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(id));
+
+            Price = Mapper.Map<IEnumerable<DetailingsView>>(_detailings.GetAll());
+
+            ViewBag.Detailings = Price.Where(x => x.IdTypeService == 1);
+            ViewBag.WashServises = Price.Where(x => x.IdTypeService == 2);
 
             if (CustomerOrders == null)
             {
@@ -57,6 +71,62 @@ namespace CarDetailingStudio.Controllers
 
             return View(CustomerOrders);
         }
+
+        [HttpPost]
+        public ActionResult NewOrder(FormCollection form)
+        {
+            _orderServices.IdOrderServices(form);
+
+            _orderServices.OrderPreview();
+
+            return RedirectToRoute(new { controller = "ClientsOfCarWashViews", action = "OrderPreview" });
+        }
+
+        
+        public ActionResult OrderPreview()
+        {
+            var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(OrderServices.idClient));
+
+            ViewBag.PriceList = OrderServices.OrderList;
+
+            return View(CustomerOrders);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OrderPreview(string addPrice)
+        {
+            _orderServicesInsert.InsertOrders(addPrice);
+
+            return View("Index");
+        }
+
+        // GET: ClientsOfCarWashViews/Create
+        public ActionResult AddClient()
+        {
+            return View();
+        }      
+
+        // POST: ClientsOfCarWashViews/Create
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddClient([Bind(Include = "ib,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumderCar,IdClientsGroups,Idmark,Idmodel,IdBody,note,barcode")] ClientsOfCarWashView clientsOfCarWashView)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                ClientsOfCarWashBll clientsOfCarWash = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(clientsOfCarWashView);
+                _services.Insert(clientsOfCarWash);
+                
+                return RedirectToAction("Index");
+            }
+
+            return View(clientsOfCarWashView);
+        }
+
+      
 
         #region
         //// GET: ClientsOfCarWashViews/Details/5

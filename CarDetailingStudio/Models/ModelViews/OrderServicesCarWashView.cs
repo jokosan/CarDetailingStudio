@@ -9,23 +9,27 @@ namespace CarDetailingStudio.Models.ModelViews
 {
     public class OrderServicesCarWashView
     {
+
+        public OrderServicesCarWashView()
+        {
+            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderView>();
+        }
+
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
         public Nullable<int> IdClientsOfCarWash { get; set; }
-        public int IdServisesCarWashOrder { get; set; }
         public Nullable<int> idCarWashWorkers { get; set; }
-        public string discount { get; set; }
-        public string StatusOrder { get; set; }
-        public string PaymentState { get; set; }
-        public string OrderDate { get; set; }
-        public string ExecutionTime { get; set; }
-        public string ClosingData { get; set; }
-        public string ClosingTime { get; set; }
+        public Nullable<int> StatusOrder { get; set; }
+        public Nullable<int> PaymentState { get; set; }
+        public Nullable<System.DateTime> OrderDate { get; set; }
+        public Nullable<System.DateTime> ClosingData { get; set; }
         public Nullable<double> TotalCostOfAllServices { get; set; }
 
-        public virtual BrigadeForTodayView brigadeForToday { get; set; }
         public virtual ClientsOfCarWashView ClientsOfCarWash { get; set; }
-        public virtual ServisesCarWashOrderView ServisesCarWashOrder { get; set; }
+        public virtual PaymentStateView PaymentState1 { get; set; }
+        public virtual StatusOrderView StatusOrder1 { get; set; }
+        public virtual ICollection<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }
     }
 }

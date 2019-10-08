@@ -6,20 +6,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using CarDetailingStudio.BLL.Utilities.Map;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
     public class ClientsOfCarWashServices : IServices<ClientsOfCarWashBll>
     {
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
+        private ClientsOfCarWashBll _clients;
 
-        public ClientsOfCarWashServices(UnitOfWork unitOfWork, AutomapperConfig maper)
+        public ClientsOfCarWashServices(UnitOfWork unitOfWork, AutomapperConfig maper, ClientsOfCarWashBll clients)
         {
             _unitOfWork = unitOfWork;
             _automapper = maper;
+            _clients = clients;
         }
 
         public IEnumerable<ClientsOfCarWashBll> GetAll()
@@ -27,10 +30,16 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsOfCarWashUnitOfWork.Get());
         }
 
-        public ClientsOfCarWashBll CustomerOrders(int? id)
+        public ClientsOfCarWashBll GetId(int? id)
         {
             var resilt = Mapper.Map<ClientsOfCarWashBll>(_unitOfWork.ClientsOfCarWashUnitOfWork.GetById(id));
             return resilt;
+        }
+
+        public void Insert(ClientsOfCarWashBll AddCliens)
+        {
+            ClientsOfCarWash clientsOfCarWash = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(AddCliens);
+            _unitOfWork.ClientsOfCarWashUnitOfWork.Insert(clientsOfCarWash);
         }
     }
 }

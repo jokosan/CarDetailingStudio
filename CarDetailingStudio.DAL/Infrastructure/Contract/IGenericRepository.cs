@@ -16,6 +16,5 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
         void Insert(T entity);
         void Update(T entityToUpdate);
         void AttachStubs(object[] stub);
-
     }
 }

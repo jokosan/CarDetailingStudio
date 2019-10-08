@@ -24,8 +24,7 @@ namespace CarDetailingStudio.Controllers
 
         // GET: Detailings
         public ActionResult PriceList()
-        {
-            int? id = 1;
+        {          
             return View(Mapper.Map<IEnumerable<DetailingsView>>(_services.GetAll()));
         }
 

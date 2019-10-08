@@ -9,7 +9,7 @@
 
             </div>
             <div class="col-lg-2">
-                @Html.ActionLink("Создать нового клиента", "Create", new { @class = "btn btn-primary" })
+                @Html.ActionLink("Создать нового клиента", "AddClient", new { @class = "btn btn-cyan btn-sm"})
             </div>
         </div>
 
@@ -80,8 +80,8 @@
                         </td>
 
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ib }, new { @class = "btn btn-cyan btn-sm"})
-                            @Html.ActionLink("Details", "NewOrder", new { id = item.ib }, new { @class = "btn btn-success btn-sm"})
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-cyan btn-sm"})
+                            @Html.ActionLink("Details", "NewOrder", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-success btn-sm"})
                         </td>
                     </tr>
                 }

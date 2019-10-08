@@ -18,6 +18,7 @@ namespace CarDetailingStudio.DAL
         public CarWashWorkers()
         {
             this.brigadeForToday = new HashSet<brigadeForToday>();
+            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrder>();
         }
     
         public int id { get; set; }
@@ -36,5 +37,7 @@ namespace CarDetailingStudio.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<brigadeForToday> brigadeForToday { get; set; }
         public virtual JobTitleTable JobTitleTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
     }
 }

@@ -40,9 +40,6 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<CarMarkBll, car_mark>();
             CreateMap<car_mark, CarMarkBll>();
 
-            CreateMap<CarMarkBll, car_mark>();
-            CreateMap<car_mark, CarMarkBll>();
-
             CreateMap<CarModelBll, car_model>();
             CreateMap<car_model, CarModelBll>();
 
@@ -51,6 +48,15 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<CarSerieBll, car_serie>();
             CreateMap<car_serie, CarSerieBll>();
+
+            CreateMap<StatusOrderBll, StatusOrder>();
+            CreateMap<StatusOrder, StatusOrderBll>();
+
+            CreateMap<PaymentStateBll, PaymentState>();
+            CreateMap<PaymentState, PaymentStateBll>();
+
+            CreateMap<ServisesCarWashOrderBll, ServisesCarWashOrder>();
+            CreateMap<ServisesCarWashOrder, ServisesCarWashOrderBll>();
         }
     }
 }

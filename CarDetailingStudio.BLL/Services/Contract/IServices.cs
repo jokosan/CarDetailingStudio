@@ -9,5 +9,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
     public interface IServices<T> where T : class
     {
         IEnumerable<T> GetAll();
+        //T GetId(int? id);
     }
 }

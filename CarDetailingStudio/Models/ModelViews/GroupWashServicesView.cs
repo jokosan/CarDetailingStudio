@@ -12,14 +12,13 @@ namespace CarDetailingStudio.Models.ModelViews
         public GroupWashServicesView()
         {
             this.Detailings = new HashSet<DetailingsView>();
-            this.WashServices = new HashSet<WashServicesView>();
         }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
         public string group { get; set; }
 
         public virtual ICollection<DetailingsView> Detailings { get; set; }
-        public virtual ICollection<WashServicesView> WashServices { get; set; }
     }
 }

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище carWashModelContainer" CdmEntityContainer="carWashEntities">
+    <EntitySetMapping Name="brigadeForToday">
+      <EntityTypeMapping TypeName="carWashModel.brigadeForToday">
+        <MappingFragment StoreEntitySet="brigadeForToday">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="EarlyTermination" ColumnName="EarlyTermination" />
+          <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="car_generation">
+      <EntityTypeMapping TypeName="carWashModel.car_generation">
+        <MappingFragment StoreEntitySet="car_generation">
+          <ScalarProperty Name="id_car_generation" ColumnName="id_car_generation" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id_car_model" ColumnName="id_car_model" />
+          <ScalarProperty Name="year_begin" ColumnName="year_begin" />
+          <ScalarProperty Name="year_end" ColumnName="year_end" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="date_update" ColumnName="date_update" />
+          <ScalarProperty Name="id_car_type" ColumnName="id_car_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="car_mark">
+      <EntityTypeMapping TypeName="carWashModel.car_mark">
+        <MappingFragment StoreEntitySet="car_mark">
+          <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="name_rus" ColumnName="name_rus" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="date_update" ColumnName="date_update" />
+          <ScalarProperty Name="id_car_type" ColumnName="id_car_type" />
+          <ScalarProperty Name="ImageMark" ColumnName="ImageMark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="car_model">
+      <EntityTypeMapping TypeName="carWashModel.car_model">
+        <MappingFragment StoreEntitySet="car_model">
+          <ScalarProperty Name="id_car_model" ColumnName="id_car_model" />
+          <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="name_rus" ColumnName="name_rus" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="date_update" ColumnName="date_update" />
+          <ScalarProperty Name="id_car_type" ColumnName="id_car_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="car_modification">
+      <EntityTypeMapping TypeName="carWashModel.car_modification">
+        <MappingFragment StoreEntitySet="car_modification">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_car_modification" ColumnName="id_car_modification" />
+          <ScalarProperty Name="id_car_serie" ColumnName="id_car_serie" />
+          <ScalarProperty Name="id_car_model" ColumnName="id_car_model" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="start_production_year" ColumnName="start_production_year" />
+          <ScalarProperty Name="end_production_year" ColumnName="end_production_year" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="date_update" ColumnName="date_update" />
+          <ScalarProperty Name="id_car_type" ColumnName="id_car_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="car_serie">
+      <EntityTypeMapping TypeName="carWashModel.car_serie">
+        <MappingFragment StoreEntitySet="car_serie">
+          <ScalarProperty Name="id_car_serie" ColumnName="id_car_serie" />
+          <ScalarProperty Name="id_car_model" ColumnName="id_car_model" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id_car_generation" ColumnName="id_car_generation" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="date_update" ColumnName="date_update" />
+          <ScalarProperty Name="id_car_type" ColumnName="id_car_type" />
+          <ScalarProperty Name="idbody" ColumnName="idbody" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarBody">
+      <EntityTypeMapping TypeName="carWashModel.CarBody">
+        <MappingFragment StoreEntitySet="CarBody">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarWashWorkers">
+      <EntityTypeMapping TypeName="carWashModel.CarWashWorkers">
+        <MappingFragment StoreEntitySet="CarWashWorkers">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idKey" ColumnName="idKey" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="Experience" ColumnName="Experience" />
+          <ScalarProperty Name="DataRegistration" ColumnName="DataRegistration" />
+          <ScalarProperty Name="DataDismissal" ColumnName="DataDismissal" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClientsGroups">
+      <EntityTypeMapping TypeName="carWashModel.ClientsGroups">
+        <MappingFragment StoreEntitySet="ClientsGroups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClientsOfCarWash">
+      <EntityTypeMapping TypeName="carWashModel.ClientsOfCarWash">
+        <MappingFragment StoreEntitySet="ClientsOfCarWash">
+          <ScalarProperty Name="ib" ColumnName="ib" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PatronymicName" ColumnName="PatronymicName" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="DateRegistration" ColumnName="DateRegistration" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="discont" ColumnName="discont" />
+          <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
+          <ScalarProperty Name="NumderCar" ColumnName="NumderCar" />
+          <ScalarProperty Name="IdClientsGroups" ColumnName="IdClientsGroups" />
+          <ScalarProperty Name="Idmark" ColumnName="Idmark" />
+          <ScalarProperty Name="Idmodel" ColumnName="Idmodel" />
+          <ScalarProperty Name="IdBody" ColumnName="IdBody" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="barcode" ColumnName="barcode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Detailings">
+      <EntityTypeMapping TypeName="carWashModel.Detailings">
+        <MappingFragment StoreEntitySet="Detailings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="services_list" ColumnName="services_list" />
+          <ScalarProperty Name="validity" ColumnName="validity" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="S" ColumnName="S" />
+          <ScalarProperty Name="M" ColumnName="M" />
+          <ScalarProperty Name="L" ColumnName="L" />
+          <ScalarProperty Name="XL" ColumnName="XL" />
+          <ScalarProperty Name="group" ColumnName="group" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="currency" ColumnName="currency" />
+          <ScalarProperty Name="mark" ColumnName="mark" />
+          <ScalarProperty Name="IdGroupWashServices" ColumnName="IdGroupWashServices" />
+          <ScalarProperty Name="IdTypeService" ColumnName="IdTypeService" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupWashServices">
+      <EntityTypeMapping TypeName="carWashModel.GroupWashServices">
+        <MappingFragment StoreEntitySet="GroupWashServices">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="group" ColumnName="group" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobTitleTable">
+      <EntityTypeMapping TypeName="carWashModel.JobTitleTable">
+        <MappingFragment StoreEntitySet="JobTitleTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderServicesCarWash">
+      <EntityTypeMapping TypeName="carWashModel.OrderServicesCarWash">
+        <MappingFragment StoreEntitySet="OrderServicesCarWash">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IdClientsOfCarWash" ColumnName="IdClientsOfCarWash" />
+          <ScalarProperty Name="idCarWashWorkers" ColumnName="idCarWashWorkers" />
+          <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+          <ScalarProperty Name="PaymentState" ColumnName="PaymentState" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="ClosingData" ColumnName="ClosingData" />
+          <ScalarProperty Name="TotalCostOfAllServices" ColumnName="TotalCostOfAllServices" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentState">
+      <EntityTypeMapping TypeName="carWashModel.PaymentState">
+        <MappingFragment StoreEntitySet="PaymentState">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PaymentState1" ColumnName="PaymentState" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServisesCarWashOrder">
+      <EntityTypeMapping TypeName="carWashModel.ServisesCarWashOrder">
+        <MappingFragment StoreEntitySet="ServisesCarWashOrder">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IdClientsOfCarWash" ColumnName="IdClientsOfCarWash" />
+          <ScalarProperty Name="IdOrderServicesCarWash" ColumnName="IdOrderServicesCarWash" />
+          <ScalarProperty Name="idCarWashWorkers" ColumnName="idCarWashWorkers" />
+          <ScalarProperty Name="IdWashServices" ColumnName="IdWashServices" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatusOrder">
+      <EntityTypeMapping TypeName="carWashModel.StatusOrder">
+        <MappingFragment StoreEntitySet="StatusOrder">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StatusOrder1" ColumnName="StatusOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="carWashModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logo_mark_car">
+      <EntityTypeMapping TypeName="carWashModel.logo_mark_car">
+        <MappingFragment StoreEntitySet="logo_mark_car">
+          <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
+          <ScalarProperty Name="logo_mark" ColumnName="logo_mark" />
+          <ScalarProperty Name="screen_format" ColumnName="screen_format" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -18,7 +18,6 @@ namespace CarDetailingStudio.DAL
         public GroupWashServices()
         {
             this.Detailings = new HashSet<Detailings>();
-            this.WashServices = new HashSet<WashServices>();
         }
     
         public int Id { get; set; }
@@ -26,7 +25,5 @@ namespace CarDetailingStudio.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Detailings> Detailings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WashServices> WashServices { get; set; }
     }
 }

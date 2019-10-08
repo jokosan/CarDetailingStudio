@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d25416afc13648eaaa08ae76ef3d75c2" Name="Diagram1">
+        <EntityTypeShape EntityType="carWashModel.brigadeForToday" Width="1.5" PointX="9.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.car_generation" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.car_mark" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.car_model" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.car_modification" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.car_serie" Width="1.5" PointX="7.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.CarBody" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.CarWashWorkers" Width="1.5" PointX="7.5" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.ClientsGroups" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.ClientsOfCarWash" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.Detailings" Width="1.5" PointX="7.5" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.GroupWashServices" Width="1.5" PointX="5.25" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.JobTitleTable" Width="1.5" PointX="5.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.OrderServicesCarWash" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.PaymentState" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.ServisesCarWashOrder" Width="1.5" PointX="9.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.StatusOrder" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashModel.logo_mark_car" Width="1.5" PointX="9.75" PointY="11.25" IsExpanded="true" />
+        <AssociationConnector Association="carWashModel.FK_brigadeForToday_CarWashWorkers" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_car_generation_car_model" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_car_serie_car_generation" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_car_model_car_mark" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_car_mark" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_car_model" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_car_modification_car_serie" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_ClientsOfCarWash" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_CarWashWorkers_JobTitleTable" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_ServisesCarWashOrder_CarWashWorkers" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_ClientsGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_OrderServicesCarWash_ClientsOfCarWash" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_Detailings_GroupWashServices" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_ServisesCarWashOrder_Detailings" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_OrderServicesCarWash_PaymentState" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_OrderServicesCarWash_StatusOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashModel.FK_ServisesCarWashOrder_OrderServicesCarWash" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -14,22 +14,15 @@ namespace CarDetailingStudio.DAL
     
     public partial class ServisesCarWashOrder
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ServisesCarWashOrder()
-        {
-            this.OrderServicesCarWash = new HashSet<OrderServicesCarWash>();
-        }
-    
         public int Id { get; set; }
-        public int IdClientsOfCarWash { get; set; }
-        public int IdOrderServicesCarWash { get; set; }
+        public Nullable<int> IdClientsOfCarWash { get; set; }
+        public Nullable<int> IdOrderServicesCarWash { get; set; }
         public Nullable<int> idCarWashWorkers { get; set; }
         public Nullable<int> IdWashServices { get; set; }
         public Nullable<double> Price { get; set; }
     
+        public virtual CarWashWorkers CarWashWorkers { get; set; }
         public virtual Detailings Detailings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderServicesCarWash> OrderServicesCarWash { get; set; }
-        public virtual WashServices WashServices { get; set; }
+        public virtual OrderServicesCarWash OrderServicesCarWash { get; set; }
     }
 }

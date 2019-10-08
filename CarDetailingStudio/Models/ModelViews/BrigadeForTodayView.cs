@@ -9,18 +9,9 @@ namespace CarDetailingStudio.Models.ModelViews
 {
     public class BrigadeForTodayView
     {
-
-        public BrigadeForTodayView()
-        {
-            this.OrderServicesCarWash = new HashSet<OrderServicesCarWashView>();
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
@@ -28,7 +19,5 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<int> IdCarWashWorkers { get; set; }
 
         public virtual CarWashWorkersView CarWashWorkers { get; set; }
-   
-        public virtual ICollection<OrderServicesCarWashView> OrderServicesCarWash { get; set; }
     }
 }

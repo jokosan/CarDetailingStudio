@@ -12,6 +12,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public CarWashWorkersView()
         {
             this.brigadeForToday = new HashSet<BrigadeForTodayView>();
+            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -31,5 +32,6 @@ namespace CarDetailingStudio.Models.ModelViews
 
         public virtual ICollection<BrigadeForTodayView> brigadeForToday { get; set; }
         public virtual JobTitleTableView JobTitleTable { get; set; }
+        public virtual ICollection<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }
     }
 }

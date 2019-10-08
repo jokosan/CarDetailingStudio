@@ -17,36 +17,77 @@ namespace CarDetailingStudio.Controllers
     // [WorkShiftFilter]
     public class OrderController : Controller
     {
-        private OrderServicesCarWashServices _services;
+        private OrderServicesCarWashServices _order;
+        private ServisesCarWashOrderServices _servisesCarWash;
 
-        public OrderController(OrderServicesCarWashServices orderServices)
+        public OrderController(OrderServicesCarWashServices orderServices, ServisesCarWashOrderServices servises)
         {
-            _services = orderServices;
+            _order = orderServices;
+            _servisesCarWash = servises;
+
         }
 
         // GET: Order
         public ActionResult Index()
         {
-            var RedirectModel = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_services.GetAll());
+            var RedirectModel = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll());
             return View(RedirectModel);
         }
 
-        #region
         // GET: Order/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult OrderInfo(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //OrderServicesCarWashView orderServicesCarWashView = db.OrderServicesCarWash.Find(id);
-            //if (orderServicesCarWashView == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(orderServicesCarWashView);
-            throw new NotImplementedException();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var OrderOnfo = Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
+            var info = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAll().Where(x => x.IdOrderServicesCarWash == id));
+
+            ViewBag.ServisesInfo = info;
+
+            if (OrderOnfo == null)
+            {
+                return HttpNotFound();
+            }
+            return View(OrderOnfo);
         }
+
+        public ActionResult CloseOrder(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var OrderOnfo = Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
+
+            
+
+            if (OrderOnfo == null)
+            {
+                return HttpNotFound();
+            }
+            return View(OrderOnfo);
+        }
+
+        #region
+        //// GET: Order/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    //if (id == null)
+        //    //{
+        //    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    //}
+        //    //OrderServicesCarWashView orderServicesCarWashView = db.OrderServicesCarWash.Find(id);
+        //    //if (orderServicesCarWashView == null)
+        //    //{
+        //    //    return HttpNotFound();
+        //    //}
+        //    //return View(orderServicesCarWashView);
+        //    throw new NotImplementedException();
+        //}
 
         // GET: Order/Create
         public ActionResult Create()

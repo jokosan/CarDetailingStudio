@@ -21,6 +21,8 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
                 if (xmlNode != null)
                 {
+                    ExchangeRates.ExchangeRatesList.Clear();
+
                     foreach (XmlNode xn in xmlNode)
                     {
                         string xmlCcy = xn.Attributes["ccy"].Value;
