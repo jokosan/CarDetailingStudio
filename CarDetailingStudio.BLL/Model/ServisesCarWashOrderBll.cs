@@ -11,11 +11,9 @@ namespace CarDetailingStudio.BLL.Model
         public int Id { get; set; }
         public Nullable<int> IdClientsOfCarWash { get; set; }
         public Nullable<int> IdOrderServicesCarWash { get; set; }
-        public Nullable<int> idCarWashWorkers { get; set; }
         public Nullable<int> IdWashServices { get; set; }
         public Nullable<double> Price { get; set; }
 
-        public virtual CarWashWorkersBll CarWashWorkers { get; set; }
         public virtual DetailingsBll Detailings { get; set; }
         public virtual OrderServicesCarWashBll OrderServicesCarWash { get; set; }
     }

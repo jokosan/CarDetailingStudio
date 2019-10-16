@@ -12,7 +12,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class DetailingsServises : IServices<DetailingsBll>
+    public class DetailingsServises
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
@@ -26,8 +26,14 @@ namespace CarDetailingStudio.BLL.Services
         }
 
         public IEnumerable<DetailingsBll> GetAll()
+        { 
+            return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
+        }
+
+        public IEnumerable<DetailingsBll> Converter()
         {
-            var All = Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
+
+            var All = GetAll();
 
             var usdTrue = All.Any(us => us.currency == "us");
 

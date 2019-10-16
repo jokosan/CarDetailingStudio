@@ -40,8 +40,10 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<CarMarkBll, car_mark>();
             CreateMap<car_mark, CarMarkBll>();
 
-            CreateMap<CarModelBll, car_model>();
-            CreateMap<car_model, CarModelBll>();
+            CreateMap<CarModelBll, car_model>()
+                .ForMember(t => t.car_generation, opt => opt.Ignore());
+            CreateMap<car_model, CarModelBll>()
+                .ForMember(t => t.car_generation, opt => opt.Ignore());
 
             CreateMap<CarModificationBll, car_modification>();
             CreateMap<car_modification, CarModificationBll>();
@@ -57,6 +59,18 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<ServisesCarWashOrderBll, ServisesCarWashOrder>();
             CreateMap<ServisesCarWashOrder, ServisesCarWashOrderBll>();
+
+            CreateMap<OrderCarWashWorkersBll, OrderCarWashWorkers>();
+            CreateMap<OrderCarWashWorkers, OrderCarWashWorkersBll>();
+
+            CreateMap<CostsBll, Costs>();
+            CreateMap<Costs, CostsBll>();
+
+            CreateMap<TypeOfCostsBll, TypeOfCosts>();
+            CreateMap<TypeOfCosts, TypeOfCostsBll>();
+
+            CreateMap<WageBll, Wage>();
+            CreateMap<Wage, WageBll>();
         }
     }
 }

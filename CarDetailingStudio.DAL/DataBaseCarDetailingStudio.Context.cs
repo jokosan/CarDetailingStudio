@@ -35,14 +35,18 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<CarWashWorkers> CarWashWorkers { get; set; }
         public virtual DbSet<ClientsGroups> ClientsGroups { get; set; }
         public virtual DbSet<ClientsOfCarWash> ClientsOfCarWash { get; set; }
+        public virtual DbSet<Costs> Costs { get; set; }
         public virtual DbSet<Detailings> Detailings { get; set; }
         public virtual DbSet<GroupWashServices> GroupWashServices { get; set; }
         public virtual DbSet<JobTitleTable> JobTitleTable { get; set; }
+        public virtual DbSet<OrderCarWashWorkers> OrderCarWashWorkers { get; set; }
         public virtual DbSet<OrderServicesCarWash> OrderServicesCarWash { get; set; }
         public virtual DbSet<PaymentState> PaymentState { get; set; }
         public virtual DbSet<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
         public virtual DbSet<StatusOrder> StatusOrder { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<TypeOfCosts> TypeOfCosts { get; set; }
+        public virtual DbSet<Wage> Wage { get; set; }
         public virtual DbSet<logo_mark_car> logo_mark_car { get; set; }
     }
 }

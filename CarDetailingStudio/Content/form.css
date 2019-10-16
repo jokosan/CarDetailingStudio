@@ -1,0 +1,29 @@
+﻿.text-input {
+    text-align: center;
+    border: 0px;
+    background-color: white;
+}
+
+.sum {  
+    display: block;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+    .sum:focus {
+        outline: none;
+    }
+
+.preview {
+width: 15%;
+}
+
+.table-order {
+    text-align: center;
+    font-weight: bold;
+}
+
+.Order-link {
+color: aliceblue;
+}
+

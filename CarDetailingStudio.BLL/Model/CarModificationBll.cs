@@ -19,6 +19,6 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<double> date_update { get; set; }
         public Nullable<int> id_car_type { get; set; }
 
-        public virtual CarSerieBll car_serie { get; set; }
+        public CarSerieBll car_serie { get; set; }
     }
 }

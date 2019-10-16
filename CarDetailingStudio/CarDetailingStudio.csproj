@@ -231,13 +231,18 @@
     <Compile Include="Models\ModelViews\CarWashWorkersView.cs" />
     <Compile Include="Models\ModelViews\ClientsGroupsView.cs" />
     <Compile Include="Models\ModelViews\ClientsOfCarWashView.cs" />
+    <Compile Include="Models\ModelViews\CostsView.cs" />
     <Compile Include="Models\ModelViews\DetailingsView.cs" />
     <Compile Include="Models\ModelViews\GroupWashServicesView.cs" />
     <Compile Include="Models\ModelViews\JobTitleTableView.cs" />
+    <Compile Include="Models\ModelViews\OrderCarWashWorkersView.cs" />
+    <Compile Include="Models\ModelViews\OrderInfoViewModel.cs" />
     <Compile Include="Models\ModelViews\OrderServicesCarWashView.cs" />
     <Compile Include="Models\ModelViews\PaymentStateView.cs" />
     <Compile Include="Models\ModelViews\ServisesCarWashOrderView.cs" />
     <Compile Include="Models\ModelViews\StatusOrderView.cs" />
+    <Compile Include="Models\ModelViews\TypeOfCostsView.cs" />
+    <Compile Include="Models\ModelViews\WageView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Map\MappingProfile.cs" />
@@ -253,6 +258,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\car-wash-workers.css" />
+    <Content Include="Content\form.css" />
     <Content Include="Content\MatrixAdminCSS\animation.css" />
     <Content Include="Content\MatrixAdminCSS\asColorPicker.min.css" />
     <Content Include="Content\MatrixAdminCSS\bootstrap-datepicker.min.css" />
@@ -1053,12 +1059,14 @@
     <Content Include="Views\ClientsOfCarWashViews\AddClient.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\OrderPreview.cshtml" />
     <Content Include="Views\Order\OrderInfo.cshtml" />
+    <Content Include="Views\Order\CloseOrder.cshtml" />
+    <Content Include="Views\Order\ReturnTheDifference.cshtml" />
+    <Content Include="Views\CarWashWorkersViews\Staff.cshtml" />
+    <Content Include="Views\Detailings\EditOrder.cshtml" />
+    <Content Include="Views\Order\OrderReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\BrigadeForTodayViews\" />
-    <Folder Include="Views\Default\" />
-    <Folder Include="Views\DetailingsViews\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

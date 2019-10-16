@@ -36,6 +36,18 @@ namespace CarDetailingStudio.Controllers
             return Redirect("/Order/Index");
         }
 
+        public ActionResult Staff()
+        {
+            var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetStaffAll());
+            return View(StaffAll);
+        }
+
+        //public ActionResult SalaryPreparation()
+        //{
+        //    var salary = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.Salary());
+        //    return View();
+        //}
+
         #region
         //// GET: CarWashWorkersViews/Details/5
         //public ActionResult Details(int? id)

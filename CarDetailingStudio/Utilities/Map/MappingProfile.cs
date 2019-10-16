@@ -39,8 +39,10 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<CarMarkView, CarMarkBll>();
             CreateMap<CarMarkBll, CarMarkView>();
 
-            CreateMap<CarModelView, CarModelBll>();
-            CreateMap<CarModelBll, CarModelView>();
+            CreateMap<CarModelView, CarModelBll>()
+                .ForMember(t => t.car_generation, opt => opt.Ignore());
+            CreateMap<CarModelBll, CarModelView>()
+                .ForMember(t => t.car_generation, opt => opt.Ignore());
 
             CreateMap<CarModificationView, CarModificationBll>();
             CreateMap<CarModificationBll, CarModificationView>();
@@ -56,6 +58,22 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<ServisesCarWashOrderView, ServisesCarWashOrderBll>();
             CreateMap<ServisesCarWashOrderBll, ServisesCarWashOrderView>();
+
+            CreateMap<OrderInfoViewModel, OrderInfoViewBll>();
+            CreateMap<OrderInfoViewBll, OrderInfoViewModel>();
+
+            CreateMap<OrderCarWashWorkersView, OrderCarWashWorkersBll>();
+            CreateMap<OrderCarWashWorkersBll, OrderCarWashWorkersView>();
+
+            CreateMap<CostsView, CostsBll>();
+            CreateMap<CostsBll, CostsView>();
+
+            CreateMap<TypeOfCostsView, TypeOfCostsBll>();
+            CreateMap<TypeOfCostsBll, TypeOfCostsView>();
+
+            CreateMap<WageView, WageBll>();
+            CreateMap<WageBll, WageView>();
+
         }
     }
 }

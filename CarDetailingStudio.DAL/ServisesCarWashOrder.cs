@@ -17,11 +17,9 @@ namespace CarDetailingStudio.DAL
         public int Id { get; set; }
         public Nullable<int> IdClientsOfCarWash { get; set; }
         public Nullable<int> IdOrderServicesCarWash { get; set; }
-        public Nullable<int> idCarWashWorkers { get; set; }
         public Nullable<int> IdWashServices { get; set; }
         public Nullable<double> Price { get; set; }
     
-        public virtual CarWashWorkers CarWashWorkers { get; set; }
         public virtual Detailings Detailings { get; set; }
         public virtual OrderServicesCarWash OrderServicesCarWash { get; set; }
     }

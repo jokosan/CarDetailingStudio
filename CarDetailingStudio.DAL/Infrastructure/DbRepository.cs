@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -9,8 +10,9 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
-    public class DbRepository<T> : IGenericRepository<T> where T : class
+    public class DbRepository<T> : IGetRepository<T>, IDefaultRepository<T>, IExtendedRepository<T> where T : class
     {
+      
         internal carWashEntities _carWashEntitiesContext;
         internal DbSet<T> DbSeT;
 
@@ -22,20 +24,27 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public virtual IEnumerable<T> Get()
         {
+            Lazy<T> lazy = new Lazy<T>();
+
             var query = DbSeT.AsEnumerable<T>().AsQueryable();
 
             return query;
         }
 
         public virtual T GetById(int? id)
-        {
+        {          
             return DbSeT.Find(id);
         }
 
         public virtual void Insert(T entity)
         {
             DbSeT.Add(entity);
-        }     
+        }
+
+        public void Insert(List<T> entity)
+        {
+            DbSeT.AddRange(entity);
+        }
 
         public virtual void Delete(object id)
         {
@@ -49,32 +58,16 @@ namespace CarDetailingStudio.DAL.Infrastructure
             {
                 DbSeT.Attach(entityToDelete);
             }
+
             DbSeT.Remove(entityToDelete);
         }
 
         public virtual void Update(T entityToUpdate)
         {
-            if (entityToUpdate == null)
-            {
-                throw new ArgumentException("Cannot add a null entity.");
-            }
-            var entry = _carWashEntitiesContext.Entry<T>(entityToUpdate);
 
-            //if (entry.State == EntityState.Detached)
-            //{
-            //    var set = _carWashEntitiesContext.Set<T>();
-            //    T attachedEntity = set.Local.SingleOrDefault(e => e.Id == entityToUpdate.Id); // You need to have access to key
+            _carWashEntitiesContext.Set<T>().AddOrUpdate(entityToUpdate);
+          //  _carWashEntitiesContext.Entry(entityToUpdate).State = EntityState.Modified;
 
-            //    if (attachedEntity != null)
-            //    {
-            //        var attachedEntry = _carWashEntitiesContext.Entry(attachedEntity);
-            //        attachedEntry.CurrentValues.SetValues(entityToUpdate);
-            //    }
-            //    else
-            //    {
-            //        entry.State = EntityState.Modified; // This should attach entity
-            //    }
-            //}
         }
 
         public virtual void AttachStubs(object[] stubs)
@@ -87,6 +80,31 @@ namespace CarDetailingStudio.DAL.Infrastructure
                 _carWashEntitiesContext.Set(stub.GetType()).Attach(stub);
 
         }
+
+        public IEnumerable<T> GetWhere(Func<T, bool> predicate)
+        {
+            var result = DbSeT.AsQueryable();
+            result = result.Where(predicate).AsQueryable();
+            return result;
+           // return DbSeT.AsEnumerable<T>().AsQueryable().Where(predicate);
+        }
+
+        public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
+        {
+            var query = DbSeT.ToList<T>().AsQueryable();
+
+            foreach (var includeProperty in children.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            //return DbSeT.Include(children).Where(filter);
+
+            return query;
+        }
+
+
     }
 }
 

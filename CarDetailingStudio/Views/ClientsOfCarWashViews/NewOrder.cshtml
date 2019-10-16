@@ -75,7 +75,7 @@
                         <tbody class="customtable">
                             @foreach (var item in ViewBag.Detailings)
                             {
-                                <tr>
+                                <tr class="Search">
 
                                     <th>
                                         <label class="customcheckbox">
@@ -103,74 +103,95 @@
                                             <td>@Math.Ceiling(item.XL)</td>
                                             break;
                                     }
-                                    
-                                    <td>@item.currency</td>
+
                                 </tr>
 
                             }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body col-md-6">
-                        <h5 class="card-title m-b-0">WashServices</h5>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>
-                                        <label class="customcheckbox m-b-20">
-                                            <input type="checkbox" id="mainCheckbox" />
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </th>
-                                    <th scope="col">services_list</th>
-                                    <th scope="col">Body</th>
-                                </tr>
-                            </thead>
-                            <tbody class="customtable">
-                                @foreach (var item in ViewBag.WashServises)
-                                {
-                                    <tr>
-                                        <th>
-                                            <label class="customcheckbox">
-                                                @*<input type="checkbox" class="listCheckbox" />*@
-                                                <input type="checkbox" name="chkRow" value="@item.Id" />
-
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </th>
-
-                                        <td>@item.services_list</td>
-                                        @switch (Model.CarBody.Id)
-                                        {
-                                            case 1:
-                                                <td name="chkRow">@Math.Ceiling(item.S)</td>
-                                                break;
-                                            case 2:
-                                                <td name="chkRow">@Math.Ceiling(item.M)</td>
-                                                break;
-                                            case 3:
-                                                <td>@Math.Ceiling(item.L)</td>
-                                                break;
-                                            case 4:
-                                                <td>@Math.Ceiling(item.XL)</td>
-                                                break;
-                                        }
-
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
-    }
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body col-md-6">
+                    <h5 class="card-title m-b-0">WashServices</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>
+                                    <label class="customcheckbox m-b-20">
+                                        <input type="checkbox" id="mainCheckbox" />
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
+                                <th scope="col">services_list</th>
+                                <th scope="col">Body</th>
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            @foreach (var item in ViewBag.WashServises)
+                            {
+                                <tr class="Search">
+                                    <th>
+                                        <label class="customcheckbox">
+                                            @*<input type="checkbox" class="listCheckbox" />*@
+                                            <input type="checkbox" name="chkRow" value="@item.Id" />
 
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </th>
+
+                                    <td>@item.services_list</td>
+                                    @switch (Model.CarBody.Id)
+                                    {
+                                        case 1:
+                                            <td>@Math.Ceiling(item.S)</td>
+                                            break;
+                                        case 2:
+                                            <td>@Math.Ceiling(item.M)</td>
+                                            break;
+                                        case 3:
+                                            <td>@Math.Ceiling(item.L)</td>
+                                            break;
+                                        case 4:
+                                            <td>@Math.Ceiling(item.XL)</td>
+                                            break;
+                                    }
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+
+</script>

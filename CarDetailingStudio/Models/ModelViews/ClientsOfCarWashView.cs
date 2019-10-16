@@ -23,7 +23,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public string phone { get; set; }
         public Nullable<System.DateTime> DateRegistration { get; set; }
         public string Email { get; set; }
-        public string discont { get; set; }
+        public Nullable<int> discont { get; set; }
         public string Recommendation { get; set; }
         public string NumderCar { get; set; }
         public Nullable<int> IdClientsGroups { get; set; }

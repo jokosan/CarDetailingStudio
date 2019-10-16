@@ -11,6 +11,8 @@ using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
 using CarDetailingStudio.Filters;
+using System.Threading.Tasks;
+using CarDetailingStudio.BLL.Services.Modules;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -19,18 +21,23 @@ namespace CarDetailingStudio.Controllers
     {
         private OrderServicesCarWashServices _order;
         private ServisesCarWashOrderServices _servisesCarWash;
+        private BrigadeForTodayServices _brigade;
+        private OrderServices _orderServices;
 
-        public OrderController(OrderServicesCarWashServices orderServices, ServisesCarWashOrderServices servises)
+        public OrderController(OrderServicesCarWashServices orderServices, ServisesCarWashOrderServices servises, BrigadeForTodayServices brigade, OrderServices orderSer)
         {
             _order = orderServices;
             _servisesCarWash = servises;
-
+            _brigade = brigade;
+            _orderServices = orderSer;
         }
+
+        private double? Price;
 
         // GET: Order
         public ActionResult Index()
         {
-            var RedirectModel = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll());
+            var RedirectModel = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1));
             return View(RedirectModel);
         }
 
@@ -43,7 +50,7 @@ namespace CarDetailingStudio.Controllers
             }
 
             var OrderOnfo = Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
-            var info = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAll().Where(x => x.IdOrderServicesCarWash == id));
+            var info = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAllId(id));
 
             ViewBag.ServisesInfo = info;
 
@@ -54,22 +61,88 @@ namespace CarDetailingStudio.Controllers
             return View(OrderOnfo);
         }
 
+        [HttpPost, ActionName("OrderInfo")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ServicesDelete(int id, int idOrder)
+        {
+            _servisesCarWash.ServicesDelete(id);
+            _order.RecountOrder(idOrder);
+
+            return RedirectToAction("OrderInfo");         
+        }
+        
+        [HttpGet]
         public ActionResult CloseOrder(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }                    
+
+            var Order =  Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
+            var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAllId(id));
+            var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow());            
+
+            Price = Services.Sum(x => x.Price);
+                  
+            ViewBag.Services = Services;
+            ViewBag.Brigade = Brigade;
+            ViewBag.Price = Price;
+
+            if (Order.ClientsOfCarWash.discont > 0)
+            {
+                ViewBag.Total = _orderServices.Discont(Order.ClientsOfCarWash.discont, Price);
+            }
+            else
+            {
+                ViewBag.Total = Price;
             }
 
-            var OrderOnfo = Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
-
-            
-
-            if (OrderOnfo == null)
+            if (Order == null)
             {
                 return HttpNotFound();
             }
-            return View(OrderOnfo);
+            return View(Order);
+        }
+
+        [HttpPost]
+        public ActionResult CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState)
+        {
+            if (idBrigade != null)
+            {
+                _order.CloseOrder(idPaymentState, idOrder, idBrigade);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ReturnTheDifference(double prise, double customerAmount)
+        {
+            if (customerAmount > prise)
+                return View(customerAmount - prise);
+
+            return View();
+        }
+
+        public ActionResult OrderReport()
+        {
+            var OrderAll = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(2));
+
+            return View(OrderAll);
+        }
+
+        [HttpPost]
+        public ActionResult OrderReport(DateTime startDate, DateTime finalDate)
+        {
+            var OrderWhere = Mapper.Map <IEnumerable<OrderServicesCarWashView>>(_order.OrderReport(startDate, finalDate));
+
+            ViewBag.Date = $"Выборка заказов за период с {startDate.ToString("dd.MM.yyyy")} по {finalDate.ToString("dd.MM.yyyy")} ";
+            return View(OrderWhere);
         }
 
         #region

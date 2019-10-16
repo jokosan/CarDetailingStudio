@@ -22,15 +22,21 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
         public static int? idClient { get; set; }
         public static string body { get; set; }
+        public static double Price { get; set; }
+
 
         public static List<int> IdOrders = new List<int>();
         public static List<DetailingsBll> OrderList = new List<DetailingsBll>();
 
         private IEnumerable<DetailingsBll> Atest { get; set; }
 
-        public void IdOrderServices(FormCollection collection)
+        public void ClearListOrder()
         {
-            int x = collection.Count;
+            OrderList.Clear();
+        }
+
+        public void IdOrderServices(FormCollection collection)
+        {    
             IdOrders.Clear();
 
             string IdNewOrder = collection[0];
@@ -62,5 +68,34 @@ namespace CarDetailingStudio.BLL.Services.Modules
                 });
             }
         }
+
+        public double? OrderPrice()
+        {
+            var result = OrderList;
+
+            switch (body)
+            {
+                case "S":
+                    return result.Sum(x => x.S);
+
+                case "M":
+                    return result.Sum(x => x.M);
+
+                case "L":
+                    return result.Sum(x => x.L);
+
+                case "XL":
+                    return result.Sum(x => x.XL);
+            }
+
+            return null;
+        }
+
+        public double? Discont(int? discont, double? sum)
+        {
+            double? result = sum / 100 * discont;
+            return sum - result;
+        }
     }
 }
+

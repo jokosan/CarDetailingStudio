@@ -10,6 +10,7 @@ using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
+using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -24,9 +25,21 @@ namespace CarDetailingStudio.Controllers
 
         // GET: BrigadeForToday
         public ActionResult TodayShift()
+        {            
+            return View(Mapper.Map<IEnumerable<BrigadeForTodayView>>(_services.GetDateTimeNow()));
+        }
+
+        // POST: BrigadeForToday/Delete/5
+        [HttpPost, ActionName("TodayShift")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
         {
-            
-            return View(Mapper.Map<IEnumerable<BrigadeForTodayView>>(_services.GetAll()));
+            if (id != 0)
+            {
+                _services.RemoveFromBrigade(id);
+            }
+          
+            return RedirectToAction("TodayShift");
         }
 
         // GET: BrigadeForToday/Details/5

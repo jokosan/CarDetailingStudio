@@ -34,7 +34,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
         private void AddBindings()
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
-            kernel.Bind<IGenericRepository<brigadeForToday>>().To<DbRepository<brigadeForToday>>();
+            //kernel.Bind<IGenericRepository<brigadeForToday>>().To<DbRepository<brigadeForToday>>();
           
         }
     }

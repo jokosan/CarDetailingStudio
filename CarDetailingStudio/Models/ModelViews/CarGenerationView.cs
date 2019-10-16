@@ -24,7 +24,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<double> date_update { get; set; }
         public Nullable<int> id_car_type { get; set; }
 
-        public virtual CarModelView car_model { get; set; }
-        public virtual ICollection<CarSerieView> car_serie { get; set; }
+        public CarModelView car_model { get; set; }
+        public ICollection<CarSerieView> car_serie { get; set; }
     }
 }

@@ -86,6 +86,9 @@
     <Compile Include="ClientsOfCarWash.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
+    <Compile Include="Costs.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataBaseCarDetailingStudio.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -107,12 +110,24 @@
     <Compile Include="GroupWashServices.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\CarWashWorkersRepository.cs" />
+    <Compile Include="Infrastructure\ClientsOfCarWashRepository.cs" />
+    <Compile Include="Infrastructure\Contract\BrigadeForTodayRepository.cs" />
+    <Compile Include="Infrastructure\Contract\IDefaultRepository.cs" />
+    <Compile Include="Infrastructure\Contract\IExtendedRepository.cs" />
     <Compile Include="Infrastructure\Contract\IGenericRepository.cs" />
+    <Compile Include="Infrastructure\Contract\IGetRepository.cs" />
+    <Compile Include="Infrastructure\Contract\ISingleRepository.cs" />
+    <Compile Include="Infrastructure\Contract\ServisesCarWashOrderRepository.cs" />
     <Compile Include="Infrastructure\DbRepository.cs" />
+    <Compile Include="Infrastructure\OrderServicesCarWashRepository.cs" />
     <Compile Include="JobTitleTable.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="logo_mark_car.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderCarWashWorkers.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderServicesCarWash.cs">
@@ -131,8 +146,14 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
+    <Compile Include="TypeOfCosts.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\UnitOfWorks\IUnitOfWork.cs" />
     <Compile Include="Utilities\UnitOfWorks\UnitOfWork.cs" />
+    <Compile Include="Wage.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="DataBaseCarDetailingStudio.edmx">
@@ -151,8 +172,8 @@
   <ItemGroup>
     <Content Include="DataBaseCarDetailingStudio.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataBaseCarDetailingStudio.Context.cs</LastGenOutput>
       <DependentUpon>DataBaseCarDetailingStudio.edmx</DependentUpon>
+      <LastGenOutput>DataBaseCarDetailingStudio.Context.cs</LastGenOutput>
     </Content>
     <Content Include="DataBaseCarDetailingStudio.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

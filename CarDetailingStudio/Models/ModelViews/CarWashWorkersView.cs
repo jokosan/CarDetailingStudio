@@ -12,18 +12,19 @@ namespace CarDetailingStudio.Models.ModelViews
         public CarWashWorkersView()
         {
             this.brigadeForToday = new HashSet<BrigadeForTodayView>();
-            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderView>();
+            this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersView>();
+            this.Wage = new HashSet<WageView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id { get; set; }
-        public string idKey { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }
         public string MobilePhone { get; set; }
         public string Experience { get; set; }
+        public Nullable<int> InterestRate { get; set; }
         public string DataRegistration { get; set; }
         public string DataDismissal { get; set; }
         public string status { get; set; }
@@ -32,6 +33,7 @@ namespace CarDetailingStudio.Models.ModelViews
 
         public virtual ICollection<BrigadeForTodayView> brigadeForToday { get; set; }
         public virtual JobTitleTableView JobTitleTable { get; set; }
-        public virtual ICollection<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }
+        public virtual ICollection<OrderCarWashWorkersView> OrderCarWashWorkers { get; set; }
+        public virtual ICollection<WageView> Wage { get; set; }
     }
 }

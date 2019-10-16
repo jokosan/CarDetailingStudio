@@ -3,78 +3,45 @@
 @{
     ViewBag.Title = "OrderInfo";
 }
+
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <form class="form-horizontal">
-                <div class="card-body">
-                    @*  <h4 class="card-title">Personal Info</h4>*@
 
-                    <div class="form-group row">
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Номер машины</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.ClientsOfCarWash.NumderCar)
-                        </label>
+    <div class="col-md-6">
 
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Марка/Модель</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)
-                        </label>
-
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Тип кузова</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)
-                        </label>
-
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Ф.И.О</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.ClientsOfCarWash.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.PatronymicName)
-                        </label>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Tel</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.ClientsOfCarWash.phone)
-                        </label>
-
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">orderStatus</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.StatusOrder1.StatusOrder1)
-                        </label>
-
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">OrderPrice</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.TotalCostOfAllServices)
-                        </label>
-
-                        <label for="fname" class="col-sm-1 text-right control-label col-form-label">Date</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.OrderDate)
-                        </label>
-                    </div>
-
-                </div>
-            </form>
+        <div class="alert alert-danger" role="alert">
+            <h6>№@Html.DisplayFor(model => model.Id) заказа</h6>
         </div>
 
-        @*<div class="border-top">
-                <div class="card-body">
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </div>*@
-        @*<p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.ib }) |
-                @Html.ActionLink("Back to List", "Index")
-            </p>*@
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Customer</h5>
+            </div>
 
-    </div>
-</div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Номер машины</td>
+                        <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumderCar)</td>
+                    </tr>
+                    <tr>
+                        <td>Марка/Модель</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)</td>
+                    </tr>
+                    <tr>
+                        <td>Тип кузова</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)</td>
+                    </tr>
+                    <tr>
+                        <td>Ф.И.О</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.Surname)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-@using (Html.BeginForm())
-{
-    <div class="row">
-        <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
             <div class="card">
                 <div class="card-body col-md-6">
                     <h5 class="card-title m-b-0">OrderServices</h5>
@@ -83,36 +50,35 @@
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
-
-                                <th>
-                                    <label class="customcheckbox m-b-20">
-                                        <input type="checkbox" id="mainCheckbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </th>
-
-
                                 <th scope="col">validity</th>
-                                <th scope="col">Body</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Services</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody class="customtable">
                             @foreach (var item in ViewBag.ServisesInfo)
                             {
                                 <tr>
-
-                                    <th>
-                                        <label class="customcheckbox">
-                                            @*<input type="checkbox" class="listCheckbox" />*@
-                                            <input type="checkbox" name="chkRow" value="@item.Id" />
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </th>
-
-
                                     <td>@item.Detailings.services_list</td>
 
                                     <td>@item.Price</td>
+                                    <td>
+                                        @if (item.Detailings.IdTypeService == 1)
+                                        {
+                                            <b>Детейлинг</b>
+                                        }
+                                        else
+                                        {
+                                            <b>Мойка</b>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        <input type="submit" value="ServicesDelete" class="btn btn-danger btn-sm" />
+                                        <input value=@item.Id name="id" type="hidden" />
+                                        <input value=@item.IdOrderServicesCarWash name="idOrder" type="hidden" />
+                                    </td>
                                 </tr>
 
                             }
@@ -120,14 +86,22 @@
                     </table>
                 </div>
             </div>
-        </div>
+        }
+
+
+        @using (Html.BeginForm())
+        {
+    <div class="text-right">
+
+        <input value=@Model.Id name="OrderDelete" type="hidden" />
+        <input class="btn btn-danger" type="submit" id="btnCreate" value="OrderDelete" @Url.Action("Index", "Order") />
+        @Html.ActionLink("EditOrder", "Index", null, new { @class = "btn btn-warning" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+    </div>
+
+        }
 
     </div>
-    <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
 
-}
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</div>

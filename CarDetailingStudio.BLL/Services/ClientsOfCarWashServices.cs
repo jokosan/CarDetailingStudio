@@ -27,12 +27,14 @@ namespace CarDetailingStudio.BLL.Services
 
         public IEnumerable<ClientsOfCarWashBll> GetAll()
         {
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsOfCarWashUnitOfWork.Get());
+            //return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsOfCarWashUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.Get());
         }
 
         public ClientsOfCarWashBll GetId(int? id)
         {
-            var resilt = Mapper.Map<ClientsOfCarWashBll>(_unitOfWork.ClientsOfCarWashUnitOfWork.GetById(id));
+            // var resilt = Mapper.Map<ClientsOfCarWashBll>(_unitOfWork.ClientsOfCarWashUnitOfWork.GetById(id));
+            var resilt = Mapper.Map<ClientsOfCarWashBll>(_unitOfWork.ClientsUnitOfWork.GetById(id));
             return resilt;
         }
 
@@ -40,6 +42,8 @@ namespace CarDetailingStudio.BLL.Services
         {
             ClientsOfCarWash clientsOfCarWash = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(AddCliens);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Insert(clientsOfCarWash);
+
+            _unitOfWork.Save();
         }
     }
 }

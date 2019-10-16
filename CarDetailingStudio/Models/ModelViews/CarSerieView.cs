@@ -24,7 +24,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<int> id_car_type { get; set; }
         public string idbody { get; set; }
 
-        public virtual CarGenerationView car_generation { get; set; }
-        public virtual ICollection<CarModificationView> car_modification { get; set; }
+        public CarGenerationView car_generation { get; set; }
+        public  ICollection<CarModificationView> car_modification { get; set; }
     }
 }

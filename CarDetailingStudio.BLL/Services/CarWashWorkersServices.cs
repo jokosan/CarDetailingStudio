@@ -13,7 +13,7 @@ using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class CarWashWorkersServices : IServices<CarWashWorkersBll>
+    public class CarWashWorkersServices
     {
         private IUnitOfWork _unitOfWork;
         private BrigadeForTodayBll _brigade;
@@ -25,23 +25,24 @@ namespace CarDetailingStudio.BLL.Services
             _brigade = new BrigadeForTodayBll();
             _automapper = new AutomapperConfig();
         }
-
+        
         public void Dispose()
         {
             _unitOfWork.Dispose();
         }
 
-        public IEnumerable<CarWashWorkersBll> GetAll()
+        public IEnumerable<CarWashWorkersBll> GetStaffAll()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.WorkersUnitOfWork.Get());
         }
 
         public IEnumerable<CarWashWorkersBll> GetChooseEmployees()
         {
-            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.CarWashWorkersUnitOfWork.Get().Where(x => (x.status == "true")
+            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.WorkersUnitOfWork
+                .GetWhere(x => (x.status == "true")
                            && (x.JobTitleTable.Position == "Детейлер")
                            || (x.JobTitleTable.Position == "Мойщик")
-                           || (x.JobTitleTable.Position == "Старший мойщик")));
+                           || (x.JobTitleTable.Position == "Старший мойщик"))).AsQueryable();
         }
 
         public void AddToCurrentShift(FormCollection collection)
@@ -54,9 +55,11 @@ namespace CarDetailingStudio.BLL.Services
             {
                 _brigade.Date = DateTime.Now;
                 _brigade.IdCarWashWorkers = Int32.Parse(item);
-                                
+                _brigade.EarlyTermination = true;
+
+
                 brigadeForToday brigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(_brigade);
-                     
+
                 _unitOfWork.BrigadeForTodayUnitOfWork.Insert(brigade);
                 _unitOfWork.Save();
             }
@@ -66,8 +69,14 @@ namespace CarDetailingStudio.BLL.Services
         {
             string date = DateTime.Now.ToString("dd.MM.yyyy");
             var thisDay = _unitOfWork.BrigadeForTodayUnitOfWork.Get().Any(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
-         
+
             return thisDay;
-        }        
+        }
+
+        //public IEnumerable<CarWashWorkersBll> Salary()
+        //{
+        //    var CarWashWorker = Mapper.Map<>
+        //    var SalaryWhare = Mapper.Map<IEnumerable<CarWashWorkers>>(_unitOfWork.WorkersUnitOfWork.GetWhere(x => x.Wage.Contains(x => x.)));
+        //}
     }
 }

@@ -22,7 +22,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<int> id_car_type { get; set; }
         public string idbody { get; set; }
 
-        public virtual CarGenerationBll car_generation { get; set; }
-        public virtual ICollection<CarModificationBll> car_modification { get; set; }
+        public CarGenerationBll car_generation { get; set; }
+        public ICollection<CarModificationBll> car_modification { get; set; }
     }
 }

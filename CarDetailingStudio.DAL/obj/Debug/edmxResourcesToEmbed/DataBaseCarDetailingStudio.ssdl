@@ -6,9 +6,8 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" />
-    <Property Name="Time" Type="datetime" />
     <Property Name="EndTime" Type="datetime" />
-    <Property Name="EarlyTermination" Type="nvarchar" MaxLength="15" />
+    <Property Name="EarlyTermination" Type="bit" />
     <Property Name="IdCarWashWorkers" Type="int" />
   </EntityType>
   <EntityType Name="car_generation">
@@ -88,12 +87,12 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="idKey" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" />
     <Property Name="Surname" Type="nvarchar" MaxLength="50" />
     <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
     <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
     <Property Name="Experience" Type="nvarchar" MaxLength="50" />
+    <Property Name="InterestRate" Type="int" />
     <Property Name="DataRegistration" Type="nvarchar" MaxLength="15" />
     <Property Name="DataDismissal" Type="nvarchar" MaxLength="15" />
     <Property Name="status" Type="nvarchar" MaxLength="10" />
@@ -118,7 +117,7 @@
     <Property Name="phone" Type="nvarchar" MaxLength="50" />
     <Property Name="DateRegistration" Type="datetime" />
     <Property Name="Email" Type="nvarchar" MaxLength="200" />
-    <Property Name="discont" Type="nvarchar" MaxLength="5" />
+    <Property Name="discont" Type="int" />
     <Property Name="Recommendation" Type="nvarchar" MaxLength="200" />
     <Property Name="NumderCar" Type="nvarchar" MaxLength="50" />
     <Property Name="IdClientsGroups" Type="int" />
@@ -127,6 +126,16 @@
     <Property Name="IdBody" Type="int" />
     <Property Name="note" Type="nvarchar" MaxLength="500" />
     <Property Name="barcode" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Costs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="500" />
+    <Property Name="expenses" Type="float" />
+    <Property Name="Date" Type="datetime" />
   </EntityType>
   <EntityType Name="Detailings">
     <Key>
@@ -171,25 +180,33 @@
     <Property Name="logo_mark" Type="image" />
     <Property Name="screen_format" Type="varchar" MaxLength="10" />
   </EntityType>
+  <EntityType Name="OrderCarWashWorkers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdOrder" Type="int" Nullable="false" />
+    <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="OrderServicesCarWash">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdClientsOfCarWash" Type="int" />
-    <Property Name="idCarWashWorkers" Type="int" />
     <Property Name="StatusOrder" Type="int" />
     <Property Name="PaymentState" Type="int" />
     <Property Name="OrderDate" Type="datetime" />
     <Property Name="ClosingData" Type="datetime" />
     <Property Name="TotalCostOfAllServices" Type="float" />
+    <Property Name="DiscountPrice" Type="float" />
   </EntityType>
   <EntityType Name="PaymentState">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PaymentState" Type="nchar" MaxLength="20" />
+    <Property Name="PaymentState" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="ServisesCarWashOrder">
     <Key>
@@ -198,7 +215,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdClientsOfCarWash" Type="int" />
     <Property Name="IdOrderServicesCarWash" Type="int" />
-    <Property Name="idCarWashWorkers" Type="int" />
     <Property Name="IdWashServices" Type="int" />
     <Property Name="Price" Type="float" />
   </EntityType>
@@ -218,6 +234,22 @@
     <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TypeOfCosts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Wage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Salary" Type="float" Nullable="false" />
   </EntityType>
   <Association Name="FK_brigadeForToday_CarWashWorkers">
     <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
@@ -339,6 +371,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Costs_TypeOfCosts">
+    <End Role="TypeOfCosts" Type="Self.TypeOfCosts" Multiplicity="0..1" />
+    <End Role="Costs" Type="Self.Costs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfCosts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Costs">
+        <PropertyRef Name="Type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Detailings_GroupWashServices">
     <End Role="GroupWashServices" Type="Self.GroupWashServices" Multiplicity="0..1" />
     <End Role="Detailings" Type="Self.Detailings" Multiplicity="*" />
@@ -348,6 +392,30 @@
       </Principal>
       <Dependent Role="Detailings">
         <PropertyRef Name="IdGroupWashServices" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderCarWashWorkers_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
+    <End Role="OrderCarWashWorkers" Type="Self.OrderCarWashWorkers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="OrderCarWashWorkers">
+        <PropertyRef Name="IdCarWashWorkers" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderCarWashWorkers_OrderServicesCarWash">
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1" />
+    <End Role="OrderCarWashWorkers" Type="Self.OrderCarWashWorkers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderServicesCarWash">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderCarWashWorkers">
+        <PropertyRef Name="IdOrder" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -387,18 +455,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ServisesCarWashOrder_CarWashWorkers">
-    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
-    <End Role="ServisesCarWashOrder" Type="Self.ServisesCarWashOrder" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CarWashWorkers">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="ServisesCarWashOrder">
-        <PropertyRef Name="idCarWashWorkers" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ServisesCarWashOrder_Detailings">
     <End Role="Detailings" Type="Self.Detailings" Multiplicity="0..1" />
     <End Role="ServisesCarWashOrder" Type="Self.ServisesCarWashOrder" Multiplicity="*" />
@@ -423,6 +479,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Wage_CarWashWorkers1">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
+    <End Role="Wage" Type="Self.Wage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Wage">
+        <PropertyRef Name="IdCarWashWorkers" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="Хранилище carWashModelContainer">
     <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="car_generation" EntityType="Self.car_generation" Schema="dbo" store:Type="Tables" />
@@ -434,14 +502,18 @@
     <EntitySet Name="CarWashWorkers" EntityType="Self.CarWashWorkers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Costs" EntityType="Self.Costs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Detailings" EntityType="Self.Detailings" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GroupWashServices" EntityType="Self.GroupWashServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="JobTitleTable" EntityType="Self.JobTitleTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderCarWashWorkers" EntityType="Self.OrderCarWashWorkers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderServicesCarWash" EntityType="Self.OrderServicesCarWash" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PaymentState" EntityType="Self.PaymentState" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServisesCarWashOrder" EntityType="Self.ServisesCarWashOrder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeOfCosts" EntityType="Self.TypeOfCosts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Wage" EntityType="Self.Wage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [logo_mark_car].[id_car_mark] AS [id_car_mark], 
@@ -489,9 +561,21 @@
       <End Role="CarBody" EntitySet="CarBody" />
       <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
     </AssociationSet>
+    <AssociationSet Name="FK_Costs_TypeOfCosts" Association="Self.FK_Costs_TypeOfCosts">
+      <End Role="TypeOfCosts" EntitySet="TypeOfCosts" />
+      <End Role="Costs" EntitySet="Costs" />
+    </AssociationSet>
     <AssociationSet Name="FK_Detailings_GroupWashServices" Association="Self.FK_Detailings_GroupWashServices">
       <End Role="GroupWashServices" EntitySet="GroupWashServices" />
       <End Role="Detailings" EntitySet="Detailings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderCarWashWorkers_CarWashWorkers" Association="Self.FK_OrderCarWashWorkers_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="OrderCarWashWorkers" EntitySet="OrderCarWashWorkers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderCarWashWorkers_OrderServicesCarWash" Association="Self.FK_OrderCarWashWorkers_OrderServicesCarWash">
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+      <End Role="OrderCarWashWorkers" EntitySet="OrderCarWashWorkers" />
     </AssociationSet>
     <AssociationSet Name="FK_OrderServicesCarWash_ClientsOfCarWash" Association="Self.FK_OrderServicesCarWash_ClientsOfCarWash">
       <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
@@ -505,10 +589,6 @@
       <End Role="StatusOrder" EntitySet="StatusOrder" />
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
     </AssociationSet>
-    <AssociationSet Name="FK_ServisesCarWashOrder_CarWashWorkers" Association="Self.FK_ServisesCarWashOrder_CarWashWorkers">
-      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
-      <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
-    </AssociationSet>
     <AssociationSet Name="FK_ServisesCarWashOrder_Detailings" Association="Self.FK_ServisesCarWashOrder_Detailings">
       <End Role="Detailings" EntitySet="Detailings" />
       <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
@@ -516,6 +596,10 @@
     <AssociationSet Name="FK_ServisesCarWashOrder_OrderServicesCarWash" Association="Self.FK_ServisesCarWashOrder_OrderServicesCarWash">
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
       <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Wage_CarWashWorkers1" Association="Self.FK_Wage_CarWashWorkers1">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="Wage" EntitySet="Wage" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

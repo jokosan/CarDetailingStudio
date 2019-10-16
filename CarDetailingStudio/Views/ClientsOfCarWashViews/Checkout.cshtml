@@ -1,92 +1,94 @@
 ﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Оформление заказа</h5>
+                    </div>
 
-<div class="card">
-    <div class="card-body">
-        <div class="row mb-3">
-            <div class="col-lg-10">
-                <h5 class="card-title">Оформление заказа</h5>
-
-            </div>
-            <div class="col-lg-2">
-                @Html.ActionLink("Создать нового клиента", "AddClient", new { @class = "btn btn-cyan btn-sm"})
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
-        <div class="table-responsive">
-            <div class="col-md-2">
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                        <input type="text" id="Search" placeholder="Search" class="form-control" />
+                    <div class="col-md-6 text-right">
+                        @Html.ActionLink("Создать нового клиента", "AddClient", new { id = "Checkout" }, new { @class = "btn btn-cyan btn-sm" })
                     </div>
                 </div>
             </div>
-            
-            <table  class="table table-striped">
-                <tr>
-                    <th>
-                        Номер машины
-                    </th>
+        </div>
 
-                    <th>
-                        Ф.И.О
-                    </th>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    @*<div class="col-md-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                <input type="text" id="Search" placeholder="Search" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
 
-                    <th>
-                        @Html.DisplayNameFor(model => model.discont)
-                    </th>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                Номер машины
+                            </th>
 
-                    <th>
-                        @Html.DisplayNameFor(model => model.car_mark.name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.car_model.name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CarBody.Name)
-                    </th>
+                            <th>
+                                Ф.И.О
+                            </th>
 
-                    <th>Action</th>
-                </tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.discont)
+                            </th>
 
-                @foreach (var item in Model)
-                {
-                    <tr  class="Search">
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NumderCar)
-                        </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.car_mark.name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.car_model.name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CarBody.Name)
+                            </th>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Surname)  @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.PatronymicName)
-                        </td>
+                            <th>Action</th>
+                        </tr>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.discont)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.car_mark.name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.car_model.name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CarBody.Name)
-                        </td>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="Search">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumderCar)
+                                </td>
 
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-cyan btn-sm"})
-                            @Html.ActionLink("Details", "NewOrder", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-success btn-sm"})
-                        </td>
-                    </tr>
-                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)  @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.PatronymicName)
+                                </td>
 
-            </table>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.discont)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.car_mark.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.car_model.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CarBody.Name)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-cyan btn-sm" })
+                                    @Html.ActionLink("Details", "NewOrder", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-success btn-sm" })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

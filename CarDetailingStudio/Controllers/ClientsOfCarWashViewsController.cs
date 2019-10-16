@@ -54,12 +54,14 @@ namespace CarDetailingStudio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            _orderServices.ClearListOrder();
+
             OrderServices.idClient = id;
             OrderServices.body = body;
 
             var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(id));
 
-            Price = Mapper.Map<IEnumerable<DetailingsView>>(_detailings.GetAll());
+            Price = Mapper.Map<IEnumerable<DetailingsView>>(_detailings.Converter());
 
             ViewBag.Detailings = Price.Where(x => x.IdTypeService == 1);
             ViewBag.WashServises = Price.Where(x => x.IdTypeService == 2);
@@ -82,28 +84,42 @@ namespace CarDetailingStudio.Controllers
             return RedirectToRoute(new { controller = "ClientsOfCarWashViews", action = "OrderPreview" });
         }
 
-        
         public ActionResult OrderPreview()
         {
             var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(OrderServices.idClient));
 
+            var sum = _orderServices.OrderPrice();
+
             ViewBag.PriceList = OrderServices.OrderList;
+            ViewBag.SumOrder = sum;
+
+            if (CustomerOrders.discont > 0)
+            {
+                ViewBag.Total = _orderServices.Discont(CustomerOrders.discont, sum);
+            }
+            else
+            {
+                ViewBag.Total = sum;
+            }
 
             return View(CustomerOrders);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult OrderPreview(string addPrice)
+        public ActionResult OrderPreview(List<double> carBody, List<int> id, List<int> sum)
         {
-            _orderServicesInsert.InsertOrders(addPrice);
+            _orderServicesInsert.InsertOrders(carBody, id, sum);
 
-            return View("Index");
+            return RedirectToAction("Index", "Order");
         }
 
         // GET: ClientsOfCarWashViews/Create
-        public ActionResult AddClient()
+        public ActionResult AddClient(string id)
         {
+            
+            ViewBag.NewAction = id;
+
             return View();
         }      
 
@@ -112,21 +128,27 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddClient([Bind(Include = "ib,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumderCar,IdClientsGroups,Idmark,Idmodel,IdBody,note,barcode")] ClientsOfCarWashView clientsOfCarWashView)
+        public ActionResult AddClient([Bind(Include = "ib,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumderCar,IdClientsGroups,Idmark,Idmodel,IdBody,note,barcode")] ClientsOfCarWashView clientsOfCarWashView, bool AddClient)
         {
-           
+
             if (ModelState.IsValid)
             {
                 ClientsOfCarWashBll clientsOfCarWash = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(clientsOfCarWashView);
                 _services.Insert(clientsOfCarWash);
+
+                if(AddClient)
+                {
+                    return RedirectToAction("AddClient");
+                }
+                else
+                {
+                    return RedirectToAction("NewOrder");
+                }
                 
-                return RedirectToAction("Index");
             }
 
             return View(clientsOfCarWashView);
         }
-
-      
 
         #region
         //// GET: ClientsOfCarWashViews/Details/5

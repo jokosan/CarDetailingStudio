@@ -1,4 +1,5 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure;
+using CarDetailingStudio.DAL.Infrastructure.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,108 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         }
 
         private DbRepository<ClientsOfCarWash> ClientsOfCarWashUW;
-        private DbRepository<ClientsGroups> ClientsGroupsUW;
         private DbRepository<brigadeForToday> BrigadeForTodayUW;
         private DbRepository<CarWashWorkers> CarWashWorkersUW;
         private DbRepository<OrderServicesCarWash> OrderServicesCarWashUW;
         private DbRepository<JobTitleTable> JobTitleTableUW;
         private DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUW;
         private DbRepository<Detailings> DetailingsUW;
+        private DbRepository<OrderCarWashWorkers> OrderCarWashWorkersUW;
+
+        private OrderServicesCarWashRepository orderUW;
+        private ClientsOfCarWashRepository ClientsUW;
+        private CarWashWorkersRepository WorkersUW;
+        private BrigadeForTodayRepository BrigadeUW;
+        private ServisesCarWashOrderRepository ServisesUW;
+
+        public ServisesCarWashOrderRepository ServisesUnitOfWork
+        {
+            get
+            {
+                if (ServisesUW == null)
+                {
+                    ServisesUW = new ServisesCarWashOrderRepository(_entities);
+                }
+
+                return ServisesUW;
+            }
+
+            set { ServisesUW = value; }
+        }
+
+        public BrigadeForTodayRepository BrigadeUnitOfWork
+        {
+            get
+            {
+                if (BrigadeUW == null)
+                {
+                    BrigadeUW = new BrigadeForTodayRepository(_entities);
+                }
+
+                return BrigadeUW;
+            }
+
+            set { BrigadeUW = value; }
+        }
+
+        public CarWashWorkersRepository WorkersUnitOfWork
+        {
+            get
+            {
+                if (WorkersUW == null)
+                {
+                    WorkersUW = new CarWashWorkersRepository(_entities);
+                }
+
+                return WorkersUW;
+            }
+
+            set { WorkersUW = value; }
+        }
+
+        public ClientsOfCarWashRepository ClientsUnitOfWork
+        {
+            get
+            {
+                if (ClientsUW == null)
+                {
+                    ClientsUW = new ClientsOfCarWashRepository(_entities);
+                }
+
+                return ClientsUW;
+            }
+
+            set { ClientsUW = value; }
+        }
+
+        public OrderServicesCarWashRepository orderUnitiOfWork
+        {
+            get
+            {
+                if (orderUW == null)
+                {
+                    orderUW = new OrderServicesCarWashRepository(_entities);
+                }
+
+                return orderUW;
+            }
+            set { orderUW = value; }
+        }
+
+        public DbRepository<OrderCarWashWorkers> OrderCarWasWorkersUnitOFWork
+        {
+            get
+            {
+                if (OrderCarWashWorkersUW == null)
+                {
+                    OrderCarWashWorkersUW = new DbRepository<OrderCarWashWorkers>(_entities);
+                }
+
+                return OrderCarWashWorkersUW;
+            }
+
+            set { OrderCarWashWorkersUW = value; }
+        }
 
         public DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUnitOfWork
         {
@@ -31,7 +127,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             {
                 if (ServisesCarWashOrderUW == null)
                 {
-                    ServisesCarWashOrderUW = new DbRepository<ServisesCarWashOrder>(_entities);                
+                    ServisesCarWashOrderUW = new DbRepository<ServisesCarWashOrder>(_entities);
                 }
 
                 return ServisesCarWashOrderUW;
