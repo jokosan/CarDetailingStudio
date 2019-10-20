@@ -17,6 +17,7 @@ namespace CarDetailingStudio.DAL
         public int Id { get; set; }
         public int IdOrder { get; set; }
         public int IdCarWashWorkers { get; set; }
+        public Nullable<bool> CalculationStatus { get; set; }
     
         public virtual CarWashWorkers CarWashWorkers { get; set; }
         public virtual OrderServicesCarWash OrderServicesCarWash { get; set; }

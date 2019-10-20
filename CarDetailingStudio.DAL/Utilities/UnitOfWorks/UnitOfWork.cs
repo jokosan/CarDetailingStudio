@@ -19,18 +19,32 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         private DbRepository<ClientsOfCarWash> ClientsOfCarWashUW;
         private DbRepository<brigadeForToday> BrigadeForTodayUW;
-        private DbRepository<CarWashWorkers> CarWashWorkersUW;
+        private DbRepository<OrderServicesCarWash> CarWashWorkersUW;
         private DbRepository<OrderServicesCarWash> OrderServicesCarWashUW;
         private DbRepository<JobTitleTable> JobTitleTableUW;
         private DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUW;
         private DbRepository<Detailings> DetailingsUW;
         private DbRepository<OrderCarWashWorkers> OrderCarWashWorkersUW;
+        private DbRepository<Costs> CostsUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
         private CarWashWorkersRepository WorkersUW;
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
+        private OrderInfoViewRepository OrderInfoUW;
+
+        public OrderInfoViewRepository OrderInfoUnitOfWork
+        {
+            get { return OrderInfoUW ?? (OrderInfoUW = new OrderInfoViewRepository(_entities)); }
+            set { OrderInfoUW = value; }
+        }
+
+        public DbRepository<Costs> CostsUnitOfWork
+        {
+            get { return CostsUW ?? (CostsUW = new DbRepository<Costs>(_entities)); }
+            set { CostsUW = value; }
+        }
 
         public ServisesCarWashOrderRepository ServisesUnitOfWork
         {
@@ -152,13 +166,13 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         }
 
-        public DbRepository<CarWashWorkers> CarWashWorkersUnitOfWork
+        public DbRepository<OrderServicesCarWash> CarWashWorkersUnitOfWork
         {
             get
             {
                 if (CarWashWorkersUW == null)
                 {
-                    CarWashWorkersUW = new DbRepository<CarWashWorkers>(_entities);
+                    CarWashWorkersUW = new DbRepository<OrderServicesCarWash>(_entities);
                 }
 
                 return CarWashWorkersUW;

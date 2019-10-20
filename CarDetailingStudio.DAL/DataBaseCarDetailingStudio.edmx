@@ -192,6 +192,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdOrder" Type="int" Nullable="false" />
           <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
+          <Property Name="CalculationStatus" Type="bit" />
         </EntityType>
         <EntityType Name="OrderServicesCarWash">
           <Key>
@@ -254,7 +255,22 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Salary" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "carWash.dbo.ItogOrderView" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="ItogOrderView">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="countOrder" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="InterestRate" Type="int" />
+          <Property Name="CalculationStatus" Type="bit" />
+          <Property Name="Expr1" Type="float" />
         </EntityType>
         <Association Name="FK_brigadeForToday_CarWashWorkers">
           <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
@@ -525,6 +541,19 @@
     [logo_mark_car].[logo_mark] AS [logo_mark], 
     [logo_mark_car].[screen_format] AS [screen_format]
     FROM [dbo].[logo_mark_car] AS [logo_mark_car]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ItogOrderView" EntityType="Self.ItogOrderView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ItogOrderView].[id] AS [id], 
+    [ItogOrderView].[countOrder] AS [countOrder], 
+    [ItogOrderView].[Name] AS [Name], 
+    [ItogOrderView].[Surname] AS [Surname], 
+    [ItogOrderView].[Patronymic] AS [Patronymic], 
+    [ItogOrderView].[MobilePhone] AS [MobilePhone], 
+    [ItogOrderView].[InterestRate] AS [InterestRate], 
+    [ItogOrderView].[CalculationStatus] AS [CalculationStatus], 
+    [ItogOrderView].[Expr1] AS [Expr1]
+    FROM [dbo].[ItogOrderView] AS [ItogOrderView]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
             <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
@@ -816,6 +845,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdOrder" Type="Int32" Nullable="false" />
           <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
+          <Property Name="CalculationStatus" Type="Boolean" />
           <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="OrderCarWashWorkers" ToRole="CarWashWorkers" />
           <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderCarWashWorkers_OrderServicesCarWash" FromRole="OrderCarWashWorkers" ToRole="OrderServicesCarWash" />
         </EntityType>
@@ -890,7 +920,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Salary" Type="Double" Nullable="false" />
           <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_Wage_CarWashWorkers1" FromRole="Wage" ToRole="CarWashWorkers" />
         </EntityType>
         <EntityType Name="logo_mark_car">
@@ -900,6 +929,20 @@
           <Property Name="id_car_mark" Type="Double" Nullable="false" />
           <Property Name="logo_mark" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="screen_format" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ItogOrderView">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="countOrder" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InterestRate" Type="Int32" />
+          <Property Name="CalculationStatus" Type="Boolean" />
+          <Property Name="Expr1" Type="Double" />
         </EntityType>
         <Association Name="FK_brigadeForToday_CarWashWorkers">
           <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
@@ -1165,6 +1208,7 @@
           <EntitySet Name="TypeOfCosts" EntityType="Self.TypeOfCosts" />
           <EntitySet Name="Wage" EntityType="Self.Wage" />
           <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" />
+          <EntitySet Name="ItogOrderView" EntityType="Self.ItogOrderView" />
           <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
             <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
             <End Role="brigadeForToday" EntitySet="brigadeForToday" />
@@ -1442,6 +1486,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
                 <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
+                <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1511,7 +1556,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1521,6 +1565,21 @@
                 <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
                 <ScalarProperty Name="logo_mark" ColumnName="logo_mark" />
                 <ScalarProperty Name="screen_format" ColumnName="screen_format" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItogOrderView">
+            <EntityTypeMapping TypeName="carWashModel.ItogOrderView">
+              <MappingFragment StoreEntitySet="ItogOrderView">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="countOrder" ColumnName="countOrder" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+                <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+                <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

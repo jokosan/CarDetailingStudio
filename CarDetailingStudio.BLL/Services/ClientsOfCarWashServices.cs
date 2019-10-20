@@ -12,13 +12,13 @@ using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class ClientsOfCarWashServices : IServices<ClientsOfCarWashBll>
+    public class ClientsOfCarWashServices : IClientsOfCarWashServices
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
         private ClientsOfCarWashBll _clients;
 
-        public ClientsOfCarWashServices(UnitOfWork unitOfWork, AutomapperConfig maper, ClientsOfCarWashBll clients)
+        public ClientsOfCarWashServices(IUnitOfWork unitOfWork, AutomapperConfig maper, ClientsOfCarWashBll clients)
         {
             _unitOfWork = unitOfWork;
             _automapper = maper;

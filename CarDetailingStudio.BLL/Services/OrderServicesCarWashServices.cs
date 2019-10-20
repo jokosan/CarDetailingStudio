@@ -14,34 +14,37 @@ using CarDetailingStudio.BLL.Services.Modules.ModulesModel;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class OrderServicesCarWashServices
+    public class OrderServicesCarWashServices : IOrderServicesCarWashServices
     {
-        private IUnitOfWork _ubitOfWork;
+        private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
-        private OrderServices _orderServices;
+        private IOrderServices _orderServices;
         private ServisesCarWashOrderBll _servisesCar;
-        private OrderCarWashWorkersServices _orderCarWashWorkersServices;
+        private IOrderCarWashWorkersServices _orderCarWashWorkersServices;
+        private IServisesCarWashOrderServices _servisesCarWashOrder;
 
-        public OrderServicesCarWashServices(UnitOfWork unitOfWork, AutomapperConfig automapper,
-                                            OrderServices orderServices, ServisesCarWashOrderBll servisesCar, OrderCarWashWorkersServices orderCarWash)
+        public OrderServicesCarWashServices(IUnitOfWork unitOfWork, AutomapperConfig automapper,
+                                            IOrderServices orderServices, ServisesCarWashOrderBll servisesCar,
+                                            IOrderCarWashWorkersServices orderCarWash, IServisesCarWashOrderServices servisesCarWashOrder)
         {
-            _ubitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _automapper = automapper;
             _orderServices = orderServices;
             _servisesCar = servisesCar;
             _orderCarWashWorkersServices = orderCarWash;
+            _servisesCarWashOrder = servisesCarWashOrder;
         }
 
         public IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder)
         {
-            var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_ubitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
+            var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
 
             return GetAllResult;
         }
 
         public OrderServicesCarWashBll GetId(int? id)
         {
-            return Mapper.Map<OrderServicesCarWashBll>(_ubitOfWork.orderUnitiOfWork.GetById(id));
+            return Mapper.Map<OrderServicesCarWashBll>(_unitOfWork.orderUnitiOfWork.GetById(id));
         }
 
         public void InsertOrders(List<double> carBody, List<int> id, List<int> sum)
@@ -58,8 +61,9 @@ namespace CarDetailingStudio.BLL.Services
 
             OrderServicesCarWash orderServicesCar = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(OrderFormation);
 
-            _ubitOfWork.OrderServicesCarWashUnitOfWork.Insert(orderServicesCar);
-            _ubitOfWork.Save();
+            _unitOfWork.OrderServicesCarWashUnitOfWork.Insert(orderServicesCar);
+            _unitOfWork.Save();
+                    
 
             foreach (var item in OrderServices.OrderList)
             {
@@ -73,8 +77,8 @@ namespace CarDetailingStudio.BLL.Services
 
                 ServisesCarWashOrder servisesCarWash = Mapper.Map<ServisesCarWashOrderBll, ServisesCarWashOrder>(_servisesCar);
 
-                _ubitOfWork.ServisesCarWashOrderUnitOfWork.Insert(servisesCarWash);
-                _ubitOfWork.Save();
+                _unitOfWork.ServisesCarWashOrderUnitOfWork.Insert(servisesCarWash);
+                _unitOfWork.Save();
             }
 
             _orderServices.ClearListOrder();
@@ -114,13 +118,20 @@ namespace CarDetailingStudio.BLL.Services
             Order.ClosingData = DateTime.Now;
             Order.StatusOrder = 2;
 
-            double x = Convert.ToDouble(_orderServices.Discont(Order.ClientsOfCarWash.discont, Order.TotalCostOfAllServices));
-            Order.DiscountPrice = Math.Ceiling(x);
-
+            if (Order.ClientsOfCarWash.discont > 0)
+            {
+                double x = Convert.ToDouble(_orderServices.Discont(Order.ClientsOfCarWash.discont, Order.TotalCostOfAllServices));
+                Order.DiscountPrice = Math.Ceiling(x);
+            }
+            else
+            {
+                Order.DiscountPrice = Order.TotalCostOfAllServices;  
+            }
+                       
             OrderServicesCarWash orderCarWashWorkers = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(Order);
 
-            _ubitOfWork.OrderServicesCarWashUnitOfWork.Update(orderCarWashWorkers);
-            _ubitOfWork.Save();
+            _unitOfWork.OrderServicesCarWashUnitOfWork.Update(orderCarWashWorkers);
+            _unitOfWork.Save();
 
             _orderCarWashWorkersServices.AddEmployeeToOrder(idBrigade, idOrder);
         }
@@ -131,19 +142,29 @@ namespace CarDetailingStudio.BLL.Services
 
             OrderServicesCarWash EditOrder = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(WhereIdOrder);
 
-            EditOrder.TotalCostOfAllServices = _ubitOfWork.ServisesCarWashOrderUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == idOrder).Sum(x => x.Price);
+            EditOrder.TotalCostOfAllServices = _unitOfWork.ServisesCarWashOrderUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == idOrder).Sum(x => x.Price);
 
-            _ubitOfWork.OrderServicesCarWashUnitOfWork.Update(EditOrder);
-            _ubitOfWork.Save();
+            _unitOfWork.OrderServicesCarWashUnitOfWork.Update(EditOrder);
+            _unitOfWork.Save();
         }
 
         public IEnumerable<OrderServicesCarWashBll> OrderReport(DateTime start, DateTime final)
         {
-            var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_ubitOfWork.orderUnitiOfWork.GetWhere(x => (x.OrderDate >= start)
+            var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => (x.OrderDate >= start)
                                                                                                                        && (x.OrderDate <= final)
                                                                                                                        && (x.StatusOrder == 2)));
             return OrderByDate;
         }
+
+        public void DeleteOrder(int idOrder)
+        {
+            _unitOfWork.OrderServicesCarWashUnitOfWork.Delete(idOrder);
+
+            _servisesCarWashOrder.ServicesDelete(idOrder, nameof(OrderServicesCarWashServices));
+
+            _unitOfWork.Save();
+        }
+
     }
 }
 

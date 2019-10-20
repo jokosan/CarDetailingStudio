@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
-    public class DbRepository<T> : IGetRepository<T>, IDefaultRepository<T>, IExtendedRepository<T> where T : class
+    public class DbRepository<T> : IGetRepository<T>, IDefaultRepository<T> where T : class
     {
       
         internal carWashEntities _carWashEntitiesContext;

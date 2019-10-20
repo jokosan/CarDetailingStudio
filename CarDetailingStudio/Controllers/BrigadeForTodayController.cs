@@ -11,22 +11,31 @@ using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.Filters;
 
 namespace CarDetailingStudio.Controllers
 {
     public class BrigadeForTodayController : Controller
     {
-        private BrigadeForTodayServices _services;
+        private IBrigadeForTodayServices _services;
 
-        public BrigadeForTodayController(BrigadeForTodayServices brigade)
+        public BrigadeForTodayController(IBrigadeForTodayServices brigade)
         {
             _services = brigade;
         }
 
+        [MonitoringTheNumberOfEmployeesFilter]
         // GET: BrigadeForToday
         public ActionResult TodayShift()
-        {            
-            return View(Mapper.Map<IEnumerable<BrigadeForTodayView>>(_services.GetDateTimeNow()));
+        {
+            var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_services.GetDateTimeNow());
+
+            TempData["BrigadeId"] = brigade.Where(x => x.EarlyTermination == true);     
+
+          
+
+            return View(brigade);
         }
 
         // POST: BrigadeForToday/Delete/5

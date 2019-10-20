@@ -204,6 +204,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdOrder" Type="Int32" Nullable="false" />
     <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
+    <Property Name="CalculationStatus" Type="Boolean" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="OrderCarWashWorkers" ToRole="CarWashWorkers" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderCarWashWorkers_OrderServicesCarWash" FromRole="OrderCarWashWorkers" ToRole="OrderServicesCarWash" />
   </EntityType>
@@ -278,7 +279,6 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="Salary" Type="Double" Nullable="false" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_Wage_CarWashWorkers1" FromRole="Wage" ToRole="CarWashWorkers" />
   </EntityType>
   <EntityType Name="logo_mark_car">
@@ -288,6 +288,20 @@
     <Property Name="id_car_mark" Type="Double" Nullable="false" />
     <Property Name="logo_mark" Type="Binary" MaxLength="Max" FixedLength="false" />
     <Property Name="screen_format" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ItogOrderView">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="countOrder" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InterestRate" Type="Int32" />
+    <Property Name="CalculationStatus" Type="Boolean" />
+    <Property Name="Expr1" Type="Double" />
   </EntityType>
   <Association Name="FK_brigadeForToday_CarWashWorkers">
     <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
@@ -553,6 +567,7 @@
     <EntitySet Name="TypeOfCosts" EntityType="Self.TypeOfCosts" />
     <EntitySet Name="Wage" EntityType="Self.Wage" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" />
+    <EntitySet Name="ItogOrderView" EntityType="Self.ItogOrderView" />
     <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
       <End Role="brigadeForToday" EntitySet="brigadeForToday" />

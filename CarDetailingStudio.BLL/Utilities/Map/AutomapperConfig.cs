@@ -16,8 +16,8 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<OrderServicesCarWashBll, OrderServicesCarWash>();
             CreateMap<OrderServicesCarWash, OrderServicesCarWashBll>();
 
-            CreateMap<CarWashWorkersBll, CarWashWorkers>();
-            CreateMap<CarWashWorkers, CarWashWorkersBll>();
+            CreateMap<CarWashWorkersBll, OrderServicesCarWash>();
+            CreateMap<OrderServicesCarWash, CarWashWorkersBll>();
 
             CreateMap<ClientsOfCarWashBll, ClientsOfCarWash>();
             CreateMap<ClientsOfCarWash, ClientsOfCarWashBll>();
@@ -71,6 +71,9 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<WageBll, Wage>();
             CreateMap<Wage, WageBll>();
+
+            CreateMap<OrderInfoViewBll, ItogOrderView>();
+            CreateMap<ItogOrderView, OrderInfoViewBll>();
         }
     }
 }

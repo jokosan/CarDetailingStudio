@@ -1,0 +1,82 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title m-b-0">Income details</h5>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdClientsOfCarWash)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ClosingData)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DiscountPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TotalCostOfAllServices)
+                        </th>
+
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClosingData)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DiscountPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalCostOfAllServices)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-light btn-sm"})
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title m-b-0"></h5>
+                    <div class="pull-right m-t-30 text-right">
+
+                        <h3>Итого к выплате ЗП: @ViewBag.Sum грн.</h3>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="text-right">
+                        <input type="submit" value="CloseOrder" class="btn btn-success preview" id="click" />
+                        @Html.ActionLink("Cansel", "Index", null, new { @class = "btn btn-danger preview" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@ using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class CarWashWorkersServices
+    public class CarWashWorkersServices : ICarWashWorkersServices
     {
         private IUnitOfWork _unitOfWork;
         private BrigadeForTodayBll _brigade;
@@ -25,7 +25,7 @@ namespace CarDetailingStudio.BLL.Services
             _brigade = new BrigadeForTodayBll();
             _automapper = new AutomapperConfig();
         }
-        
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
@@ -42,7 +42,7 @@ namespace CarDetailingStudio.BLL.Services
                 .GetWhere(x => (x.status == "true")
                            && (x.JobTitleTable.Position == "Детейлер")
                            || (x.JobTitleTable.Position == "Мойщик")
-                           || (x.JobTitleTable.Position == "Старший мойщик"))).AsQueryable();
+                           || (x.JobTitleTable.Position == "Старший мойщик")));
         }
 
         public void AddToCurrentShift(FormCollection collection)
@@ -72,11 +72,5 @@ namespace CarDetailingStudio.BLL.Services
 
             return thisDay;
         }
-
-        //public IEnumerable<CarWashWorkersBll> Salary()
-        //{
-        //    var CarWashWorker = Mapper.Map<>
-        //    var SalaryWhare = Mapper.Map<IEnumerable<CarWashWorkers>>(_unitOfWork.WorkersUnitOfWork.GetWhere(x => x.Wage.Contains(x => x.)));
-        //}
     }
 }

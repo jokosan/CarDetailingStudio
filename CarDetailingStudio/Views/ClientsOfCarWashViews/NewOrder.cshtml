@@ -4,6 +4,8 @@
     ViewBag.Title = "NewOrder";
 }
 
+    <link href="~/Content/input.css" rel="stylesheet" />
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -80,7 +82,15 @@
                                     <th>
                                         <label class="customcheckbox">
                                             @*<input type="checkbox" class="listCheckbox" />*@
-                                            <input type="checkbox" name="chkRow" value="@item.Id" />
+                                            @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
+                                            <label class="label">
+                                                <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                                <span class="label__text">
+                                                    <span class="label__check">
+                                                        <i class="fa fa-check icon"></i>
+                                                    </span>
+                                                </span>
+                                            </label>
                                             <span class="checkmark"></span>
                                         </label>
                                     </th>
@@ -138,8 +148,15 @@
                                     <th>
                                         <label class="customcheckbox">
                                             @*<input type="checkbox" class="listCheckbox" />*@
-                                            <input type="checkbox" name="chkRow" value="@item.Id" />
-
+                                            @*<input type="checkbox" name="chkRow" value="@item.Id" />*@
+                                            <label class="label">
+                                                <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                                <span class="label__text">
+                                                    <span class="label__check">
+                                                        <i class="fa fa-check icon"></i>
+                                                    </span>
+                                                </span>
+                                            </label>
                                             <span class="checkmark"></span>
                                         </label>
                                     </th>

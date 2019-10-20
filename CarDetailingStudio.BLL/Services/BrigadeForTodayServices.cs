@@ -1,5 +1,4 @@
 ﻿using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using System;
 using System.Collections.Generic;
@@ -9,25 +8,25 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using CarDetailingStudio.DAL;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class BrigadeForTodayServices
+    public class BrigadeForTodayServices : IBrigadeForTodayServices
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
 
-        public BrigadeForTodayServices()
+        public BrigadeForTodayServices(IUnitOfWork unitOfWork, AutomapperConfig automapper)
         {
-            _unitOfWork = new UnitOfWork();
-            _automapper = new AutomapperConfig();
+            _unitOfWork = unitOfWork;
+            _automapper = automapper;
         }
 
         public IEnumerable<BrigadeForTodayBll> GetDateTimeNow()
         {
             return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeUnitOfWork
                 .GetWhere(x => (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy") && (x.EarlyTermination == true))));
-               
         }
 
         public IEnumerable<BrigadeForTodayBll> Info(int? id)

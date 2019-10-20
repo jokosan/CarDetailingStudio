@@ -6,19 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
+using CarDetailingStudio.BLL.Services.Modules.EmployeeSalary;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.Controllers
 {
     public class CarWashWorkersViewsController : Controller
     {
-        private CarWashWorkersServices _services;
+        private ICarWashWorkersServices _services;
 
-        public CarWashWorkersViewsController(CarWashWorkersServices carWashWorkers)
-        {           
+        public CarWashWorkersViewsController(ICarWashWorkersServices carWashWorkers)
+        {
             _services = carWashWorkers;
         }
 
@@ -26,12 +27,29 @@ namespace CarDetailingStudio.Controllers
         public ActionResult Index()
         {
             var ReirectModel = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetChooseEmployees());
-            return View(ReirectModel);
+
+            if (TempData.ContainsKey("BrigadeId"))
+            {
+                var resultBrigade = TempData["BrigadeId"] as IEnumerable<BrigadeForTodayView>;
+                var result = new List<int>();
+
+                foreach (var i in resultBrigade)
+                    result.Add(i.IdCarWashWorkers.Value); 
+                                              
+              return View(ReirectModel.Where(b => !result.Contains(b.id)));
+            }
+            else
+            
+            {
+                return View(ReirectModel);
+            }
+
         }
 
         [HttpPost]
         public ActionResult Index(FormCollection form)
         {
+        
             _services.AddToCurrentShift(form);
             return Redirect("/Order/Index");
         }
@@ -41,12 +59,6 @@ namespace CarDetailingStudio.Controllers
             var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetStaffAll());
             return View(StaffAll);
         }
-
-        //public ActionResult SalaryPreparation()
-        //{
-        //    var salary = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.Salary());
-        //    return View();
-        //}
 
         #region
         //// GET: CarWashWorkersViews/Details/5

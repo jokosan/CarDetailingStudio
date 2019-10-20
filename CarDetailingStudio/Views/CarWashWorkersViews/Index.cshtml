@@ -1,4 +1,4 @@
-﻿ @model IEnumerable<CarDetailingStudio.Models.ModelViews.CarWashWorkersView>
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.CarWashWorkersView>
 
 @{
     Layout = "~/Views/Shared/_Login.cshtml";
@@ -20,9 +20,17 @@
                     <!-- Comment Row -->
                     <div class="d-flex flex-row comment-row m-t-0">
 
-                        <div class="custom-control custom-checkbox">
-                            <text><input type="checkbox" name="chkRow" value="@item.id" /></text>
-                        </div>
+                        @*<div class="custom-control custom-checkbox">
+                                <text><input type="checkbox" name="chkRow" value="@item.id" /></text>
+                            </div>*@
+                        <label class="label">
+                            <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.id" />
+                            <span class="label__text">
+                                <span class="label__check">
+                                    <i class="fa fa-check icon"></i>
+                                </span>
+                            </span>
+                        </label>
                         <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
 
                         <div class="comment-text w-100">

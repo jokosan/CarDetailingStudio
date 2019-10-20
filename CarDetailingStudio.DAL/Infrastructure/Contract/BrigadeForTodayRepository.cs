@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure.Contract
 {
-    public class BrigadeForTodayRepository : IExtendedRepository<brigadeForToday>, IGetRepository<brigadeForToday>
+    public class BrigadeForTodayRepository : IGetRepository<brigadeForToday>, IExtendedRepository<brigadeForToday> 
     {
         internal carWashEntities _context;
 

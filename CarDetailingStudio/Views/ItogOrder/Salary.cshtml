@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderInfoViewModel>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title m-b-0">Salary</h5>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.countOrder)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Surname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Patronymic)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MobilePhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.InterestRate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Expr1)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.countOrder)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Patronymic)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MobilePhone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InterestRate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Expr1)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "../Salary/InfoSalary", new { id = item.id, InterestRate = item.InterestRate }, new { @class = "btn btn-light btn-sm"})
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title m-b-0"></h5>
+                    <div class="pull-right m-t-30 text-right">
+                  
+                            <h3>Итого к выплате ЗП: @Math.Ceiling(ViewBag.Sum) грн.</h3>
+                        
+                 </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="text-right">
+                        <input type="submit" value="CloseOrder" class="btn btn-success preview" id="click" />
+                        @Html.ActionLink("Cansel", "Index", null, new { @class = "btn btn-danger preview" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

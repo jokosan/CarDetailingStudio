@@ -191,6 +191,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
           <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
+          <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -260,7 +261,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
           <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="Salary" ColumnName="Salary" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -270,6 +270,21 @@
           <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
           <ScalarProperty Name="logo_mark" ColumnName="logo_mark" />
           <ScalarProperty Name="screen_format" ColumnName="screen_format" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItogOrderView">
+      <EntityTypeMapping TypeName="carWashModel.ItogOrderView">
+        <MappingFragment StoreEntitySet="ItogOrderView">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="countOrder" ColumnName="countOrder" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+          <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

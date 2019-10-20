@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
-    public class OrderServicesCarWashRepository :  IGetRepository<OrderServicesCarWash>, IExtendedRepository<OrderServicesCarWash>
+    public class OrderServicesCarWashRepository : IOrderServicesCarWashRepository
     {
-        internal carWashEntities _context;        
+        internal carWashEntities _context;
 
         public OrderServicesCarWashRepository(carWashEntities entities)
         {
@@ -30,6 +30,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                        .Include("ClientsOfCarWash.car_model")
                                                        .Include("ClientsOfCarWash.car_mark")
                                                        .Include("ClientsOfCarWash.CarBody")
+                                                       .Include("OrderCarWashWorkers.CarWashWorkers")
                                                        .FirstOrDefault(x => x.Id == id);
             return result;
         }
@@ -45,5 +46,17 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                        .Where(predicate);
             return result;
         }
+
+        public IEnumerable<OrderServicesCarWash> QueryObjectGraph(Expression<Func<OrderServicesCarWash, bool>> filter)
+        {
+            var result = _context.OrderServicesCarWash.Include("OrderCarWashWorkers")
+                                                      .Include("OrderCarWashWorkers.CarWashWorkers")
+                                                      .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
+                                                       .Where(filter);
+            return result;
+        }
+
+
+
     }
 }

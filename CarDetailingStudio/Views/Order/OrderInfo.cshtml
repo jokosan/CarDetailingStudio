@@ -76,7 +76,7 @@
                                     </td>
                                     <td>
                                         <input type="submit" value="ServicesDelete" class="btn btn-danger btn-sm" />
-                                        <input value=@item.Id name="id" type="hidden" />
+                                        <input value=@item.Id name="idServices" type="hidden" />
                                         <input value=@item.IdOrderServicesCarWash name="idOrder" type="hidden" />
                                     </td>
                                 </tr>
@@ -93,7 +93,7 @@
         {
     <div class="text-right">
 
-        <input value=@Model.Id name="OrderDelete" type="hidden" />
+        <input value=@Model.Id name="idOrder" type="hidden" />
         <input class="btn btn-danger" type="submit" id="btnCreate" value="OrderDelete" @Url.Action("Index", "Order") />
         @Html.ActionLink("EditOrder", "Index", null, new { @class = "btn btn-warning" })
         @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })

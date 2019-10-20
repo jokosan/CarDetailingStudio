@@ -1,5 +1,4 @@
 ﻿using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
@@ -9,15 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.DAL;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class ServisesCarWashOrderServices : IServices<ServisesCarWashOrderBll>
+    public class ServisesCarWashOrderServices : IServisesCarWashOrderServices
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
 
-        public ServisesCarWashOrderServices(UnitOfWork unitOfWork, AutomapperConfig automapper)
+        public ServisesCarWashOrderServices(IUnitOfWork unitOfWork, AutomapperConfig automapper)
         {
             _unitOfWork = unitOfWork;
             _automapper = automapper;
@@ -46,15 +46,32 @@ namespace CarDetailingStudio.BLL.Services
                     IdClientsOfCarWash = idClient,
                     IdOrderServicesCarWash = idOrder,
                     IdWashServices = item.IdWashServices,
-                    Price = item.Price                    
+                    Price = item.Price
                 });
             }
         }
 
-        public void ServicesDelete(int id)
+        public void ServicesDelete(int id, string NameClass)
         {
-            _unitOfWork.ServisesCarWashOrderUnitOfWork.Delete(id);
-            _unitOfWork.Save();
+            if (NameClass == "OrderController")
+            {
+                _unitOfWork.ServisesCarWashOrderUnitOfWork.Delete(id);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                var resultId = Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(_unitOfWork.ServisesUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == id));
+
+                foreach (var x in resultId)
+                {
+                    _unitOfWork.ServisesCarWashOrderUnitOfWork.Delete(x.Id);
+                    _unitOfWork.Save();
+                }
+            }
+            
+        
         }
+
+        
     }
 }

@@ -17,7 +17,6 @@ namespace CarDetailingStudio.DAL
         public int Id { get; set; }
         public int IdCarWashWorkers { get; set; }
         public System.DateTime Date { get; set; }
-        public double Salary { get; set; }
     
         public virtual CarWashWorkers CarWashWorkers { get; set; }
     }

@@ -187,6 +187,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdOrder" Type="int" Nullable="false" />
     <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
+    <Property Name="CalculationStatus" Type="bit" />
   </EntityType>
   <EntityType Name="OrderServicesCarWash">
     <Key>
@@ -249,7 +250,22 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="Salary" Type="float" Nullable="false" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "carWash.dbo.ItogOrderView" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="ItogOrderView">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="countOrder" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+    <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="InterestRate" Type="int" />
+    <Property Name="CalculationStatus" Type="bit" />
+    <Property Name="Expr1" Type="float" />
   </EntityType>
   <Association Name="FK_brigadeForToday_CarWashWorkers">
     <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
@@ -520,6 +536,19 @@
     [logo_mark_car].[logo_mark] AS [logo_mark], 
     [logo_mark_car].[screen_format] AS [screen_format]
     FROM [dbo].[logo_mark_car] AS [logo_mark_car]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ItogOrderView" EntityType="Self.ItogOrderView" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ItogOrderView].[id] AS [id], 
+    [ItogOrderView].[countOrder] AS [countOrder], 
+    [ItogOrderView].[Name] AS [Name], 
+    [ItogOrderView].[Surname] AS [Surname], 
+    [ItogOrderView].[Patronymic] AS [Patronymic], 
+    [ItogOrderView].[MobilePhone] AS [MobilePhone], 
+    [ItogOrderView].[InterestRate] AS [InterestRate], 
+    [ItogOrderView].[CalculationStatus] AS [CalculationStatus], 
+    [ItogOrderView].[Expr1] AS [Expr1]
+    FROM [dbo].[ItogOrderView] AS [ItogOrderView]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />

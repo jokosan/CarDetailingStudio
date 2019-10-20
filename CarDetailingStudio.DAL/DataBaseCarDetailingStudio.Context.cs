@@ -18,6 +18,8 @@ namespace CarDetailingStudio.DAL
         public carWashEntities()
             : base("name=carWashEntities")
         {
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -48,5 +50,6 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<TypeOfCosts> TypeOfCosts { get; set; }
         public virtual DbSet<Wage> Wage { get; set; }
         public virtual DbSet<logo_mark_car> logo_mark_car { get; set; }
+        public virtual DbSet<ItogOrderView> ItogOrderView { get; set; }
     }
 }

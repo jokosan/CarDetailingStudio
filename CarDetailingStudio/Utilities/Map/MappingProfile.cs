@@ -74,6 +74,9 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<WageView, WageBll>();
             CreateMap<WageBll, WageView>();
 
+            CreateMap<OrderInfoViewModel, OrderInfoViewBll>();
+            CreateMap<OrderInfoViewBll, OrderInfoViewModel>();
+
         }
     }
 }

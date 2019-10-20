@@ -1,0 +1,29 @@
+﻿using CarDetailingStudio.BLL.Services;
+using CarDetailingStudio.BLL.Services.Filters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace CarDetailingStudio.Filters
+{
+    public class MonitoringTheNumberOfEmployeesFilter : ActionFilterAttribute
+    {
+        public override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            TeamMonitoringFilters team = new TeamMonitoringFilters();
+
+            if (team.Monitoring() == 0)
+            {
+                filterContext.Result = new RedirectToRouteResult(
+                      new RouteValueDictionary
+                      {
+                            { "controller", "CarWashWorkersViews" },
+                            { "action", "Index" }
+                      });
+            }
+        }
+    }
+}

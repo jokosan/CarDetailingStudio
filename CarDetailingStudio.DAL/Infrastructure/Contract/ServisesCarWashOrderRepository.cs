@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure.Contract
 {
-    public class ServisesCarWashOrderRepository : IGetRepository<ServisesCarWashOrder>, IExtendedRepository<ServisesCarWashOrder>
+    public class ServisesCarWashOrderRepository : IServisesCarWashOrderRepository
     {
         internal carWashEntities _context;
 
@@ -21,7 +21,7 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
                                                             .Include("Detailings.GroupWashServices")
                                                             .Include("OrderServicesCarWash")
                                                             .Include("OrderServicesCarWash.ClientsOfCarWash");
-                                                            
+
             return GetAllResult;
         }
 
@@ -30,7 +30,7 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
             var GetIdResult = _context.ServisesCarWashOrder.Include("Detailings")
                                                            .Include("Detailings.GroupWashServices")
                                                            .Include("OrderServicesCarWash")
-                                                           .Include("OrderServicesCarWash.ClientsOfCarWash")                                                          
+                                                           .Include("OrderServicesCarWash.ClientsOfCarWash")
                                                            .FirstOrDefault(x => x.Id == id);
             return GetIdResult;
         }
@@ -40,7 +40,7 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
             var GetWhereResult = _context.ServisesCarWashOrder.Include("Detailings")
                                                            .Include("Detailings.GroupWashServices")
                                                            .Include("OrderServicesCarWash")
-                                                           .Include("OrderServicesCarWash.ClientsOfCarWash")                                                                                                         
+                                                           .Include("OrderServicesCarWash.ClientsOfCarWash")
                                                            .Where(predicate);
             return GetWhereResult;
         }

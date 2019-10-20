@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure.Contract
 {
-    public interface ISingleRepository : IExtendedRepository<OrderServicesCarWash>
+    public interface ISingleRepository<T> where T : class
     {
-        IEnumerable<OrderServicesCarWash> QueryObjectGraph(Expression<Func<OrderServicesCarWash, bool>> filter);
+        IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter);
     }
 }

@@ -8,10 +8,11 @@ using System.Web.Mvc;
 using AutoMapper;
 using System.Linq.Expressions;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.BLL.Services.Modules
 {
-    public class OrderServices
+    public class OrderServices : IOrderServices
     {
         private IUnitOfWork _unitOfWork;
 
@@ -36,7 +37,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
         }
 
         public void IdOrderServices(FormCollection collection)
-        {    
+        {
             IdOrders.Clear();
 
             string IdNewOrder = collection[0];

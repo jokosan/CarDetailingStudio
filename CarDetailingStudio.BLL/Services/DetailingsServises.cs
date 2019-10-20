@@ -12,7 +12,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 
 namespace CarDetailingStudio.BLL.Services
 {
-    public class DetailingsServises
+    public class DetailingsServises : IDetailingsServises
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
@@ -26,7 +26,7 @@ namespace CarDetailingStudio.BLL.Services
         }
 
         public IEnumerable<DetailingsBll> GetAll()
-        { 
+        {
             return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
         }
 
@@ -41,12 +41,13 @@ namespace CarDetailingStudio.BLL.Services
             {
                 _apiPrivatBank.ApiPrivat();
                 var ApiCurrency = ExchangeRates.ExchangeRatesList.Where(x => x.ccy == "USD").Single();
-              
+
                 List<DetailingsBll> detailings = new List<DetailingsBll>();
 
                 foreach (var currencyUsd in All.Where(us => us.currency == "us"))
-                {                   
-                    detailings.Add(new DetailingsBll { 
+                {
+                    detailings.Add(new DetailingsBll
+                    {
                         Id = currencyUsd.Id,
                         services_list = currencyUsd.services_list,
                         validity = currencyUsd.validity,
@@ -59,8 +60,8 @@ namespace CarDetailingStudio.BLL.Services
                         status = currencyUsd.status,
                         currency = currencyUsd.currency,
                         mark = currencyUsd.mark,
-                        IdGroupWashServices = currencyUsd.IdGroupWashServices                        
-                    });                   
+                        IdGroupWashServices = currencyUsd.IdGroupWashServices
+                    });
                 }
 
                 var result = All.Where(ua => ua.currency == "ua").Concat(detailings);
@@ -70,10 +71,10 @@ namespace CarDetailingStudio.BLL.Services
             else
             {
                 return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
-            }          
+            }
         }
 
         public double? ConvertCurrency(double? usd, double privat) => usd * privat;
-       
+
     }
 }

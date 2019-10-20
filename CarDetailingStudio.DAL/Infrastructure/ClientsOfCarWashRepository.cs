@@ -35,5 +35,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
             return GetId;
 
         }
+
+     
     }
 }

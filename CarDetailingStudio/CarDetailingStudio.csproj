@@ -212,6 +212,9 @@
     <Compile Include="Controllers\DetailingsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ItogOrderController.cs" />
+    <Compile Include="Controllers\SalaryController.cs" />
+    <Compile Include="Filters\MonitoringTheNumberOfEmployeesFilter.cs" />
     <Compile Include="Filters\WorkShiftFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -259,6 +262,7 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\car-wash-workers.css" />
     <Content Include="Content\form.css" />
+    <Content Include="Content\input.css" />
     <Content Include="Content\MatrixAdminCSS\animation.css" />
     <Content Include="Content\MatrixAdminCSS\asColorPicker.min.css" />
     <Content Include="Content\MatrixAdminCSS\bootstrap-datepicker.min.css" />
@@ -333,6 +337,7 @@
     <Content Include="Content\MatrixAdminCSS\weather-icons.css" />
     <Content Include="Content\MatrixAdminCSS\weather-icons.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Table.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1064,6 +1069,8 @@
     <Content Include="Views\CarWashWorkersViews\Staff.cshtml" />
     <Content Include="Views\Detailings\EditOrder.cshtml" />
     <Content Include="Views\Order\OrderReport.cshtml" />
+    <Content Include="Views\Salary\InfoSalary.cshtml" />
+    <Content Include="Views\ItogOrder\Salary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

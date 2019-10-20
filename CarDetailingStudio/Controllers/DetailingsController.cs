@@ -10,29 +10,22 @@ using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
-using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.Controllers
 {
     public class DetailingsController : Controller
     {
-        private DetailingsServises _detailings;
-        private ServisesCarWashOrderServices _services;
+        private IDetailingsServises _detailings;
 
-        public DetailingsController(DetailingsServises detailings)
+        public DetailingsController(IDetailingsServises detailings)
         {
             _detailings = detailings;
         }
-
-        private int PageSize = 10;
-
+            
         // GET: Detailings
         public ActionResult PriceList(int page = 1)
         {
-            //return View(Mapper.Map<IEnumerable<DetailingsView>>(_services.GetAll()
-            //    .Skip((page - 1) * PageSize)
-            //    .Take(PageSize)));
-
             return View(Mapper.Map<IEnumerable<DetailingsView>>(_detailings.GetAll()));
         }
 

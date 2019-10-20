@@ -136,7 +136,6 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDe
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.Razor.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.WebPages.xml
-C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Microsoft.Web.Infrastructure.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\de\DevExpress.Data.v19.1.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\es\DevExpress.Data.v19.1.resources.dll
@@ -148,9 +147,12 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDe
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\DevExpress.Xpo.v19.1.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\EntityFramework.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
-C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.Mvc.resources.dll
-C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.Razor.resources.dll
-C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.WebPages.Razor.resources.dll
-C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.WebPages.resources.dll
-C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\obj\Debug\CarDetailingStudio.BLL.csproj.CopyComplete
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.dll
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.WebHost.dll
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Mvc.dll
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.Helpers.dll
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.xml
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.WebHost.xml
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Mvc.xml
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.Helpers.xml

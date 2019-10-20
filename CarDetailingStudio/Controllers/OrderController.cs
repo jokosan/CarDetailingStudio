@@ -13,18 +13,19 @@ using AutoMapper;
 using CarDetailingStudio.Filters;
 using System.Threading.Tasks;
 using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.Controllers
 {
     // [WorkShiftFilter]
     public class OrderController : Controller
     {
-        private OrderServicesCarWashServices _order;
-        private ServisesCarWashOrderServices _servisesCarWash;
-        private BrigadeForTodayServices _brigade;
-        private OrderServices _orderServices;
+        private IOrderServicesCarWashServices _order;
+        private IServisesCarWashOrderServices _servisesCarWash;
+        private IBrigadeForTodayServices _brigade;
+        private IOrderServices _orderServices;
 
-        public OrderController(OrderServicesCarWashServices orderServices, ServisesCarWashOrderServices servises, BrigadeForTodayServices brigade, OrderServices orderSer)
+        public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises, IBrigadeForTodayServices brigade, OrderServices orderSer)
         {
             _order = orderServices;
             _servisesCarWash = servises;
@@ -35,12 +36,14 @@ namespace CarDetailingStudio.Controllers
         private double? Price;
 
         // GET: Order
+        [WorkShiftFilter]
+        [MonitoringTheNumberOfEmployeesFilter]
         public ActionResult Index()
         {
             var RedirectModel = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1));
             return View(RedirectModel);
         }
-
+              
         // GET: Order/Details/5
         public ActionResult OrderInfo(int? id)
         {
@@ -62,16 +65,25 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost, ActionName("OrderInfo")]
-        [ValidateAntiForgeryToken]
-        public ActionResult ServicesDelete(int id, int idOrder)
+        //[ValidateAntiForgeryToken]
+        public ActionResult ServicesDelete( int idOrder, int idServices = 0)
         {
-            _servisesCarWash.ServicesDelete(id);
-            _order.RecountOrder(idOrder);
-
-            return RedirectToAction("OrderInfo");         
+            if (idServices != 0)
+            {
+                _servisesCarWash.ServicesDelete(idServices, nameof(OrderController));
+                _order.RecountOrder(idOrder);
+                return RedirectToAction("OrderInfo");
+            }
+            else
+            {
+                _order.DeleteOrder(idOrder);
+                return RedirectToAction("Index");
+            }
         }
         
         [HttpGet]
+        [WorkShiftFilter]
+        [MonitoringTheNumberOfEmployeesFilter]
         public ActionResult CloseOrder(int? id)
         {
             if (id == null)
@@ -144,6 +156,8 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Date = $"Выборка заказов за период с {startDate.ToString("dd.MM.yyyy")} по {finalDate.ToString("dd.MM.yyyy")} ";
             return View(OrderWhere);
         }
+
+     
 
         #region
         //// GET: Order/Details/5

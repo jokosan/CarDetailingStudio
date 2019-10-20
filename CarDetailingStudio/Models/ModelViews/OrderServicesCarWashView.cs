@@ -27,7 +27,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<System.DateTime> ClosingData { get; set; }
         public Nullable<double> TotalCostOfAllServices { get; set; }
-        public Nullable<double> DiscountPrice { get; set; }         
+        public Nullable<double> DiscountPrice { get; set; }
 
         public virtual ClientsOfCarWashView ClientsOfCarWash { get; set; }
         public virtual PaymentStateView PaymentState1 { get; set; }

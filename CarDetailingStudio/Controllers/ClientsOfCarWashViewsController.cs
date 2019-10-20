@@ -7,22 +7,23 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CarDetailingStudio.BLL.Services;
-using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.Filters;
 
 namespace CarDetailingStudio.Controllers
 {
     public class ClientsOfCarWashViewsController : Controller
     {
-        private ClientsOfCarWashServices _services;
-        private DetailingsServises _detailings;
-        private OrderServices _orderServices;
-        private OrderServicesCarWashServices _orderServicesInsert;
+        private IClientsOfCarWashServices _services;
+        private IDetailingsServises _detailings;
+        private IOrderServices _orderServices;
+        private IOrderServicesCarWashServices _orderServicesInsert;
 
-        public ClientsOfCarWashViewsController(ClientsOfCarWashServices clients, DetailingsServises detailingsView, OrderServices order, OrderServicesCarWashServices orderServices)
+        public ClientsOfCarWashViewsController(IClientsOfCarWashServices clients, IDetailingsServises detailingsView, IOrderServices order, IOrderServicesCarWashServices orderServices)
         {
             _services = clients;
             _detailings = detailingsView;
@@ -75,6 +76,7 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost]
+        [WorkShiftFilter]
         public ActionResult NewOrder(FormCollection form)
         {
             _orderServices.IdOrderServices(form);
@@ -84,6 +86,7 @@ namespace CarDetailingStudio.Controllers
             return RedirectToRoute(new { controller = "ClientsOfCarWashViews", action = "OrderPreview" });
         }
 
+ 
         public ActionResult OrderPreview()
         {
             var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(OrderServices.idClient));

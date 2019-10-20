@@ -18,12 +18,13 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         DbRepository<ClientsOfCarWash> ClientsOfCarWashUnitOfWork { get; set; }
         DbRepository<brigadeForToday> BrigadeForTodayUnitOfWork { get; set; }
-        DbRepository<CarWashWorkers> CarWashWorkersUnitOfWork { get; set; }
+        DbRepository<OrderServicesCarWash> CarWashWorkersUnitOfWork { get; set; }
         DbRepository<OrderServicesCarWash> OrderServicesCarWashUnitOfWork { get; set; }
-        DbRepository<JobTitleTable> JobTitleTableUnitOfWork { get; set; }        
+        DbRepository<JobTitleTable> JobTitleTableUnitOfWork { get; set; }
         DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUnitOfWork { get; set; }
         DbRepository<Detailings> DetailingsUnitOfWork { get; set; }
         DbRepository<OrderCarWashWorkers> OrderCarWasWorkersUnitOFWork { get; set; }
+        DbRepository<Costs> CostsUnitOfWork { get; set; }
 
         // SingleRepository
 
@@ -32,6 +33,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         CarWashWorkersRepository WorkersUnitOfWork { get; set; }
         BrigadeForTodayRepository BrigadeUnitOfWork { get; set; }
         ServisesCarWashOrderRepository ServisesUnitOfWork { get; set; }
+        OrderInfoViewRepository OrderInfoUnitOfWork { get; set; }
     }
 
 }

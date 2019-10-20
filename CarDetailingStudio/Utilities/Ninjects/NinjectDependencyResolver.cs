@@ -1,5 +1,4 @@
-﻿using CarDetailingStudio.BLL.Services;
-using CarDetailingStudio.BLL.Services.Modules;
+﻿using CarDetailingStudio.BLL.Utilities.Ninject;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -17,11 +16,17 @@ namespace CarDetailingStudio.Utilities.Ninjects
         {
             kernel = kernalParam;
             AddBindings();
+            InitializeBindings(kernel);
         }
 
         public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
+        }
+
+        public static void InitializeBindings(IKernel kernel)
+        {
+            NinjectDependencyResolverBll.Initialize(kernel);
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
@@ -30,12 +35,7 @@ namespace CarDetailingStudio.Utilities.Ninjects
         }
         private void AddBindings()
         {
-            kernel.Bind<OrderServicesCarWashServices>().To<OrderServicesCarWashServices>();
-            kernel.Bind<CarWashWorkersServices>().To<CarWashWorkersServices>();
-            kernel.Bind<ClientsOfCarWashServices>().To<ClientsOfCarWashServices>();
-            kernel.Bind<BrigadeForTodayServices>().To<BrigadeForTodayServices>();
-            kernel.Bind<OrderServices>().To<OrderServices>();
-            kernel.Bind<ServisesCarWashOrderServices>().To<ServisesCarWashOrderServices>();
+          
         }
     }
 }
