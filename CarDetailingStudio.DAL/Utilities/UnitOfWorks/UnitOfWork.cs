@@ -19,13 +19,23 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         private DbRepository<ClientsOfCarWash> ClientsOfCarWashUW;
         private DbRepository<brigadeForToday> BrigadeForTodayUW;
-        private DbRepository<OrderServicesCarWash> CarWashWorkersUW;
+        private DbRepository<CarWashWorkers> CarWashWorkersUW;
         private DbRepository<OrderServicesCarWash> OrderServicesCarWashUW;
         private DbRepository<JobTitleTable> JobTitleTableUW;
         private DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUW;
         private DbRepository<Detailings> DetailingsUW;
         private DbRepository<OrderCarWashWorkers> OrderCarWashWorkersUW;
         private DbRepository<Costs> CostsUW;
+        private DbRepository<car_model> CarModelUW;
+        private DbRepository<car_mark> CarMarkUW;
+        private DbRepository<CarBody> CarBodyUW;
+        private DbRepository<Wage> WageUW;
+        private DbRepository<infoBrigadeForToday> InfoBrigadeUW;
+        private DbRepository<ExchangeRates> ExchangeRatesUW;
+        private DbRepository<GroupWashServices> GroupWashServicesUW;
+        private DbRepository<Retail> RetailUW;
+        private DbRepository<ClientsGroups> ClientsGrupsUW;
+        private DbRepository<ClientInfo> ClientInfoUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -33,6 +43,67 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
+        
+        
+        public DbRepository<ClientInfo> ClientInfoUnitOfWork
+        {
+            get { return ClientInfoUW ?? (ClientInfoUW = new DbRepository<ClientInfo>(_entities)); }
+            set { ClientInfoUW = value; }
+        }
+
+        public DbRepository<ClientsGroups> ClientsGroupsUnitOfWork
+        {
+            get { return ClientsGrupsUW ?? (ClientsGrupsUW = new DbRepository<ClientsGroups>(_entities)); }
+            set { ClientsGrupsUW = value; }
+        }
+
+        public DbRepository<Retail> RatailUnitOfWork
+        {
+            get { return RetailUW ?? (RetailUW = new DbRepository<Retail>(_entities)); }
+            set { RetailUW = value; }
+        }
+        
+        public DbRepository<GroupWashServices> GroupWashServicesUnitOfWork
+        {
+            get { return GroupWashServicesUW ?? (GroupWashServicesUW = new DbRepository<GroupWashServices>(_entities)); }
+            set { GroupWashServicesUW = value; }
+        }
+
+        public DbRepository<ExchangeRates> ExchangeRatesUnitOfWork
+        {
+            get { return ExchangeRatesUW ?? (ExchangeRatesUW = new DbRepository<ExchangeRates>(_entities));}
+            set { ExchangeRatesUW = value; }
+        }
+
+        public DbRepository<infoBrigadeForToday> infoBrigadeUnitOfWork
+        {
+            get { return InfoBrigadeUW ?? (InfoBrigadeUW = new DbRepository<infoBrigadeForToday>(_entities)); }
+            set { InfoBrigadeUW = value; }
+        }
+
+        public DbRepository<Wage> WageUnitOfWork
+        {
+            get { return WageUW ?? (WageUW = new DbRepository<Wage>(_entities)); }
+            set { WageUW = value; }
+        }
+
+        public DbRepository<CarBody> CarBodyUnitOfWork
+        {
+            get { return CarBodyUW ?? (CarBodyUW = new DbRepository<CarBody>(_entities)); }
+            set { CarBodyUW = value; }
+        }
+
+        public DbRepository<car_model> CarModelUnitOfWork
+        {
+            get { return CarModelUW ?? (CarModelUW = new DbRepository<car_model>(_entities)); }
+            set { CarModelUW = value; }
+        }
+
+        public DbRepository<car_mark> CarMarkUnitOfWork
+        {
+            get { return CarMarkUW ?? (CarMarkUW = new DbRepository<car_mark>(_entities)); }
+            set { CarMarkUW = value; }
+        }
 
         public OrderInfoViewRepository OrderInfoUnitOfWork
         {
@@ -166,13 +237,13 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         }
 
-        public DbRepository<OrderServicesCarWash> CarWashWorkersUnitOfWork
+        public DbRepository<CarWashWorkers> CarWashWorkersUnitOfWork
         {
             get
             {
                 if (CarWashWorkersUW == null)
                 {
-                    CarWashWorkersUW = new DbRepository<OrderServicesCarWash>(_entities);
+                    CarWashWorkersUW = new DbRepository<CarWashWorkers>(_entities);
                 }
 
                 return CarWashWorkersUW;

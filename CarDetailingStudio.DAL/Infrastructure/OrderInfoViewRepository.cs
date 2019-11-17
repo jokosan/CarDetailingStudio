@@ -23,7 +23,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public ItogOrderView GetById(int? id)
         {
-            throw new NotImplementedException();
+            return _context.ItogOrderView.FirstOrDefault(x => x.id == id);
         }
     }
 }

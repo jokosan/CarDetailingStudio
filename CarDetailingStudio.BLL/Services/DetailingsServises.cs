@@ -9,6 +9,7 @@ using AutoMapper;
 using System.Threading.Tasks;
 using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -16,13 +17,13 @@ namespace CarDetailingStudio.BLL.Services
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
-        private ApiPrivatBank _apiPrivatBank;
+        private IApiPrivatBank _apiPrivatBank;
 
-        public DetailingsServises()
+        public DetailingsServises(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig, IApiPrivatBank apiPrivatBank)
         {
-            _unitOfWork = new UnitOfWork();
-            _automapper = new AutomapperConfig();
-            _apiPrivatBank = new ApiPrivatBank();
+            _unitOfWork = unitOfWork;
+            _automapper = automapperConfig;
+            _apiPrivatBank = apiPrivatBank;
         }
 
         public IEnumerable<DetailingsBll> GetAll()
@@ -30,17 +31,36 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
         }
 
+        public DetailingsBll GetId(int? id)
+        {
+            return Mapper.Map<DetailingsBll>(_unitOfWork.DetailingsUnitOfWork.GetById(id));
+        }
+
+        public void AddNewServices(DetailingsBll prive)
+        {
+            Detailings detailings = Mapper.Map<DetailingsBll, Detailings>(prive);
+            _unitOfWork.DetailingsUnitOfWork.Insert(detailings);
+            _unitOfWork.Save();
+        }
+
+        public void UpdateServices(DetailingsBll updateServices)
+        {
+            Detailings detailings = Mapper.Map<DetailingsBll, Detailings>(updateServices);
+            _unitOfWork.DetailingsUnitOfWork.Update(detailings);
+            _unitOfWork.Save();
+        }
+
         public IEnumerable<DetailingsBll> Converter()
         {
-
             var All = GetAll();
 
             var usdTrue = All.Any(us => us.currency == "us");
 
             if (usdTrue)
             {
-                _apiPrivatBank.ApiPrivat();
-                var ApiCurrency = ExchangeRates.ExchangeRatesList.Where(x => x.ccy == "USD").Single();
+                // var ApiCurrency = ApiPrivatBank.exchangeRatesModel.Where(x => x.ccy == "USD").Single();
+
+                var ApiCurrency = SourceOfChoice();
 
                 List<DetailingsBll> detailings = new List<DetailingsBll>();
 
@@ -52,15 +72,17 @@ namespace CarDetailingStudio.BLL.Services
                         services_list = currencyUsd.services_list,
                         validity = currencyUsd.validity,
                         note = currencyUsd.note,
-                        S = ConvertCurrency(currencyUsd.S, ApiCurrency.buy),
-                        M = ConvertCurrency(currencyUsd.S, ApiCurrency.buy),
-                        L = ConvertCurrency(currencyUsd.S, ApiCurrency.buy),
-                        XL = ConvertCurrency(currencyUsd.S, ApiCurrency.buy),
+
+                        S = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
+                        M = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
+                        L = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
+                        XL = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
                         group = currencyUsd.group,
                         status = currencyUsd.status,
                         currency = currencyUsd.currency,
                         mark = currencyUsd.mark,
-                        IdGroupWashServices = currencyUsd.IdGroupWashServices
+                        IdGroupWashServices = currencyUsd.IdGroupWashServices,
+                        IdTypeService = currencyUsd.IdTypeService
                     });
                 }
 
@@ -72,6 +94,22 @@ namespace CarDetailingStudio.BLL.Services
             {
                 return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
             }
+        }
+
+        public ExchangeRatesBll SourceOfChoice()
+        {        
+
+            if (ApiPrivatBank.exchangeRatesModel.Count != 0)
+            {
+                return ApiPrivatBank.exchangeRatesModel.Where(x => x.ccy == "USD").Single();
+            }
+            else
+            {
+                var Result = Mapper.Map<IEnumerable<ExchangeRatesBll>>(_unitOfWork.ExchangeRatesUnitOfWork.GetWhere(x => x.ccy == "USD"));
+
+                return Result.Single();
+            }         
+            
         }
 
         public double? ConvertCurrency(double? usd, double privat) => usd * privat;

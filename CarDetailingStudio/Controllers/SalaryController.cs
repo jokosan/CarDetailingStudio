@@ -37,6 +37,7 @@ namespace CarDetailingStudio.Controllers
             return View(SalaryResult);
         }
 
+
       
     }
 }

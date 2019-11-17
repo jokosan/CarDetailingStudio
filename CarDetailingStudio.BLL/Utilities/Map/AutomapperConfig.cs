@@ -40,10 +40,8 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<CarMarkBll, car_mark>();
             CreateMap<car_mark, CarMarkBll>();
 
-            CreateMap<CarModelBll, car_model>()
-                .ForMember(t => t.car_generation, opt => opt.Ignore());
-            CreateMap<car_model, CarModelBll>()
-                .ForMember(t => t.car_generation, opt => opt.Ignore());
+            CreateMap<CarModelBll, car_model>();
+            CreateMap<car_model, CarModelBll>();
 
             CreateMap<CarModificationBll, car_modification>();
             CreateMap<car_modification, CarModificationBll>();
@@ -74,6 +72,46 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<OrderInfoViewBll, ItogOrderView>();
             CreateMap<ItogOrderView, OrderInfoViewBll>();
+
+            CreateMap<CarBodyBll, CarBody>();
+            CreateMap<CarBody, CarBodyBll>();
+
+            CreateMap<RetailBll, Retail>();
+            CreateMap<Retail, RetailBll>();
+
+            CreateMap<PurchaseCostsBll, PurchaseCosts>();
+            CreateMap<PurchaseCosts, PurchaseCostsBll>();
+
+            CreateMap<TireStorageBll, TireStorage>();
+            CreateMap<TireStorage, TireStorageBll>();
+
+            CreateMap<TireStorageServicesBll, TireStorageServices>();
+            CreateMap<TireStorageServices, TireStorageServicesBll>();
+
+            CreateMap<ExchangeRatesBll, ExchangeRates>();
+            CreateMap<ExchangeRates, ExchangeRatesBll>();
+
+            CreateMap<InfoBrigadeForTodayBll, infoBrigadeForToday>();
+            CreateMap<infoBrigadeForToday, InfoBrigadeForTodayBll>();
+
+            CreateMap<ClientInfoBll, ClientInfo>();
+            CreateMap<ClientInfo, ClientInfoBll>();
+
+            CreateMap<GroupWashServicesBll, GroupWashServices>();
+            CreateMap<GroupWashServices, GroupWashServicesBll>();
+
+            CreateMap<RetailBll, Retail>();
+            CreateMap<Retail, RetailBll>();
+
+
+            
+
+
+
+
+
+
+
         }
     }
 }

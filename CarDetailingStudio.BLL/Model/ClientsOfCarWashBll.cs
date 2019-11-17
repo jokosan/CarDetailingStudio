@@ -11,29 +11,24 @@ namespace CarDetailingStudio.BLL.Model
         public ClientsOfCarWashBll()
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWashBll>();
+            this.TireStorage = new HashSet<TireStorageBll>();
         }
 
-        public int ib { get; set; }
-        public string Surname { get; set; }
-        public string Name { get; set; }
-        public string PatronymicName { get; set; }
-        public string phone { get; set; }
-        public Nullable<System.DateTime> DateRegistration { get; set; }
-        public string Email { get; set; }
-        public Nullable<int> discont { get; set; }
-        public string Recommendation { get; set; }
-        public string NumderCar { get; set; }
+        public int id { get; set; }
         public Nullable<int> IdClientsGroups { get; set; }
-        public Nullable<int> Idmark { get; set; }
-        public Nullable<int> Idmodel { get; set; }
+        public Nullable<int> IdMark { get; set; }
+        public Nullable<int> IdModel { get; set; }
         public Nullable<int> IdBody { get; set; }
-        public string note { get; set; }
-        public string barcode { get; set; }
+        public Nullable<int> IdInfoClient { get; set; }
+        public string NumberCar { get; set; }
+        public Nullable<int> discont { get; set; }
 
         public virtual CarMarkBll car_mark { get; set; }
-        public virtual CarModelBll car_model { get; set; }
+        public virtual  CarModelBll car_model { get; set; }
         public virtual CarBodyBll CarBody { get; set; }
+        public virtual ClientInfoBll ClientInfo { get; set; }
         public virtual ClientsGroupsBll ClientsGroups { get; set; }
         public virtual ICollection<OrderServicesCarWashBll> OrderServicesCarWash { get; set; }
+        public virtual ICollection<TireStorageBll> TireStorage { get; set; }
     }
 }

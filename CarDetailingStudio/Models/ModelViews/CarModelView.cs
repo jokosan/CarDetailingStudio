@@ -13,6 +13,7 @@ namespace CarDetailingStudio.Models.ModelViews
         {
             this.car_generation = new HashSet<CarGenerationView>();
             this.ClientsOfCarWash = new HashSet<ClientsOfCarWashView>();
+
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]

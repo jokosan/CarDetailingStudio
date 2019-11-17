@@ -37,9 +37,20 @@ namespace CarDetailingStudio.BLL.Services
 
         public IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder)
         {
-            var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
+            if (statusOrder != 2)
+            {
+                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
+                return GetAllResult;
+            }
+            else
+            {
+                var dateCriteria = DateTime.Now.Date.AddDays(-7);
+                var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
+                var Test = OrderByDate.Where(x => x.ClosingData >= dateCriteria);
 
-            return GetAllResult;
+                return Test;
+            }
+
         }
 
         public OrderServicesCarWashBll GetId(int? id)
@@ -63,7 +74,6 @@ namespace CarDetailingStudio.BLL.Services
 
             _unitOfWork.OrderServicesCarWashUnitOfWork.Insert(orderServicesCar);
             _unitOfWork.Save();
-                    
 
             foreach (var item in OrderServices.OrderList)
             {
@@ -98,7 +108,6 @@ namespace CarDetailingStudio.BLL.Services
                 });
             }
 
-
             foreach (var i in OrderPrice)
             {
                 if (i.id == id)
@@ -125,9 +134,9 @@ namespace CarDetailingStudio.BLL.Services
             }
             else
             {
-                Order.DiscountPrice = Order.TotalCostOfAllServices;  
+                Order.DiscountPrice = Order.TotalCostOfAllServices;
             }
-                       
+
             OrderServicesCarWash orderCarWashWorkers = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(Order);
 
             _unitOfWork.OrderServicesCarWashUnitOfWork.Update(orderCarWashWorkers);
@@ -150,10 +159,13 @@ namespace CarDetailingStudio.BLL.Services
 
         public IEnumerable<OrderServicesCarWashBll> OrderReport(DateTime start, DateTime final)
         {
-            var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => (x.OrderDate >= start)
-                                                                                                                       && (x.OrderDate <= final)
-                                                                                                                       && (x.StatusOrder == 2)));
-            return OrderByDate;
+            var dateStart = start.Date;
+            var dateFinal = final.Date.AddDays(1);
+
+            var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhereDate(x => x.StatusOrder == 2));
+            var Test = OrderByDate.Where( x => x.ClosingData > dateStart && x.ClosingData <= final.Date.AddDays(1));
+            //va);
+            return Test;
         }
 
         public void DeleteOrder(int idOrder)
@@ -164,8 +176,5 @@ namespace CarDetailingStudio.BLL.Services
 
             _unitOfWork.Save();
         }
-
     }
 }
-
-

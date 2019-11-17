@@ -10,9 +10,9 @@ namespace CarDetailingStudio.BLL.Model
     {
         public int Id { get; set; }
         public int IdCarWashWorkers { get; set; }
-        public System.DateTime Date { get; set; }
-        public double Salary { get; set; }
+        public int CostsId { get; set; }
 
         public virtual CarWashWorkersBll CarWashWorkers { get; set; }
+        public virtual CostsBll Costs { get; set; }
     }
 }

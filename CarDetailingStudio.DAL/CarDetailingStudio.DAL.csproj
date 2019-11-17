@@ -114,6 +114,9 @@
     <Compile Include="car_serie.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClientInfo.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
     <Compile Include="ClientsGroups.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
@@ -141,7 +144,13 @@
     <Compile Include="Detailings.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
+    <Compile Include="ExchangeRates.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
     <Compile Include="GroupWashServices.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="infoBrigadeForToday.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CarWashWorkersRepository.cs" />
@@ -150,6 +159,7 @@
     <Compile Include="Infrastructure\Contract\IDefaultRepository.cs" />
     <Compile Include="Infrastructure\Contract\IExtendedRepository.cs" />
     <Compile Include="Infrastructure\Contract\IGenericRepository.cs" />
+    <Compile Include="Infrastructure\Contract\IGetInclude.cs" />
     <Compile Include="Infrastructure\Contract\IGetRepository.cs" />
     <Compile Include="Infrastructure\Contract\IServisesCarWashOrderRepository.cs" />
     <Compile Include="Infrastructure\Contract\ISingleRepository.cs" />
@@ -177,6 +187,12 @@
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseCosts.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Retail.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServisesCarWashOrder.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
@@ -184,6 +200,12 @@
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagrams.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TireStorage.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TireStorageServices.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="TypeOfCosts.cs">

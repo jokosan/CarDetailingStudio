@@ -29,6 +29,7 @@ namespace CarDetailingStudio.DAL
         public string MobilePhone { get; set; }
         public string Experience { get; set; }
         public Nullable<int> InterestRate { get; set; }
+        public Nullable<double> rate { get; set; }
         public string DataRegistration { get; set; }
         public string DataDismissal { get; set; }
         public string status { get; set; }

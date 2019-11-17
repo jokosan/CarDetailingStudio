@@ -18,30 +18,26 @@ namespace CarDetailingStudio.DAL
         public ClientsOfCarWash()
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWash>();
+            this.TireStorage = new HashSet<TireStorage>();
         }
     
-        public int ib { get; set; }
-        public string Surname { get; set; }
-        public string Name { get; set; }
-        public string PatronymicName { get; set; }
-        public string phone { get; set; }
-        public Nullable<System.DateTime> DateRegistration { get; set; }
-        public string Email { get; set; }
-        public Nullable<int> discont { get; set; }
-        public string Recommendation { get; set; }
-        public string NumderCar { get; set; }
+        public int id { get; set; }
         public Nullable<int> IdClientsGroups { get; set; }
-        public Nullable<int> Idmark { get; set; }
-        public Nullable<int> Idmodel { get; set; }
+        public Nullable<int> IdMark { get; set; }
+        public Nullable<int> IdModel { get; set; }
         public Nullable<int> IdBody { get; set; }
-        public string note { get; set; }
-        public string barcode { get; set; }
+        public Nullable<int> IdInfoClient { get; set; }
+        public string NumberCar { get; set; }
+        public Nullable<int> discont { get; set; }
     
         public virtual car_mark car_mark { get; set; }
         public virtual car_model car_model { get; set; }
         public virtual CarBody CarBody { get; set; }
+        public virtual ClientInfo ClientInfo { get; set; }
         public virtual ClientsGroups ClientsGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderServicesCarWash> OrderServicesCarWash { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TireStorage> TireStorage { get; set; }
     }
 }

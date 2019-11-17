@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 
 namespace CarDetailingStudio.Utilities.Map
@@ -39,10 +40,8 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<CarMarkView, CarMarkBll>();
             CreateMap<CarMarkBll, CarMarkView>();
 
-            CreateMap<CarModelView, CarModelBll>()
-                .ForMember(t => t.car_generation, opt => opt.Ignore());
-            CreateMap<CarModelBll, CarModelView>()
-                .ForMember(t => t.car_generation, opt => opt.Ignore());
+            CreateMap<CarModelView, CarModelBll>();
+            CreateMap<CarModelBll, CarModelView>();
 
             CreateMap<CarModificationView, CarModificationBll>();
             CreateMap<CarModificationBll, CarModificationView>();
@@ -77,6 +76,38 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<OrderInfoViewModel, OrderInfoViewBll>();
             CreateMap<OrderInfoViewBll, OrderInfoViewModel>();
 
+            CreateMap<CarBodyView, CarBodyBll>();
+            CreateMap<CarBodyBll, CarBodyView>();
+
+            CreateMap<RetailView, RetailBll>();
+            CreateMap<RetailBll, RetailView>();
+
+            CreateMap<PurchaseCostsView, PurchaseCostsBll>();
+            CreateMap<PurchaseCostsBll, PurchaseCostsView>();
+
+            CreateMap<TireStorageView, TireStorageBll>();
+            CreateMap<TireStorageBll, TireStorageView>();
+
+            CreateMap<TireStorageServicesView, TireStorageServicesBll>();
+            CreateMap<TireStorageServicesBll, TireStorageServicesView>();
+
+            CreateMap<InfoBrigadeForTodayView, InfoBrigadeForTodayBll>();
+            CreateMap<InfoBrigadeForTodayBll, InfoBrigadeForTodayView>();
+
+            CreateMap<ClientInfoView, ClientInfoBll>();
+            CreateMap<ClientInfoBll, ClientInfoView>();
+
+            CreateMap<GroupWashServicesView, GroupWashServicesBll>();
+            CreateMap<GroupWashServicesBll, ClientsGroupsView>();
+
+            CreateMap<RetailView, RetailBll>();
+            CreateMap<RetailBll, RetailView>();
+
+
+           
+            CreateMap<ClientView, ClientViewsBll>();
+            CreateMap<ClientViewsBll, ClientView>();
+              
         }
     }
 }

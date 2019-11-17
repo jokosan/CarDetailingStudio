@@ -38,10 +38,10 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
         public IEnumerable<ServisesCarWashOrder> GetWhere(Func<ServisesCarWashOrder, bool> predicate)
         {
             var GetWhereResult = _context.ServisesCarWashOrder.Include("Detailings")
-                                                           .Include("Detailings.GroupWashServices")
-                                                           .Include("OrderServicesCarWash")
-                                                           .Include("OrderServicesCarWash.ClientsOfCarWash")
-                                                           .Where(predicate);
+                                                               .Include("Detailings.GroupWashServices")
+                                                               .Include("OrderServicesCarWash")
+                                                               .Include("OrderServicesCarWash.ClientsOfCarWash")
+                                                               .Where(predicate);
             return GetWhereResult;
         }
     }

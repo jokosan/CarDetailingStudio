@@ -86,3 +86,8 @@ padding: 0px 0px;
         opacity: 1;
     }
 }
+
+.myLabel {
+    font-weight: 100;
+    font-size: 0.675rem;
+}

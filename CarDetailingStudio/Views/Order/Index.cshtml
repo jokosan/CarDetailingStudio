@@ -54,7 +54,7 @@
             <table class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.ClientsOfCarWash.NumderCar)
+                        @Html.DisplayNameFor(model => model.ClientsOfCarWash.NumberCar)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.OrderDate)
@@ -75,7 +75,7 @@
                     {
                         <tr class="Search">
                             <td>
-                                @Html.DisplayFor(modelItem => item.ClientsOfCarWash.NumderCar)
+                                @Html.DisplayFor(modelItem => item.ClientsOfCarWash.NumberCar)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.OrderDate)
@@ -87,7 +87,7 @@
                                 @Html.DisplayFor(modelItem => item.StatusOrder1.StatusOrder1)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ClientsOfCarWash.Surname) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.Name) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.PatronymicName)
+                                @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Name) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.PatronymicName)
                             </td>
 
                             <td>

@@ -12,7 +12,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public CarMarkView()
         {
             this.car_model = new List<CarModelView>();
-            this.ClientsOfCarWash = new List<ClientsOfCarWashView>();
+            this.ClientsOfCarWash = new HashSet<ClientsOfCarWashView>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -28,8 +28,8 @@ namespace CarDetailingStudio.Models.ModelViews
 
      
         public virtual ICollection<CarModelView> car_model { get; set; }
-        
+
         public virtual ICollection<ClientsOfCarWashView> ClientsOfCarWash { get; set; }
-     
+
     }
 }

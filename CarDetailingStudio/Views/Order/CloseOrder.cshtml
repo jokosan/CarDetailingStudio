@@ -4,7 +4,7 @@
     ViewBag.Title = "CloseOrder";
 }
 
-@using (Html.BeginForm("CloseOrder", "Order", new { idOrder = Model.Id}))
+@using (Html.BeginForm("CloseOrder", "Order", new { idOrder = Model.Id }))
 {
 
     @Html.AntiForgeryToken()
@@ -30,7 +30,7 @@
                             <tbody>
                                 <tr>
                                     <td>Номер машины</td>
-                                    <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumderCar)</td>
+                                    <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumberCar)</td>
                                 </tr>
                                 <tr>
                                     <td>Марка/Модель</td>
@@ -42,7 +42,7 @@
                                 </tr>
                                 <tr>
                                     <td>Ф.И.О</td>
-                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.Surname)</td>
+                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -62,7 +62,7 @@
                                     <div class="checkbox">
 
                                         <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
-                                      
+
 
                                     </div>
 
@@ -74,7 +74,7 @@
                                             <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
                                             @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             }
@@ -100,29 +100,28 @@
                             <tbody class="customtable">
                                 @foreach (var item in ViewBag.Services)
                                 {
-                                <tr>
+                                    <tr>
 
-                                    <td>@item.Detailings.services_list</td>
-                                    <td>
-                                        @if (item.Detailings.IdTypeService == 1)
-                                        {
-                                            <b>Детейлинг</b>
-                                        }
-                                        else
-                                        {
-                                            <b>Мойка</b>
-                                        }
+                                        <td>@item.Detailings.services_list</td>
+                                        <td>
+                                            @if (item.Detailings.IdTypeService == 1)
+                                            {
+                                                <b>Детейлинг</b>
+                                            }
+                                            else
+                                            {
+                                                <b>Мойка</b>
+                                            }
 
-                                    </td>
+                                        </td>
 
-                                    <td>@item.Price</td>
-                                </tr>
+                                        <td>@item.Price </td>
+                                     
+                                    </tr>
                                 }
 
                             </tbody>
                         </table>
-
-
                     </div>
 
                     <div class="card">
@@ -140,7 +139,7 @@
                                    {
                                        new SelectListItem { Text = "Наличный расчёт", Value = "1"},
                                        new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
-                                   }, new { @class = "form-control"})
+                                   }, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -154,12 +153,9 @@
                             <div class="clearfix"></div>
                             <hr>
                             <div class="text-right">
-                                                           
-                              
+
                                 <input type="submit" value="CloseOrder" class="btn btn-success preview" id="click" />
                                 @Html.ActionLink("Cansel", "Index", null, new { @class = "btn btn-danger preview" })
-
-
 
                             </div>
                         </div>

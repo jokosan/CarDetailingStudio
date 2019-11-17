@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderInfoViewModel>
 
+<link href="~/Content/input.css" rel="stylesheet" />
+
 <div class="container-fluid">
 
     <div class="row">
@@ -61,7 +63,7 @@
                                 @Html.DisplayFor(modelItem => item.Expr1)
                             </td>
                             <td>
-                                @Html.ActionLink("Details", "../Salary/InfoSalary", new { id = item.id, InterestRate = item.InterestRate }, new { @class = "btn btn-light btn-sm"})
+                                @Html.ActionLink("Details", "../Salary/InfoSalary", new { id = item.id, InterestRate = item.InterestRate }, new { @class = "btn btn-light btn-sm" })
                             </td>
                         </tr>
                     }
@@ -72,18 +74,39 @@
                 <div class="card-body">
                     <h5 class="card-title m-b-0"></h5>
                     <div class="pull-right m-t-30 text-right">
-                  
-                            <h3>Итого к выплате ЗП: @Math.Ceiling(ViewBag.Sum) грн.</h3>
-                        
-                 </div>
+
+                        <h3>Итого к выплате ЗП: @Math.Ceiling(ViewBag.Sum) грн.</h3>
+
+                    </div>
                     <div class="clearfix"></div>
                     <hr>
                     <div class="text-right">
-                        <input type="submit" value="CloseOrder" class="btn btn-success preview" id="click" />
-                        @Html.ActionLink("Cansel", "Index", null, new { @class = "btn btn-danger preview" })
+
+                        @using (Html.BeginForm())
+                        {
+                            <label class="myLabel">Выплатить зарплату сотрудникам</label>
+                            <label class="customcheckbox">
+                                <label class="label">
+
+                                    <input class="label__checkbox" type="checkbox" name="confirmation" value="true" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                    <span class="label__text">
+                                        <span class="label__check">
+                                            <i class="fa fa-check icon"></i>
+                                        </span>
+                                    </span>
+                                </label>
+                                <span class="checkmark"></span>
+                            </label>
+                            <input type="submit" value="CloseOrder" disabled="disabled" class="btn btn-success preview" id="submit" />
+                            @Html.ActionLink("Cansel", "Index", null, new { @class = "btn btn-danger preview" })
+                        }
+
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

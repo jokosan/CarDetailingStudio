@@ -18,14 +18,24 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         DbRepository<ClientsOfCarWash> ClientsOfCarWashUnitOfWork { get; set; }
         DbRepository<brigadeForToday> BrigadeForTodayUnitOfWork { get; set; }
-        DbRepository<OrderServicesCarWash> CarWashWorkersUnitOfWork { get; set; }
+        DbRepository<CarWashWorkers> CarWashWorkersUnitOfWork { get; set; }
         DbRepository<OrderServicesCarWash> OrderServicesCarWashUnitOfWork { get; set; }
         DbRepository<JobTitleTable> JobTitleTableUnitOfWork { get; set; }
         DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUnitOfWork { get; set; }
         DbRepository<Detailings> DetailingsUnitOfWork { get; set; }
         DbRepository<OrderCarWashWorkers> OrderCarWasWorkersUnitOFWork { get; set; }
         DbRepository<Costs> CostsUnitOfWork { get; set; }
-
+        DbRepository<car_mark> CarMarkUnitOfWork { get; set; }
+        DbRepository<car_model> CarModelUnitOfWork { get; set; }
+        DbRepository<CarBody> CarBodyUnitOfWork { get; set; }
+        DbRepository<Wage> WageUnitOfWork { get; set; }
+        DbRepository<infoBrigadeForToday> infoBrigadeUnitOfWork { get; set; }
+        DbRepository<ExchangeRates> ExchangeRatesUnitOfWork { get; set; }
+        DbRepository<GroupWashServices> GroupWashServicesUnitOfWork { get; set; }
+        DbRepository<Retail> RatailUnitOfWork { get; set; }
+        DbRepository<ClientsGroups> ClientsGroupsUnitOfWork { get; set; }
+        DbRepository<ClientInfo> ClientInfoUnitOfWork { get; set; }
+        
         // SingleRepository
 
         OrderServicesCarWashRepository orderUnitiOfWork { get; set; }

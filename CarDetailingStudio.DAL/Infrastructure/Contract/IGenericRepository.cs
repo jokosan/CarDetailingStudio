@@ -18,8 +18,9 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
         void AttachStubs(object[] stub);
         IEnumerable<T> GetWhere(Func<T, bool> predicate);
         void Insert(List<T> entity);
+        void Update(List<T> entityUpdate);
         
-        IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children);
+       // IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children);
 
 
     }

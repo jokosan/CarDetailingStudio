@@ -11,7 +11,7 @@ namespace CarDetailingStudio.BLL.Model
         public CarMarkBll()
         {
             this.car_model = new List<CarModelBll>();
-            this.ClientsOfCarWash = new List<ClientsOfCarWashBll>();
+            this.ClientsOfCarWash = new HashSet<ClientsOfCarWashBll>();
         }
 
         public int id_car_mark { get; set; }
@@ -27,6 +27,6 @@ namespace CarDetailingStudio.BLL.Model
 
         public virtual ICollection<ClientsOfCarWashBll> ClientsOfCarWash { get; set; }
 
-        
+
     }
 }

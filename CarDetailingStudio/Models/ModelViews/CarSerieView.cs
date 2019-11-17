@@ -13,6 +13,7 @@ namespace CarDetailingStudio.Models.ModelViews
         {
             this.car_modification = new HashSet<CarModificationView>();
         }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id_car_serie { get; set; }

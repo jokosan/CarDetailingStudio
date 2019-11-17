@@ -13,6 +13,7 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
         void Update(T entityToUpdate);
         void Delete(object id);
         void Delete(T entityToDelete);
-        void AttachStubs(object[] stub);
+        void AttachStubs(object[] stub);       
+     
     }
 }

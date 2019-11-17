@@ -13,7 +13,7 @@
                         <h5 class="card-title m-b-0">Clients</h5>
                     </div>
                     <div class="col-md-6 text-right">
-                        @Html.ActionLink("Create New", "AddClient", null, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Create New",  "../Client/NewClient", null, new { @class = "btn btn-info" })
                     </div>
                 </div>
 
@@ -21,17 +21,17 @@
             <table class="table">
                 <tr>
                     <th scope="col">
-                        @Html.DisplayNameFor(model => model.Surname)
+                        @Html.DisplayNameFor(model => model.ClientInfo.Surname)
                     </th>
                     <th scope="col">
-                        @Html.DisplayNameFor(model => model.Name)
+                        @Html.DisplayNameFor(model => model.ClientInfo.Name)
                     </th>
                     <th scope="col">
-                        @Html.DisplayNameFor(model => model.PatronymicName)
+                        @Html.DisplayNameFor(model => model.ClientInfo.PatronymicName)
                     </th>
 
                     <th scope="col">
-                        @Html.DisplayNameFor(model => model.DateRegistration)
+                        @Html.DisplayNameFor(model => model.ClientInfo.DateRegistration)
                     </th>
 
                     <th scope="col">
@@ -39,16 +39,16 @@
                     </th>
 
                     <th scope="col">
-                        @Html.DisplayNameFor(model => model.NumderCar)
+                        @Html.DisplayNameFor(model => model.NumberCar)
                     </th>
                     <th scope="col">
                         @Html.DisplayNameFor(model => model.IdClientsGroups)
                     </th>
                     <th scope="col">
-                        @Html.DisplayNameFor(model => model.Idmark)
+                        @Html.DisplayNameFor(model => model.IdMark)
                     </th>
                     <th scope="col">
-                        @Html.DisplayNameFor(model => model.Idmodel)
+                        @Html.DisplayNameFor(model => model.IdModel)
                     </th>
                     <th scope="col">
                         @Html.DisplayNameFor(model => model.IdBody)
@@ -63,17 +63,17 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Surname)
+                            @Html.DisplayFor(modelItem => item.ClientInfo.Surname)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.ClientInfo.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.PatronymicName)
+                            @Html.DisplayFor(modelItem => item.ClientInfo.PatronymicName)
                         </td>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.DateRegistration)
+                            @Html.DisplayFor(modelItem => item.ClientInfo.DateRegistration)
                         </td>
 
                         <td>
@@ -81,24 +81,24 @@
                         </td>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.NumderCar)
+                            @Html.DisplayFor(modelItem => item.NumberCar)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdClientsGroups)
+                            @Html.DisplayFor(modelItem => item.ClientsGroups.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Idmark)
+                            @Html.DisplayFor(modelItem => item.car_mark.name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Idmodel)
+                            @Html.DisplayFor(modelItem => item.car_model.name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdBody)
+                            @Html.DisplayFor(modelItem => item.CarBody.Name)
                         </td>
 
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ib }, new { @class = "btn btn-cyan btn-sm" }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.ib }, new { @class = "btn btn-success btn-sm" })
+                            @Html.ActionLink("Edit", "EditCarClient", new { id = item.id }, new { @class = "btn btn-cyan btn-sm" }) |
+                            @Html.ActionLink("Details", "Info", new { idClientInfo = item.ClientInfo.Id, idClient = item.id }, new { @class = "btn btn-success btn-sm" })
                         </td>
                     </tr>
                 }

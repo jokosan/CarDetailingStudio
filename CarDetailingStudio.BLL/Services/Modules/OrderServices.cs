@@ -25,7 +25,6 @@ namespace CarDetailingStudio.BLL.Services.Modules
         public static string body { get; set; }
         public static double Price { get; set; }
 
-
         public static List<int> IdOrders = new List<int>();
         public static List<DetailingsBll> OrderList = new List<DetailingsBll>();
 

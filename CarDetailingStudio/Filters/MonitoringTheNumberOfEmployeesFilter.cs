@@ -1,5 +1,6 @@
 ﻿using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.BLL.Services.Filters;
+using CarDetailingStudio.BLL.Services.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace CarDetailingStudio.Filters
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             TeamMonitoringFilters team = new TeamMonitoringFilters();
+            ApiPrivatBank apiPrivat = new ApiPrivatBank();
+
+            apiPrivat.ApiPrivat();
 
             if (team.Monitoring() == 0)
             {

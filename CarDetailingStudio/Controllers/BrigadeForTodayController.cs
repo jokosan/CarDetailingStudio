@@ -31,9 +31,7 @@ namespace CarDetailingStudio.Controllers
         {
             var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_services.GetDateTimeNow());
 
-            TempData["BrigadeId"] = brigade.Where(x => x.EarlyTermination == true);     
-
-          
+            TempData["BrigadeId"] = brigade.Where(x => x.EarlyTermination == true);               
 
             return View(brigade);
         }

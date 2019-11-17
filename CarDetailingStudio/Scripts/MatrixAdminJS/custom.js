@@ -48,7 +48,7 @@ $(function() {
     // This is for the floating labels
     // ============================================================== 
     $('.floating-labels .form-control').on('focus blur', function(e) {
-        $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
+        $(this).parents('.form-group row').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
     }).trigger('blur');
 
     // ============================================================== 

@@ -14,6 +14,13 @@ namespace CarDetailingStudio.DAL
     
     public partial class Costs
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Costs()
+        {
+            this.PurchaseCosts = new HashSet<PurchaseCosts>();
+            this.Wage = new HashSet<Wage>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> Type { get; set; }
         public string Name { get; set; }
@@ -21,5 +28,9 @@ namespace CarDetailingStudio.DAL
         public Nullable<System.DateTime> Date { get; set; }
     
         public virtual TypeOfCosts TypeOfCosts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseCosts> PurchaseCosts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wage> Wage { get; set; }
     }
 }

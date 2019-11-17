@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="col-md-6 text-right">
-                        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Create New", "AddServises", null, new { @class = "btn btn-info" })
                     </div>
                 </div>
             </div>
@@ -97,9 +97,8 @@
                         </td>
 
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                            @Html.ActionLink("Details", "Details", new { id = item.Id })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            @Html.ActionLink("Edit", "EditServises", new { id = item.Id })
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })                      
                         </td>
                     </tr>
                 }

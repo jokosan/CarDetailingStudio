@@ -12,31 +12,26 @@ namespace CarDetailingStudio.Models.ModelViews
         public ClientsOfCarWashView()
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWashView>();
+            this.TireStorage = new HashSet<TireStorageView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int ib { get; set; }
-        public string Surname { get; set; }
-        public string Name { get; set; }
-        public string PatronymicName { get; set; }
-        public string phone { get; set; }
-        public Nullable<System.DateTime> DateRegistration { get; set; }
-        public string Email { get; set; }
-        public Nullable<int> discont { get; set; }
-        public string Recommendation { get; set; }
-        public string NumderCar { get; set; }
+        public int id { get; set; }
         public Nullable<int> IdClientsGroups { get; set; }
-        public Nullable<int> Idmark { get; set; }
-        public Nullable<int> Idmodel { get; set; }
+        public Nullable<int> IdMark { get; set; }
+        public Nullable<int> IdModel { get; set; }
         public Nullable<int> IdBody { get; set; }
-        public string note { get; set; }
-        public string barcode { get; set; }
+        public Nullable<int> IdInfoClient { get; set; }
+        public string NumberCar { get; set; }
+        public Nullable<int> discont { get; set; }
 
         public virtual CarMarkView car_mark { get; set; }
         public virtual CarModelView car_model { get; set; }
         public virtual CarBodyView CarBody { get; set; }
+        public virtual ClientInfoView ClientInfo { get; set; }
         public virtual ClientsGroupsView ClientsGroups { get; set; }
         public virtual ICollection<OrderServicesCarWashView> OrderServicesCarWash { get; set; }
+        public virtual ICollection<TireStorageView> TireStorage { get; set; }
     }
 }

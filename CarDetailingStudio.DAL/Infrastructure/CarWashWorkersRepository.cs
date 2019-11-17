@@ -26,7 +26,8 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public CarWashWorkers GetById(int? id)
         {
-            throw new NotImplementedException();
+            return _context.CarWashWorkers.Include("JobTitleTable")
+                                          .Include("brigadeForToday").FirstOrDefault(x => x.id == id);
         }
 
         public IEnumerable<CarWashWorkers> GetWhere(Func<CarWashWorkers, bool> predicate)

@@ -11,16 +11,19 @@ using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
 using CarDetailingStudio.BLL.Services.Modules.EmployeeSalary;
 using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers
 {
     public class CarWashWorkersViewsController : Controller
     {
         private ICarWashWorkersServices _services;
+        private IJobTitleTableServices _job;
 
-        public CarWashWorkersViewsController(ICarWashWorkersServices carWashWorkers)
+        public CarWashWorkersViewsController(ICarWashWorkersServices carWashWorkers, IJobTitleTableServices job)
         {
             _services = carWashWorkers;
+            _job = job;
         }
 
         // GET: CarWashWorkersViews
@@ -34,31 +37,98 @@ namespace CarDetailingStudio.Controllers
                 var result = new List<int>();
 
                 foreach (var i in resultBrigade)
-                    result.Add(i.IdCarWashWorkers.Value); 
-                                              
-              return View(ReirectModel.Where(b => !result.Contains(b.id)));
+                    result.Add(i.IdCarWashWorkers.Value);
+
+                return View(ReirectModel.Where(b => !result.Contains(b.id)));
             }
             else
-            
             {
                 return View(ReirectModel);
             }
-
         }
 
         [HttpPost]
         public ActionResult Index(FormCollection form)
         {
-        
             _services.AddToCurrentShift(form);
             return Redirect("/Order/Index");
         }
 
         public ActionResult Staff()
         {
-            var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetStaffAll());
+            var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetStaffAll().OrderBy(item => item.status));
             return View(StaffAll);
         }
+
+        // GET: CarWashWorkersViews/Create
+        public ActionResult AddEmployee()
+        {
+            var carWashWorkersViewsGet = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetStaffAll());
+
+            ViewBag.Status = "true";
+            ViewBag.Job = new SelectList(_job.SelectJobTitle(), "Id", "Position");
+
+            return View();
+        }
+
+        // POST: CarWashWorkersViews/Create
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddEmployee([Bind(Include = "id,Name,Surname,Patronymic,MobilePhone,Experience,InterestRate,rate," +
+            "DataRegistration,DataDismissal,status,Photo,IdPosition")] CarWashWorkersView carWashWorkersView)
+        {
+            if (ModelState.IsValid)
+            {
+                CarWashWorkersBll carWashWorkersBll = Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(carWashWorkersView);
+                _services.InsertEmployee(carWashWorkersBll);
+                return RedirectToAction("Staff");
+            }
+
+            ViewBag.Job = new SelectList(_job.SelectJobTitle(), "Id", "Position");
+
+            return View();
+        }
+
+        // GET: CarWashWorkersViews/Edit/5
+        public ActionResult EditEmployee(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            CarWashWorkersView carWashWorkersView = Mapper.Map<CarWashWorkersView>(_services.CarWashWorkersId(id));
+            ViewBag.Job = new SelectList(_job.SelectJobTitle(), "Id", "Position");
+
+            if (carWashWorkersView == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(carWashWorkersView);
+        }
+
+        // POST: CarWashWorkersViews/Edit/5
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditEmployee([Bind(Include = "id,Name,Surname,Patronymic,MobilePhone,Experience,InterestRate,rate," +
+            "DataRegistration,DataDismissal,status,Photo,IdPosition")] CarWashWorkersView carWashWorkersView, string command)
+        {
+            if (ModelState.IsValid)
+            {
+                CarWashWorkersBll carWashWorkersBll = Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(carWashWorkersView);
+                _services.UpdateEmploee(carWashWorkersBll, command);
+                return RedirectToAction("Staff");
+            }
+
+            ViewBag.Job = new SelectList(_job.SelectJobTitle(), "Id", "Position");
+            return View(carWashWorkersView);
+        }
+
 
         #region
         //// GET: CarWashWorkersViews/Details/5

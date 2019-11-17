@@ -26,7 +26,8 @@ namespace CarDetailingStudio.BLL.Services
         public IEnumerable<BrigadeForTodayBll> GetDateTimeNow()
         {
             return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeUnitOfWork
-                .GetWhere(x => (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy") && (x.EarlyTermination == true))));
+                .GetWhere(x => (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")
+                      && (x.EarlyTermination == true))));
         }
 
         public IEnumerable<BrigadeForTodayBll> Info(int? id)
@@ -34,8 +35,7 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeUnitOfWork
                 .GetWhere(x => x.IdCarWashWorkers == id)).OrderByDescending(x => x.id);
         }
-
-
+        
         public void RemoveFromBrigade(int id)
         {
             BrigadeForTodayBll brigadeForTodayBll = GetId(id);

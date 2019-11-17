@@ -19,18 +19,28 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<OrderServicesCarWash> Get()
         {
-            throw new NotImplementedException();
+            var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
+                                                      .Include("StatusOrder1")
+                                                      .Include("PaymentState1")
+                                                      .Include("ServisesCarWashOrder")
+                                                      .Include("ClientsOfCarWash.CarBody")
+                                                      .Include("OrderCarWashWorkers.CarWashWorkers");
+            return result;
         }
 
         public OrderServicesCarWash GetById(int? id)
         {
             var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
+                                                       .Include("ClientsOfCarWash.ClientInfo")
                                                        .Include("StatusOrder1")
+                                                       .Include("PaymentState1")
                                                        .Include("ServisesCarWashOrder")
-                                                       .Include("ClientsOfCarWash.car_model")
-                                                       .Include("ClientsOfCarWash.car_mark")
-                                                       .Include("ClientsOfCarWash.CarBody")
                                                        .Include("OrderCarWashWorkers.CarWashWorkers")
+                                                       .Include("ClientsOfCarWash.ClientInfo")
+                                                       .Include("ClientsOfCarWash.car_mark")
+                                                       .Include("ClientsOfCarWash.car_model")
+                                                       .Include("ClientsOfCarWash.CarBody")
+                                                       .Include("ClientsOfCarWash.ClientsGroups")
                                                        .FirstOrDefault(x => x.Id == id);
             return result;
         }
@@ -39,11 +49,23 @@ namespace CarDetailingStudio.DAL.Infrastructure
         {
             var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
                                                        .Include("StatusOrder1")
-                                                       .Include("ServisesCarWashOrder")
-                                                       .Include("ClientsOfCarWash.car_model")
+                                                       .Include("PaymentState1")
+                                                       .Include("ServisesCarWashOrder")                                               
+                                                       .Include("ClientsOfCarWash.ClientInfo")
                                                        .Include("ClientsOfCarWash.car_mark")
+                                                       .Include("ClientsOfCarWash.car_model")
                                                        .Include("ClientsOfCarWash.CarBody")
-                                                       .Where(predicate);
+                                                       .Include("ClientsOfCarWash.ClientsGroups")
+                                                       .Where(predicate).AsQueryable();
+            return result;
+        }
+
+        public IEnumerable<OrderServicesCarWash> GetWhereDate(Func<OrderServicesCarWash, bool> predicate)
+        {
+            var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
+                                                       .Include("StatusOrder1")
+                                                       .Include("PaymentState1")
+                                                       .Where(predicate).AsQueryable();
             return result;
         }
 
@@ -55,8 +77,5 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                        .Where(filter);
             return result;
         }
-
-
-
     }
 }

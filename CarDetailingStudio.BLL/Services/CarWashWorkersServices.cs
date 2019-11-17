@@ -39,10 +39,12 @@ namespace CarDetailingStudio.BLL.Services
         public IEnumerable<CarWashWorkersBll> GetChooseEmployees()
         {
             return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.WorkersUnitOfWork
-                .GetWhere(x => (x.status == "true")
-                           && (x.JobTitleTable.Position == "Детейлер")
-                           || (x.JobTitleTable.Position == "Мойщик")
-                           || (x.JobTitleTable.Position == "Старший мойщик")));
+                .GetWhere(x => (x.status == "true")));
+        }
+
+        public CarWashWorkersBll CarWashWorkersId(int? id)
+        {
+            return Mapper.Map<CarWashWorkersBll>(_unitOfWork.WorkersUnitOfWork.GetById(id));
         }
 
         public void AddToCurrentShift(FormCollection collection)
@@ -50,13 +52,11 @@ namespace CarDetailingStudio.BLL.Services
             string idString = collection[0];
             string[] idList = idString.Split(',');
 
-
             foreach (var item in idList)
             {
                 _brigade.Date = DateTime.Now;
                 _brigade.IdCarWashWorkers = Int32.Parse(item);
                 _brigade.EarlyTermination = true;
-
 
                 brigadeForToday brigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(_brigade);
 
@@ -71,6 +71,27 @@ namespace CarDetailingStudio.BLL.Services
             var thisDay = _unitOfWork.BrigadeForTodayUnitOfWork.Get().Any(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
 
             return thisDay;
+        }
+
+        public void InsertEmployee(CarWashWorkersBll carWashWorkersBll)
+        {
+            CarWashWorkers carWashWorkers = Mapper.Map<CarWashWorkersBll, CarWashWorkers>(carWashWorkersBll);
+            _unitOfWork.CarWashWorkersUnitOfWork.Insert(carWashWorkers);
+            _unitOfWork.Save();
+        }
+
+        public void UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action)
+        {
+            CarWashWorkers carWashWorkers = Mapper.Map<CarWashWorkersBll, CarWashWorkers>(carWashWorkersId);
+
+            if (action == "Delete")// перед увольнением предусмотреть  
+            {
+                carWashWorkers.status = "false";
+                carWashWorkers.DataDismissal = DateTime.Now.ToString("dd.MM.yyyy");   /// Внесни изменения в БД!! изменить  тип домена  DateTime
+            }
+
+            _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
+            _unitOfWork.Save();
         }
     }
 }

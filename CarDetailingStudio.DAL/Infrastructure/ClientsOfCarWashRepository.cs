@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
-    public class ClientsOfCarWashRepository : IGetRepository<ClientsOfCarWash>
+    public class ClientsOfCarWashRepository : IGetRepository<ClientsOfCarWash>, IExtendedRepository<ClientsOfCarWash>
     {
         internal carWashEntities _context;
 
@@ -19,23 +19,32 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<ClientsOfCarWash> Get()
         {
-            var GetResultAll = _context.ClientsOfCarWash.Include("CarBody")
+            var GetResultAll = _context.ClientsOfCarWash.Include("ClientInfo")
                                                         .Include("ClientsGroups")
+                                                        .Include("car_mark")
                                                         .Include("car_model")
-                                                        .Include("car_mark");
+                                                        .Include("CarBody");
             return GetResultAll;
         }
 
         public ClientsOfCarWash GetById(int? id)
         {
-            var GetId = _context.ClientsOfCarWash.Include("CarBody")
+            var GetId = _context.ClientsOfCarWash.Include("ClientInfo")
                                                  .Include("ClientsGroups")
+                                                 .Include("car_mark")
                                                  .Include("car_model")
-                                                 .Include("car_mark").FirstOrDefault(x => x.ib == id);
+                                                 .Include("CarBody").FirstOrDefault(x => x.id == id);
             return GetId;
-
         }
 
-     
+        public IEnumerable<ClientsOfCarWash> GetWhere(Func<ClientsOfCarWash, bool> predicate)
+        {
+            var GetId = _context.ClientsOfCarWash.Include("ClientInfo")
+                                                .Include("ClientsGroups")
+                                                .Include("car_mark")
+                                                .Include("car_model")
+                                                .Include("CarBody").Where(predicate);
+            return GetId;
+        }
     }
 }

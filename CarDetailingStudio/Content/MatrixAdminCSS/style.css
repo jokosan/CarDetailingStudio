@@ -286,7 +286,7 @@ body[data-theme="dark"] {
   body[data-theme="dark"] .lobilists .lobilist-footer,
   body[data-theme="dark"] .lobilists .lobilist-form-footer,
   body[data-theme="dark"] .bootstrap-switch,
-  body[data-theme="dark"] .r-separator .form-group,
+  body[data-theme="dark"] .r-separator .form-group row,
   body[data-theme="dark"] .b-form .row,
   body[data-theme="dark"] .datepaginator-sm .pagination li a,
   body[data-theme="dark"] .datepaginator-lg .pagination li a,
@@ -2106,7 +2106,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 .input-group-lg > .input-group-append > select.btn:not([size]):not([multiple]) {
   height: calc(2.64063rem + 2px); }
 
-.form-group {
+.form-group row {
   margin-bottom: 1rem; }
 
 .form-text {
@@ -2341,7 +2341,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
       -ms-flex-pack: center;
       justify-content: center;
       margin-bottom: 0; }
-    .form-inline .form-group {
+    .form-inline .form-group row {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -12283,9 +12283,9 @@ body .jqstooltip {
 label {
   font-weight: 600; }
 
-.r-separator .form-group {
+.r-separator .form-group row {
   border-bottom: 1px solid #e9ecef; }
-  .r-separator .form-group:last-child {
+  .r-separator .form-group row:last-child {
     border-bottom: none; }
 
 .striped-rows .row:nth-child(odd) {

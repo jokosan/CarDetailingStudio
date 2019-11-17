@@ -10,7 +10,7 @@
                     </div>
 
                     <div class="col-md-6 text-right">
-                        @Html.ActionLink("Создать нового клиента", "AddClient", new { id = "Checkout" }, new { @class = "btn btn-cyan btn-sm" })
+                        @Html.ActionLink("Создать нового клиента", "../Client/NewClient", new { idPage = "Checkout" }, new { @class = "btn btn-cyan btn-sm" })
                     </div>
                 </div>
             </div>
@@ -59,11 +59,11 @@
                         {
                             <tr class="Search">
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.NumderCar)
+                                    @Html.DisplayFor(modelItem => item.NumberCar)
                                 </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Surname)  @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.PatronymicName)
+                                    @Html.DisplayFor(modelItem => item.ClientInfo.Surname)  @Html.DisplayFor(modelItem => item.ClientInfo.Name) @Html.DisplayFor(modelItem => item.ClientInfo.PatronymicName)
                                 </td>
 
                                 <td>
@@ -80,8 +80,9 @@
                                 </td>
 
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-cyan btn-sm" })
-                                    @Html.ActionLink("Details", "NewOrder", new { id = item.ib, body = item.CarBody.Name }, new { @class = "btn btn-success btn-sm" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.id, body = item.CarBody.Name }, new { @class = "btn btn-cyan btn-sm" })
+                                    @Html.ActionLink("CarWash", "NewOrder", new { id = item.id, body = item.CarBody.Name, Services = 2}, new { @class = "btn btn-success btn-sm" })
+                                    @Html.ActionLink("Detailings", "NewOrder", new { id = item.id, body = item.CarBody.Name, Services = 1 }, new { @class = "btn btn-warning btn-sm" })
                                 </td>
                             </tr>
                         }

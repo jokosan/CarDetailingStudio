@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
-    public class DbRepository<T> : IGetRepository<T>, IDefaultRepository<T> where T : class
+    public class DbRepository<T> : IGetRepository<T>, IDefaultRepository<T>, IGetInclude<T> where T : class
     {
       
         internal carWashEntities _carWashEntitiesContext;
@@ -64,7 +64,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public virtual void Update(T entityToUpdate)
         {
-
             _carWashEntitiesContext.Set<T>().AddOrUpdate(entityToUpdate);
           //  _carWashEntitiesContext.Entry(entityToUpdate).State = EntityState.Modified;
 
@@ -78,7 +77,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
             }
             foreach (var stub in stubs)
                 _carWashEntitiesContext.Set(stub.GetType()).Attach(stub);
-
         }
 
         public IEnumerable<T> GetWhere(Func<T, bool> predicate)
@@ -91,18 +89,27 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
-            var query = DbSeT.ToList<T>().AsQueryable();
+            //var query = DbSeT.ToList<T>().AsQueryable();
 
-            foreach (var includeProperty in children.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
+            //foreach (var includeProperty in children.Split
+            //    (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            //{
+            //    query = query.Include(includeProperty);
+            //}
 
-            //return DbSeT.Include(children).Where(filter);
+            return DbSeT.Include(children).Where(filter);
+
+            //return query;
+        }
+
+        public IEnumerable<T> GetInclude(string children)
+        {
+            var query = DbSeT.Include(children).AsEnumerable<T>().AsQueryable();
 
             return query;
         }
+
+      
 
 
     }

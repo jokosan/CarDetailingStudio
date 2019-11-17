@@ -9,9 +9,9 @@ namespace CarDetailingStudio.Models.ModelViews
     {
         public int Id { get; set; }
         public int IdCarWashWorkers { get; set; }
-        public System.DateTime Date { get; set; }
-        public double Salary { get; set; }
+        public int CostsId { get; set; }
 
         public virtual CarWashWorkersView CarWashWorkers { get; set; }
+        public virtual CostsView Costs { get; set; }
     }
 }

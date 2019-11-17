@@ -21,11 +21,11 @@
                 <tbody>
                     <tr>
                         <td>Номер машины</td>
-                        <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumderCar)</td>
+                        <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumberCar)</td>
                     </tr>
                     <tr>
                         <td>Марка/Модель</td>
-                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name)</td>
                     </tr>
                     <tr>
                         <td>Тип кузова</td>
@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <td>Ф.И.О</td>
-                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.Surname)</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
                     </tr>
                 </tbody>
             </table>
@@ -91,17 +91,46 @@
 
         @using (Html.BeginForm())
         {
-    <div class="text-right">
+            <div class="text-right">
 
-        <input value=@Model.Id name="idOrder" type="hidden" />
-        <input class="btn btn-danger" type="submit" id="btnCreate" value="OrderDelete" @Url.Action("Index", "Order") />
-        @Html.ActionLink("EditOrder", "Index", null, new { @class = "btn btn-warning" })
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
-    </div>
+                <input value=@Model.Id name="idOrder" type="hidden" />
+                <input class="btn btn-danger" type="submit" id="btnCreate" value="OrderDelete" @Url.Action("Index", "Order") />
+                @Html.ActionLink("EditOrder", "Index", null, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+            </div>
 
         }
 
     </div>
 
+    @if (ViewBag.Brigade != null)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Смена</h5>
+
+            </div>
+            <div class="comment-widgets scrollable">
+                @foreach (var item in ViewBag.Brigade)
+                {
+                    <div class="d-flex flex-row comment-row m-t-0">
+                                           
+
+                        <div class="comment-text w-100">
+                            <h6 class="font-medium"> @item.CarWashWorkers.Name @item.CarWashWorkers.Name </h6>
+                            <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
+                               я
+                            <div class="comment-footer">
+                                <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
+                                @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    }
 
 </div>

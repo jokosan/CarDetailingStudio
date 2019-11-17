@@ -11,6 +11,7 @@ using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using CarDetailingStudio.BLL.Services.Modules;
 using AutoMapper;
+using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -27,10 +28,25 @@ namespace CarDetailingStudio.Controllers
         // GET: OrderInfoViewModels
         public ActionResult Salary()
         {
-            var ItorSalary = Mapper.Map<IEnumerable<OrderInfoViewModel>>(_orderInfo.GetOrderInfo());
-            ViewBag.Sum = ItorSalary.Sum(x => x.Expr1);
+            var ItogSalary = Mapper.Map<IEnumerable<OrderInfoViewModel>>(_orderInfo.GetOrderInfo());
+            var ItogSalarySum = ItogSalary.Sum(x => x.Expr1);
+
+            ViewBag.Sum = ItogSalarySum;
+            TempData["Calculate"] = ItogSalary;
 
             return View(Mapper.Map<IEnumerable<OrderInfoViewModel>>(_orderInfo.GetOrderInfo()));
+        }
+
+        [HttpPost]
+        public ActionResult Salary(bool confirmation = false)
+        {
+            if (confirmation)
+            {
+                var resultBrigade = TempData["Calculate"] as IEnumerable<OrderInfoViewModel>;                
+                _orderInfo.PayAllEmployees(Mapper.Map<IEnumerable<OrderInfoViewModel>, IEnumerable<OrderInfoViewBll>>(resultBrigade));
+            }
+            
+            return Redirect("Salary");
         }
 
     }

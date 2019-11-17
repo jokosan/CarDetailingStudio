@@ -15,7 +15,7 @@
                     <div class="form-group row">
                         <label for="fname" class="col-sm-1 text-right control-label col-form-label">Номер машины</label>
                         <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.NumderCar)
+                            @Html.DisplayFor(model => model.NumberCar)
                         </label>
 
                         <label for="fname" class="col-sm-1 text-right control-label col-form-label">Марка/Модель</label>
@@ -30,7 +30,7 @@
 
                         <label for="fname" class="col-sm-1 text-right control-label col-form-label">Ф.И.О</label>
                         <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.Surname) @Html.DisplayFor(model => model.Name)  @Html.DisplayFor(model => model.PatronymicName)
+                            @Html.DisplayFor(model => model.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientInfo.PatronymicName)
                         </label>
                     </div>
                 </div>
@@ -71,50 +71,51 @@
 
                                 <th scope="col">services_list</th>
                                 <th scope="col">validity</th>
+                                <th scope="col">Grop</th>
                                 <th scope="col">Body</th>
                             </tr>
                         </thead>
                         <tbody class="customtable">
                             @foreach (var item in ViewBag.Detailings)
                             {
-                                <tr class="Search">
+                            <tr class="Search">
 
-                                    <th>
-                                        <label class="customcheckbox">
-                                            @*<input type="checkbox" class="listCheckbox" />*@
-                                            @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
-                                            <label class="label">
-                                                <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
-                                                <span class="label__text">
-                                                    <span class="label__check">
-                                                        <i class="fa fa-check icon"></i>
-                                                    </span>
+                                <th>
+                                    <label class="customcheckbox">
+                                        @*<input type="checkbox" class="listCheckbox" />*@
+                                        @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
+                                        <label class="label">
+                                            <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                            <span class="label__text">
+                                                <span class="label__check">
+                                                    <i class="fa fa-check icon"></i>
                                                 </span>
-                                            </label>
-                                            <span class="checkmark"></span>
+                                            </span>
                                         </label>
-                                    </th>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
 
-                                    <td>@item.services_list</td>
-                                    <td>@item.validity</td>
+                                <td>@item.services_list</td>
+                                <td>@item.validity</td>
+                                <td>@item.group</td>
+                                @switch (Model.CarBody.Id)
+                                {
+                                    case 1:
+                                        <td>@Math.Ceiling(item.S)</td>
+                                        break;
+                                    case 2:
+                                        <td>@Math.Ceiling(item.M)</td>
+                                        break;
+                                    case 3:
+                                        <td>@Math.Ceiling(item.L)</td>
+                                        break;
+                                    case 4:
+                                        <td>@Math.Ceiling(item.XL)</td>
+                                        break;
+                                }
 
-                                    @switch (Model.CarBody.Id)
-                                    {
-                                        case 1:
-                                            <td>@Math.Ceiling(item.S)</td>
-                                            break;
-                                        case 2:
-                                            <td>@Math.Ceiling(item.M)</td>
-                                            break;
-                                        case 3:
-                                            <td>@Math.Ceiling(item.L)</td>
-                                            break;
-                                        case 4:
-                                            <td>@Math.Ceiling(item.XL)</td>
-                                            break;
-                                    }
-
-                                </tr>
+                            </tr>
 
                             }
                         </tbody>
@@ -122,7 +123,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             <div class="card">
                 <div class="card-body col-md-6">
                     <h5 class="card-title m-b-0">WashServices</h5>
@@ -144,48 +145,46 @@
                         <tbody class="customtable">
                             @foreach (var item in ViewBag.WashServises)
                             {
-                                <tr class="Search">
-                                    <th>
-                                        <label class="customcheckbox">
-                                            @*<input type="checkbox" class="listCheckbox" />*@
-                                            @*<input type="checkbox" name="chkRow" value="@item.Id" />*@
-                                            <label class="label">
-                                                <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
-                                                <span class="label__text">
-                                                    <span class="label__check">
-                                                        <i class="fa fa-check icon"></i>
-                                                    </span>
+                            <tr class="Search">
+                                <th>
+                                    <label class="customcheckbox">
+                                        <label class="label">
+                                            <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                            <span class="label__text">
+                                                <span class="label__check">
+                                                    <i class="fa fa-check icon"></i>
                                                 </span>
-                                            </label>
-                                            <span class="checkmark"></span>
+                                            </span>
                                         </label>
-                                    </th>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
 
-                                    <td>@item.services_list</td>
-                                    @switch (Model.CarBody.Id)
-                                    {
-                                        case 1:
-                                            <td>@Math.Ceiling(item.S)</td>
-                                            break;
-                                        case 2:
-                                            <td>@Math.Ceiling(item.M)</td>
-                                            break;
-                                        case 3:
-                                            <td>@Math.Ceiling(item.L)</td>
-                                            break;
-                                        case 4:
-                                            <td>@Math.Ceiling(item.XL)</td>
-                                            break;
-                                    }
+                                <td>@item.services_list</td>
+                                @switch (Model.CarBody.Id)
+                                {
+                                    case 1:
+                                        <td>@Math.Ceiling(item.S)</td>
+                                        break;
+                                    case 2:
+                                        <td>@Math.Ceiling(item.M)</td>
+                                        break;
+                                    case 3:
+                                        <td>@Math.Ceiling(item.L)</td>
+                                        break;
+                                    case 4:
+                                        <td>@Math.Ceiling(item.XL)</td>
+                                        break;
+                                }
 
-                                </tr>
+                            </tr>
                             }
 
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
     <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
 }

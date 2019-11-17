@@ -38,8 +38,9 @@ namespace CarDetailingStudio.BLL.Services.Modules.EmployeeSalary
 
             var allOrder = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.QueryObjectGraph(x => idOrder.Contains(x.Id)));
 
+           
             foreach (var x in allOrder)
-            {
+            {                
                 orders.Add(new OrderServicesCarWashBll
                 {
                     Id = x.Id,

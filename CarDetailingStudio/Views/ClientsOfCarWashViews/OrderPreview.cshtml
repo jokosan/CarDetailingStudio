@@ -16,7 +16,7 @@
                 <tbody>
                     <tr>
                         <td>Номер машины</td>
-                        <td> @Html.DisplayFor(model => model.NumderCar)</td>
+                        <td> @Html.DisplayFor(model => model.NumberCar)</td>
                     </tr>
                     <tr>
                         <td>Марка/Модель</td>
@@ -28,7 +28,7 @@
                     </tr>
                     <tr>
                         <td>Ф.И.О</td>
-                        <td> @Html.DisplayFor(model => model.Surname) @Html.DisplayFor(model => model.Name)  @Html.DisplayFor(model => model.Surname)</td>
+                        <td> @Html.DisplayFor(model => model.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientInfo.Surname)</td>
                     </tr>
                    
                 </tbody>
@@ -51,9 +51,6 @@
         {
             @Html.AntiForgeryToken()
 
-
-
-
             <div class="card">
                 <div class="card-body col-md-6">
                     <h5 class="card-title m-b-0">Services</h5>
@@ -66,7 +63,6 @@
                             @foreach (var item in ViewBag.PriceList)
                             {
                                 <tr>
-
                                     <td>@item.services_list</td>
                                     <td>@item.validity</td>
                                     <td><input value=@item.Id name="id" type="hidden" /></td>
@@ -100,7 +96,6 @@
 
             <div class="card">
                 <div class="card-body">
-
                     <div class="pull-right m-t-30 text-right">
                         <p>Скидка клиента @Html.DisplayFor(model => model.discont) %</p>
                         <p>Общая сумма: @ViewBag.SumOrder грн</p>
@@ -111,19 +106,13 @@
                     <hr>
                     <div class="text-right">
                         <input type="submit" value="Create" class="btn btn-success preview" />
-                        @Html.ActionLink("Cansel", "OrderPreview", new { id = Model.ib }, new { @class = "btn btn-danger preview" })
+                        @Html.ActionLink("Cansel", "OrderPreview", new { id = Model.id }, new { @class = "btn btn-danger preview" })
                     </div>
                 </div>
             </div>
-
         }
-
-
     </div>
-
 </div>
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -136,11 +125,9 @@
         $total.val(parseInt($total.val()) + parseInt($(this).val()));
     });
 
-
     function subtractOperands() {
         var result = $('#operand1').val() - $('#operand2').val();
         $('#result').val(result);
     }
-
 
 </script>

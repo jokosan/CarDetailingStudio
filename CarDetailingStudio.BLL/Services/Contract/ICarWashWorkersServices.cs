@@ -11,5 +11,8 @@ namespace CarDetailingStudio.BLL.Services.Contract
         IEnumerable<CarWashWorkersBll> GetChooseEmployees();
         IEnumerable<CarWashWorkersBll> GetStaffAll();
         bool HomeEntryCondition();
+        void InsertEmployee(CarWashWorkersBll carWashWorkersBll);
+        CarWashWorkersBll CarWashWorkersId(int? id);
+        void UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action);
     }
 }

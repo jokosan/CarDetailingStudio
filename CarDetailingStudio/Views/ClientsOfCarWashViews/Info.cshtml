@@ -1,0 +1,68 @@
+﻿@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
+
+<div>
+    <h4>ClientsOfCarWashView</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdClientsGroups)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdClientsGroups)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdMark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdMark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdModel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdModel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdBody)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdBody)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdInfoClient)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdInfoClient)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberCar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberCar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.discont)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.discont)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

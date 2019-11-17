@@ -2737,7 +2737,7 @@ textarea.form-control {
     line-height: 46px;
   }
 }
-.form-group {
+.form-group row {
   margin-bottom: 15px;
 }
 .radio,
@@ -2820,22 +2820,22 @@ textarea.input-sm,
 select[multiple].input-sm {
   height: auto;
 }
-.form-group-sm .form-control {
+.form-group row-sm .form-control {
   height: 30px;
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
 }
-.form-group-sm select.form-control {
+.form-group row-sm select.form-control {
   height: 30px;
   line-height: 30px;
 }
-.form-group-sm textarea.form-control,
-.form-group-sm select[multiple].form-control {
+.form-group row-sm textarea.form-control,
+.form-group row-sm select[multiple].form-control {
   height: auto;
 }
-.form-group-sm .form-control-static {
+.form-group row-sm .form-control-static {
   height: 30px;
   min-height: 32px;
   padding: 6px 10px;
@@ -2857,22 +2857,22 @@ textarea.input-lg,
 select[multiple].input-lg {
   height: auto;
 }
-.form-group-lg .form-control {
+.form-group row-lg .form-control {
   height: 46px;
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.3333333;
   border-radius: 6px;
 }
-.form-group-lg select.form-control {
+.form-group row-lg select.form-control {
   height: 46px;
   line-height: 46px;
 }
-.form-group-lg textarea.form-control,
-.form-group-lg select[multiple].form-control {
+.form-group row-lg textarea.form-control,
+.form-group row-lg select[multiple].form-control {
   height: auto;
 }
-.form-group-lg .form-control-static {
+.form-group row-lg .form-control-static {
   height: 46px;
   min-height: 38px;
   padding: 11px 16px;
@@ -2899,14 +2899,14 @@ select[multiple].input-lg {
 }
 .input-lg + .form-control-feedback,
 .input-group-lg + .form-control-feedback,
-.form-group-lg .form-control + .form-control-feedback {
+.form-group row-lg .form-control + .form-control-feedback {
   width: 46px;
   height: 46px;
   line-height: 46px;
 }
 .input-sm + .form-control-feedback,
 .input-group-sm + .form-control-feedback,
-.form-group-sm .form-control + .form-control-feedback {
+.form-group row-sm .form-control + .form-control-feedback {
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -3014,7 +3014,7 @@ select[multiple].input-lg {
   color: #737373;
 }
 @media (min-width: 768px) {
-  .form-inline .form-group {
+  .form-inline .form-group row {
     display: inline-block;
     margin-bottom: 0;
     vertical-align: middle;
@@ -3075,7 +3075,7 @@ select[multiple].input-lg {
 .form-horizontal .checkbox {
   min-height: 27px;
 }
-.form-horizontal .form-group {
+.form-horizontal .form-group row {
   margin-right: -15px;
   margin-left: -15px;
 }
@@ -3090,13 +3090,13 @@ select[multiple].input-lg {
   right: 15px;
 }
 @media (min-width: 768px) {
-  .form-horizontal .form-group-lg .control-label {
+  .form-horizontal .form-group row-lg .control-label {
     padding-top: 11px;
     font-size: 18px;
   }
 }
 @media (min-width: 768px) {
-  .form-horizontal .form-group-sm .control-label {
+  .form-horizontal .form-group row-sm .control-label {
     padding-top: 6px;
     font-size: 12px;
   }
@@ -4452,7 +4452,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-bottom: 8px;
 }
 @media (min-width: 768px) {
-  .navbar-form .form-group {
+  .navbar-form .form-group row {
     display: inline-block;
     margin-bottom: 0;
     vertical-align: middle;
@@ -4502,10 +4502,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 @media (max-width: 767px) {
-  .navbar-form .form-group {
+  .navbar-form .form-group row {
     margin-bottom: 5px;
   }
-  .navbar-form .form-group:last-child {
+  .navbar-form .form-group row:last-child {
     margin-bottom: 0;
   }
 }
@@ -6545,8 +6545,8 @@ button.close {
 .container-fluid:after,
 .row:before,
 .row:after,
-.form-horizontal .form-group:before,
-.form-horizontal .form-group:after,
+.form-horizontal .form-group row:before,
+.form-horizontal .form-group row:after,
 .btn-toolbar:before,
 .btn-toolbar:after,
 .btn-group-vertical > .btn-group:before,
@@ -6575,7 +6575,7 @@ button.close {
 .container:after,
 .container-fluid:after,
 .row:after,
-.form-horizontal .form-group:after,
+.form-horizontal .form-group row:after,
 .btn-toolbar:after,
 .btn-group-vertical > .btn-group:after,
 .nav:after,

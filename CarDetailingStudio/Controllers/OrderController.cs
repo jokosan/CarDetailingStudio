@@ -25,7 +25,7 @@ namespace CarDetailingStudio.Controllers
         private IBrigadeForTodayServices _brigade;
         private IOrderServices _orderServices;
 
-        public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises, IBrigadeForTodayServices brigade, OrderServices orderSer)
+        public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises, IBrigadeForTodayServices brigade, IOrderServices orderSer)
         {
             _order = orderServices;
             _servisesCarWash = servises;
@@ -61,11 +61,16 @@ namespace CarDetailingStudio.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (TempData.ContainsKey("PageSettings"))
+            {
+                ViewBag.Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow());
+            }
+
             return View(OrderOnfo);
         }
 
         [HttpPost, ActionName("OrderInfo")]
-        //[ValidateAntiForgeryToken]
         public ActionResult ServicesDelete( int idOrder, int idServices = 0)
         {
             if (idServices != 0)
@@ -93,13 +98,15 @@ namespace CarDetailingStudio.Controllers
 
             var Order =  Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
             var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAllId(id));
-            var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow());            
+            var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow().Where(x => x.CarWashWorkers.IdPosition > 2));            
 
             Price = Services.Sum(x => x.Price);
                   
             ViewBag.Services = Services;
             ViewBag.Brigade = Brigade;
             ViewBag.Price = Price;
+
+            TempData["ServicesType"] = Services;
 
             if (Order.ClientsOfCarWash.discont > 0)
             {
@@ -120,6 +127,8 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         public ActionResult CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState)
         {
+            //var resultServices = TempData["ServicesType"] as IEnumerable<ServisesCarWashOrderView>;
+
             if (idBrigade != null)
             {
                 _order.CloseOrder(idPaymentState, idOrder, idBrigade);
@@ -143,7 +152,8 @@ namespace CarDetailingStudio.Controllers
 
         public ActionResult OrderReport()
         {
-            var OrderAll = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(2));
+             var OrderAll = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(2));
+            //TempData["PageSettings"] = nameof(OrderReport);
 
             return View(OrderAll);
         }
@@ -156,8 +166,6 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Date = $"Выборка заказов за период с {startDate.ToString("dd.MM.yyyy")} по {finalDate.ToString("dd.MM.yyyy")} ";
             return View(OrderWhere);
         }
-
-     
 
         #region
         //// GET: Order/Details/5
