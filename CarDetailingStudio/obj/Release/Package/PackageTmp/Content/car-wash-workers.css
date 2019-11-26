@@ -1,0 +1,140 @@
+﻿.auth-wrapper {
+	min-height: 100vh;
+	position: relative;
+}
+
+	.auth-wrapper .auth-box {
+		background: #fff;
+		padding: 20px;
+		-webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+		box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+		max-width: 400px;
+		width: 90%;
+		margin: 0% 0;
+	}
+
+		.auth-wrapper .auth-box .logo {
+			text-align: center;
+		}
+
+		.auth-wrapper .auth-box.on-sidebar {
+			top: 0px;
+			right: 0px;
+			height: 100%;
+			margin: 0px;
+			position: absolute;
+		}
+
+	.auth-wrapper #recoverform {
+		display: none;
+	}
+
+	.auth-wrapper .auth-sidebar {
+		position: fixed;
+		height: 100%;
+		right: 0px;
+		overflow: auto;
+		margin: 0px;
+		top: 0px;
+	}
+
+.comment-widgets .comment-row.active, .comment-widgets .comment-row:hover {
+	background: rgba(0, 0, 0, 0.28);
+}
+
+body {
+	margin: 0;
+	overflow-x: hidden;
+	color: #dfe7ef;
+	background: #fff;
+}
+
+.btn {
+	width: 100%;
+}
+
+
+
+/*-----------------------------------*/
+
+/*body, html {
+    font-family: 'Lato', monospace;
+    font-size: ~'calc(1rem + 1vw)';
+}*/
+
+.label__checkbox {
+    display: none;
+}
+
+.label__check {
+    display: inline-block;
+    border-radius: 50%;
+    border: 5px solid rgba(0,0,0,0.1);
+    background: white;
+    vertical-align: middle;
+    margin-right: 20px;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border .3s ease;
+    i .icon
+
+{
+    opacity: 0.2;
+    font-size: ~'calc(1rem + 1vw)';
+    color: transparent;
+    transition: opacity .3s .1s ease;
+    -webkit-text-stroke: 3px rgba(0,0,0,.5);
+}
+
+&:hover {
+    border: 5px solid rgba(0,0,0,0.2);
+}
+
+}
+
+.label__checkbox:checked + .label__text .label__check {
+    animation: check .5s cubic-bezier(0.895, 0.030, 0.685, 0.220) forwards;
+    .icon
+
+{
+    opacity: 1;
+    transform: scale(0);
+    color: white;
+    -webkit-text-stroke: 0;
+    animation: icon .3s cubic-bezier(1.000, 0.008, 0.565, 1.650) .1s 1 forwards;
+}
+
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+@keyframes icon {
+    from {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+@keyframes check {
+    100% {
+        width: 2em;
+        height: 2em;
+        background: #00d478;
+        border: 0;
+        opacity: 1;
+    }
+}

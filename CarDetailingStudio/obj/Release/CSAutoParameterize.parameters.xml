@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="carWashEntities-Web.config Connection String" description="carWashEntities Строка подключения в web.config, используемая приложением для доступа к базе данных." defaultValue="metadata=res://*/DataBaseCarDetailingStudio.csdl|res://*/DataBaseCarDetailingStudio.ssdl|res://*/DataBaseCarDetailingStudio.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=LAPTOP-DN88AAG5\SQLEXPRESS;initial catalog=carWash;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Vasilenko\\Desktop\\CarDetailingStudio11-10-2019\\CarDetailingStudio\\CarDetailingStudio\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='carWashEntities']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Строка подключения в web.config, используемая приложением для доступа к базе данных." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-CarDetailingStudio-20190929121811.mdf;Initial Catalog=aspnet-CarDetailingStudio-20190929121811;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Vasilenko\\Desktop\\CarDetailingStudio11-10-2019\\CarDetailingStudio\\CarDetailingStudio\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="CarDetailingStudioContext-Web.config Connection String" description="CarDetailingStudioContext Строка подключения в web.config, используемая приложением для доступа к базе данных." defaultValue="Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=CarDetailingStudioContext-20190929132714; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|CarDetailingStudioContext-20190929132714.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Vasilenko\\Desktop\\CarDetailingStudio11-10-2019\\CarDetailingStudio\\CarDetailingStudio\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CarDetailingStudioContext']/@connectionString" />
+  </parameter>
+</parameters>

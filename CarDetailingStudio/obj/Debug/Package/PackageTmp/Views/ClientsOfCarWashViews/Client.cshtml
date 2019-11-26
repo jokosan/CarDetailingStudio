@@ -1,0 +1,110 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView>
+
+@{
+    ViewBag.Title = "Client";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Clients</h5>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        @Html.ActionLink("Create New",  "../Client/NewClient", null, new { @class = "btn btn-info" })
+                    </div>
+                </div>
+
+            </div>
+            <table class="table">
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.ClientInfo.Surname)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.ClientInfo.Name)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.ClientInfo.PatronymicName)
+                    </th>
+
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.ClientInfo.DateRegistration)
+                    </th>
+
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.discont)
+                    </th>
+
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.NumberCar)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.IdClientsGroups)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.IdMark)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.IdModel)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.IdBody)
+                    </th>
+
+                    <th scope="col">
+                        Action
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientInfo.Surname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientInfo.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientInfo.PatronymicName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientInfo.DateRegistration)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.discont)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberCar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientsGroups.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.car_mark.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.car_model.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CarBody.Name)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Edit", "EditCarClient", new { id = item.id }, new { @class = "btn btn-cyan btn-sm" }) |
+                            @Html.ActionLink("Details", "Info", new { idClientInfo = item.ClientInfo.Id, idClient = item.id }, new { @class = "btn btn-success btn-sm" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -106,8 +106,8 @@ namespace CarDetailingStudio.BLL.Services
             else
             {
                 var Result = Mapper.Map<IEnumerable<ExchangeRatesBll>>(_unitOfWork.ExchangeRatesUnitOfWork.GetWhere(x => x.ccy == "USD"));
-
-                return Result.Single();
+              
+                return Result.SingleOrDefault();
             }         
             
         }

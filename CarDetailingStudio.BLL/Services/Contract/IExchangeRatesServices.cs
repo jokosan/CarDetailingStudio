@@ -7,5 +7,8 @@ namespace CarDetailingStudio.BLL.Services
     {      
         void Insert(List<ExchangeRatesBll> exchangeRates);
         IEnumerable<ExchangeRatesBll> GetAll();
+        void UpdateTable();
+        bool CheckForUpdate();
+        void UpdateListExchangeRates();
     }
 }

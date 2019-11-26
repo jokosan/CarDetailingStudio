@@ -32,13 +32,25 @@ namespace CarDetailingStudio.BLL.Services
 
         public void UpdateTable()
         {
-            if (GetAll().Count() > 0)
+            var ResultCount = GetAll();
+
+            if (ResultCount.Count() > 0)
             {
-                foreach (var x in ApiPrivatBank.exchangeRatesModel)
+                int z = 0;
+
+                foreach (var x in ResultCount)
                 {
+                    x.ccy = ApiPrivatBank.exchangeRatesModel[z].ccy;
+                    x.base_ccy = ApiPrivatBank.exchangeRatesModel[z].base_ccy;
+                    x.buy = ApiPrivatBank.exchangeRatesModel[z].buy;
+                    x.sale = ApiPrivatBank.exchangeRatesModel[z].sale;
+                    x.Date = ApiPrivatBank.exchangeRatesModel[z].Date;
+
                     ExchangeRates exchangeRates = Mapper.Map<ExchangeRatesBll, ExchangeRates>(x);
                     _unitOfWork.ExchangeRatesUnitOfWork.Update(exchangeRates);
                     _unitOfWork.Save();
+
+                    z++;
                 }
             }
             else

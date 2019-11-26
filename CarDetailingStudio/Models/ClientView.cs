@@ -24,15 +24,24 @@ namespace CarDetailingStudio.Models
         public string Surname { get; set; }
         public string Name { get; set; }       
         public string PatronymicName { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public string phone { get; set; }
         public Nullable<System.DateTime> DateRegistration { get; set; }
         public string Email { get; set; }
         public Nullable<int> discont { get; set; }
         public string Recommendation { get; set; }
+        
+        [Required]
         public string NumberCar { get; set; }
+        
+        [Required]
         public Nullable<int> IdClientsGroups { get; set; }
         public Nullable<int> Idmark { get; set; }
         public Nullable<int> Idmodel { get; set; }
+        
+        [Required]
         public Nullable<int> IdBody { get; set; }
         public string note { get; set; }
         public string barcode { get; set; }

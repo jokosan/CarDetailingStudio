@@ -61,7 +61,5 @@ namespace CarDetailingStudio.Controllers
             TempData["Model"] = Int32.Parse(data);
             return Json("");
         }
-
-
     }
 }

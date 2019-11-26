@@ -21,8 +21,12 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<int> IdClientsGroups { get; set; }
         public Nullable<int> IdMark { get; set; }
         public Nullable<int> IdModel { get; set; }
+        
+        [Required]
         public Nullable<int> IdBody { get; set; }
         public Nullable<int> IdInfoClient { get; set; }
+        
+        [Required]
         public string NumberCar { get; set; }
         public Nullable<int> discont { get; set; }
 

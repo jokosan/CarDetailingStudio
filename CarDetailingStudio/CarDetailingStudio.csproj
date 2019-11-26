@@ -629,6 +629,7 @@
     <Content Include="Scripts\i18n\vi.js" />
     <Content Include="Scripts\i18n\zh-CN.js" />
     <Content Include="Scripts\i18n\zh-TW.js" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1151,10 +1152,10 @@
     <Content Include="Views\Client\NewClient.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\Info.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\EditCarClient.cshtml" />
+    <Content Include="Views\ClientsOfCarWashViews\AddCar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

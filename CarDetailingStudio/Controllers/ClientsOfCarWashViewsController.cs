@@ -153,9 +153,9 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCarClient([Bind(Include = "id,IdClientsGroups,IdMark,IdModel,IdInfoClient,NumberCar,Email,discont")] ClientsOfCarWashView clientsOfCarWashView)
+        public ActionResult EditCarClient([Bind(Include = "id,IdClientsGroups,IdMark,IdModel,IdBody,IdInfoClient,NumberCar,discont")] ClientsOfCarWashView clientsOfCarWashView)
         {
-            if (TempData.ContainsKey("Mark") && TempData.ContainsKey("Model"))
+            if (TempData.ContainsKey("Mark") == true && TempData.ContainsKey("Model") == true)
             {
                 clientsOfCarWashView.IdMark = Int32.Parse(TempData["Mark"].ToString());
                 clientsOfCarWashView.IdModel = Int32.Parse(TempData["Model"].ToString());
@@ -165,11 +165,61 @@ namespace CarDetailingStudio.Controllers
                     ClientsOfCarWashBll clients = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(clientsOfCarWashView);
                     _services.ClientCarUpdate(clients);
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Client");
                 }
             }
+
+            ViewBag.Body = new SelectList(_carBody.WhereAllCarBody(), "Id", "Name");
+            ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
+
             return View(clientsOfCarWashView);
         }
+
+        public ActionResult AddCar(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            TempData["IdClient"] = id;
+
+            ViewBag.Body = new SelectList(_carBody.WhereAllCarBody(), "Id", "Name");
+            ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
+
+            return View();
+        }
+
+        // POST: ClientsOfCarWashViews/Edit/5
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCar([Bind(Include = "id,IdClientsGroups,IdMark,IdModel,IdBody,IdInfoClient,NumberCar,discont")] ClientsOfCarWashView clientsOfCarWashView)
+        {
+            if (TempData.ContainsKey("Mark") == true && TempData.ContainsKey("Model") == true)
+            {
+                clientsOfCarWashView.IdMark = Int32.Parse(TempData["Mark"].ToString());
+                clientsOfCarWashView.IdModel = Int32.Parse(TempData["Model"].ToString());
+                clientsOfCarWashView.IdInfoClient = Int32.Parse(TempData["IdClient"].ToString());
+
+                if (ModelState.IsValid)
+                {
+                    ClientsOfCarWashBll clients = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(clientsOfCarWashView);
+                    _services.Insert(clients);
+
+                    return RedirectToAction("Client");
+                }
+            }
+
+            ViewBag.Body = new SelectList(_carBody.WhereAllCarBody(), "Id", "Name");
+            ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
+
+            return View(clientsOfCarWashView);
+        }
+
+
 
         // GET: ClientsOfCarWashViews/Details/5
         public ActionResult Info(int? idClientInfo, int? idClient)

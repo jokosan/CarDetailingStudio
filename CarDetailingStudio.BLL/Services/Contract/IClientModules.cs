@@ -10,6 +10,5 @@ namespace CarDetailingStudio.BLL.Services.Contract
     public interface IClientModules
     {
         void Distribute(ClientViewsBll client);
-        IEnumerable<ClientViewsBll> JoinTable();
     }
 }

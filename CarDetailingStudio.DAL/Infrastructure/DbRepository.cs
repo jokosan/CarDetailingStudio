@@ -61,7 +61,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
             DbSeT.Remove(entityToDelete);
         }
-
+      
         public virtual void Update(T entityToUpdate)
         {
             _carWashEntitiesContext.Set<T>().AddOrUpdate(entityToUpdate);
@@ -109,9 +109,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
             return query;
         }
 
-      
-
-
+    
     }
 }
 

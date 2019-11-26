@@ -30,12 +30,7 @@ namespace CarDetailingStudio.Controllers
             _carModel = carModel;
             _clientsGroups = clientsGroupsServices;
         }
-        public ActionResult Client()
-        {
-            var RedirectModel = Mapper.Map<IEnumerable<ClientView>>(_clientModules.JoinTable());
-            return View(RedirectModel);
-        }
-
+      
         // GET: Client/Create
         public ActionResult NewClient(string idPage)
         {
@@ -48,9 +43,9 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewClient([Bind(Include = "Id,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumberCar,IdClientsGroups,Idmark,Idmodel,IdBody,note,barcode")] ClientView clientView, bool Page)
+        public ActionResult NewClient([Bind(Include = "Id,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumberCar,IdClientsGroups,IdBody,note,barcode")] ClientView clientView, bool Page)
         {
-            if (TempData.ContainsKey("Mark") && TempData.ContainsKey("Model"))
+            if (TempData.ContainsKey("Mark") == true && TempData.ContainsKey("Model") == true)
             {
                 clientView.Idmark = Int32.Parse(TempData["Mark"].ToString());
                 clientView.Idmodel = Int32.Parse(TempData["Model"].ToString());
@@ -62,11 +57,11 @@ namespace CarDetailingStudio.Controllers
 
                     if (Page)
                     {
-                        return RedirectToAction("AddClient");
+                        return RedirectToAction("../ClientsOfCarWashViews/Client");
                     }
                     else
                     {
-                        return RedirectToAction("NewOrder");
+                        return RedirectToAction("../ClientsOfCarWashViews/NewOrder");
                     }
                 }
             }

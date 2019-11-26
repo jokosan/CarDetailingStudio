@@ -1,0 +1,136 @@
+﻿@model CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView
+
+@{
+    ViewBag.Title = "OrderInfo";
+}
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <div class="alert alert-danger" role="alert">
+            <h6>№@Html.DisplayFor(model => model.Id) заказа</h6>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Customer</h5>
+            </div>
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Номер машины</td>
+                        <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumberCar)</td>
+                    </tr>
+                    <tr>
+                        <td>Марка/Модель</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name)</td>
+                    </tr>
+                    <tr>
+                        <td>Тип кузова</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)</td>
+                    </tr>
+                    <tr>
+                        <td>Ф.И.О</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="card">
+                <div class="card-body col-md-6">
+                    <h5 class="card-title m-b-0">OrderServices</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">validity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Services</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            @foreach (var item in ViewBag.ServisesInfo)
+                            {
+                                <tr>
+                                    <td>@item.Detailings.services_list</td>
+
+                                    <td>@item.Price</td>
+                                    <td>
+                                        @if (item.Detailings.IdTypeService == 1)
+                                        {
+                                            <b>Детейлинг</b>
+                                        }
+                                        else
+                                        {
+                                            <b>Мойка</b>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        <input type="submit" value="ServicesDelete" class="btn btn-danger btn-sm" />
+                                        <input value=@item.Id name="idServices" type="hidden" />
+                                        <input value=@item.IdOrderServicesCarWash name="idOrder" type="hidden" />
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+
+
+        @using (Html.BeginForm())
+        {
+            <div class="text-right">
+
+                <input value=@Model.Id name="idOrder" type="hidden" />
+                <input class="btn btn-danger" type="submit" id="btnCreate" value="OrderDelete" @Url.Action("Index", "Order") />
+                @Html.ActionLink("EditOrder", "Index", null, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+            </div>
+
+        }
+
+    </div>
+
+    @if (ViewBag.Brigade != null)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Смена</h5>
+
+            </div>
+            <div class="comment-widgets scrollable">
+                @foreach (var item in ViewBag.Brigade)
+                {
+                    <div class="d-flex flex-row comment-row m-t-0">
+                                           
+
+                        <div class="comment-text w-100">
+                            <h6 class="font-medium"> @item.CarWashWorkers.Name @item.CarWashWorkers.Name </h6>
+                            <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
+                               я
+                            <div class="comment-footer">
+                                <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
+                                @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    }
+
+</div>

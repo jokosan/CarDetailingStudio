@@ -1,0 +1,306 @@
+﻿@model CarDetailingStudio.Models.ClientView
+
+<link href="~/Content/css/select2.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <form id="Form1">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="card-title">Customer</h4>
+                            <hr>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.Surname)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.Name)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.PatronymicName)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.PatronymicName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PatronymicName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.phone)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.DateRegistration)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.DateRegistration, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DateRegistration, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="card-title">The car</h4>
+                            <hr>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.NumberCar)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.NumberCar, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.NumberCar, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.IdClientsGroups)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.DropDownListFor(model => model.IdClientsGroups, this.ViewBag.Group as SelectList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdClientsGroups, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.Idmark)
+                                </label>
+                                <div class="col-sm-9">
+
+                                    <input type="hidden" class="CountryId" id="CarMark" />
+                                    <select class="MarkCar form-control">
+                                    </select>
+
+
+                                    @Html.ValidationMessageFor(model => model.Idmark, "", new { @class = "text-danger" })
+                                    @*  <select class="Country form-control"></select>*@
+                                    @*@Html.EditorFor(model => model.Idmark, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Idmark, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.Idmodel)
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="hidden" id="CarModelResult" />
+                                    <select class="State form-control" id="mySelect2" border-radius:5px;">
+                                        <option>Choose a model</option>
+                                    </select>
+
+
+                                    @*@Html.EditorFor(model => model.Idmodel, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Idmodel, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.IdBody)
+                                </label>
+                                <div class="col-sm-9">
+                                    @Html.DropDownListFor(model => model.IdBody, this.ViewBag.Body as SelectList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdBody, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <h4 class="card-title">Additional customer information</h4>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model.Recommendation)
+                                        </label>
+                                        <div class="col-sm-9">
+                                            @Html.EditorFor(model => model.Recommendation, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Recommendation, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model.note)
+                                        </label>
+                                        <div class="col-sm-9">
+                                            @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model.Email)
+                                        </label>
+                                        <div class="col-sm-9">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model.discont)
+                                        </label>
+                                        <div class="col-sm-9">
+                                            @Html.EditorFor(model => model.discont, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.discont, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (ViewBag.OpenPage == "Checkout")
+        {
+            <input value="false" name="Page" type="hidden" />
+
+            <div class="form-group" align="right">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Back to List", "../ClientsOfCarWashViews/Checkout", null, new { @class = "btn btn-danger" })
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+
+        }
+        else
+        {
+
+            <input value="true" name="Page" type="hidden" />
+
+            <div class="form-group" align="right">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Back to List", "../ClientsOfCarWashViews/Client", null, new { @class = "btn btn-danger" })
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+        }
+
+    </form>
+}
+
+<script>
+    $(document).ready(function () {
+        $(".MarkCar").select2({
+            placeholder: "MarkCar",
+            theme: "classic",
+            ajax: {
+                url: "/AddClientJson/GetCountryList",
+                dataType: "json",
+                data: function (params) {
+                    return {
+                        searchTerm: params.term
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data
+                    };
+                }
+            }
+        });
+    });
+
+    $(".MarkCar").on("change", function () {
+        var CounrtyID = $(this).val();
+        $(".CountryId").val(CounrtyID);
+        var textBoxVal = $(".CountryId").val();
+        $.ajax({
+            url: "/AddClientJson/GetStateList?CountryIDs=" + textBoxVal,
+            dataType: 'json',
+            type: 'post',
+            success: function (data) {
+                $(".State").empty();
+                $.each(data, function (index, row) {
+                    $(".State").append("<option value='" + row.id_car_model + "'>" + row.name + "</option>")
+                });
+            }
+        });
+    });
+
+
+    $(".State").on("change", function () {
+        var catId = $(this).val();
+        $("#CarModelResult").val(catId);
+
+        var textBoxValueData = $("#CarModelResult").val();
+
+        $.ajax({
+            url: '/AddClientJson/Save?data=' + textBoxValueData,
+            dataType: "json",
+            type: 'post',
+
+        });
+    });
+
+    //$(".MarkCar").on("change", function () {
+    //    var catId = $(this).val();
+    //    $("#CarModelResult").val(catId);
+
+    //    var textBoxValueData = $("#CarModelResult").val();
+
+    //    $.ajax({
+    //        url: '/AddClientJson/Save?markId=' + textBoxValueData,
+    //        dataType: "json",
+    //        type: 'post',
+
+    //    });
+    //});
+
+
+
+
+
+</script>
