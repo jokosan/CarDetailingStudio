@@ -191,17 +191,17 @@
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 @using Microsoft.AspNet.Identity
                                 @if (Request.IsAuthenticated)
-                                {                               
+                                {
                                     <a class="dropdown-item" href=@Url.Action("../Manage/Index")><i class="ti-user m-r-5 m-l-5"></i> @User.Identity.GetUserName() </a>
                                 }
 
-                               
+
                                 @** <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>*@
 
                                 @*<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
-        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>*@
+                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>*@
                                 @*<div class="dropdown-divider"></div>*@
-                               @* <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>*@
+                                @* <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>*@
                                 @*<div class="dropdown-divider"></div>*@
                                 @*<a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>*@
 
@@ -235,7 +235,7 @@
 
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ClientsOfCarWashViews/Checkout") aria-expanded="false"><i class="mdi mdi-bulletin-board"></i><span class="hide-menu">Создать заказ</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../BrigadeForToday/TodayShift") aria-expanded="false"><i class="mdi mdi-table-edit"></i><span class="hide-menu">Редактировать смену</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="tables.html" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">Расходы</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../Costs/CostsInfo") aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">Расходы</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ClientsOfCarWashViews/Client") aria-expanded="false"><i class="mdi mdi-contacts"></i><span class="hide-menu">Клиенты</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../CarWashWorkersViews/Staff") aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Персонал</span></a></li>
 
@@ -275,7 +275,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-key"></i><span class="hide-menu">Authentication </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
-                               
+
                                 @Html.Partial("_LoginPartial")
                                 @*<li class="sidebar-item">@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>
                                     <li class="sidebar-item">@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>*@
@@ -350,8 +350,9 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
+          
             <footer class="footer text-center">
-                MOTOR CLEAN 2019 Designed and Developed by WrapPixel.
+                MOTOR CLEAN 2019 - @DateTime.Now.ToString("yyyy") Designed and Developed by WrapPixel.
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -361,7 +362,7 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
         @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
-       @* <script src="~/Scripts/MatrixAdminJS/jquery.min.js"></script>*@
+        @* <script src="~/Scripts/MatrixAdminJS/jquery.min.js"></script>*@
 
         <script src="~/Scripts/MatrixAdminJS/jquery.ui.touch-punch-improved.js"></script>
         <script src="~/Scripts/MatrixAdminJS/jquery-ui.min.js"></script>

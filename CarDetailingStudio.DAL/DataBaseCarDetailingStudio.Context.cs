@@ -39,6 +39,7 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<ClientsGroups> ClientsGroups { get; set; }
         public virtual DbSet<ClientsOfCarWash> ClientsOfCarWash { get; set; }
         public virtual DbSet<Costs> Costs { get; set; }
+        public virtual DbSet<Credit> Credit { get; set; }
         public virtual DbSet<Detailings> Detailings { get; set; }
         public virtual DbSet<ExchangeRates> ExchangeRates { get; set; }
         public virtual DbSet<GroupWashServices> GroupWashServices { get; set; }

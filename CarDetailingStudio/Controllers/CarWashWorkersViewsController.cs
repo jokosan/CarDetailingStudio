@@ -48,10 +48,17 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection form)
+        public ActionResult Index(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
-            _services.AddToCurrentShift(form);
-            return Redirect("/Order/Index");
+            if (adminCarWosh != null && adminDetailing != null && chkRow != null)
+            {                
+                _services.AddToCurrentShift(adminCarWosh, adminDetailing, chkRow);
+                return Redirect("/Order/Index");
+            }
+
+            var ReirectModel = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetChooseEmployees());   
+            
+            return View(ReirectModel);
         }
 
         public ActionResult Staff()

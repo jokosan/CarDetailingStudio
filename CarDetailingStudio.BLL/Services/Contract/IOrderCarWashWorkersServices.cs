@@ -8,5 +8,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
         void AddEmployeeToOrder(List<string> idBrigade, int idOrder);
         IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int IdCarWashWorkers);
         IEnumerable<OrderCarWashWorkersBll> СontractorAllId(int? id);
+        void OrderServicesUpdate(int id);
     }
 }

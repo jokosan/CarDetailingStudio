@@ -12,17 +12,19 @@ using CarDetailingStudio.Models.ModelViews;
 using CarDetailingStudio.BLL.Services.Modules;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.Controllers
 {
     public class ItogOrderController : Controller
     {
-        private OrderInfoViewServices _orderInfo;
+        private IOrderInfoViewServices _orderInfo;
+        private ICostServices _costServices;
 
-
-        public ItogOrderController(OrderInfoViewServices orderInfo)
+        public ItogOrderController(IOrderInfoViewServices orderInfo, ICostServices costServices)
         {
             _orderInfo = orderInfo;
+            _costServices = costServices;
         }
 
         // GET: OrderInfoViewModels
@@ -44,6 +46,7 @@ namespace CarDetailingStudio.Controllers
             {
                 var resultBrigade = TempData["Calculate"] as IEnumerable<OrderInfoViewModel>;                
                 _orderInfo.PayAllEmployees(Mapper.Map<IEnumerable<OrderInfoViewModel>, IEnumerable<OrderInfoViewBll>>(resultBrigade));
+                _costServices.AddCost(resultBrigade.Sum(x => x.Expr1));
             }
             
             return Redirect("Salary");

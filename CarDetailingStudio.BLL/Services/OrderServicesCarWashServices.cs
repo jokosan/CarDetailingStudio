@@ -12,6 +12,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.BLL.Services.Modules.ModulesModel;
 
+
 namespace CarDetailingStudio.BLL.Services
 {
     public class OrderServicesCarWashServices : IOrderServicesCarWashServices
@@ -34,12 +35,22 @@ namespace CarDetailingStudio.BLL.Services
             _orderCarWashWorkersServices = orderCarWash;
             _servisesCarWashOrder = servisesCarWashOrder;
         }
-
-        public IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder)
+        
+        public IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder, string searchTable = null)
         {
             if (statusOrder != 2)
             {
                 var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
+
+                if (searchTable != null)
+                {
+                     var GetSearcgResult = GetAllResult.Where(x => x.ClientsOfCarWash.NumberCar.StartsWith(searchTable)).OrderBy(p => p.OrderDate);
+                  
+                    return GetSearcgResult;
+                }               
+
+                //var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => (x.ClientsOfCarWash.NumberCar.StartsWith(searchTable) || searchTable == null)
+                //                                                    && (x.StatusOrder == 1)));
                 return GetAllResult;
             }
             else
@@ -50,7 +61,6 @@ namespace CarDetailingStudio.BLL.Services
 
                 return Test;
             }
-
         }
 
         public OrderServicesCarWashBll GetId(int? id)
@@ -163,7 +173,7 @@ namespace CarDetailingStudio.BLL.Services
             var dateFinal = final.Date.AddDays(1);
 
             var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhereDate(x => x.StatusOrder == 2));
-            var Test = OrderByDate.Where( x => x.ClosingData > dateStart && x.ClosingData <= final.Date.AddDays(1));
+            var Test = OrderByDate.Where(x => x.ClosingData > dateStart && x.ClosingData <= final.Date.AddDays(1));
             //va);
             return Test;
         }

@@ -6,7 +6,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface ICarWashWorkersServices
     {
-        void AddToCurrentShift(FormCollection collection);
+        void AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow);
         void Dispose();
         IEnumerable<CarWashWorkersBll> GetChooseEmployees();
         IEnumerable<CarWashWorkersBll> GetStaffAll();

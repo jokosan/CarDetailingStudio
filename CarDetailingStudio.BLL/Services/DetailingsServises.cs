@@ -28,7 +28,8 @@ namespace CarDetailingStudio.BLL.Services
 
         public IEnumerable<DetailingsBll> GetAll()
         {
-            return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
+            //return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.GetInclude("GroupWashServices"));
         }
 
         public DetailingsBll GetId(int? id)

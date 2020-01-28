@@ -16,95 +16,97 @@
                 </div>
             </div>
 
-            <table class="table" id="dtBasicExample">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.services_list)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.validity)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.note)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.S)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.M)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.L)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.XL)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.group)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.currency)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.mark)
-                        </th>
+            <div class="table-responsive">
+                <table class="table" id="dtBasicExample">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.services_list)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.validity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.note)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.S)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.M)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.L)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.XL)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.group)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.currency)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.mark)
+                            </th>
 
-                        <th></th>
-                    </tr>
-                </thead>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.services_list)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.validity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.note)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.S)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.M)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.L)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.XL)
-                        </td>
-                        <td>
-                               @Html.DisplayFor(modelItem => item.group)
-                        </td>
-                        <td>
-                            <b> @Html.DisplayFor(modelItem => item.currency)</b>
-                        </td>
-                        <td>
-                            @if (item.mark == true)
-                            {
-                                <div class="text-danger">off</div>
-                            }
-                            else
-                            {
-                                <div class="text-success">On</div>
-                            }
-                            @*@Html.DisplayFor(modelItem => item.mark)*@
-                        </td>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.services_list)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.validity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.note)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.S)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.M)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.L)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.XL)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.group)
+                            </td>
+                            <td>
+                                <b> @Html.DisplayFor(modelItem => item.currency)</b>
+                            </td>
+                            <td>
+                                @if (item.mark == true)
+                                {
+                                    <div class="text-danger">off</div>
+                                }
+                                else
+                                {
+                                    <div class="text-success">On</div>
+                                }
+                                @*@Html.DisplayFor(modelItem => item.mark)*@
+                            </td>
 
-                        <td>
-                            @Html.ActionLink("Edit", "EditServises", new { id = item.Id })
-                            @Html.ActionLink("Details", "Details", new { id = item.Id })                      
-                        </td>
-                    </tr>
-                }
+                            <td>
+                                @Html.ActionLink("Edit", "EditServises", new { id = item.Id })
+                                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
 
-            </table>
+                </table>
 
+            </div>
         </div>
     </div>
 </div>

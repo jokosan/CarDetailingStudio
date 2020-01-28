@@ -4,64 +4,66 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9caa887eb459413394ef1088e0c0a5f1" Name="Diagram1" ZoomLevel="25">
-        <EntityTypeShape EntityType="carWashModel.brigadeForToday" Width="1.5" PointX="9.75" PointY="18.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.car_generation" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.car_mark" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.car_model" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.car_modification" Width="1.5" PointX="9.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.car_serie" Width="1.5" PointX="7.5" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.CarBody" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.CarWashWorkers" Width="1.5" PointX="7.5" PointY="17.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.ClientInfo" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.ClientsGroups" Width="1.5" PointX="3" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.ClientsOfCarWash" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.Costs" Width="1.5" PointX="15" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.Detailings" Width="1.5" PointX="10.5" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.ExchangeRates" Width="1.5" PointX="12.75" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.GroupWashServices" Width="1.5" PointX="8.25" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.JobTitleTable" Width="1.5" PointX="5.25" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.OrderCarWashWorkers" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.OrderServicesCarWash" Width="1.5" PointX="7.5" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.PaymentState" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.PurchaseCosts" Width="1.5" PointX="17.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.Retail" Width="1.5" PointX="15" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.ServisesCarWashOrder" Width="1.5" PointX="12.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.StatusOrder" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.sysdiagrams" Width="1.5" PointX="14.75" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.TireStorage" Width="1.5" PointX="10.5" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.TireStorageServices" Width="1.5" PointX="8.25" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.TypeOfCosts" Width="1.5" PointX="12.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.Wage" Width="1.5" PointX="17.25" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.logo_mark_car" Width="1.5" PointX="14.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.infoBrigadeForToday" Width="1.5" PointX="14.75" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashModel.ItogOrderView" Width="1.5" PointX="16.75" PointY="3" IsExpanded="true" />
-        <AssociationConnector Association="carWashModel.FK_brigadeForToday_CarWashWorkers" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_car_generation_car_model" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_car_serie_car_generation" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_car_model_car_mark" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_car_mark" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_car_model" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_car_modification_car_serie" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_CarBody" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_CarWashWorkers_JobTitleTable" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_OrderCarWashWorkers_CarWashWorkers" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_Wage_CarWashWorkers1" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_ClientInfo" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_ClientsOfCarWash_ClientsGroups" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_OrderServicesCarWash_ClientsOfCarWash" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_TireStorage_ClientsOfCarWash" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_Costs_TypeOfCosts" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_PurchaseCosts_Costs" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_Wage_Costs" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_Detailings_GroupWashServices" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_ServisesCarWashOrder_Detailings" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_OrderCarWashWorkers_OrderServicesCarWash" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_OrderServicesCarWash_PaymentState" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_OrderServicesCarWash_StatusOrder" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_ServisesCarWashOrder_OrderServicesCarWash" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_PurchaseCosts_Retail" ManuallyRouted="false" />
-        <AssociationConnector Association="carWashModel.FK_TireStorage_TireStorageServices" ManuallyRouted="false" />
+      <Diagram DiagramId="b0f24be06486456eb3d20f1d2645e00b" Name="Diagram1">
+        <EntityTypeShape EntityType="carWashServerModel.brigadeForToday" Width="1.5" PointX="9.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.car_generation" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.car_mark" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.car_model" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.car_modification" Width="1.5" PointX="9.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.car_serie" Width="1.5" PointX="7.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.CarBody" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.CarWashWorkers" Width="1.5" PointX="7.5" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.ClientInfo" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.ClientsGroups" Width="1.5" PointX="3" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.ClientsOfCarWash" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.Costs" Width="1.5" PointX="15" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.Credit" Width="1.5" PointX="9.75" PointY="27.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.Detailings" Width="1.5" PointX="10.5" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.ExchangeRates" Width="1.5" PointX="12.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.GroupWashServices" Width="1.5" PointX="8.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.JobTitleTable" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.OrderCarWashWorkers" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.OrderServicesCarWash" Width="1.5" PointX="7.5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.PaymentState" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.PurchaseCosts" Width="1.5" PointX="17.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.Retail" Width="1.5" PointX="15" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.ServisesCarWashOrder" Width="1.5" PointX="12.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.StatusOrder" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.sysdiagrams" Width="1.5" PointX="14.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.TireStorage" Width="1.5" PointX="10.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.TireStorageServices" Width="1.5" PointX="8.25" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.TypeOfCosts" Width="1.5" PointX="12.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.Wage" Width="1.5" PointX="17.25" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.logo_mark_car" Width="1.5" PointX="14.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.infoBrigadeForToday" Width="1.5" PointX="14.75" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.ItogOrderView" Width="1.5" PointX="16.75" PointY="3" IsExpanded="true" />
+        <AssociationConnector Association="carWashServerModel.FK_brigadeForToday_CarWashWorkers" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_car_generation_car_model" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_car_serie_car_generation" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_car_model_car_mark" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_ClientsOfCarWash_car_mark" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_ClientsOfCarWash_car_model" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_car_modification_car_serie" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_ClientsOfCarWash_CarBody" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_CarWashWorkers_JobTitleTable" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_Credit_CarWashWorkers" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_OrderCarWashWorkers_CarWashWorkers" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_Wage_CarWashWorkers1" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_ClientsOfCarWash_ClientInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_ClientsOfCarWash_ClientsGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_OrderServicesCarWash_ClientsOfCarWash" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_TireStorage_ClientsOfCarWash" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_Costs_TypeOfCosts" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_PurchaseCosts_Costs" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_Wage_Costs" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_Detailings_GroupWashServices" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_ServisesCarWashOrder_Detailings" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_OrderCarWashWorkers_OrderServicesCarWash" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_OrderServicesCarWash_PaymentState" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_OrderServicesCarWash_StatusOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_ServisesCarWashOrder_OrderServicesCarWash" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_PurchaseCosts_Retail" ManuallyRouted="false" />
+        <AssociationConnector Association="carWashServerModel.FK_TireStorage_TireStorageServices" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

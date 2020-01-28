@@ -75,6 +75,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
             {
                 throw new ArgumentNullException("stubs");
             }
+
             foreach (var stub in stubs)
                 _carWashEntitiesContext.Set(stub.GetType()).Attach(stub);
         }
@@ -109,7 +110,12 @@ namespace CarDetailingStudio.DAL.Infrastructure
             return query;
         }
 
-    
+        public T IdInclude(int id)
+        {
+            return DbSeT.Find(id);
+        }
+
+         
     }
 }
 

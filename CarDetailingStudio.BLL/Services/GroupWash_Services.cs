@@ -26,5 +26,22 @@ namespace CarDetailingStudio.BLL.Services
         {
             return Mapper.Map<IEnumerable<GroupWashServicesBll>>(_unitOfWork.GroupWashServicesUnitOfWork.Get());
         }
+
+        public IEnumerable<GroupWashServicesBll> GetIdAll(int? id)
+        {
+            if (id == 2)
+            {
+                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(_unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id <= 2));
+            }
+            else if (id == 1)
+            {
+                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(_unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id != 2));
+            }
+            else
+            {
+                return GetAllTable();
+            }
+            
+        }
     }
 }

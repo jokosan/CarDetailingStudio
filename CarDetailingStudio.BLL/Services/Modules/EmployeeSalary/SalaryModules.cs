@@ -8,19 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.BLL.Services.Modules.EmployeeSalary
 {
-    public class SalaryModules
+    public class SalaryModules : ISalaryModules
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
-        private OrderCarWashWorkersServices _orderCarWash;
+        private IOrderCarWashWorkersServices _orderCarWash;
 
         private List<OrderServicesCarWashBll> orders = new List<OrderServicesCarWashBll>();
 
-        public SalaryModules(UnitOfWork unitOfWork, AutomapperConfig automapper,
-            OrderCarWashWorkersServices orderCarWash)
+        public SalaryModules(IUnitOfWork unitOfWork, AutomapperConfig automapper,
+            IOrderCarWashWorkersServices orderCarWash)
         {
             _unitOfWork = unitOfWork;
             _automapper = automapper;
@@ -37,8 +38,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.EmployeeSalary
                 idOrder.Add(x.IdOrder.Value);
 
             var allOrder = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.QueryObjectGraph(x => idOrder.Contains(x.Id)));
-
-           
+                       
             foreach (var x in allOrder)
             {                
                 orders.Add(new OrderServicesCarWashBll

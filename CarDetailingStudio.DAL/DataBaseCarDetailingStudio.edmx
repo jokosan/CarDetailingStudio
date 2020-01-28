@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище carWashModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище carWashServerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="brigadeForToday">
           <Key>
             <PropertyRef Name="id" />
@@ -14,6 +14,7 @@
           <Property Name="EndTime" Type="datetime" />
           <Property Name="EarlyTermination" Type="bit" />
           <Property Name="IdCarWashWorkers" Type="int" />
+          <Property Name="StatusId" Type="int" />
         </EntityType>
         <EntityType Name="car_generation">
           <Key>
@@ -149,6 +150,16 @@
           <Property Name="expenses" Type="float" />
           <Property Name="Date" Type="datetime" />
         </EntityType>
+        <EntityType Name="Credit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarWashWorkersId" Type="int" />
+          <Property Name="Date" Type="datetime2" Precision="7" />
+          <Property Name="Sum" Type="float" />
+          <Property Name="RepaidDebt" Type="bit" />
+        </EntityType>
         <EntityType Name="Detailings">
           <Key>
             <PropertyRef Name="Id" />
@@ -194,7 +205,7 @@
           <Property Name="Position" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "carWash.dbo.logo_mark_car" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+предупреждение 6002: В таблице или представлении "carWashServer.dbo.logo_mark_car" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="logo_mark_car">
           <Key>
             <PropertyRef Name="id_car_mark" />
@@ -313,7 +324,7 @@
           <Property Name="CostsId" Type="int" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "carWash.dbo.infoBrigadeForToday" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+предупреждение 6002: В таблице или представлении "carWashServer.dbo.infoBrigadeForToday" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="infoBrigadeForToday">
           <Key>
             <PropertyRef Name="id" />
@@ -328,7 +339,7 @@
           <Property Name="Expr1" Type="int" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "carWash.dbo.ItogOrderView" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+предупреждение 6002: В таблице или представлении "carWashServer.dbo.ItogOrderView" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="ItogOrderView">
           <Key>
             <PropertyRef Name="id" />
@@ -484,6 +495,18 @@
             </Principal>
             <Dependent Role="Costs">
               <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Credit_CarWashWorkers">
+          <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+          <End Role="Credit" Type="Self.Credit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarWashWorkers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Credit">
+              <PropertyRef Name="CarWashWorkersId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -655,7 +678,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище carWashModelContainer">
+        <EntityContainer Name="Хранилище carWashServerModelContainer">
           <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_generation" EntityType="Self.car_generation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="car_mark" EntityType="Self.car_mark" Schema="dbo" store:Type="Tables" />
@@ -668,6 +691,7 @@
           <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Costs" EntityType="Self.Costs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Credit" EntityType="Self.Credit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Detailings" EntityType="Self.Detailings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExchangeRates" EntityType="Self.ExchangeRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupWashServices" EntityType="Self.GroupWashServices" Schema="dbo" store:Type="Tables" />
@@ -763,6 +787,10 @@
             <End Role="TypeOfCosts" EntitySet="TypeOfCosts" />
             <End Role="Costs" EntitySet="Costs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Credit_CarWashWorkers" Association="Self.FK_Credit_CarWashWorkers">
+            <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+            <End Role="Credit" EntitySet="Credit" />
+          </AssociationSet>
           <AssociationSet Name="FK_Detailings_GroupWashServices" Association="Self.FK_Detailings_GroupWashServices">
             <End Role="GroupWashServices" EntitySet="GroupWashServices" />
             <End Role="Detailings" EntitySet="Detailings" />
@@ -824,7 +852,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="carWashModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="carWashServerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="brigadeForToday">
           <Key>
             <PropertyRef Name="id" />
@@ -834,6 +862,7 @@
           <Property Name="EndTime" Type="DateTime" Precision="3" />
           <Property Name="EarlyTermination" Type="Boolean" />
           <Property Name="IdCarWashWorkers" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
           <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_brigadeForToday_CarWashWorkers" FromRole="brigadeForToday" ToRole="CarWashWorkers" />
         </EntityType>
         <EntityType Name="car_generation">
@@ -938,6 +967,7 @@
           <Property Name="IdPosition" Type="Int32" />
           <NavigationProperty Name="brigadeForToday" Relationship="Self.FK_brigadeForToday_CarWashWorkers" FromRole="CarWashWorkers" ToRole="brigadeForToday" />
           <NavigationProperty Name="JobTitleTable" Relationship="Self.FK_CarWashWorkers_JobTitleTable" FromRole="CarWashWorkers" ToRole="JobTitleTable" />
+          <NavigationProperty Name="Credit" Relationship="Self.FK_Credit_CarWashWorkers" FromRole="CarWashWorkers" ToRole="Credit" />
           <NavigationProperty Name="OrderCarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="CarWashWorkers" ToRole="OrderCarWashWorkers" />
           <NavigationProperty Name="Wage" Relationship="Self.FK_Wage_CarWashWorkers1" FromRole="CarWashWorkers" ToRole="Wage" />
         </EntityType>
@@ -996,6 +1026,17 @@
           <NavigationProperty Name="TypeOfCosts" Relationship="Self.FK_Costs_TypeOfCosts" FromRole="Costs" ToRole="TypeOfCosts" />
           <NavigationProperty Name="PurchaseCosts" Relationship="Self.FK_PurchaseCosts_Costs" FromRole="Costs" ToRole="PurchaseCosts" />
           <NavigationProperty Name="Wage" Relationship="Self.FK_Wage_Costs" FromRole="Costs" ToRole="Wage" />
+        </EntityType>
+        <EntityType Name="Credit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarWashWorkersId" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="7" />
+          <Property Name="Sum" Type="Double" />
+          <Property Name="RepaidDebt" Type="Boolean" />
+          <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_Credit_CarWashWorkers" FromRole="Credit" ToRole="CarWashWorkers" />
         </EntityType>
         <EntityType Name="Detailings">
           <Key>
@@ -1317,6 +1358,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Credit_CarWashWorkers">
+          <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+          <End Role="Credit" Type="Self.Credit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarWashWorkers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Credit">
+              <PropertyRef Name="CarWashWorkersId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderCarWashWorkers_CarWashWorkers">
           <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
           <End Role="OrderCarWashWorkers" Type="Self.OrderCarWashWorkers" Multiplicity="*" />
@@ -1534,6 +1587,7 @@
           <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" />
           <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" />
           <EntitySet Name="Costs" EntityType="Self.Costs" />
+          <EntitySet Name="Credit" EntityType="Self.Credit" />
           <EntitySet Name="Detailings" EntityType="Self.Detailings" />
           <EntitySet Name="ExchangeRates" EntityType="Self.ExchangeRates" />
           <EntitySet Name="GroupWashServices" EntityType="Self.GroupWashServices" />
@@ -1588,6 +1642,10 @@
           <AssociationSet Name="FK_CarWashWorkers_JobTitleTable" Association="Self.FK_CarWashWorkers_JobTitleTable">
             <End Role="JobTitleTable" EntitySet="JobTitleTable" />
             <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Credit_CarWashWorkers" Association="Self.FK_Credit_CarWashWorkers">
+            <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+            <End Role="Credit" EntitySet="Credit" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderCarWashWorkers_CarWashWorkers" Association="Self.FK_OrderCarWashWorkers_CarWashWorkers">
             <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
@@ -1663,20 +1721,21 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище carWashModelContainer" CdmEntityContainer="carWashEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище carWashServerModelContainer" CdmEntityContainer="carWashEntities">
           <EntitySetMapping Name="brigadeForToday">
-            <EntityTypeMapping TypeName="carWashModel.brigadeForToday">
+            <EntityTypeMapping TypeName="carWashServerModel.brigadeForToday">
               <MappingFragment StoreEntitySet="brigadeForToday">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="EarlyTermination" ColumnName="EarlyTermination" />
                 <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_generation">
-            <EntityTypeMapping TypeName="carWashModel.car_generation">
+            <EntityTypeMapping TypeName="carWashServerModel.car_generation">
               <MappingFragment StoreEntitySet="car_generation">
                 <ScalarProperty Name="id_car_generation" ColumnName="id_car_generation" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1690,7 +1749,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_mark">
-            <EntityTypeMapping TypeName="carWashModel.car_mark">
+            <EntityTypeMapping TypeName="carWashServerModel.car_mark">
               <MappingFragment StoreEntitySet="car_mark">
                 <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1703,7 +1762,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_model">
-            <EntityTypeMapping TypeName="carWashModel.car_model">
+            <EntityTypeMapping TypeName="carWashServerModel.car_model">
               <MappingFragment StoreEntitySet="car_model">
                 <ScalarProperty Name="id_car_model" ColumnName="id_car_model" />
                 <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
@@ -1716,7 +1775,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_modification">
-            <EntityTypeMapping TypeName="carWashModel.car_modification">
+            <EntityTypeMapping TypeName="carWashServerModel.car_modification">
               <MappingFragment StoreEntitySet="car_modification">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="id_car_modification" ColumnName="id_car_modification" />
@@ -1732,7 +1791,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="car_serie">
-            <EntityTypeMapping TypeName="carWashModel.car_serie">
+            <EntityTypeMapping TypeName="carWashServerModel.car_serie">
               <MappingFragment StoreEntitySet="car_serie">
                 <ScalarProperty Name="id_car_serie" ColumnName="id_car_serie" />
                 <ScalarProperty Name="id_car_model" ColumnName="id_car_model" />
@@ -1746,7 +1805,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CarBody">
-            <EntityTypeMapping TypeName="carWashModel.CarBody">
+            <EntityTypeMapping TypeName="carWashServerModel.CarBody">
               <MappingFragment StoreEntitySet="CarBody">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1754,7 +1813,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CarWashWorkers">
-            <EntityTypeMapping TypeName="carWashModel.CarWashWorkers">
+            <EntityTypeMapping TypeName="carWashServerModel.CarWashWorkers">
               <MappingFragment StoreEntitySet="CarWashWorkers">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1773,7 +1832,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientInfo">
-            <EntityTypeMapping TypeName="carWashModel.ClientInfo">
+            <EntityTypeMapping TypeName="carWashServerModel.ClientInfo">
               <MappingFragment StoreEntitySet="ClientInfo">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
@@ -1788,7 +1847,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsGroups">
-            <EntityTypeMapping TypeName="carWashModel.ClientsGroups">
+            <EntityTypeMapping TypeName="carWashServerModel.ClientsGroups">
               <MappingFragment StoreEntitySet="ClientsGroups">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1796,7 +1855,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsOfCarWash">
-            <EntityTypeMapping TypeName="carWashModel.ClientsOfCarWash">
+            <EntityTypeMapping TypeName="carWashServerModel.ClientsOfCarWash">
               <MappingFragment StoreEntitySet="ClientsOfCarWash">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="IdClientsGroups" ColumnName="IdClientsGroups" />
@@ -1810,7 +1869,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Costs">
-            <EntityTypeMapping TypeName="carWashModel.Costs">
+            <EntityTypeMapping TypeName="carWashServerModel.Costs">
               <MappingFragment StoreEntitySet="Costs">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1820,8 +1879,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Credit">
+            <EntityTypeMapping TypeName="carWashServerModel.Credit">
+              <MappingFragment StoreEntitySet="Credit">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CarWashWorkersId" ColumnName="CarWashWorkersId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="RepaidDebt" ColumnName="RepaidDebt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Detailings">
-            <EntityTypeMapping TypeName="carWashModel.Detailings">
+            <EntityTypeMapping TypeName="carWashServerModel.Detailings">
               <MappingFragment StoreEntitySet="Detailings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="services_list" ColumnName="services_list" />
@@ -1841,7 +1911,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ExchangeRates">
-            <EntityTypeMapping TypeName="carWashModel.ExchangeRates">
+            <EntityTypeMapping TypeName="carWashServerModel.ExchangeRates">
               <MappingFragment StoreEntitySet="ExchangeRates">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ccy" ColumnName="ccy" />
@@ -1853,7 +1923,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupWashServices">
-            <EntityTypeMapping TypeName="carWashModel.GroupWashServices">
+            <EntityTypeMapping TypeName="carWashServerModel.GroupWashServices">
               <MappingFragment StoreEntitySet="GroupWashServices">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="group" ColumnName="group" />
@@ -1861,7 +1931,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="JobTitleTable">
-            <EntityTypeMapping TypeName="carWashModel.JobTitleTable">
+            <EntityTypeMapping TypeName="carWashServerModel.JobTitleTable">
               <MappingFragment StoreEntitySet="JobTitleTable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
@@ -1869,7 +1939,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderCarWashWorkers">
-            <EntityTypeMapping TypeName="carWashModel.OrderCarWashWorkers">
+            <EntityTypeMapping TypeName="carWashServerModel.OrderCarWashWorkers">
               <MappingFragment StoreEntitySet="OrderCarWashWorkers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
@@ -1879,7 +1949,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderServicesCarWash">
-            <EntityTypeMapping TypeName="carWashModel.OrderServicesCarWash">
+            <EntityTypeMapping TypeName="carWashServerModel.OrderServicesCarWash">
               <MappingFragment StoreEntitySet="OrderServicesCarWash">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdClientsOfCarWash" ColumnName="IdClientsOfCarWash" />
@@ -1893,7 +1963,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentState">
-            <EntityTypeMapping TypeName="carWashModel.PaymentState">
+            <EntityTypeMapping TypeName="carWashServerModel.PaymentState">
               <MappingFragment StoreEntitySet="PaymentState">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PaymentState1" ColumnName="PaymentState" />
@@ -1901,7 +1971,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseCosts">
-            <EntityTypeMapping TypeName="carWashModel.PurchaseCosts">
+            <EntityTypeMapping TypeName="carWashServerModel.PurchaseCosts">
               <MappingFragment StoreEntitySet="PurchaseCosts">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdRetail" ColumnName="IdRetail" />
@@ -1912,7 +1982,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Retail">
-            <EntityTypeMapping TypeName="carWashModel.Retail">
+            <EntityTypeMapping TypeName="carWashServerModel.Retail">
               <MappingFragment StoreEntitySet="Retail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1922,7 +1992,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ServisesCarWashOrder">
-            <EntityTypeMapping TypeName="carWashModel.ServisesCarWashOrder">
+            <EntityTypeMapping TypeName="carWashServerModel.ServisesCarWashOrder">
               <MappingFragment StoreEntitySet="ServisesCarWashOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdClientsOfCarWash" ColumnName="IdClientsOfCarWash" />
@@ -1933,7 +2003,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StatusOrder">
-            <EntityTypeMapping TypeName="carWashModel.StatusOrder">
+            <EntityTypeMapping TypeName="carWashServerModel.StatusOrder">
               <MappingFragment StoreEntitySet="StatusOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="StatusOrder1" ColumnName="StatusOrder" />
@@ -1941,7 +2011,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="carWashModel.sysdiagrams">
+            <EntityTypeMapping TypeName="carWashServerModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1952,7 +2022,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TireStorage">
-            <EntityTypeMapping TypeName="carWashModel.TireStorage">
+            <EntityTypeMapping TypeName="carWashServerModel.TireStorage">
               <MappingFragment StoreEntitySet="TireStorage">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ServicesId" ColumnName="ServicesId" />
@@ -1963,7 +2033,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TireStorageServices">
-            <EntityTypeMapping TypeName="carWashModel.TireStorageServices">
+            <EntityTypeMapping TypeName="carWashServerModel.TireStorageServices">
               <MappingFragment StoreEntitySet="TireStorageServices">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ServicesName" ColumnName="ServicesName" />
@@ -1973,7 +2043,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TypeOfCosts">
-            <EntityTypeMapping TypeName="carWashModel.TypeOfCosts">
+            <EntityTypeMapping TypeName="carWashServerModel.TypeOfCosts">
               <MappingFragment StoreEntitySet="TypeOfCosts">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1981,7 +2051,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Wage">
-            <EntityTypeMapping TypeName="carWashModel.Wage">
+            <EntityTypeMapping TypeName="carWashServerModel.Wage">
               <MappingFragment StoreEntitySet="Wage">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
@@ -1990,7 +2060,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="logo_mark_car">
-            <EntityTypeMapping TypeName="carWashModel.logo_mark_car">
+            <EntityTypeMapping TypeName="carWashServerModel.logo_mark_car">
               <MappingFragment StoreEntitySet="logo_mark_car">
                 <ScalarProperty Name="id_car_mark" ColumnName="id_car_mark" />
                 <ScalarProperty Name="logo_mark" ColumnName="logo_mark" />
@@ -1999,7 +2069,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="infoBrigadeForToday">
-            <EntityTypeMapping TypeName="carWashModel.infoBrigadeForToday">
+            <EntityTypeMapping TypeName="carWashServerModel.infoBrigadeForToday">
               <MappingFragment StoreEntitySet="infoBrigadeForToday">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -2012,7 +2082,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ItogOrderView">
-            <EntityTypeMapping TypeName="carWashModel.ItogOrderView">
+            <EntityTypeMapping TypeName="carWashServerModel.ItogOrderView">
               <MappingFragment StoreEntitySet="ItogOrderView">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="countOrder" ColumnName="countOrder" />

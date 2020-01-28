@@ -35,6 +35,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<Retail> RatailUnitOfWork { get; set; }
         DbRepository<ClientsGroups> ClientsGroupsUnitOfWork { get; set; }
         DbRepository<ClientInfo> ClientInfoUnitOfWork { get; set; }
+        DbRepository<Credit> CreditUnitOgWork { get; set; }
         
         // SingleRepository
 

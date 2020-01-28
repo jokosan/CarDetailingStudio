@@ -19,6 +19,7 @@ namespace CarDetailingStudio.DAL
         public Nullable<System.DateTime> EndTime { get; set; }
         public Nullable<bool> EarlyTermination { get; set; }
         public Nullable<int> IdCarWashWorkers { get; set; }
+        public Nullable<int> StatusId { get; set; }
     
         public virtual CarWashWorkers CarWashWorkers { get; set; }
     }

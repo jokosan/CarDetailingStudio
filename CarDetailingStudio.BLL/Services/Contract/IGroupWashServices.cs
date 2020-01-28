@@ -10,5 +10,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
     public interface IGroupWashServices
     {
         IEnumerable<GroupWashServicesBll> GetAllTable();
+        IEnumerable<GroupWashServicesBll> GetIdAll(int? id);
     }
 }

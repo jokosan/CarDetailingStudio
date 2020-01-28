@@ -105,6 +105,7 @@
     <Compile Include="Model\ClientsOfCarWashBll.cs" />
     <Compile Include="Model\ClientViewsBll.cs" />
     <Compile Include="Model\CostsBll.cs" />
+    <Compile Include="Model\CreditBll.cs" />
     <Compile Include="Model\DetailingsBll.cs" />
     <Compile Include="Model\ExchangeRatesBll.cs" />
     <Compile Include="Model\GroupWashServicesBll.cs" />
@@ -134,8 +135,14 @@
     <Compile Include="Services\Contract\IClientInfoServices.cs" />
     <Compile Include="Services\Contract\IClientModules.cs" />
     <Compile Include="Services\Contract\IClientsGroupsServices.cs" />
+    <Compile Include="Services\Contract\ICostServices.cs" />
+    <Compile Include="Services\Contract\ICreditServices.cs" />
     <Compile Include="Services\Contract\IGroupWashServices.cs" />
     <Compile Include="Services\Contract\IJobTitleTableServices.cs" />
+    <Compile Include="Services\Contract\IOrderInfoViewServices.cs" />
+    <Compile Include="Services\Contract\ISalaryModules.cs" />
+    <Compile Include="Services\CostServices.cs" />
+    <Compile Include="Services\CreditServices.cs" />
     <Compile Include="Services\DetailingsServises.cs" />
     <Compile Include="Services\Contract\IServisesCarWashOrderServices.cs" />
     <Compile Include="Services\Contract\IOrderServicesCarWashServices.cs" />

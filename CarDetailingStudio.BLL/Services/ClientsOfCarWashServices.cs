@@ -25,9 +25,10 @@ namespace CarDetailingStudio.BLL.Services
             _clients = clients;
         }
 
-        public IEnumerable<ClientsOfCarWashBll> GetAll()
-        {
-            //return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsOfCarWashUnitOfWork.Get());
+       
+
+        public IEnumerable<ClientsOfCarWashBll> GetAll(string search)
+        {          
             return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.Get());
         }
 
@@ -59,6 +60,11 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.ClientsOfCarWashUnitOfWork.Update(clients);
 
             _unitOfWork.Save();
+        }
+
+        public IEnumerable<ClientsOfCarWashBll> GetAll()
+        {
+            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.Get());
         }
     }
 }

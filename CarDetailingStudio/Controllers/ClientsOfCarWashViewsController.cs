@@ -14,6 +14,9 @@ using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.Filters;
 using CarDetailingStudio.Models;
+using PagedList.Mvc;
+using PagedList;
+
 
 namespace CarDetailingStudio.Controllers
 {
@@ -27,11 +30,13 @@ namespace CarDetailingStudio.Controllers
         private ICarMarkServices _carMark;
         private IClientsGroupsServices _clientsGroups;
         private IClientInfoServices _clientInfo;
+        private IGroupWashServices _groupWashServices;
+        private IBrigadeForTodayServices _brigade;
 
         public ClientsOfCarWashViewsController(IClientsOfCarWashServices clients, IDetailingsServises detailingsView,
                                                IOrderServices order, IOrderServicesCarWashServices orderServices,
                                                ICarMarkServices carMark, ICarBodyServices carBody, IClientsGroupsServices clientsGroupsServices,
-                                               IClientInfoServices clientInfo)
+                                               IClientInfoServices clientInfo, IGroupWashServices groupWashServices, IBrigadeForTodayServices brigade)
         {
             _services = clients;
             _detailings = detailingsView;
@@ -41,21 +46,36 @@ namespace CarDetailingStudio.Controllers
             _carBody = carBody;
             _clientsGroups = clientsGroupsServices;
             _clientInfo = clientInfo;
+            _groupWashServices = groupWashServices;
+            _brigade = brigade;
         }
 
         IEnumerable<DetailingsView> Price { get; set; }
 
         // GET: ClientsOfCarWashViews
-        public ActionResult Client()
-        {
-            var RedirectModel = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll());
-            return View(RedirectModel);
+        //public ActionResult Client(string search, string cansel, int? i)
+        //{
+        //    var RedirectModel = ClientSearch(search, cansel);
+        //    return View(RedirectModel.ToList().ToPagedList(i ?? 1, 15));
+        //}
+
+        public ActionResult Client(string search, string cansel, int? i)
+        {           
+            return View(Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll()));
         }
 
-        public ActionResult Checkout()
+        public ActionResult Checkout(string search, string cansel, int? i)
         {
-            var RedirectModel = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll());
-            return View(RedirectModel);
+            var RedirectModel = ClientSearch(search, cansel);
+            return View(RedirectModel.ToList().ToPagedList(i ?? 1, 8));
+        }
+
+        private IEnumerable<ClientsOfCarWashView> ClientSearch(string search, string cansel)
+        {
+            if (cansel == "Сansel")
+                search = null;
+
+            return Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll(search));
         }
 
         // GET: ClientsOfCarWashViews/Details/5
@@ -75,7 +95,10 @@ namespace CarDetailingStudio.Controllers
 
             Price = Mapper.Map<IEnumerable<DetailingsView>>(_detailings.Converter());
 
-            ViewBag.Detailings = Price.Where(x => x.IdTypeService == Services);
+            var tablePriceResult = Price.Where(x => x.IdTypeService == Services);
+
+            ViewBag.Detailings = tablePriceResult;  
+            ViewBag.DetailingsGrup = _groupWashServices.GetIdAll(Services);
             //ViewBag.WashServises = Price.Where(x => x.IdTypeService == 2);
 
             if (CustomerOrders == null)
@@ -99,28 +122,34 @@ namespace CarDetailingStudio.Controllers
 
         public ActionResult OrderPreview()
         {
-            var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(OrderServices.idClient));
-
-            var sum = _orderServices.OrderPrice();
-
-            ViewBag.PriceList = OrderServices.OrderList;
-            ViewBag.SumOrder = sum;
-
-            if (CustomerOrders.discont > 0)
+            if (OrderServices.OrderList.Count() > 0)
             {
-                ViewBag.Total = _orderServices.Discont(CustomerOrders.discont, sum);
-            }
-            else
-            {
-                ViewBag.Total = sum;
+                var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(OrderServices.idClient));
+
+                var sum = _orderServices.OrderPrice();
+
+                ViewBag.PriceList = OrderServices.OrderList;
+                ViewBag.SumOrder = sum;
+                ViewBag.Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow().Where(x => x.CarWashWorkers.IdPosition > 2));
+
+                if (CustomerOrders.discont > 0)
+                {
+                    ViewBag.Total = _orderServices.Discont(CustomerOrders.discont, sum);
+                }
+                else
+                {
+                    ViewBag.Total = sum;
+                }
+
+                return View(CustomerOrders);
             }
 
-            return View(CustomerOrders);
+            return RedirectToAction("Checkout");          
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult OrderPreview(List<double> carBody, List<int> id, List<int> sum)
+        public ActionResult OrderPreview(List<double> carBody, List<int> id, List<int> sum, List<string> idBrigade)
         {
             _orderServicesInsert.InsertOrders(carBody, id, sum);
 
@@ -220,8 +249,7 @@ namespace CarDetailingStudio.Controllers
         }
 
 
-
-        // GET: ClientsOfCarWashViews/Details/5
+        // GET: ClientsOfCarWashViews/Details/5    
         public ActionResult Info(int? idClientInfo, int? idClient)
         {
             if (idClient == null)
@@ -241,8 +269,6 @@ namespace CarDetailingStudio.Controllers
 
             return View(clientsOfCarWashView);
         }
-
-
 
         #region
         //// GET: ClientsOfCarWashViews/Details/5

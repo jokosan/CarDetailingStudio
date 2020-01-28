@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Utilities.Map;
+using CarDetailingStudio.DAL;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+
+namespace CarDetailingStudio.BLL.Services
+{
+    public class CreditServices : ICreditServices
+    {
+        private IUnitOfWork _unitOfWork;
+        private AutomapperConfig _automapper;
+
+        public CreditServices(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig)
+        {
+            _unitOfWork = unitOfWork;
+            _automapper = automapperConfig;
+        }
+
+        public IEnumerable<CreditBll> GetAll()
+        {
+            return Mapper.Map<IEnumerable<CreditBll>>(_unitOfWork.CreditUnitOgWork.GetInclude("CarWashWorkers"));
+        }
+
+        public IEnumerable<CreditBll> GetCreditWhere()
+        {
+            return Mapper.Map<IEnumerable<CreditBll>>(_unitOfWork.CreditUnitOgWork.QueryObjectGraph(x => x.RepaidDebt == false, "CarWashWorkers"));
+        }
+
+        public CreditBll IdCredit(int id)
+        {
+            return Mapper.Map<CreditBll>(_unitOfWork.CreditUnitOgWork.IdInclude(id));
+        }
+
+        public void Create(CreditBll credit)
+        {
+            Credit creditCreate = Mapper.Map<CreditBll, Credit>(credit);
+            _unitOfWork.CreditUnitOgWork.Insert(creditCreate);
+            _unitOfWork.Save();
+        }
+
+
+    }
+}

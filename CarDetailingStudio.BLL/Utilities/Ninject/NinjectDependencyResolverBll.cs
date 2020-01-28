@@ -2,6 +2,7 @@
 using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.BLL.Services.Modules.EmployeeSalary;
 using CarDetailingStudio.DAL.Utilities.Ninject;
 using Ninject;
 
@@ -29,6 +30,10 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IClientsGroupsServices>().To<ClientsGroupsServices>();
             kernel.Bind<IClientModules>().To<ClientModules>();
             kernel.Bind<IClientInfoServices>().To<ClientInfoServices>();
+            kernel.Bind<IOrderInfoViewServices>().To<OrderInfoViewServices>();
+            kernel.Bind<ISalaryModules>().To<SalaryModules>();
+            kernel.Bind<ICostServices>().To<CostServices>();
+            kernel.Bind<ICreditServices>().To<CreditServices>();
 
             NinjectDependencyResolverDAL.Initialize(kernel);
         }

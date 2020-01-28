@@ -1,4 +1,7 @@
-﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView>
+﻿@model IPagedList<CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView>
+
+@using PagedList.Mvc;
+@using PagedList;
 
 @{
     ViewBag.Title = "Index";
@@ -48,61 +51,88 @@
         <div class="card">
 
             <div class="card-body">
-                <h5 class="card-title m-b-0">Static Table</h5>
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="card-title m-b-0">Static Table</h5>
+                    </div>
+                    <div class="col-md-3 ">
+
+                        @using (Html.BeginForm("Index", "Order", FormMethod.Get))
+                        {
+                            <div class="input-group mb-3 ">
+
+                                @Html.TextBox("Search", null, new { @class = "form-control" })
+                                <div class="input-group-append">
+                                    <input type="submit" name="submit" value="Search" class="btn btn-outline-secondary" />
+                                    <input type="submit" name="cansel" value="Сansel" class="btn btn-outline-secondary" />
+
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
             </div>
 
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ClientsOfCarWash.NumberCar)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.OrderDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.TotalCostOfAllServices)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StatusOrder)
-                    </th>
-                    <th>
-                        ФИО
-                    </th>
-                    <th></th>
-                </tr>
-                <tbody class="customtable">
-                    @foreach (var item in Model)
-                    {
-                        <tr class="Search">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientsOfCarWash.NumberCar)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TotalCostOfAllServices)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StatusOrder1.StatusOrder1)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Name) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.PatronymicName)
-                            </td>
+            <div class="table-responsive">
 
-                            <td>
-                                @Html.ActionLink("О заказе", "OrderInfo", new { id = item.Id }, new { @class = "btn btn-outline-info" })
-                                @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = item.Id }, new { @class = "btn btn-outline-success" })
-                                <p><a href=@Url.Content("TestClose")></a></p>
-                                @*@Html.ActionLink("Отменить", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger"})*@
-                            </td>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().ClientsOfCarWash.NumberCar)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().OrderDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().TotalCostOfAllServices)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().StatusOrder)
+                        </th>
+                        <th>
+                            ФИО
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tbody class="customtable">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="Search">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClientsOfCarWash.NumberCar)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalCostOfAllServices)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StatusOrder1.StatusOrder1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Name) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.PatronymicName)
+                                </td>
 
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                <td>
+                                    @Html.ActionLink("О заказе", "OrderInfo", new { id = item.Id }, new { @class = "btn btn-outline-info" })
+                                    @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = item.Id }, new { @class = "btn btn-outline-success" })
+                                    <p><a href=@Url.Content("TestClose")></a></p>
+                                    @*@Html.ActionLink("Отменить", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger"})*@
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+</div>
+
+<div class="text-center">
+    @Html.PagedListPager(Model, i => Url.Action("Index", "Order", new { i, search = Request.QueryString["search"] }))
 </div>
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>

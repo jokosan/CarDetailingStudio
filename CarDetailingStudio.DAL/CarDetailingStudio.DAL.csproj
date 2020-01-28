@@ -58,6 +58,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -124,6 +125,9 @@
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="Costs.cs">
+      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Credit.cs">
       <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
     </Compile>
     <Compile Include="DataBaseCarDetailingStudio.Context.cs">

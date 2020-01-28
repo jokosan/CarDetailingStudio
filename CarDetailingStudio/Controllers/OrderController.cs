@@ -14,6 +14,8 @@ using CarDetailingStudio.Filters;
 using System.Threading.Tasks;
 using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Contract;
+using PagedList;
+using PagedList.Mvc;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -38,10 +40,16 @@ namespace CarDetailingStudio.Controllers
         // GET: Order
         [WorkShiftFilter]
         [MonitoringTheNumberOfEmployeesFilter]
-        public ActionResult Index()
+        public ActionResult Index(string search, string cansel, int? i)
         {
-            var RedirectModel = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1));
-            return View(RedirectModel);
+            if (cansel == "Сansel")
+            {
+                search = null;
+            }
+
+            var RedirectModel = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1, search));
+            return View(RedirectModel.ToList().ToPagedList(i ?? 1, 5));
+
         }
               
         // GET: Order/Details/5

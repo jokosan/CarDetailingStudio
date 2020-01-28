@@ -49,6 +49,9 @@
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mvc.Grid.Core, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NonFactors.Grid.Core.Mvc5.7.1.2\lib\net45\Mvc.Grid.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
     </Reference>
@@ -66,6 +69,12 @@
     </Reference>
     <Reference Include="Ninject.Web.WebApi.WebHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.3.0\lib\net45\Ninject.Web.WebApi.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -210,6 +219,8 @@
     <Compile Include="Controllers\CarWashWorkersViewsController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ClientsOfCarWashViewsController.cs" />
+    <Compile Include="Controllers\CostsController.cs" />
+    <Compile Include="Controllers\CreditController.cs" />
     <Compile Include="Controllers\DetailingsController.cs" />
     <Compile Include="Controllers\AddClientJsonController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -239,6 +250,7 @@
     <Compile Include="Models\ModelViews\ClientsGroupsView.cs" />
     <Compile Include="Models\ModelViews\ClientsOfCarWashView.cs" />
     <Compile Include="Models\ModelViews\CostsView.cs" />
+    <Compile Include="Models\ModelViews\CreditView.cs" />
     <Compile Include="Models\ModelViews\DetailingsView.cs" />
     <Compile Include="Models\ModelViews\GroupWashServicesView.cs" />
     <Compile Include="Models\ModelViews\InfoBrigadeForTodayView.cs" />
@@ -347,6 +359,8 @@
     <Content Include="Content\MatrixAdminCSS\weather-icons-wind.min.css" />
     <Content Include="Content\MatrixAdminCSS\weather-icons.css" />
     <Content Include="Content\MatrixAdminCSS\weather-icons.min.css" />
+    <Content Include="Content\MvcGrid\mvc-grid.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Table.css" />
     <Content Include="favicon.ico" />
@@ -570,6 +584,7 @@
     <Content Include="Icons\weather-icons\sass\weather-icons.min.scss" />
     <Content Include="Icons\weather-icons\sass\weather-icons.scss" />
     <Content Include="Images\big\Thumbs.db" />
+    <Content Include="Content\custom.css" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
     <Content Include="Scripts\i18n\az.js" />
@@ -629,6 +644,7 @@
     <Content Include="Scripts\i18n\vi.js" />
     <Content Include="Scripts\i18n\zh-CN.js" />
     <Content Include="Scripts\i18n\zh-TW.js" />
+    <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -1079,6 +1095,8 @@
     <Content Include="Scripts\MatrixAdminJS\zh-hk.js" />
     <Content Include="Scripts\MatrixAdminJS\zh-TW.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\MvcGrid\mvc-grid-localizing.js" />
+    <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Web.config" />
@@ -1153,6 +1171,10 @@
     <Content Include="Views\ClientsOfCarWashViews\Info.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\EditCarClient.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\AddCar.cshtml" />
+    <Content Include="Views\Costs\CostsInfo.cshtml" />
+    <Content Include="Views\Credit\CreditInfo.cshtml" />
+    <Content Include="Views\Shared\MvcGrid\_Pager.cshtml" />
+    <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

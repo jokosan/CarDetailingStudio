@@ -1,6 +1,7 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure.Contract;
 using System;
 using System.Collections.Generic;
+using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -19,7 +20,9 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<OrderServicesCarWash> Get()
         {
-            var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
+            var result = _context.OrderServicesCarWash
+                                                      .AsNoTracking()
+                                                      .Include("ClientsOfCarWash")
                                                       .Include("StatusOrder1")
                                                       .Include("PaymentState1")
                                                       .Include("ServisesCarWashOrder")
@@ -30,7 +33,9 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public OrderServicesCarWash GetById(int? id)
         {
-            var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
+            var result = _context.OrderServicesCarWash
+                                                       .AsNoTracking()
+                                                       .Include("ClientsOfCarWash")
                                                        .Include("ClientsOfCarWash.ClientInfo")
                                                        .Include("StatusOrder1")
                                                        .Include("PaymentState1")
@@ -47,25 +52,27 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<OrderServicesCarWash> GetWhere(Func<OrderServicesCarWash, bool> predicate)
         {
-            var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
-                                                       .Include("StatusOrder1")
-                                                       .Include("PaymentState1")
-                                                       .Include("ServisesCarWashOrder")                                               
-                                                       .Include("ClientsOfCarWash.ClientInfo")
-                                                       .Include("ClientsOfCarWash.car_mark")
-                                                       .Include("ClientsOfCarWash.car_model")
-                                                       .Include("ClientsOfCarWash.CarBody")
-                                                       .Include("ClientsOfCarWash.ClientsGroups")
-                                                       .Where(predicate).AsQueryable();
+            var result = _context.OrderServicesCarWash
+                                                      .AsNoTracking()
+                                                      .Include("ClientsOfCarWash")
+                                                      .Include("StatusOrder1")
+                                                      .Include("PaymentState1")
+                                                      .Include("ServisesCarWashOrder")
+                                                      .Include("ClientsOfCarWash.ClientInfo")
+                                                      .Include("ClientsOfCarWash.car_mark")
+                                                      .Include("ClientsOfCarWash.car_model")
+                                                      .Include("ClientsOfCarWash.CarBody")
+                                                      .Include("ClientsOfCarWash.ClientsGroups")
+                                                      .Where(predicate).AsQueryable();
             return result;
         }
 
         public IEnumerable<OrderServicesCarWash> GetWhereDate(Func<OrderServicesCarWash, bool> predicate)
         {
             var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
-                                                       .Include("StatusOrder1")
-                                                       .Include("PaymentState1")
-                                                       .Where(predicate).AsQueryable();
+                                                      .Include("StatusOrder1")
+                                                      .Include("PaymentState1")
+                                                      .Where(predicate).AsQueryable();
             return result;
         }
 
@@ -74,7 +81,16 @@ namespace CarDetailingStudio.DAL.Infrastructure
             var result = _context.OrderServicesCarWash.Include("OrderCarWashWorkers")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
-                                                       .Where(filter);
+                                                      .Where(filter);
+            return result;
+        }
+
+        public IEnumerable<OrderServicesCarWash> Test()
+        {
+            var result = _context.OrderServicesCarWash.Include("OrderCarWashWorkers")
+                                                     .Include("OrderCarWashWorkers.CarWashWorkers")
+                                                     .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
+                                                     .Where(x => SqlMethods.Like(x.ClientsOfCarWash.NumberCar, x.ClientsOfCarWash.car_mark.name)).OrderBy(p => p.OrderDate);
             return result;
         }
     }

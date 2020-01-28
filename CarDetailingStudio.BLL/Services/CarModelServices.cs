@@ -14,7 +14,7 @@ namespace CarDetailingStudio.BLL.Services
     public class CarModelServices : ICarModelServices
     {
         private IUnitOfWork _unitOfWork;
-        private AutomapperConfig _automapper;
+        private AutomapperConfig _automapper; 
 
         public CarModelServices(IUnitOfWork unitOfWork, AutomapperConfig automapper)
         {
@@ -26,6 +26,5 @@ namespace CarDetailingStudio.BLL.Services
         {
             return Mapper.Map<IEnumerable<CarModelBll>>(_unitOfWork.CarModelUnitOfWork.GetWhere(x => x.id_car_mark == id));
         }
-
     }
 }

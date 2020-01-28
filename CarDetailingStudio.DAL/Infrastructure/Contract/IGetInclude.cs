@@ -11,5 +11,6 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
     {
         IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children);
         IEnumerable<T> GetInclude(string children);
+        T IdInclude(int id);
     }
 }

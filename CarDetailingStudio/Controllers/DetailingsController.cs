@@ -52,7 +52,7 @@ namespace CarDetailingStudio.Controllers
 
             ViewBag.GroupServises = new SelectList(_groupWashServices.GetAllTable(), "Id", "group");
 
-            return View();
+            return RedirectToAction("PriceList");
         }
 
         public ActionResult EditServises(int? id)
@@ -86,7 +86,7 @@ namespace CarDetailingStudio.Controllers
 
             ViewBag.GroupServises = new SelectList(_groupWashServices.GetAllTable(), "Id", "group");
 
-            return View();
+            return RedirectToAction("PriceList");
         }
 
 

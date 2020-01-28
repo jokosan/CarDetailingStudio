@@ -12,63 +12,65 @@
                     <h5 class="card-title m-b-0">Salary</h5>
                 </div>
 
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.countOrder)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Surname)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Patronymic)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.MobilePhone)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.InterestRate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Expr1)
-                        </th>
-                        <th></th>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
+                <div class="table-responsive">
+                    <table class="table">
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.countOrder)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Surname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Patronymic)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MobilePhone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InterestRate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Expr1)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Details", "../Salary/InfoSalary", new { id = item.id, InterestRate = item.InterestRate }, new { @class = "btn btn-light btn-sm" })
-                            </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.countOrder)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Surname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Patronymic)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MobilePhone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InterestRate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Expr1)
+                            </th>
+                            <th></th>
                         </tr>
-                    }
 
-                </table>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.countOrder)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Patronymic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MobilePhone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InterestRate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Expr1)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Details", "../Salary/InfoSalary", new { id = item.id, InterestRate = item.InterestRate, IdName = item.Name + " " + item.Surname + " " + item.Patronymic }, new { @class = "btn btn-light btn-sm" })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
             </div>
             <div class="card">
                 <div class="card-body">
@@ -98,7 +100,7 @@
                                 <span class="checkmark"></span>
                             </label>
                             <input type="submit" value="CloseOrder" disabled="disabled" class="btn btn-success preview" id="submit" />
-                            @Html.ActionLink("Cansel", "Index", null, new { @class = "btn btn-danger preview" })
+                            @Html.ActionLink("Cansel", "../Order/Index", null, new { @class = "btn btn-danger preview" })
                         }
 
 

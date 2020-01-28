@@ -6,6 +6,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
     public interface IClientsOfCarWashServices
     {
         IEnumerable<ClientsOfCarWashBll> GetAll();
+        IEnumerable<ClientsOfCarWashBll> GetAll(string search);
         IEnumerable<ClientsOfCarWashBll> GetAll(int? id);
         ClientsOfCarWashBll GetId(int? id);
         int Insert(ClientsOfCarWashBll AddCliens);

@@ -36,6 +36,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<Retail> RetailUW;
         private DbRepository<ClientsGroups> ClientsGrupsUW;
         private DbRepository<ClientInfo> ClientInfoUW;
+        private DbRepository<Credit> CreditUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -44,7 +45,12 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
         
-        
+        public DbRepository<Credit> CreditUnitOgWork
+        {
+            get { return CreditUW ?? (CreditUW = new DbRepository<Credit>(_entities)); }
+            set { CreditUW = value; }
+        }
+
         public DbRepository<ClientInfo> ClientInfoUnitOfWork
         {
             get { return ClientInfoUW ?? (ClientInfoUW = new DbRepository<ClientInfo>(_entities)); }

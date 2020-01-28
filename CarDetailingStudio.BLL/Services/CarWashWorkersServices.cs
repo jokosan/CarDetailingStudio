@@ -47,24 +47,30 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<CarWashWorkersBll>(_unitOfWork.WorkersUnitOfWork.GetById(id));
         }
 
-        public void AddToCurrentShift(FormCollection collection)
+        public void AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
-            string idString = collection[0];
-            string[] idList = idString.Split(',');
+            AdninRegistr(adminCarWosh, 1);
+            AdninRegistr(adminDetailing, 2);
 
-            foreach (var item in idList)
+            foreach (var item in chkRow)
             {
-                _brigade.Date = DateTime.Now;
-                _brigade.IdCarWashWorkers = Int32.Parse(item);
-                _brigade.EarlyTermination = true;
-
-                brigadeForToday brigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(_brigade);
-
-                _unitOfWork.BrigadeForTodayUnitOfWork.Insert(brigade);
-                _unitOfWork.Save();
+                AdninRegistr(item, 3);
             }
         }
 
+        private void AdninRegistr(int? admin, int status)
+        {
+            _brigade.Date = DateTime.Now;
+            _brigade.IdCarWashWorkers = admin;
+            _brigade.EarlyTermination = true;
+            _brigade.StatusId = status;
+
+            brigadeForToday brigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(_brigade);
+
+            _unitOfWork.BrigadeForTodayUnitOfWork.Insert(brigade);
+            _unitOfWork.Save();
+        }
+        
         public bool HomeEntryCondition()
         {
             string date = DateTime.Now.ToString("dd.MM.yyyy");

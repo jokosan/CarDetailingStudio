@@ -102,11 +102,12 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<RetailView, RetailBll>();
             CreateMap<RetailBll, RetailView>();
-
-
            
             CreateMap<ClientView, ClientViewsBll>();
             CreateMap<ClientViewsBll, ClientView>();
+
+            CreateMap<CreditView, CreditBll>();
+            CreateMap<CreditBll, CreditView>();
               
         }
     }

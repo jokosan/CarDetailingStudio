@@ -9,20 +9,24 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.BLL.Services.Modules.EmployeeSalary;
 using CarDetailingStudio.DAL;
+using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.BLL.Services.Modules
 {
-    public class OrderInfoViewServices
+    public class OrderInfoViewServices : IOrderInfoViewServices
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
-        private SalaryModules _salaryModules;
+        private ISalaryModules _salaryModules;
+        private ICostServices _costServices;
 
-        public OrderInfoViewServices(UnitOfWork unitOfWork, AutomapperConfig maper, SalaryModules salaryModules)
+        public OrderInfoViewServices(IUnitOfWork unitOfWork, AutomapperConfig maper,
+                                     ISalaryModules salaryModules, ICostServices costServices)
         {
             _unitOfWork = unitOfWork;
             _automapper = maper;
             _salaryModules = salaryModules;
+            _costServices = costServices;
         }
 
         public IEnumerable<OrderInfoViewBll> GetOrderInfo()
@@ -50,7 +54,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
             return PercentageOfTheAmount.AsEnumerable();
         }
 
-        public void PayAllEmployees(IEnumerable<OrderInfoViewBll> Salary)
+        public void PayAllEmployees(IEnumerable<OrderInfoViewBll> Salary) // IEnumerable<OrderInfoViewBll> Salary - del
         {
             var OrderCarWashWorkersWhere = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => x.CalculationStatus == false));
 
@@ -67,37 +71,38 @@ namespace CarDetailingStudio.BLL.Services.Modules
                 OrderCarWashWorkers orderCarWash = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(CloseSalaryAll);
 
                 _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(orderCarWash);
-                 _unitOfWork.Save();
+                _unitOfWork.Save();
             }
 
-            costs.Type = 1;
-            costs.Name = "Выплата заработной платы для всех сотрудников";
-            costs.expenses = Salary.Sum(x => x.Expr1);
-            costs.Date = DateTime.Now;
+            //_costServices.AddCost(Salary.Sum(x => x.Expr1));
 
+       
+            //costs.Type = 1;
+            //costs.Name = "Выплата заработной платы для всех сотрудников";
+            //costs.expenses = Salary.Sum(x => x.Expr1);
+            //costs.Date = DateTime.Now;
 
-            Costs teamSalary = Mapper.Map<CostsBll, Costs>(costs);
+            //Costs teamSalary = Mapper.Map<CostsBll, Costs>(costs);
 
-            _unitOfWork.CostsUnitOfWork.Insert(teamSalary);
-            _unitOfWork.Save();
+            //_unitOfWork.CostsUnitOfWork.Insert(teamSalary);
+            //_unitOfWork.Save();
 
-            List<WageBll> Wage = new List<WageBll>();
+            #region заполнение таблицы WageBll 
+            //List<WageBll> Wage = new List<WageBll>();
 
-            foreach (var item in Salary)
-            {
-                Wage.Add(new WageBll
-                {
-                    IdCarWashWorkers = item.id,
-                    CostsId = teamSalary.Id
-                });
-            }
+            //foreach (var item in Salary)
+            //{
+            //    Wage.Add(new WageBll
+            //    {
+            //        IdCarWashWorkers = item.id,
+            //        CostsId = teamSalary.Id
+            //    });
+            //}
 
-            IEnumerable<Wage> wages = Mapper.Map<IEnumerable<WageBll>, IEnumerable<Wage>>(Wage);
-            _unitOfWork.WageUnitOfWork.Insert(wages.ToList());
-            _unitOfWork.Save();
-
-
-
+            //IEnumerable<Wage> wages = Mapper.Map<IEnumerable<WageBll>, IEnumerable<Wage>>(Wage);
+            //_unitOfWork.WageUnitOfWork.Insert(wages.ToList());
+            //_unitOfWork.Save();
+            #endregion
         }
     }
 }

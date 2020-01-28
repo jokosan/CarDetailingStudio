@@ -17,121 +17,123 @@
                     </div>
                 </div>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Surname)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Patronymic)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.MobilePhone)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Experience)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.InterestRate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DataRegistration)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DataDismissal)
-                        </th>
-                       
-                        <th>
-                            @Html.DisplayNameFor(model => model.IdPosition)
-                        </th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                @foreach (var item in Model)
-                {
-                    if (item.status == "false")
-                    {
-                        <tr class="table-danger">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Surname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Patronymic)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MobilePhone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Experience)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InterestRate)%
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataRegistration)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataDismissal)
-                            </td>
-                                                 
-                        
-                            <td>
-                                @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "EditEmployee", new { id = item.id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.id })
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Surname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Patronymic)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MobilePhone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Experience)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InterestRate)%
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataRegistration)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataDismissal)
-                            </td>
-                           
-                            <td>
-                                @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "EditEmployee", new { id = item.id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.id }) 
-                            </td>
-                        </tr>
-                    }
-                }
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Surname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Patronymic)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MobilePhone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Experience)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InterestRate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DataRegistration)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DataDismissal)
+                            </th>
 
-            </table>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdPosition)
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == "false")
+                        {
+                            <tr class="table-danger">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Patronymic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MobilePhone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Experience)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InterestRate)%
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DataRegistration)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DataDismissal)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "EditEmployee", new { id = item.id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.id })
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Patronymic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MobilePhone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Experience)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InterestRate)%
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DataRegistration)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DataDismissal)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "EditEmployee", new { id = item.id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.id })
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </table>
+            </div>
         </div>
     </div>
 </div>

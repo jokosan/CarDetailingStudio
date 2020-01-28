@@ -49,24 +49,6 @@ namespace CarDetailingStudio.BLL.Services
 
             Adminnistrator(idOrder);
 
-
-
-            //if (ServicesOrder.Any(x => x.Detailings.IdTypeService == 1)) // id услуги в таблице прайс
-            //{
-            //    int AdminCaarWash = Adminnistrator(2); //id сотрудника в таблице
-
-            //    if (AdminCaarWash != 0)
-            //    {
-            //        double? SumServicesCarWash = ServicesOrder.Where(x => x.Detailings.IdTypeService == 1).Sum(n => n.Price);
-            //    }
-
-            //}
-            //else if (ServicesOrder.Any(x => x.Detailings.IdTypeService == 2)) // id услуги в таблице прайс
-            //{
-            //    int AdminCaarWash = Adminnistrator(1); //id сотрудника в таблице
-            //    double? SumServicesDetailings = ServicesOrder.Where(x => x.Detailings.IdTypeService == 2).Sum(n => n.Price);
-            //}
-
         }
         private OrderCarWashWorkersBll ChoiceAdministrator(IEnumerable<BrigadeForTodayBll> brigade, int id, int idOrder)
         {
@@ -98,7 +80,7 @@ namespace CarDetailingStudio.BLL.Services
             {
                 if (CarWash)
                 {
-                    _orderCarBrigade = ChoiceAdministrator(brigade, 1, idOrder);   
+                    _orderCarBrigade = ChoiceAdministrator(brigade, 1, idOrder);
                 }
                 else if (Detailings)
                 {
@@ -118,7 +100,7 @@ namespace CarDetailingStudio.BLL.Services
                 }
 
             }
-         
+
             OrderCarWashWorkers orderCarWashWorkers = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(_orderCarBrigade);
 
             _unitOfWork.OrderCarWasWorkersUnitOFWork.Insert(orderCarWashWorkers);
@@ -135,5 +117,26 @@ namespace CarDetailingStudio.BLL.Services
         {
             return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => x.IdOrder == id));
         }
+
+        public void OrderServicesUpdate(int id)
+        {
+            var OrderCarWashWorkersWhere = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => (x.CalculationStatus == false)
+                                                                                                                                             && (x.IdCarWashWorkers == id)));
+            OrderCarWashWorkersBll order = new OrderCarWashWorkersBll();
+
+            foreach (var x in OrderCarWashWorkersWhere)
+            {
+                order.Id = x.Id;
+                order.IdOrder = x.IdOrder;
+                order.IdCarWashWorkers = x.IdCarWashWorkers;
+                order.CalculationStatus = true;
+
+                OrderCarWashWorkers orderCarWash = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(order);
+
+                _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(orderCarWash);
+                _unitOfWork.Save();
+            }
+        }
     }
 }
+

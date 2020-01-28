@@ -46,5 +46,9 @@ namespace CarDetailingStudio.Models
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ClientView> ClientViews { get; set; }
 
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.ClientInfoView> ClientCarViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CostsView> CostsViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CreditView> CreditViews { get; set; }
     }
 }
