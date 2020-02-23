@@ -15,12 +15,12 @@ namespace CarDetailingStudio.BLL.Services
     public class ExchangeRatesServices : IExchangeRatesServices
     {
         private IUnitOfWork _unitOfWork;
-        private AutomapperConfig _automapper;
+      //  private AutomapperConfig _automapper;
 
         public ExchangeRatesServices()
         {
             _unitOfWork = new UnitOfWork();
-            _automapper = new AutomapperConfig();
+           // _automapper = new AutomapperConfig();
         }
 
         public void Insert(List<ExchangeRatesBll> exchangeRates)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Utilities.Map
@@ -61,32 +62,11 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<OrderCarWashWorkersBll, OrderCarWashWorkers>();
             CreateMap<OrderCarWashWorkers, OrderCarWashWorkersBll>();
 
-            CreateMap<CostsBll, Costs>();
-            CreateMap<Costs, CostsBll>();
-
-            CreateMap<TypeOfCostsBll, TypeOfCosts>();
-            CreateMap<TypeOfCosts, TypeOfCostsBll>();
-
-            CreateMap<WageBll, Wage>();
-            CreateMap<Wage, WageBll>();
-
             CreateMap<OrderInfoViewBll, ItogOrderView>();
             CreateMap<ItogOrderView, OrderInfoViewBll>();
 
             CreateMap<CarBodyBll, CarBody>();
-            CreateMap<CarBody, CarBodyBll>();
-
-            CreateMap<RetailBll, Retail>();
-            CreateMap<Retail, RetailBll>();
-
-            CreateMap<PurchaseCostsBll, PurchaseCosts>();
-            CreateMap<PurchaseCosts, PurchaseCostsBll>();
-
-            CreateMap<TireStorageBll, TireStorage>();
-            CreateMap<TireStorage, TireStorageBll>();
-
-            CreateMap<TireStorageServicesBll, TireStorageServices>();
-            CreateMap<TireStorageServices, TireStorageServicesBll>();
+            CreateMap<CarBody, CarBodyBll>();      
 
             CreateMap<ExchangeRatesBll, ExchangeRates>();
             CreateMap<ExchangeRates, ExchangeRatesBll>();
@@ -99,12 +79,44 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<GroupWashServicesBll, GroupWashServices>();
             CreateMap<GroupWashServices, GroupWashServicesBll>();
-
-            CreateMap<RetailBll, Retail>();
-            CreateMap<Retail, RetailBll>();
             
             CreateMap<CreditBll, Credit>();
-            CreateMap<Credit, CreditBll>();                                                         
+            CreateMap<Credit, CreditBll>();
+
+
+            // expenses - затраты
+
+            CreateMap<ExpenseCategoryBll, expenseCategory>();
+            CreateMap<expenseCategory, ExpenseCategoryBll>();
+
+            CreateMap<SalaryExpensesBll, salaryExpenses>();
+            CreateMap<salaryExpenses, SalaryExpensesBll>();
+
+            CreateMap<UtilityCostsBll, utilityCosts>();
+            CreateMap<utilityCosts, UtilityCostsBll>();
+
+            CreateMap<OtherExpensesBll, otherExpenses>();
+            CreateMap<otherExpenses, OtherExpensesBll>();
+
+            CreateMap<CostsCarWashAndDeteylingBll, costsCarWashAndDeteyling>();
+            CreateMap<costsCarWashAndDeteyling, CostsCarWashAndDeteylingBll>();
+
+            CreateMap<ConsumablesTireFittingBll, consumablesTireFitting>();
+            CreateMap<consumablesTireFitting, ConsumablesTireFittingBll>();
+
+
+            // TireStorage - хранение шин
+
+            CreateMap<TireStorageBll, TireStorage>();
+            CreateMap<TireStorage, TireStorageBll>();
+
+            CreateMap<TireStorageServicesBll, TireStorageServices>();
+            CreateMap<TireStorageServices, TireStorageServicesBll>();
+
+            CreateMap<StorageFeeBll, storageFee>();
+            CreateMap<storageFee, StorageFeeBll>();
+
+           
         }
     }
 }

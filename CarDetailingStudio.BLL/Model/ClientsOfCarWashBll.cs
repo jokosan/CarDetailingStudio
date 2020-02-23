@@ -11,7 +11,6 @@ namespace CarDetailingStudio.BLL.Model
         public ClientsOfCarWashBll()
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWashBll>();
-            this.TireStorage = new HashSet<TireStorageBll>();
         }
 
         public int id { get; set; }
@@ -29,6 +28,5 @@ namespace CarDetailingStudio.BLL.Model
         public virtual ClientInfoBll ClientInfo { get; set; }
         public virtual ClientsGroupsBll ClientsGroups { get; set; }
         public virtual ICollection<OrderServicesCarWashBll> OrderServicesCarWash { get; set; }
-        public virtual ICollection<TireStorageBll> TireStorage { get; set; }
     }
 }

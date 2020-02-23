@@ -1,19 +1,19 @@
-﻿@model IPagedList<CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView>
-
-@using PagedList.Mvc;
-@using PagedList;
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView>
 
 @{
     ViewBag.Title = "Index";
 }
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
 <link href="~/Content/form.css" rel="stylesheet" />
+
+<!-- row - 1 -->
 <div class="row">
     <!-- Column -->
     <div class="col-md-6 col-lg-3">
         <div class="card card-hover">
             <div class="box bg-cyan text-center">
                 <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
-                <h6 class="text-white">@Html.ActionLink("Оформить заказ", "../ClientsOfCarWashViews/Checkout", null, new { @class = "Order-link" })</h6>
+                <h6 class="text-white">@Html.ActionLink(" Заказ мойка/детейлинг", "../ClientsOfCarWashViews/Checkout", new { services = 1 }, new { @class = "Order-link" })</h6>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="card card-hover">
             <div class="box bg-success text-center">
                 <h1 class="font-light text-white"><i class="mdi mdi-chart-areaspline"></i></h1>
-                <h6 class="text-white">@Html.ActionLink("Просмотреть смену", "../ClientsOfCarWashViews/Checkout", null, new { @class = "Order-link" })</h6>
+                <h6 class="text-white">@Html.ActionLink("Заказ на хранение шин", "../ClientsOfCarWashViews/Checkout", new { services = 2 }, new { @class = "Order-link" })</h6>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
         <div class="card card-hover">
             <div class="box bg-warning text-center">
                 <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
-                <h6 class="text-white">@Html.ActionLink("Клиенты", "../ClientsOfCarWashViews/Client", null, new { @class = "Order-link" })</h6>
+                <h6 class="text-white">@Html.ActionLink("Заказ стирка ковров", "../ClientsOfCarWashViews/Checkout", new { services = 3 }, new { @class = "Order-link" })</h6>
             </div>
         </div>
     </div>
@@ -46,6 +46,39 @@
     </div>
 </div>
 
+
+<!-- row - 2 -->
+<div class="row">
+    <!-- Column -->
+    <div class="col-md-6 col-lg-6">
+        <div class="card card-hover">
+            <div class="box bg-info text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Мойка/Детейлинг", "../Order/Index", new { services = 1 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-success text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-chart-areaspline"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Хранение шин", "../Order/OrderTireStorage", new { services = 2 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Стирка ковров", "#", null, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -55,105 +88,49 @@
                     <div class="col-md-9">
                         <h5 class="card-title m-b-0">Static Table</h5>
                     </div>
-                    <div class="col-md-3 ">
-
-                        @using (Html.BeginForm("Index", "Order", FormMethod.Get))
-                        {
-                            <div class="input-group mb-3 ">
-
-                                @Html.TextBox("Search", null, new { @class = "form-control" })
-                                <div class="input-group-append">
-                                    <input type="submit" name="submit" value="Search" class="btn btn-outline-secondary" />
-                                    <input type="submit" name="cansel" value="Сansel" class="btn btn-outline-secondary" />
-
-                                </div>
-                            </div>
-                        }
-
-                    </div>
                 </div>
             </div>
 
             <div class="table-responsive">
+                <div class="table-responsive">
+                    @(Html
+                       .Grid(Model)
+                       .Build(columns =>
+                       {
+                       columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
+                       columns.Add(model => model.OrderDate).Titled("Дата и время заказа").Filterable(false);
+                       columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа").Filterable(false);
 
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.First().ClientsOfCarWash.NumberCar)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.First().OrderDate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.First().TotalCostOfAllServices)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.First().StatusOrder)
-                        </th>
-                        <th>
-                            ФИО
-                        </th>
-                        <th></th>
-                    </tr>
-                    <tbody class="customtable">
-                        @foreach (var item in Model)
-                        {
-                            <tr class="Search">
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ClientsOfCarWash.NumberCar)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.OrderDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.TotalCostOfAllServices)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StatusOrder1.StatusOrder1)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.Name) @Html.DisplayFor(modelItem => item.ClientsOfCarWash.ClientInfo.PatronymicName)
-                                </td>
-
-                                <td>
-                                    @Html.ActionLink("О заказе", "OrderInfo", new { id = item.Id }, new { @class = "btn btn-outline-info" })
-                                    @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = item.Id }, new { @class = "btn btn-outline-success" })
-                                    <p><a href=@Url.Content("TestClose")></a></p>
-                                    @*@Html.ActionLink("Отменить", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger"})*@
-                                </td>
-
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                       columns.Add(model => model.StatusOrder1.StatusOrder1).Titled("Статус заказа").Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Surname).Titled("Фамилия").Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Name).Titled("Имя").Sortable(false).Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.PatronymicName).Titled("Отчество").Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Phone).Titled("Телефон");
+                       columns.Add(model => @Html.ActionLink("О заказе", "OrderInfo", new { id = model.Id }, new { @class = "btn btn-outline-info" })).Encoded(false);
+                       columns.Add(model => @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = model.Id }, new { @class = "btn btn-outline-success" })).Encoded(false);
+                        })
+                       .UsingFilterMode(GridFilterMode.Excel)
+                       .Empty("No data found")
+                       .Filterable(GridFilterType.Single)
+                       .Sortable()
+                       .Pageable(pager =>
+                       {
+                           pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" } };
+                           pager.ShowPageSizes = true;
+                           pager.RowsPerPage = 1;
+                       })
+                    )
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="text-center">
-    @Html.PagedListPager(Model, i => Url.Action("Index", "Order", new { i, search = Request.QueryString["search"] }))
-</div>
-
-<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
 <script>
-
-    $(document).ready(function () {
-        function Contains(text_one, text_two) {
-            if (text_one.indexOf(text_two) != -1)
-                return true;
-        }
-        $("#Search").keyup(function () {
-            var searchText = $("#Search").val().toLowerCase();
-            $(".Search").each(function () {
-                if (!Contains($(this).text().toLowerCase(), searchText)) {
-                    $(this).hide();
-                }
-                else {
-                    $(this).show();
-                }
-            });
-        });
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
     });
-
 </script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

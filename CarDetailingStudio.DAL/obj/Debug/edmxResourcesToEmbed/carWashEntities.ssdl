@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище carWashServerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="brigadeForToday">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="EndTime" Type="datetime" />
+    <Property Name="EarlyTermination" Type="bit" />
+    <Property Name="IdCarWashWorkers" Type="int" />
+    <Property Name="StatusId" Type="int" />
+  </EntityType>
+  <EntityType Name="car_generation">
+    <Key>
+      <PropertyRef Name="id_car_generation" />
+    </Key>
+    <Property Name="id_car_generation" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="id_car_model" Type="int" />
+    <Property Name="year_begin" Type="float" />
+    <Property Name="year_end" Type="float" />
+    <Property Name="date_create" Type="float" />
+    <Property Name="date_update" Type="float" />
+    <Property Name="id_car_type" Type="int" />
+  </EntityType>
+  <EntityType Name="car_mark">
+    <Key>
+      <PropertyRef Name="id_car_mark" />
+    </Key>
+    <Property Name="id_car_mark" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="name_rus" Type="nvarchar" MaxLength="255" />
+    <Property Name="date_create" Type="float" />
+    <Property Name="date_update" Type="float" />
+    <Property Name="id_car_type" Type="int" />
+    <Property Name="ImageMark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="car_model">
+    <Key>
+      <PropertyRef Name="id_car_model" />
+    </Key>
+    <Property Name="id_car_model" Type="int" Nullable="false" />
+    <Property Name="id_car_mark" Type="int" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="name_rus" Type="nvarchar" MaxLength="255" />
+    <Property Name="date_create" Type="float" />
+    <Property Name="date_update" Type="float" />
+    <Property Name="id_car_type" Type="int" />
+  </EntityType>
+  <EntityType Name="car_modification">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_car_modification" Type="int" Nullable="false" />
+    <Property Name="id_car_serie" Type="int" />
+    <Property Name="id_car_model" Type="int" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="start_production_year" Type="float" />
+    <Property Name="end_production_year" Type="nvarchar" MaxLength="255" />
+    <Property Name="date_create" Type="float" />
+    <Property Name="date_update" Type="float" />
+    <Property Name="id_car_type" Type="int" />
+  </EntityType>
+  <EntityType Name="car_serie">
+    <Key>
+      <PropertyRef Name="id_car_serie" />
+    </Key>
+    <Property Name="id_car_serie" Type="int" Nullable="false" />
+    <Property Name="id_car_model" Type="int" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="id_car_generation" Type="int" />
+    <Property Name="date_create" Type="float" />
+    <Property Name="date_update" Type="float" />
+    <Property Name="id_car_type" Type="int" />
+    <Property Name="idbody" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="CarBody">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="CarWashWorkers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+    <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="Experience" Type="nvarchar" MaxLength="50" />
+    <Property Name="AdministratorsInterestRate" Type="int" />
+    <Property Name="InterestRate" Type="int" />
+    <Property Name="rate" Type="float" />
+    <Property Name="DataRegistration" Type="nvarchar" MaxLength="15" />
+    <Property Name="DataDismissal" Type="nvarchar" MaxLength="15" />
+    <Property Name="status" Type="nvarchar" MaxLength="10" />
+    <Property Name="Photo" Type="nvarchar" MaxLength="500" />
+    <Property Name="IdPosition" Type="int" />
+  </EntityType>
+  <EntityType Name="ClientInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="200" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" />
+    <Property Name="PatronymicName" Type="nvarchar" MaxLength="200" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+    <Property Name="DateRegistration" Type="datetime2" Precision="7" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="barcode" Type="nvarchar" MaxLength="200" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="ClientsGroups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ClientsOfCarWash">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdClientsGroups" Type="int" />
+    <Property Name="IdMark" Type="int" />
+    <Property Name="IdModel" Type="int" />
+    <Property Name="IdBody" Type="int" />
+    <Property Name="IdInfoClient" Type="int" />
+    <Property Name="NumberCar" Type="nvarchar" MaxLength="50" />
+    <Property Name="discont" Type="int" />
+  </EntityType>
+  <EntityType Name="consumablesTireFitting">
+    <Key>
+      <PropertyRef Name="idConsumablesTireFitting" />
+    </Key>
+    <Property Name="idConsumablesTireFitting" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameExpenses" Type="nvarchar" MaxLength="250" />
+    <Property Name="amount" Type="float" />
+    <Property Name="dateExpenses" Type="datetime2" Precision="7" />
+    <Property Name="expenseCategoryId" Type="int" />
+  </EntityType>
+  <EntityType Name="costsCarWashAndDeteyling">
+    <Key>
+      <PropertyRef Name="idCostsCarWashAndDeteyling" />
+    </Key>
+    <Property Name="idCostsCarWashAndDeteyling" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameExpenses" Type="nvarchar" MaxLength="250" />
+    <Property Name="amount" Type="float" />
+    <Property Name="dateExpenses" Type="datetime2" Precision="7" />
+    <Property Name="expenseCategoryId" Type="int" />
+  </EntityType>
+  <EntityType Name="Credit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarWashWorkersId" Type="int" />
+    <Property Name="loanDate" Type="datetime2" Precision="7" />
+    <Property Name="IssueAmount" Type="float" />
+    <Property Name="RepaymentAmount" Type="float" />
+    <Property Name="SalaryPercentage" Type="float" />
+    <Property Name="maturityDate" Type="datetime2" Precision="7" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="Detailings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="services_list" Type="nvarchar" MaxLength="255" />
+    <Property Name="validity" Type="nvarchar" MaxLength="255" />
+    <Property Name="note" Type="nvarchar" MaxLength="255" />
+    <Property Name="S" Type="float" />
+    <Property Name="M" Type="float" />
+    <Property Name="L" Type="float" />
+    <Property Name="XL" Type="float" />
+    <Property Name="group" Type="nvarchar" MaxLength="255" />
+    <Property Name="status" Type="nvarchar" MaxLength="255" />
+    <Property Name="currency" Type="nvarchar" MaxLength="255" />
+    <Property Name="mark" Type="bit" />
+    <Property Name="IdGroupWashServices" Type="int" />
+    <Property Name="IdTypeService" Type="int" />
+  </EntityType>
+  <EntityType Name="ExchangeRates">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ccy" Type="nvarchar" MaxLength="50" />
+    <Property Name="base_ccy" Type="nvarchar" MaxLength="50" />
+    <Property Name="buy" Type="float" />
+    <Property Name="sale" Type="float" />
+    <Property Name="Date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="expenseCategory">
+    <Key>
+      <PropertyRef Name="idExpenseCategory" />
+    </Key>
+    <Property Name="idExpenseCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="GroupWashServices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="group" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="JobTitleTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Position" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "carWashServer.dbo.logo_mark_car" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="logo_mark_car">
+    <Key>
+      <PropertyRef Name="id_car_mark" />
+    </Key>
+    <Property Name="id_car_mark" Type="float" Nullable="false" />
+    <Property Name="logo_mark" Type="image" />
+    <Property Name="screen_format" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="OrderCarWashWorkers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdOrder" Type="int" Nullable="false" />
+    <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
+    <Property Name="CalculationStatus" Type="bit" />
+    <Property Name="Payroll" Type="float" />
+    <Property Name="salaryDate" Type="datetime2" Precision="7" />
+    <Property Name="closedDayStatus" Type="bit" />
+  </EntityType>
+  <EntityType Name="OrderServicesCarWash">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdClientsOfCarWash" Type="int" />
+    <Property Name="StatusOrder" Type="int" />
+    <Property Name="PaymentState" Type="int" />
+    <Property Name="OrderDate" Type="datetime2" Precision="7" />
+    <Property Name="ClosingData" Type="datetime2" Precision="7" />
+    <Property Name="TotalCostOfAllServices" Type="float" />
+    <Property Name="DiscountPrice" Type="float" />
+    <Property Name="typeOfOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="otherExpenses">
+    <Key>
+      <PropertyRef Name="idOtherExpenses" />
+    </Key>
+    <Property Name="idOtherExpenses" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameExpenses" Type="nvarchar" MaxLength="250" />
+    <Property Name="amount" Type="float" />
+    <Property Name="dateExpenses" Type="datetime2" Precision="7" />
+    <Property Name="expenseCategoryId" Type="int" />
+  </EntityType>
+  <EntityType Name="PaymentState">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaymentState" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="salaryExpenses">
+    <Key>
+      <PropertyRef Name="idSalaryExpenses" />
+    </Key>
+    <Property Name="idSalaryExpenses" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idCarWashWorkers" Type="int" />
+    <Property Name="amount" Type="float" />
+    <Property Name="dateExpenses" Type="datetime2" Precision="7" />
+    <Property Name="expenseCategoryId" Type="int" />
+  </EntityType>
+  <EntityType Name="ServisesCarWashOrder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdClientsOfCarWash" Type="int" />
+    <Property Name="IdOrderServicesCarWash" Type="int" />
+    <Property Name="IdWashServices" Type="int" />
+    <Property Name="Price" Type="float" />
+  </EntityType>
+  <EntityType Name="StatusOrder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusOrder" Type="nchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="storageFee">
+    <Key>
+      <PropertyRef Name="idStorageFee" />
+    </Key>
+    <Property Name="idStorageFee" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateOfPayment" Type="datetime2" Precision="7" />
+    <Property Name="amount" Type="float" />
+    <Property Name="storageTime" Type="int" />
+    <Property Name="storageStatus" Type="bit" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TireStorage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClientId" Type="int" />
+    <Property Name="carWashWorkersId" Type="int" />
+    <Property Name="dateOfAdoption" Type="datetime" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="radius" Type="int" />
+    <Property Name="firm" Type="nvarchar" MaxLength="250" />
+    <Property Name="discAvailability" Type="int" />
+    <Property Name="storageFeeId" Type="int" />
+    <Property Name="tireStorageBags" Type="int" />
+    <Property Name="wheelWash" Type="int" />
+    <Property Name="IdOrderServicesCarWash" Type="int" />
+    <Property Name="silicone" Type="int" />
+  </EntityType>
+  <EntityType Name="TireStorageServices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServicesName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="radius" Type="int" />
+    <Property Name="amount" Type="int" />
+    <Property Name="storageTime" Type="int" />
+    <Property Name="Price" Type="float" />
+  </EntityType>
+  <EntityType Name="typeOfOrder">
+    <Key>
+      <PropertyRef Name="IdTypeOfOrder" />
+    </Key>
+    <Property Name="IdTypeOfOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameOrder" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="utilityCosts">
+    <Key>
+      <PropertyRef Name="idUtilityCosts" />
+    </Key>
+    <Property Name="idUtilityCosts" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="indicationCounter" Type="int" />
+    <Property Name="amount" Type="float" />
+    <Property Name="dateExpenses" Type="datetime2" Precision="7" />
+    <Property Name="expenseCategoryId" Type="int" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "carWashServer.dbo.infoBrigadeForToday" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="infoBrigadeForToday">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="Expr1" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+    <Property Name="sumOrder" Type="int" />
+    <Property Name="Expr1" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "carWashServer.dbo.ItogOrderView" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="ItogOrderView">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="countOrder" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+    <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="InterestRate" Type="int" />
+    <Property Name="CalculationStatus" Type="bit" />
+    <Property Name="Expr1" Type="float" />
+  </EntityType>
+  <Association Name="FK_brigadeForToday_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+    <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="brigadeForToday">
+        <PropertyRef Name="IdCarWashWorkers" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_car_generation_car_model">
+    <End Role="car_model" Type="Self.car_model" Multiplicity="0..1" />
+    <End Role="car_generation" Type="Self.car_generation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="car_model">
+        <PropertyRef Name="id_car_model" />
+      </Principal>
+      <Dependent Role="car_generation">
+        <PropertyRef Name="id_car_model" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_car_model_car_mark">
+    <End Role="car_mark" Type="Self.car_mark" Multiplicity="0..1" />
+    <End Role="car_model" Type="Self.car_model" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="car_mark">
+        <PropertyRef Name="id_car_mark" />
+      </Principal>
+      <Dependent Role="car_model">
+        <PropertyRef Name="id_car_mark" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_car_modification_car_serie">
+    <End Role="car_serie" Type="Self.car_serie" Multiplicity="0..1" />
+    <End Role="car_modification" Type="Self.car_modification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="car_serie">
+        <PropertyRef Name="id_car_serie" />
+      </Principal>
+      <Dependent Role="car_modification">
+        <PropertyRef Name="id_car_serie" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_car_serie_car_generation">
+    <End Role="car_generation" Type="Self.car_generation" Multiplicity="0..1" />
+    <End Role="car_serie" Type="Self.car_serie" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="car_generation">
+        <PropertyRef Name="id_car_generation" />
+      </Principal>
+      <Dependent Role="car_serie">
+        <PropertyRef Name="id_car_generation" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CarWashWorkers_JobTitleTable">
+    <End Role="JobTitleTable" Type="Self.JobTitleTable" Multiplicity="0..1" />
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobTitleTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CarWashWorkers">
+        <PropertyRef Name="IdPosition" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClientsOfCarWash_car_mark">
+    <End Role="car_mark" Type="Self.car_mark" Multiplicity="0..1" />
+    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="car_mark">
+        <PropertyRef Name="id_car_mark" />
+      </Principal>
+      <Dependent Role="ClientsOfCarWash">
+        <PropertyRef Name="IdMark" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClientsOfCarWash_car_model">
+    <End Role="car_model" Type="Self.car_model" Multiplicity="0..1" />
+    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="car_model">
+        <PropertyRef Name="id_car_model" />
+      </Principal>
+      <Dependent Role="ClientsOfCarWash">
+        <PropertyRef Name="IdModel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClientsOfCarWash_CarBody">
+    <End Role="CarBody" Type="Self.CarBody" Multiplicity="0..1" />
+    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarBody">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClientsOfCarWash">
+        <PropertyRef Name="IdBody" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClientsOfCarWash_ClientInfo">
+    <End Role="ClientInfo" Type="Self.ClientInfo" Multiplicity="0..1" />
+    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClientInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClientsOfCarWash">
+        <PropertyRef Name="IdInfoClient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClientsOfCarWash_ClientsGroups">
+    <End Role="ClientsGroups" Type="Self.ClientsGroups" Multiplicity="0..1" />
+    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClientsGroups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClientsOfCarWash">
+        <PropertyRef Name="IdClientsGroups" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_consumablesTireFitting_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="consumablesTireFitting" Type="Self.consumablesTireFitting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="consumablesTireFitting">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_costsCarWashAndDeteyling_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="costsCarWashAndDeteyling" Type="Self.costsCarWashAndDeteyling" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="costsCarWashAndDeteyling">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Credit_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+    <End Role="Credit" Type="Self.Credit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Credit">
+        <PropertyRef Name="CarWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Detailings_GroupWashServices">
+    <End Role="GroupWashServices" Type="Self.GroupWashServices" Multiplicity="0..1" />
+    <End Role="Detailings" Type="Self.Detailings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GroupWashServices">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Detailings">
+        <PropertyRef Name="IdGroupWashServices" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderCarWashWorkers_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
+    <End Role="OrderCarWashWorkers" Type="Self.OrderCarWashWorkers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="OrderCarWashWorkers">
+        <PropertyRef Name="IdCarWashWorkers" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderCarWashWorkers_OrderServicesCarWash">
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1" />
+    <End Role="OrderCarWashWorkers" Type="Self.OrderCarWashWorkers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderServicesCarWash">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderCarWashWorkers">
+        <PropertyRef Name="IdOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderServicesCarWash_ClientsOfCarWash">
+    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="0..1" />
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClientsOfCarWash">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="OrderServicesCarWash">
+        <PropertyRef Name="IdClientsOfCarWash" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderServicesCarWash_PaymentState">
+    <End Role="PaymentState" Type="Self.PaymentState" Multiplicity="0..1" />
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PaymentState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderServicesCarWash">
+        <PropertyRef Name="PaymentState" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderServicesCarWash_StatusOrder">
+    <End Role="StatusOrder" Type="Self.StatusOrder" Multiplicity="0..1" />
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusOrder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderServicesCarWash">
+        <PropertyRef Name="StatusOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_otherExpenses_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="otherExpenses" Type="Self.otherExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="otherExpenses">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_salaryExpenses_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+    <End Role="salaryExpenses" Type="Self.salaryExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="salaryExpenses">
+        <PropertyRef Name="idCarWashWorkers" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_salaryExpenses_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="salaryExpenses" Type="Self.salaryExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="salaryExpenses">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ServisesCarWashOrder_Detailings">
+    <End Role="Detailings" Type="Self.Detailings" Multiplicity="0..1" />
+    <End Role="ServisesCarWashOrder" Type="Self.ServisesCarWashOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Detailings">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServisesCarWashOrder">
+        <PropertyRef Name="IdWashServices" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ServisesCarWashOrder_OrderServicesCarWash">
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="0..1" />
+    <End Role="ServisesCarWashOrder" Type="Self.ServisesCarWashOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderServicesCarWash">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServisesCarWashOrder">
+        <PropertyRef Name="IdOrderServicesCarWash" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TireStorage_OrderServicesCarWash">
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="0..1" />
+    <End Role="TireStorage" Type="Self.TireStorage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderServicesCarWash">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TireStorage">
+        <PropertyRef Name="IdOrderServicesCarWash" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TireStorage_storageFee">
+    <End Role="storageFee" Type="Self.storageFee" Multiplicity="0..1" />
+    <End Role="TireStorage" Type="Self.TireStorage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="storageFee">
+        <PropertyRef Name="idStorageFee" />
+      </Principal>
+      <Dependent Role="TireStorage">
+        <PropertyRef Name="storageFeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_utilityCosts_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="utilityCosts" Type="Self.utilityCosts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="utilityCosts">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище carWashServerModelContainer">
+    <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="car_generation" EntityType="Self.car_generation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="car_mark" EntityType="Self.car_mark" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="car_model" EntityType="Self.car_model" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="car_modification" EntityType="Self.car_modification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="car_serie" EntityType="Self.car_serie" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CarBody" EntityType="Self.CarBody" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CarWashWorkers" EntityType="Self.CarWashWorkers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClientInfo" EntityType="Self.ClientInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="consumablesTireFitting" EntityType="Self.consumablesTireFitting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="costsCarWashAndDeteyling" EntityType="Self.costsCarWashAndDeteyling" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Credit" EntityType="Self.Credit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Detailings" EntityType="Self.Detailings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExchangeRates" EntityType="Self.ExchangeRates" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="expenseCategory" EntityType="Self.expenseCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupWashServices" EntityType="Self.GroupWashServices" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobTitleTable" EntityType="Self.JobTitleTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderCarWashWorkers" EntityType="Self.OrderCarWashWorkers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderServicesCarWash" EntityType="Self.OrderServicesCarWash" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="otherExpenses" EntityType="Self.otherExpenses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentState" EntityType="Self.PaymentState" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="salaryExpenses" EntityType="Self.salaryExpenses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServisesCarWashOrder" EntityType="Self.ServisesCarWashOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="storageFee" EntityType="Self.storageFee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TireStorage" EntityType="Self.TireStorage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TireStorageServices" EntityType="Self.TireStorageServices" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="typeOfOrder" EntityType="Self.typeOfOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [logo_mark_car].[id_car_mark] AS [id_car_mark], 
+    [logo_mark_car].[logo_mark] AS [logo_mark], 
+    [logo_mark_car].[screen_format] AS [screen_format]
+    FROM [dbo].[logo_mark_car] AS [logo_mark_car]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="infoBrigadeForToday" EntityType="Self.infoBrigadeForToday" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [infoBrigadeForToday].[id] AS [id], 
+    [infoBrigadeForToday].[Date] AS [Date], 
+    [infoBrigadeForToday].[Name] AS [Name], 
+    [infoBrigadeForToday].[Surname] AS [Surname], 
+    [infoBrigadeForToday].[Patronymic] AS [Patronymic], 
+    [infoBrigadeForToday].[sumOrder] AS [sumOrder], 
+    [infoBrigadeForToday].[Expr1] AS [Expr1]
+    FROM [dbo].[infoBrigadeForToday] AS [infoBrigadeForToday]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ItogOrderView" EntityType="Self.ItogOrderView" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ItogOrderView].[id] AS [id], 
+    [ItogOrderView].[countOrder] AS [countOrder], 
+    [ItogOrderView].[Name] AS [Name], 
+    [ItogOrderView].[Surname] AS [Surname], 
+    [ItogOrderView].[Patronymic] AS [Patronymic], 
+    [ItogOrderView].[MobilePhone] AS [MobilePhone], 
+    [ItogOrderView].[InterestRate] AS [InterestRate], 
+    [ItogOrderView].[CalculationStatus] AS [CalculationStatus], 
+    [ItogOrderView].[Expr1] AS [Expr1]
+    FROM [dbo].[ItogOrderView] AS [ItogOrderView]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="brigadeForToday" EntitySet="brigadeForToday" />
+    </AssociationSet>
+    <AssociationSet Name="FK_car_generation_car_model" Association="Self.FK_car_generation_car_model">
+      <End Role="car_model" EntitySet="car_model" />
+      <End Role="car_generation" EntitySet="car_generation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_car_model_car_mark" Association="Self.FK_car_model_car_mark">
+      <End Role="car_mark" EntitySet="car_mark" />
+      <End Role="car_model" EntitySet="car_model" />
+    </AssociationSet>
+    <AssociationSet Name="FK_car_modification_car_serie" Association="Self.FK_car_modification_car_serie">
+      <End Role="car_serie" EntitySet="car_serie" />
+      <End Role="car_modification" EntitySet="car_modification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_car_serie_car_generation" Association="Self.FK_car_serie_car_generation">
+      <End Role="car_generation" EntitySet="car_generation" />
+      <End Role="car_serie" EntitySet="car_serie" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CarWashWorkers_JobTitleTable" Association="Self.FK_CarWashWorkers_JobTitleTable">
+      <End Role="JobTitleTable" EntitySet="JobTitleTable" />
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClientsOfCarWash_car_mark" Association="Self.FK_ClientsOfCarWash_car_mark">
+      <End Role="car_mark" EntitySet="car_mark" />
+      <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClientsOfCarWash_car_model" Association="Self.FK_ClientsOfCarWash_car_model">
+      <End Role="car_model" EntitySet="car_model" />
+      <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClientsOfCarWash_CarBody" Association="Self.FK_ClientsOfCarWash_CarBody">
+      <End Role="CarBody" EntitySet="CarBody" />
+      <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClientsOfCarWash_ClientInfo" Association="Self.FK_ClientsOfCarWash_ClientInfo">
+      <End Role="ClientInfo" EntitySet="ClientInfo" />
+      <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClientsOfCarWash_ClientsGroups" Association="Self.FK_ClientsOfCarWash_ClientsGroups">
+      <End Role="ClientsGroups" EntitySet="ClientsGroups" />
+      <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_consumablesTireFitting_expenseCategory" Association="Self.FK_consumablesTireFitting_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="consumablesTireFitting" EntitySet="consumablesTireFitting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_costsCarWashAndDeteyling_expenseCategory" Association="Self.FK_costsCarWashAndDeteyling_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="costsCarWashAndDeteyling" EntitySet="costsCarWashAndDeteyling" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Credit_CarWashWorkers" Association="Self.FK_Credit_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="Credit" EntitySet="Credit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Detailings_GroupWashServices" Association="Self.FK_Detailings_GroupWashServices">
+      <End Role="GroupWashServices" EntitySet="GroupWashServices" />
+      <End Role="Detailings" EntitySet="Detailings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderCarWashWorkers_CarWashWorkers" Association="Self.FK_OrderCarWashWorkers_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="OrderCarWashWorkers" EntitySet="OrderCarWashWorkers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderCarWashWorkers_OrderServicesCarWash" Association="Self.FK_OrderCarWashWorkers_OrderServicesCarWash">
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+      <End Role="OrderCarWashWorkers" EntitySet="OrderCarWashWorkers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderServicesCarWash_ClientsOfCarWash" Association="Self.FK_OrderServicesCarWash_ClientsOfCarWash">
+      <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderServicesCarWash_PaymentState" Association="Self.FK_OrderServicesCarWash_PaymentState">
+      <End Role="PaymentState" EntitySet="PaymentState" />
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderServicesCarWash_StatusOrder" Association="Self.FK_OrderServicesCarWash_StatusOrder">
+      <End Role="StatusOrder" EntitySet="StatusOrder" />
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_otherExpenses_expenseCategory" Association="Self.FK_otherExpenses_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="otherExpenses" EntitySet="otherExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_salaryExpenses_CarWashWorkers" Association="Self.FK_salaryExpenses_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="salaryExpenses" EntitySet="salaryExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_salaryExpenses_expenseCategory" Association="Self.FK_salaryExpenses_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="salaryExpenses" EntitySet="salaryExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ServisesCarWashOrder_Detailings" Association="Self.FK_ServisesCarWashOrder_Detailings">
+      <End Role="Detailings" EntitySet="Detailings" />
+      <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ServisesCarWashOrder_OrderServicesCarWash" Association="Self.FK_ServisesCarWashOrder_OrderServicesCarWash">
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+      <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TireStorage_OrderServicesCarWash" Association="Self.FK_TireStorage_OrderServicesCarWash">
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+      <End Role="TireStorage" EntitySet="TireStorage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TireStorage_storageFee" Association="Self.FK_TireStorage_storageFee">
+      <End Role="storageFee" EntitySet="storageFee" />
+      <End Role="TireStorage" EntitySet="TireStorage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_utilityCosts_expenseCategory" Association="Self.FK_utilityCosts_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="utilityCosts" EntitySet="utilityCosts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

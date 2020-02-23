@@ -15,12 +15,20 @@ namespace CarDetailingStudio.DAL
     public partial class TireStorage
     {
         public int Id { get; set; }
-        public Nullable<int> ServicesId { get; set; }
         public Nullable<int> ClientId { get; set; }
-        public Nullable<int> BrigadeId { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<int> carWashWorkersId { get; set; }
+        public Nullable<System.DateTime> dateOfAdoption { get; set; }
+        public Nullable<int> quantity { get; set; }
+        public Nullable<int> radius { get; set; }
+        public string firm { get; set; }
+        public Nullable<int> discAvailability { get; set; }
+        public Nullable<int> storageFeeId { get; set; }
+        public Nullable<int> tireStorageBags { get; set; }
+        public Nullable<int> wheelWash { get; set; }
+        public Nullable<int> IdOrderServicesCarWash { get; set; }
+        public Nullable<int> silicone { get; set; }
     
-        public virtual ClientsOfCarWash ClientsOfCarWash { get; set; }
-        public virtual TireStorageServices TireStorageServices { get; set; }
+        public virtual OrderServicesCarWash OrderServicesCarWash { get; set; }
+        public virtual storageFee storageFee { get; set; }
     }
 }

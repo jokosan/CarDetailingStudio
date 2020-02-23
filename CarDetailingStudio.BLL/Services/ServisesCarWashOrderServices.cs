@@ -71,7 +71,5 @@ namespace CarDetailingStudio.BLL.Services
             
         
         }
-
-        
     }
 }

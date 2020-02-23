@@ -47,8 +47,22 @@ namespace CarDetailingStudio.Models
 
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.ClientInfoView> ClientCarViews { get; set; }
 
-        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CostsView> CostsViews { get; set; }
-
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CreditView> CreditViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.DayResultModelView> DayResultModelViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.SalaryExpensesView> SalaryExpensesViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.UtilityCostsView> UtilityCostsViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.OtherExpensesView> OtherExpensesViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CostsCarWashAndDeteylingView> CostsCarWashAndDeteylingViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.WagesForDaysWorkedView> WagesForDaysWorkedViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.TireStorageView> TireStorageViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.OrderTireStorageModelView> OrderTireStorageModelViews { get; set; }
     }
 }

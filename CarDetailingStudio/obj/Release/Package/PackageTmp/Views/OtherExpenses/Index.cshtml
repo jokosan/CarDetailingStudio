@@ -1,0 +1,66 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OtherExpensesView>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Прочие расходы</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right m-t-30 text-right">
+                            @Html.ActionLink("Добавить", "Create", null, new { @class = "btn btn-info" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.nameExpenses)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.amount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.dateExpenses)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.expenseCategoryId)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nameExpenses)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.dateExpenses)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.expenseCategoryId)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.idOtherExpenses }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.idOtherExpenses }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.idOtherExpenses })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

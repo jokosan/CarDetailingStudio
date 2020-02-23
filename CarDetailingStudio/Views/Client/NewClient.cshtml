@@ -1,5 +1,6 @@
 ﻿@model CarDetailingStudio.Models.ClientView
 
+<link href="~/Content/input.css" rel="stylesheet" />
 <link href="~/Content/css/select2.css" rel="stylesheet" />
 <script src="~/Scripts/select2.min.js"></script>
 
@@ -87,6 +88,11 @@
                                     @Html.ValidationMessageFor(model => model.NumberCar, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+
+                            @*<div>
+                                <label>Country Search</label>
+                                <input class="form-control" id="searchInput" />
+                            </div>*@
 
                             <div class="form-group row">
                                 <label class="col-sm-3 text-right control-label col-form-label">
@@ -205,12 +211,45 @@
 
         @if (ViewBag.OpenPage == "Checkout")
         {
-            <input value="false" name="Page" type="hidden" />
 
-            <div class="form-group" align="right">
-                <div class="col-md-offset-2 col-md-10">
-                    @Html.ActionLink("Back to List", "../ClientsOfCarWashViews/Checkout", null, new { @class = "btn btn-danger" })
-                    <input type="submit" value="Create" class="btn btn-success" />
+            <div id="service">
+                <input value="false" name="Page" type="hidden" />
+
+                <div class="form-group" align="right">
+                    <div class="col-md-offset-2 col-md-10">
+
+
+                        <label class="h6">Детейлинг</label>
+                        <label class="customcheckbox">
+                            <label class="label">
+                                <input class="label__checkbox" type="checkbox" name="Service" value="1" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                <span class="label__text">
+                                    <span class="label__check">
+                                        <i class="fa fa-check icon"></i>
+                                    </span>
+                                </span>
+                            </label>
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="h6">Мойка</label>
+                        <label class="customcheckbox">
+                            <label class="label">
+
+                                <input class="label__checkbox" type="checkbox" name="Service" value="2" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                <span class="label__text">
+                                    <span class="label__check">
+                                        <i class="fa fa-check icon"></i>
+                                    </span>
+                                </span>
+                            </label>
+                            <span class="checkmark"></span>
+                        </label>
+
+
+                        @Html.ActionLink("Отменить заказ", "../ClientsOfCarWashViews/Checkout", null, new { @class = "btn btn-danger" })
+                        <input type="submit" value="Продолжить оформление заказа " class="btn btn-success" />
+                    </div>
                 </div>
             </div>
 
@@ -221,7 +260,7 @@
             <input value="true" name="Page" type="hidden" />
 
             <div class="form-group" align="right">
-                <div class="col-md-offset-2 col-md-10">
+                <div class="col-md-offset-4 col-md-10">
                     @Html.ActionLink("Back to List", "../ClientsOfCarWashViews/Client", null, new { @class = "btn btn-danger" })
                     <input type="submit" value="Create" class="btn btn-success" />
                 </div>
@@ -230,6 +269,10 @@
 
     </form>
 }
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -285,6 +328,26 @@
         });
     });
 
+
+     @*$("#searchInput").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetName","AddClientJson")',
+                dataType: "json",
+                data: { search: $("#searchName").val() },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.Name, value: item.Name };
+                    }));
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+        }
+     });*@
+
+
     //$(".MarkCar").on("change", function () {
     //    var catId = $(this).val();
     //    $("#CarModelResult").val(catId);
@@ -299,6 +362,12 @@
     //    });
     //});
 
+
+    $('#service input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#service input:checkbox').not(this).prop('checked', false);
+        }
+    });
 
 
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 
@@ -55,41 +56,17 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<PaymentStateView, PaymentStateBll>();
             CreateMap<PaymentStateBll, PaymentStateView>();
 
-            CreateMap<ServisesCarWashOrderView, ServisesCarWashOrderBll>();
-            CreateMap<ServisesCarWashOrderBll, ServisesCarWashOrderView>();
-
             CreateMap<OrderInfoViewModel, OrderInfoViewBll>();
             CreateMap<OrderInfoViewBll, OrderInfoViewModel>();
 
             CreateMap<OrderCarWashWorkersView, OrderCarWashWorkersBll>();
             CreateMap<OrderCarWashWorkersBll, OrderCarWashWorkersView>();
 
-            CreateMap<CostsView, CostsBll>();
-            CreateMap<CostsBll, CostsView>();
-
-            CreateMap<TypeOfCostsView, TypeOfCostsBll>();
-            CreateMap<TypeOfCostsBll, TypeOfCostsView>();
-
-            CreateMap<WageView, WageBll>();
-            CreateMap<WageBll, WageView>();
-
             CreateMap<OrderInfoViewModel, OrderInfoViewBll>();
             CreateMap<OrderInfoViewBll, OrderInfoViewModel>();
 
             CreateMap<CarBodyView, CarBodyBll>();
             CreateMap<CarBodyBll, CarBodyView>();
-
-            CreateMap<RetailView, RetailBll>();
-            CreateMap<RetailBll, RetailView>();
-
-            CreateMap<PurchaseCostsView, PurchaseCostsBll>();
-            CreateMap<PurchaseCostsBll, PurchaseCostsView>();
-
-            CreateMap<TireStorageView, TireStorageBll>();
-            CreateMap<TireStorageBll, TireStorageView>();
-
-            CreateMap<TireStorageServicesView, TireStorageServicesBll>();
-            CreateMap<TireStorageServicesBll, TireStorageServicesView>();
 
             CreateMap<InfoBrigadeForTodayView, InfoBrigadeForTodayBll>();
             CreateMap<InfoBrigadeForTodayBll, InfoBrigadeForTodayView>();
@@ -99,16 +76,58 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<GroupWashServicesView, GroupWashServicesBll>();
             CreateMap<GroupWashServicesBll, ClientsGroupsView>();
-
-            CreateMap<RetailView, RetailBll>();
-            CreateMap<RetailBll, RetailView>();
            
             CreateMap<ClientView, ClientViewsBll>();
             CreateMap<ClientViewsBll, ClientView>();
 
             CreateMap<CreditView, CreditBll>();
             CreateMap<CreditBll, CreditView>();
-              
+
+            CreateMap<WagesForDaysWorkedView, WagesForDaysWorkedBll>();
+            CreateMap<WagesForDaysWorkedBll, WagesForDaysWorkedView>();
+
+            CreateMap<DayResultModelView, DayResultModelBll>();
+            CreateMap<DayResultModelBll, DayResultModelView>();
+
+
+            // expenses - затраты
+
+            CreateMap<ExpenseCategoryView, ExpenseCategoryBll>();
+            CreateMap<ExpenseCategoryBll, ExpenseCategoryView>();
+
+            CreateMap<SalaryExpensesView, SalaryExpensesBll>();
+            CreateMap<SalaryExpensesBll, SalaryExpensesView>();
+
+            CreateMap<UtilityCostsView, UtilityCostsBll>();
+            CreateMap<UtilityCostsBll, UtilityCostsView>();
+
+            CreateMap<OtherExpensesView, OtherExpensesBll>();
+            CreateMap<OtherExpensesBll, OtherExpensesView>();
+
+            CreateMap<CostsCarWashAndDeteylingView, CostsCarWashAndDeteylingBll>();
+            CreateMap<CostsCarWashAndDeteylingBll, CostsCarWashAndDeteylingView>();
+
+            CreateMap<ConsumablesTireFittingView, ConsumablesTireFittingBll>();
+            CreateMap<ConsumablesTireFittingBll, ConsumablesTireFittingView>();
+
+
+            // Tire Storaage - Хранение шин
+
+            CreateMap<TireStorageView, TireStorageBll>();
+            CreateMap<TireStorageBll, TireStorageView>();
+
+            CreateMap<TireStorageServicesView, TireStorageServicesBll>();
+            CreateMap<TireStorageServicesBll, TireStorageServicesView>();
+
+            CreateMap<StorageFeeView, StorageFeeBll>();
+            CreateMap<StorageFeeBll, StorageFeeView>();
+
+            CreateMap<OrderTireStorageModelView, OrderTireStorageModelBll>();
+            CreateMap<OrderTireStorageModelBll, OrderTireStorageModelView>();
+
+            CreateMap<ReviwOrderModelView, ReviwOrderModelBll>();
+            CreateMap<ReviwOrderModelBll, ReviwOrderModelView>();
+
         }
     }
 }

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.DayResultModelView>
+
+<link href="~/Content/input.css" rel="stylesheet" />
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.Count() > 0)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title m-b-0">Salary</h5>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        Сотрудники
+                                    </th>
+                                    <th scope="col">
+                                        Сумма заказов за смену
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.payroll)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.surname)    @Html.DisplayFor(modelItem => item.name)    @Html.DisplayFor(modelItem => item.patronymic)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.orderCount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.payroll)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Details", "CompletedOrdersOfOneEmployee", new { idEmploee = item.carWashWorkersId }, new { @class = "btn btn-light btn-sm" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+
+                        <h5 class="card-title m-b-0"></h5>
+                        <div class="pull-right m-t-30 text-right">
+                            <p>Количество выполненных заказов: @ViewBag.NumberOfEmployees </p>
+                            <hr>
+                            <h3>Итого к выплате ЗП: @Math.Ceiling(ViewBag.Sum) грн.</h3>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="text-right">
+
+                            @using (Html.BeginForm())
+                            {
+                                <label class="myLabel">Досрочно закрыть смену</label>
+                                <label class="customcheckbox">
+                                    <label class="label">
+
+                                        <input class="label__checkbox" type="checkbox" name="confirmation" value="true" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                        <span class="label__text">
+                                            <span class="label__check">
+                                                <i class="fa fa-check icon"></i>
+                                            </span>
+                                        </span>
+                                    </label>
+                                    <span class="checkmark"></span>
+                                </label>
+                                <input type="submit" value="Закрыть смену" disabled="disabled" class="btn btn-success preview" id="submit" />
+                                @Html.ActionLink("Вернуться на главную", "../Order/Index", null, new { @class = "btn btn-danger preview" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Внимание!</h4>
+                    <p>Ещё не один заказ не был выполнен. Пожалуйста сначало проверти статус текущех заказов за ден. За разъяснением данного вопроса обратитесь к администраторам смены. </p>
+                    <hr>
+                    <p class="mb-0">Данное сообщение выводиться когда количество заказов за день равное NULL</p>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

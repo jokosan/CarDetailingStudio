@@ -14,18 +14,11 @@ namespace CarDetailingStudio.DAL
     
     public partial class TireStorageServices
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TireStorageServices()
-        {
-            this.TireStorage = new HashSet<TireStorage>();
-        }
-    
         public int Id { get; set; }
         public string ServicesName { get; set; }
+        public Nullable<int> radius { get; set; }
         public Nullable<int> amount { get; set; }
+        public Nullable<int> storageTime { get; set; }
         public Nullable<double> Price { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TireStorage> TireStorage { get; set; }
     }
 }

@@ -16,9 +16,12 @@ namespace CarDetailingStudio.DAL
     {
         public int Id { get; set; }
         public Nullable<int> CarWashWorkersId { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<double> Sum { get; set; }
-        public Nullable<bool> RepaidDebt { get; set; }
+        public Nullable<System.DateTime> loanDate { get; set; }
+        public Nullable<double> IssueAmount { get; set; }
+        public Nullable<double> RepaymentAmount { get; set; }
+        public Nullable<double> SalaryPercentage { get; set; }
+        public Nullable<System.DateTime> maturityDate { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         public virtual CarWashWorkers CarWashWorkers { get; set; }
     }

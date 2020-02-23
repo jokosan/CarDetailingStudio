@@ -88,19 +88,19 @@ namespace CarDetailingStudio.DAL.Infrastructure
            // return DbSeT.AsEnumerable<T>().AsQueryable().Where(predicate);
         }
 
+        //public IEnumerable<T> MultipleInclude(Expression<Func<T, bool>> filter, List<string> includeProperties)
+        //{
+        //    foreach (var property in includeProperties)
+        //    {
+        //        DbSeT.Include(property);
+        //    }
+
+        //    return DbSeT.Where(filter);
+        //}
+
         public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
-            //var query = DbSeT.ToList<T>().AsQueryable();
-
-            //foreach (var includeProperty in children.Split
-            //    (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            //{
-            //    query = query.Include(includeProperty);
-            //}
-
             return DbSeT.Include(children).Where(filter);
-
-            //return query;
         }
 
         public IEnumerable<T> GetInclude(string children)
@@ -114,8 +114,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
         {
             return DbSeT.Find(id);
         }
-
-         
     }
 }
 

@@ -9,6 +9,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IClientModules
     {
-        void Distribute(ClientViewsBll client);
+        int  Distribute(ClientViewsBll client);
     }
 }

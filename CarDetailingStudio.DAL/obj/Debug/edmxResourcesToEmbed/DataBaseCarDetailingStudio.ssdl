@@ -93,6 +93,7 @@
     <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
     <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
     <Property Name="Experience" Type="nvarchar" MaxLength="50" />
+    <Property Name="AdministratorsInterestRate" Type="int" />
     <Property Name="InterestRate" Type="int" />
     <Property Name="rate" Type="float" />
     <Property Name="DataRegistration" Type="nvarchar" MaxLength="15" />
@@ -217,6 +218,7 @@
     <Property Name="IdOrder" Type="int" Nullable="false" />
     <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
     <Property Name="CalculationStatus" Type="bit" />
+    <Property Name="Payroll" Type="float" />
   </EntityType>
   <EntityType Name="OrderServicesCarWash">
     <Key>
@@ -266,6 +268,16 @@
     <Property Name="IdOrderServicesCarWash" Type="int" />
     <Property Name="IdWashServices" Type="int" />
     <Property Name="Price" Type="float" />
+  </EntityType>
+  <EntityType Name="shiftClosure">
+    <Key>
+      <PropertyRef Name="shiftClosureId" />
+    </Key>
+    <Property Name="shiftClosureId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="carWashWorkersId" Type="int" Nullable="false" />
+    <Property Name="dateTime" Type="datetime2" Precision="7" />
+    <Property Name="completedOrders" Type="int" />
+    <Property Name="totalEarnings" Type="float" />
   </EntityType>
   <EntityType Name="StatusOrder">
     <Key>
@@ -625,6 +637,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_shiftClosure_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
+    <End Role="shiftClosure" Type="Self.shiftClosure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="shiftClosure">
+        <PropertyRef Name="carWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_TireStorage_ClientsOfCarWash">
     <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="0..1" />
     <End Role="TireStorage" Type="Self.TireStorage" Multiplicity="*" />
@@ -697,6 +721,7 @@
     <EntitySet Name="PurchaseCosts" EntityType="Self.PurchaseCosts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Retail" EntityType="Self.Retail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServisesCarWashOrder" EntityType="Self.ServisesCarWashOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="shiftClosure" EntityType="Self.shiftClosure" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TireStorage" EntityType="Self.TireStorage" Schema="dbo" store:Type="Tables" />
@@ -825,6 +850,10 @@
     <AssociationSet Name="FK_ServisesCarWashOrder_OrderServicesCarWash" Association="Self.FK_ServisesCarWashOrder_OrderServicesCarWash">
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
       <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_shiftClosure_CarWashWorkers" Association="Self.FK_shiftClosure_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="shiftClosure" EntitySet="shiftClosure" />
     </AssociationSet>
     <AssociationSet Name="FK_TireStorage_ClientsOfCarWash" Association="Self.FK_TireStorage_ClientsOfCarWash">
       <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />

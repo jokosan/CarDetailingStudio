@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 {
-    public class UnitOfWork : IDisposable, IUnitOfWork
+    public partial class UnitOfWork : IDisposable, IUnitOfWork
     {
         private carWashEntities _entities;
 
@@ -25,18 +25,16 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<ServisesCarWashOrder> ServisesCarWashOrderUW;
         private DbRepository<Detailings> DetailingsUW;
         private DbRepository<OrderCarWashWorkers> OrderCarWashWorkersUW;
-        private DbRepository<Costs> CostsUW;
         private DbRepository<car_model> CarModelUW;
         private DbRepository<car_mark> CarMarkUW;
         private DbRepository<CarBody> CarBodyUW;
-        private DbRepository<Wage> WageUW;
         private DbRepository<infoBrigadeForToday> InfoBrigadeUW;
         private DbRepository<ExchangeRates> ExchangeRatesUW;
         private DbRepository<GroupWashServices> GroupWashServicesUW;
-        private DbRepository<Retail> RetailUW;
         private DbRepository<ClientsGroups> ClientsGrupsUW;
         private DbRepository<ClientInfo> ClientInfoUW;
         private DbRepository<Credit> CreditUW;
+        private DbRepository<StatusOrder> StatusOrderUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -44,7 +42,13 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
-        
+
+        public DbRepository<StatusOrder> StatusOrderUnitOfWork
+        {
+            get => StatusOrderUW ?? (StatusOrderUW = new DbRepository<StatusOrder>(_entities));
+            set => StatusOrderUW = value;
+        }
+
         public DbRepository<Credit> CreditUnitOgWork
         {
             get { return CreditUW ?? (CreditUW = new DbRepository<Credit>(_entities)); }
@@ -63,11 +67,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             set { ClientsGrupsUW = value; }
         }
 
-        public DbRepository<Retail> RatailUnitOfWork
-        {
-            get { return RetailUW ?? (RetailUW = new DbRepository<Retail>(_entities)); }
-            set { RetailUW = value; }
-        }
+   
         
         public DbRepository<GroupWashServices> GroupWashServicesUnitOfWork
         {
@@ -87,11 +87,6 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             set { InfoBrigadeUW = value; }
         }
 
-        public DbRepository<Wage> WageUnitOfWork
-        {
-            get { return WageUW ?? (WageUW = new DbRepository<Wage>(_entities)); }
-            set { WageUW = value; }
-        }
 
         public DbRepository<CarBody> CarBodyUnitOfWork
         {
@@ -115,12 +110,6 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         {
             get { return OrderInfoUW ?? (OrderInfoUW = new OrderInfoViewRepository(_entities)); }
             set { OrderInfoUW = value; }
-        }
-
-        public DbRepository<Costs> CostsUnitOfWork
-        {
-            get { return CostsUW ?? (CostsUW = new DbRepository<Costs>(_entities)); }
-            set { CostsUW = value; }
         }
 
         public ServisesCarWashOrderRepository ServisesUnitOfWork
@@ -317,6 +306,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
             set { DetailingsUnitOfWork = value; }
         }
+
 
         #region Dispose
         private bool disposed = false;

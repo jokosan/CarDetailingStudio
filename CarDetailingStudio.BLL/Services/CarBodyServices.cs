@@ -22,9 +22,14 @@ namespace CarDetailingStudio.BLL.Services
             _automapperConfig = automapper;
         }
 
-        public IEnumerable<CarBodyBll> WhereAllCarBody()
+        public IEnumerable<CarBodyBll> GetTableAll()
         {
             return Mapper.Map<IEnumerable<CarBodyBll>>(_unitOfWork.CarBodyUnitOfWork.Get());
+        }
+
+        public CarBodyBll SelectId(int? elementId)
+        {
+            return Mapper.Map<CarBodyBll>(_unitOfWork.CarBodyUnitOfWork.GetById(elementId));
         }
     }
 }

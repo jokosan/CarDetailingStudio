@@ -76,12 +76,16 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Quartz, Version=3.0.7.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.7\lib\net452\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -213,20 +217,39 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\Expenses\CostsCarWashAndDeteylingController.cs" />
+    <Compile Include="Controllers\Expenses\OtherExpensesController.cs" />
+    <Compile Include="Controllers\Expenses\SalaryExpensesController.cs" />
+    <Compile Include="Controllers\Expenses\UtilityCostsController.cs" />
+    <Compile Include="Controllers\TireStorage\TireStorageController.cs" />
+    <Compile Include="Filters\PreviousShiftStatusFilter.cs" />
+    <Compile Include="Models\AppDbInitializer.cs" />
+    <Compile Include="Models\DayResultModelView.cs" />
+    <Compile Include="Models\ModelViews\ConsumablesTireFittingView.cs" />
+    <Compile Include="Models\ModelViews\CostsCarWashAndDeteylingView.cs" />
+    <Compile Include="Models\ModelViews\ExpenseCategoryView.cs" />
+    <Compile Include="Models\ModelViews\OtherExpensesView.cs" />
+    <Compile Include="Models\ModelViews\SalaryExpensesView.cs" />
+    <Compile Include="Models\ModelViews\ServisesCarWashOrderView.cs" />
+    <Compile Include="Models\ModelViews\StorageFeeView.cs" />
+    <Compile Include="Models\ModelViews\UtilityCostsView.cs" />
+    <Compile Include="Models\OrderTireStorageModelView.cs" />
+    <Compile Include="Models\ReviwOrderModelView.cs" />
+    <Compile Include="Models\WagesForDaysWorkedView.cs" />
+    <Compile Include="Utilities\Quartz\AutomaticShiftClose.cs" />
     <Content Include="Content\brigade-for-today.css" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BrigadeForTodayController.cs" />
     <Compile Include="Controllers\CarWashWorkersViewsController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ClientsOfCarWashViewsController.cs" />
-    <Compile Include="Controllers\CostsController.cs" />
     <Compile Include="Controllers\CreditController.cs" />
     <Compile Include="Controllers\DetailingsController.cs" />
     <Compile Include="Controllers\AddClientJsonController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ItogOrderController.cs" />
-    <Compile Include="Controllers\SalaryController.cs" />
+    <Compile Include="Controllers\ShiftClosureController.cs" />
     <Compile Include="Filters\MonitoringTheNumberOfEmployeesFilter.cs" />
     <Compile Include="Filters\WorkShiftFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -249,7 +272,6 @@
     <Compile Include="Models\ModelViews\ClientInfoView.cs" />
     <Compile Include="Models\ModelViews\ClientsGroupsView.cs" />
     <Compile Include="Models\ModelViews\ClientsOfCarWashView.cs" />
-    <Compile Include="Models\ModelViews\CostsView.cs" />
     <Compile Include="Models\ModelViews\CreditView.cs" />
     <Compile Include="Models\ModelViews\DetailingsView.cs" />
     <Compile Include="Models\ModelViews\GroupWashServicesView.cs" />
@@ -259,13 +281,8 @@
     <Compile Include="Models\ModelViews\OrderInfoViewModel.cs" />
     <Compile Include="Models\ModelViews\OrderServicesCarWashView.cs" />
     <Compile Include="Models\ModelViews\PaymentStateView.cs" />
-    <Compile Include="Models\ModelViews\PurchaseCostsView.cs" />
-    <Compile Include="Models\ModelViews\RetailView.cs" />
-    <Compile Include="Models\ModelViews\ServisesCarWashOrderView.cs" />
     <Compile Include="Models\ModelViews\StatusOrderView.cs" />
     <Compile Include="Models\ModelViews\TireStorageView.cs" />
-    <Compile Include="Models\ModelViews\TypeOfCostsView.cs" />
-    <Compile Include="Models\ModelViews\WageView.cs" />
     <Compile Include="Models\ModelViews\TireStorageServicesView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -422,6 +439,7 @@
     <Content Include="Images\big\img6.jpg" />
     <Content Include="Images\custom-select.png" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\img\unnamed.png" />
     <Content Include="Images\logo-icon.png" />
     <Content Include="Images\logo-text.png" />
     <Content Include="Images\logo.png" />
@@ -1160,8 +1178,7 @@
     <Content Include="Views\Order\ReturnTheDifference.cshtml" />
     <Content Include="Views\CarWashWorkersViews\Staff.cshtml" />
     <Content Include="Views\Order\OrderReport.cshtml" />
-    <Content Include="Views\Salary\InfoSalary.cshtml" />
-    <Content Include="Views\ItogOrder\Salary.cshtml" />
+    <Content Include="Views\ItogOrder\DayResultTest.cshtml" />
     <Content Include="Views\CarWashWorkersViews\AddEmployee.cshtml" />
     <Content Include="Views\CarWashWorkersViews\EditEmployee.cshtml" />
     <Content Include="Views\Detailings\EditPrice.cshtml" />
@@ -1171,10 +1188,29 @@
     <Content Include="Views\ClientsOfCarWashViews\Info.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\EditCarClient.cshtml" />
     <Content Include="Views\ClientsOfCarWashViews\AddCar.cshtml" />
-    <Content Include="Views\Costs\CostsInfo.cshtml" />
     <Content Include="Views\Credit\CreditInfo.cshtml" />
     <Content Include="Views\Shared\MvcGrid\_Pager.cshtml" />
     <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
+    <Content Include="Views\ShiftClosure\ShiftInformation.cshtml" />
+    <Content Include="Views\ItogOrder\DayResult.cshtml" />
+    <Content Include="Views\ItogOrder\CompletedOrdersOfOneEmployee.cshtml" />
+    <Content Include="Views\ShiftClosure\PaymentForTheCompletedOrder.cshtml" />
+    <Content Include="Views\ShiftClosure\PaymentForSpecificDays.cshtml" />
+    <Content Include="Views\UtilityCosts\ViewUtilityCosts.cshtml" />
+    <Content Include="Views\UtilityCosts\CreateUtilityCosts.cshtml" />
+    <Content Include="Views\UtilityCosts\EditUtilityCosts.cshtml" />
+    <Content Include="Views\TireStorage\ReviewTireStorageOrder.cshtml" />
+    <Content Include="Views\TireStorage\CreateTireStorageOrder.cshtml" />
+    <Content Include="Views\OtherExpenses\Index.cshtml" />
+    <Content Include="Views\OtherExpenses\Create.cshtml" />
+    <Content Include="Views\OtherExpenses\Edit.cshtml" />
+    <Content Include="Views\SalaryExpenses\Index.cshtml" />
+    <Content Include="Views\SalaryExpenses\Create.cshtml" />
+    <Content Include="Views\SalaryExpenses\Edit.cshtml" />
+    <Content Include="Views\CostsCarWashAndDeteyling\Index.cshtml" />
+    <Content Include="Views\CostsCarWashAndDeteyling\Create.cshtml" />
+    <Content Include="Views\CostsCarWashAndDeteyling\Edit.cshtml" />
+    <Content Include="Views\Order\OrderTireStorage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

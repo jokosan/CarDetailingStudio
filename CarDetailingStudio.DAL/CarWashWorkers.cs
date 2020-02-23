@@ -20,7 +20,7 @@ namespace CarDetailingStudio.DAL
             this.brigadeForToday = new HashSet<brigadeForToday>();
             this.Credit = new HashSet<Credit>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkers>();
-            this.Wage = new HashSet<Wage>();
+            this.salaryExpenses = new HashSet<salaryExpenses>();
         }
     
         public int id { get; set; }
@@ -29,6 +29,7 @@ namespace CarDetailingStudio.DAL
         public string Patronymic { get; set; }
         public string MobilePhone { get; set; }
         public string Experience { get; set; }
+        public Nullable<int> AdministratorsInterestRate { get; set; }
         public Nullable<int> InterestRate { get; set; }
         public Nullable<double> rate { get; set; }
         public string DataRegistration { get; set; }
@@ -45,6 +46,6 @@ namespace CarDetailingStudio.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderCarWashWorkers> OrderCarWashWorkers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wage> Wage { get; set; }
+        public virtual ICollection<salaryExpenses> salaryExpenses { get; set; }
     }
 }

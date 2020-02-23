@@ -1,0 +1,285 @@
+﻿@model CarDetailingStudio.Models.OrderTireStorageModelView
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <form class="form-horizontal">
+                <div class="card-body">
+                    <div class="form-group row">
+
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">@Html.DisplayNameFor(model => model.dateOfAdoption)</label>
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                            @Html.DisplayFor(model => model.dateOfAdoption)
+                        </label>
+
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">@Html.DisplayNameFor(model => model.firm)</label>
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                            @Html.DisplayFor(model => model.firm)
+                        </label>
+
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label"> @Html.DisplayNameFor(model => model.storageTime)</label>
+                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
+                            @Html.DisplayFor(model => model.storageTime) мес.
+                        </label>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Заказ</h5>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Наименование услуг</th>
+                        <th scope="col">Количество (шт)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.quantity)</td>
+                        <td> @Html.DisplayFor(model => model.quantity) шт.</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.radius)</td>
+                        <td>R @Html.DisplayFor(model => model.radius)</td>
+                    </tr>
+
+                    @if (Model.discAvailability != null)
+                    {
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.discAvailability)</td>
+                            <td>@Html.DisplayFor(model => model.discAvailability) шт.</td>
+                        </tr>
+                    }
+
+                    @if (Model.tireStorageBags != null)
+                    {
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.tireStorageBags)</td>
+                            <td>@Html.DisplayFor(model => model.tireStorageBags) шт.</td>
+                        </tr>
+                    }
+
+                    @if (Model.wheelWash != null)
+                    {
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.wheelWash)</td>
+                            <td>@Html.DisplayFor(model => model.wheelWash) шт.</td>
+                        </tr>
+                    }
+
+                    @if (Model.silicone != null)
+                    {
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.silicone)</td>
+                            <td>@Html.DisplayFor(model => model.silicone) шт.</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Цены по заказу</h5>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Услуга</th>
+                        <th scope="col">Радиус шин</th>
+                        <th scope="col">Количество (шт.)</th>
+                        <th scope="col">Период хранения</th>
+                        <th scope="col">Цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var itemServices in ViewBag.Services)
+                    {
+                        <tr>
+                            <td>@itemServices.ServicesName</td>
+                            <td>@itemServices.radius</td>
+                            <td>@itemServices.amount</td>
+                            <td>@itemServices.storageTime</td>
+                            <td>@itemServices.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Прайс по заказу</h5>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Наименование услуг</th>
+                        <th scope="col">Цена за отдельно взятую услугу</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Сумма за хранение шин с дисками</td>
+                        <td>@ViewBag.ReviwOrder.priceOfTire грн.</td>
+                    </tr>
+
+                    @if (ViewBag.ReviwOrder.priceDisk != 0)
+                    {
+                        <tr>
+                            <td>Сумма за хранение шин с дисками</td>
+                            <td>@ViewBag.ReviwOrder.priceDisk грн.</td>
+                        </tr>
+                    }
+
+                    @if (ViewBag.ReviwOrder.priceNumberOfPackets != 0)
+                    {
+                        <tr>
+                            <td>Цена за количество пакетов для шин</td>
+                            <td>@ViewBag.ReviwOrder.priceNumberOfPackets грн.</td>
+                        </tr>
+                    }
+
+                    @if (ViewBag.ReviwOrder.priceSilicone != 0)
+                    {
+                        <tr>
+                            <td>Стоимость за обработку селиконом</td>
+                            <td>@ViewBag.ReviwOrder.priceSilicone грн.</td>
+                        </tr>
+                    }
+
+                    @if (ViewBag.ReviwOrder.priceWheelWash != 0)
+                    {
+                        <tr>
+                            <td>Стоимость за мойку шин</td>
+                            <td>@ViewBag.ReviwOrder.priceWheelWash грн.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+
+                @if (ViewBag.ReviwOrder.priceSilicone != 0 || ViewBag.ReviwOrder.priceWheelWash != 0)
+                {
+                    <h5 class="card-title m-b-0">Cпособ оплаты\Выбор сотрудника для выполнения услуг</h5>
+                }
+                else
+                {
+                    <h5 class="card-title m-b-0">Cпособ оплаты</h5>
+                }
+
+                <div class="pull-right m-t-30 text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="comment-widgets scrollable" id="admin">
+                                    @foreach (var item in  ViewBag.Adninistrator)
+                                    {
+                                        <div class="d-flex flex-row comment-row m-t-0">
+
+                                            <div class="checkbox">
+                                                <text><input type="checkbox" name="idAdmin" value="@item.CarWashWorkers.id" /></text>
+                                            </div>
+
+                                            <div class="comment-text w-100">
+                                                <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                                <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <hr />
+
+                                if (ViewBag.ReviwOrder.priceSilicone != 0 || ViewBag.ReviwOrder.priceWheelWash != 0)
+                                {
+                                    <div class="comment-widgets scrollable" id="brigade">
+                                        @foreach (var item in ViewBag.Brigade)
+                                        {
+                                            <div class="d-flex flex-row comment-row m-t-0">
+
+                                                <div class="checkbox">
+                                                    <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
+                                                </div>
+
+                                                <div class="comment-text w-100">
+                                                    <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                                    <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+
+
+                                <hr />
+
+                                <div>
+                                    @Html.DropDownList("idPaymentState", new List<SelectListItem>
+                                       {
+                                           new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
+                                           new SelectListItem { Text = "Наличный расчёт", Value = "1"},
+                                           new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
+                                       }, new { @class = "form-control" })
+                                </div>
+                                <hr />
+                                <div class="text-right">
+                                    @Html.ActionLink("Отменить заказ", "../Order/Index", null, new { @class = "btn btn-danger" })
+
+                                    <input type="hidden" value=@ViewBag.Sum name="sum" />
+                                    <input type="submit" value="Оформить заказ" class="btn btn-success preview" />
+                                </div>
+
+
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <h3><b>Итого: </b>@ViewBag.Sum  грн.</h3>
+                           
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $('#brigade input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#brigade input:checkbox').not(this).prop('checked', false);
+        }
+    });
+
+     $('#admin input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#admin input:checkbox').not(this).prop('checked', false);
+        }
+    });
+</script>

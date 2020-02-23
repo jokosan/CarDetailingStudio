@@ -191,17 +191,17 @@
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 @using Microsoft.AspNet.Identity
                                 @if (Request.IsAuthenticated)
-                                {                               
+                                {
                                     <a class="dropdown-item" href=@Url.Action("../Manage/Index")><i class="ti-user m-r-5 m-l-5"></i> @User.Identity.GetUserName() </a>
                                 }
 
-                               
+
                                 @** <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>*@
 
                                 @*<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
-        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>*@
+                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>*@
                                 @*<div class="dropdown-divider"></div>*@
-                               @* <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>*@
+                                @* <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>*@
                                 @*<div class="dropdown-divider"></div>*@
                                 @*<a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>*@
 
@@ -232,25 +232,45 @@
                         @*<li class="sidebar-item"><span class="hide-menu"> @Html.ActionLink(" Главная", "Index", "Home", new { @class = "sidebar-link waves-effect waves-dark sidebar-link mdi mdi-view-dashboard hide-menu" })</span></li>*@
 
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../Order/Index") aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Главная</span></a></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Создать заказ</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new {  services = 1 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Мойка/детейлинг </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new {  services = 2 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Хранение шин</span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new {  services = 2 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Заказ стирка ковров </span></a></li>
+                            </ul>
+                        </li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ClientsOfCarWashViews/Checkout") aria-expanded="false"><i class="mdi mdi-bulletin-board"></i><span class="hide-menu">Создать заказ</span></a></li>
+
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../BrigadeForToday/TodayShift") aria-expanded="false"><i class="mdi mdi-table-edit"></i><span class="hide-menu">Редактировать смену</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../Costs/CostsInfo") aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">Расходы</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ClientsOfCarWashViews/Client") aria-expanded="false"><i class="mdi mdi-contacts"></i><span class="hide-menu">Клиенты</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../CarWashWorkersViews/Staff") aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Персонал</span></a></li>
-
-                        @*<li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Персонал</span></a>
-                                <ul aria-expanded="false" class="collapse  first-level">
-                                    <li class="sidebar-item"><a href="form-basic.html" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Form Basic </span></a></li>
-                                    <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Form Wizard </span></a></li>
-                                </ul>
-                            </li>*@
-
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../Detailings/PriceList") aria-expanded="false"><i class="fas fa-dollar-sign"></i><span class="hide-menu">Услуги и цены</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ItogOrder/Salary") aria-expanded="false"><i class="mdi mdi-function"></i><span class="hide-menu">Расчет заработной платы</span></a></li>
+
+                        @*<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ItogOrder/DayResult") aria-expanded="false"><i class="mdi mdi-function"></i><span class="hide-menu">Зарплата за текущий день</span></a></li>*@
 
                         <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Заработная плата</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item"><a href=@Url.Action("../ItogOrder/DayResult") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Зарплата за текущий день </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../ShiftClosure/ShiftInformation") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Выплата заработной платы </span></a></li>
+                                <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Кредит </span></a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Расходы</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item"><a href=@Url.Action("../SalaryExpenses/Index") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Заработная плата </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../CostsCarWashAndDeteyling/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Мойка и детейлинг </span></a></li>
+                                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu">  Вулканизация </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../UtilityCosts/ViewUtilityCosts") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Коммунальные услуги </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../OtherExpenses/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Прочие расходы </span></a></li>
+                                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Категория расходов </span></a></li>
+                            </ul>
+                        </li>
+
+                        @*<li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-pencil"></i><span class="hide-menu">Отчеты</span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href=@Url.Action("../Order/OrderReport") class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Выполненные заказы</span></a></li>
@@ -259,39 +279,28 @@
                                 <li class="sidebar-item"><a href="pages-invoice.html" class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span class="hide-menu"> Invoice </span></a></li>
                                 <li class="sidebar-item"><a href="pages-chat.html" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span class="hide-menu"> Chat Option </span></a></li>
                             </ul>
-                        </li>
-
-                        @* <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-move-resize-variant"></i><span class="hide-menu">Addons </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href="index2.html" class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu"> Dashboard-2 </span></a></li>
-                                            <li class="sidebar-item"><a href="pages-gallery.html" class="sidebar-link"><i class="mdi mdi-multiplication-box"></i><span class="hide-menu"> Gallery </span></a></li>
-                                            <li class="sidebar-item"><a href="pages-calendar.html" class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu"> Calendar </span></a></li>
-                                            <li class="sidebar-item"><a href="pages-invoice.html" class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span class="hide-menu"> Invoice </span></a></li>
-                                            <li class="sidebar-item"><a href="pages-chat.html" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span class="hide-menu"> Chat Option </span></a></li>
-                                        </ul>
-                                            </li>*@
+                        </li>*@
 
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-key"></i><span class="hide-menu">Authentication </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
-                               
+
                                 @Html.Partial("_LoginPartial")
                                 @*<li class="sidebar-item">@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>
-                                    <li class="sidebar-item">@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>*@
+                <li class="sidebar-item">@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>*@
                                 @*<li class="sidebar-item"><a href="authentication-login.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Login </span></a></li>
-                                    <li class="sidebar-item"><a href="authentication-register.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Register </span></a></li>*@
+                <li class="sidebar-item"><a href="authentication-register.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Register </span></a></li>*@
                             </ul>
                         </li>
                         @*<li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">Errors </span></a>
-                                <ul aria-expanded="false" class="collapse  first-level">
-                                    <li class="sidebar-item"><a href="error-403.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 403 </span></a></li>
-                                    <li class="sidebar-item"><a href="error-404.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 404 </span></a></li>
-                                    <li class="sidebar-item"><a href="error-405.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 405 </span></a></li>
-                                    <li class="sidebar-item"><a href="error-500.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 500 </span></a></li>
-                                </ul>
-                            </li>*@
+            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">Errors </span></a>
+            <ul aria-expanded="false" class="collapse  first-level">
+                <li class="sidebar-item"><a href="error-403.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 403 </span></a></li>
+                <li class="sidebar-item"><a href="error-404.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 404 </span></a></li>
+                <li class="sidebar-item"><a href="error-405.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 405 </span></a></li>
+                <li class="sidebar-item"><a href="error-500.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 500 </span></a></li>
+            </ul>
+        </li>*@
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -350,8 +359,9 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
+
             <footer class="footer text-center">
-                MOTOR CLEAN 2019 Designed and Developed by WrapPixel.
+                MOTOR CLEAN 2019 - @DateTime.Now.ToString("yyyy") Designed and Developed by WrapPixel.
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -361,7 +371,7 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
         @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
-       @* <script src="~/Scripts/MatrixAdminJS/jquery.min.js"></script>*@
+        @* <script src="~/Scripts/MatrixAdminJS/jquery.min.js"></script>*@
 
         <script src="~/Scripts/MatrixAdminJS/jquery.ui.touch-punch-improved.js"></script>
         <script src="~/Scripts/MatrixAdminJS/jquery-ui.min.js"></script>

@@ -9,12 +9,20 @@ namespace CarDetailingStudio.BLL.Model
     public class TireStorageBll
     {
         public int Id { get; set; }
-        public Nullable<int> ServicesId { get; set; }
         public Nullable<int> ClientId { get; set; }
-        public Nullable<int> BrigadeId { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<int> carWashWorkersId { get; set; }
+        public Nullable<System.DateTime> dateOfAdoption { get; set; }
+        public Nullable<int> quantity { get; set; }
+        public Nullable<int> radius { get; set; }
+        public string firm { get; set; }
+        public Nullable<int> discAvailability { get; set; }
+        public Nullable<int> storageFeeId { get; set; }
+        public Nullable<int> tireStorageBags { get; set; }
+        public Nullable<int> wheelWash { get; set; }
+        public Nullable<int> IdOrderServicesCarWash { get; set; }
+        public Nullable<int> silicone { get; set; }
 
-        public virtual ClientsOfCarWashBll ClientsOfCarWash { get; set; }
-        public virtual TireStorageServicesBll TireStorageServices { get; set; }
+        public virtual OrderServicesCarWashBll OrderServicesCarWash { get; set; }
+        public virtual StorageFeeBll storageFee { get; set; }
     }
 }

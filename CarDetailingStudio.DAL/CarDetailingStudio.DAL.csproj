@@ -92,70 +92,76 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="brigadeForToday.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="CarBody.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="carWashEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>carWashEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="carWashEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="carWashEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>carWashEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="CarWashWorkers.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="car_generation.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="car_mark.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="car_model.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="car_modification.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="car_serie.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ClientInfo.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ClientsGroups.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ClientsOfCarWash.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Costs.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    <Compile Include="consumablesTireFitting.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="costsCarWashAndDeteyling.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Credit.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataBaseCarDetailingStudio.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataBaseCarDetailingStudio.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataBaseCarDetailingStudio.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataBaseCarDetailingStudio.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataBaseCarDetailingStudio.edmx</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Detailings.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ExchangeRates.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="expenseCategory.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupWashServices.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="infoBrigadeForToday.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CarWashWorkersRepository.cs" />
     <Compile Include="Infrastructure\ClientsOfCarWashRepository.cs" />
@@ -165,6 +171,7 @@
     <Compile Include="Infrastructure\Contract\IGenericRepository.cs" />
     <Compile Include="Infrastructure\Contract\IGetInclude.cs" />
     <Compile Include="Infrastructure\Contract\IGetRepository.cs" />
+    <Compile Include="Infrastructure\Contract\IMultipleInclude.cs" />
     <Compile Include="Infrastructure\Contract\IServisesCarWashOrderRepository.cs" />
     <Compile Include="Infrastructure\Contract\ISingleRepository.cs" />
     <Compile Include="Infrastructure\Contract\ServisesCarWashOrderRepository.cs" />
@@ -173,63 +180,68 @@
     <Compile Include="Infrastructure\OrderInfoViewRepository.cs" />
     <Compile Include="Infrastructure\OrderServicesCarWashRepository.cs" />
     <Compile Include="ItogOrderView.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="JobTitleTable.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="logo_mark_car.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderCarWashWorkers.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderServicesCarWash.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="otherExpenses.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="PaymentState.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PurchaseCosts.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Retail.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    <Compile Include="salaryExpenses.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ServisesCarWashOrder.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="StatusOrder.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="storageFee.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagrams.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="TireStorage.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="TireStorageServices.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="TypeOfCosts.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    <Compile Include="typeOfOrder.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Ninject\NinjectDependencyResolverDAL.cs" />
+    <Compile Include="Utilities\UnitOfWorks\ExpensesUnitOfWork.cs" />
     <Compile Include="Utilities\UnitOfWorks\IUnitOfWork.cs" />
+    <Compile Include="Utilities\UnitOfWorks\TireStorageUnitOfWork.cs" />
     <Compile Include="Utilities\UnitOfWorks\UnitOfWork.cs" />
-    <Compile Include="Wage.cs">
-      <DependentUpon>DataBaseCarDetailingStudio.tt</DependentUpon>
+    <Compile Include="utilityCosts.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="DataBaseCarDetailingStudio.edmx">
+    <EntityDeploy Include="carWashEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DataBaseCarDetailingStudio.Designer.cs</LastGenOutput>
+      <LastGenOutput>carWashEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="App.Config" />
-    <None Include="DataBaseCarDetailingStudio.edmx.diagram">
-      <DependentUpon>DataBaseCarDetailingStudio.edmx</DependentUpon>
+    <None Include="carWashEntities.edmx.diagram">
+      <DependentUpon>carWashEntities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -237,15 +249,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataBaseCarDetailingStudio.Context.tt">
+    <Content Include="carWashEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DataBaseCarDetailingStudio.edmx</DependentUpon>
-      <LastGenOutput>DataBaseCarDetailingStudio.Context.cs</LastGenOutput>
+      <DependentUpon>carWashEntities.edmx</DependentUpon>
+      <LastGenOutput>carWashEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DataBaseCarDetailingStudio.tt">
+    <Content Include="carWashEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DataBaseCarDetailingStudio.edmx</DependentUpon>
-      <LastGenOutput>DataBaseCarDetailingStudio.cs</LastGenOutput>
+      <DependentUpon>carWashEntities.edmx</DependentUpon>
+      <LastGenOutput>carWashEntities.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

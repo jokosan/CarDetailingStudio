@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView>
 
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+<link href="~/Content/input.css" rel="stylesheet" />
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -16,105 +20,91 @@
             </div>
         </div>
 
+
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    @*<div class="col-md-2">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                                    <input type="text" id="Search" placeholder="Search" class="form-control" />
-                                </div>
-                            </div>
-                        </div>*@
 
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>
-                                    Номер машины
-                                </th>
+                    @switch (ViewBag.Service)
+                    {
+                        case 1:
+                            @(Html
+                           .Grid(Model)
+                           .Build(columns =>
+                           {
+                           columns.Add(model => model.ClientInfo.Surname).Titled("Фамилия");
+                           columns.Add(model => model.ClientInfo.Name).Titled("Имя");
+                           columns.Add(model => model.ClientInfo.PatronymicName).Titled("Отчество");
 
-                                <th>
-                                    Ф.И.О
-                                </th>
+                           columns.Add(model => model.ClientInfo.DateRegistration).Titled("Дата регистрации");
+                           columns.Add(model => model.discont).Titled("% Скидки");
+                           columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
+                           columns.Add(model => model.ClientsGroups.Name).Titled("Группа");
+                           columns.Add(model => model.car_mark.name).Titled("Марка");
+                           columns.Add(model => model.car_model.name).Titled("Модель");
 
-                                <th>
-                                    @Html.DisplayNameFor(model => model.discont)
-                                </th>
+                           columns.Add(model => @Html.ActionLink("Edit", "EditCarClient", new { id = model.id }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
+                           columns.Add(model => @Html.ActionLink("Детейлинг", "NewOrder", new { id = model.id, body = model.CarBody.Name, Services = 1 }, new { @class = "btn btn-warning btn-sm" })).Encoded(false);
+                           columns.Add(model => @Html.ActionLink("Мойка", "NewOrder", new { id = model.id, body = model.CarBody.Name, Services = 2 }, new { @class = "btn btn-warning btn-sm" })).Encoded(false);
+                            })
+                           .UsingFilterMode(GridFilterMode.Excel)
+                           .Empty("No data found")
+                           .Filterable(GridFilterType.Single)
+                           .Sortable()
+                           .Pageable(pager =>
+                           {
+                               pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 300, "300" }, { 500, "500" } };
+                               pager.ShowPageSizes = true;
+                               pager.RowsPerPage = 1;
+                           })
+                            )
+                            break;
+                        case 2:
+                            @(Html
+                          .Grid(Model)
+                          .Build(columns =>
+                          {
+                          columns.Add(model => model.ClientInfo.Surname).Titled("Фамилия");
+                          columns.Add(model => model.ClientInfo.Name).Titled("Имя");
+                          columns.Add(model => model.ClientInfo.PatronymicName).Titled("Отчество");
 
-                                <th>
-                                    @Html.DisplayNameFor(model => model.car_mark.name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.car_model.name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CarBody.Name)
-                                </th>
+                          columns.Add(model => model.ClientInfo.DateRegistration).Titled("Дата регистрации");
+                          columns.Add(model => model.discont).Titled("% Скидки");
+                          columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
+                          columns.Add(model => model.ClientsGroups.Name).Titled("Группа");
+                          columns.Add(model => model.car_mark.name).Titled("Марка");
+                          columns.Add(model => model.car_model.name).Titled("Модель");
 
-                                <th>Action</th>
-                            </tr>
+                          columns.Add(model => @Html.ActionLink("Edit", "EditCarClient", new { id = model.id }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
+                          columns.Add(model => @Html.ActionLink("Оформить заказ", "CreateTireStorageOrder", "TireStorage", new { IdClient = model.id }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+                           })
+                          .UsingFilterMode(GridFilterMode.Excel)
+                          .Empty("No data found")
+                          .Filterable(GridFilterType.Single)
+                          .Sortable()
+                          .Pageable(pager =>
+                          {
+                              pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 300, "300" }, { 500, "500" } };
+                              pager.ShowPageSizes = true;
+                              pager.RowsPerPage = 1;
+                          })
+                            )
+                            break;
+                    }
 
-                            @foreach (var item in Model)
-                            {
-                                <tr class="Search">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NumberCar)
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ClientInfo.Surname)  @Html.DisplayFor(modelItem => item.ClientInfo.Name) @Html.DisplayFor(modelItem => item.ClientInfo.PatronymicName)
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.discont)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.car_mark.name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.car_model.name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CarBody.Name)
-                                    </td>
-
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.id, body = item.CarBody.Name }, new { @class = "btn btn-cyan btn-sm" })
-                                        @Html.ActionLink("CarWash", "NewOrder", new { id = item.id, body = item.CarBody.Name, Services = 2 }, new { @class = "btn btn-success btn-sm" })
-                                        @Html.ActionLink("Detailings", "NewOrder", new { id = item.id, body = item.CarBody.Name, Services = 1 }, new { @class = "btn btn-warning btn-sm" })
-                                    </td>
-                                </tr>
-                            }
-
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
+        
     </div>
+
 </div>
 
-<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
 <script>
-
-    $(document).ready(function () {
-        function Contains(text_one, text_two) {
-            if (text_one.indexOf(text_two) != -1)
-                return true;
-        }
-        $("#Search").keyup(function () {
-            var searchText = $("#Search").val().toLowerCase();
-            $(".Search").each(function () {
-                if (!Contains($(this).text().toLowerCase(), searchText)) {
-                    $(this).hide();
-                }
-                else {
-                    $(this).show();
-                }
-            });
-        });
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
     });
-
 </script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

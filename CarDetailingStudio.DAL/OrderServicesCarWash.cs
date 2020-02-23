@@ -19,6 +19,7 @@ namespace CarDetailingStudio.DAL
         {
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkers>();
             this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrder>();
+            this.TireStorage = new HashSet<TireStorage>();
         }
     
         public int Id { get; set; }
@@ -29,6 +30,7 @@ namespace CarDetailingStudio.DAL
         public Nullable<System.DateTime> ClosingData { get; set; }
         public Nullable<double> TotalCostOfAllServices { get; set; }
         public Nullable<double> DiscountPrice { get; set; }
+        public Nullable<int> typeOfOrder { get; set; }
     
         public virtual ClientsOfCarWash ClientsOfCarWash { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -37,5 +39,7 @@ namespace CarDetailingStudio.DAL
         public virtual StatusOrder StatusOrder1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TireStorage> TireStorage { get; set; }
     }
 }

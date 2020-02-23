@@ -23,7 +23,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
             _automapperConfig = automapperConfig;
         }
 
-        public void Distribute(ClientViewsBll client)
+        public int Distribute(ClientViewsBll client)
         {
             ClientsOfCarWashBll clientsOfCarWash = new ClientsOfCarWashBll();
             ClientInfoBll clientInfoBll = new ClientInfoBll();
@@ -52,7 +52,9 @@ namespace CarDetailingStudio.BLL.Services.Modules
          
             ClientsOfCarWash clientsOfCar = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(clientsOfCarWash);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Insert(clientsOfCar);
-            _unitOfWork.Save();           
+            _unitOfWork.Save();
+
+            return clientsOfCar.id;
         }
     }
 }

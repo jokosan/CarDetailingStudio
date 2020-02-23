@@ -135,6 +135,7 @@
                                         <div>
                                             @Html.DropDownList("idPaymentState", new List<SelectListItem>
                                    {
+                                       new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
                                        new SelectListItem { Text = "Наличный расчёт", Value = "1"},
                                        new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
                                    }, new { @class = "form-control" })

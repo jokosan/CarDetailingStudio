@@ -4,7 +4,7 @@
     ViewBag.Title = "NewOrder";
 }
 
-    <link href="~/Content/input.css" rel="stylesheet" />
+<link href="~/Content/input.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-12">
@@ -49,149 +49,171 @@
     </div>
 </div>
 
+
 @using (Html.BeginForm())
 {
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body col-md-6">
-                    <h5 class="card-title m-b-0">Detailings</h5>
-                </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead class="thead-light">
-                            <tr>
+    @*<div class="text-right">
+        <input class="btn btn-success" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
+        <p></p>
+    </div>*@
 
-                                <th>
-                                    <label class="customcheckbox m-b-20">
-                                        <input type="checkbox" id="mainCheckbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </th>
+    <div class="scroll">
+        <div class="row">
+            <div class="col-md-6">
+                @foreach (var itemGroup in ViewBag.DetailingsGrup)
+                {
+                    if ((itemGroup.Id % 2) != 0)
+                    {
+                        <div class="card">
+                            <div class="card-body col-md-6">
 
-                                <th scope="col">services_list</th>
-                                <th scope="col">validity</th>
-                                <th scope="col">Grop</th>
-                                <th scope="col">Body</th>
-                            </tr>
-                        </thead>
-                        <tbody class="customtable">
-                            @foreach (var item in ViewBag.Detailings)
-                            {
-                            <tr class="Search">
+                                <h5 class="card-title m-b-0">@itemGroup.group</h5>
+                            </div>
 
-                                <th>
-                                    <label class="customcheckbox">
-                                        @*<input type="checkbox" class="listCheckbox" />*@
-                                        @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
-                                        <label class="label">
-                                            <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
-                                            <span class="label__text">
-                                                <span class="label__check">
-                                                    <i class="fa fa-check icon"></i>
-                                                </span>
-                                            </span>
-                                        </label>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </th>
+                            <div class="table-responsive">
+                                <table class="table">
 
-                                <td>@item.services_list</td>
-                                <td>@item.validity</td>
-                                <td>@item.group</td>
-                                @switch (Model.CarBody.Id)
-                                {
-                                    case 1:
-                                        <td>@Math.Ceiling(item.S)</td>
-                                        break;
-                                    case 2:
-                                        <td>@Math.Ceiling(item.M)</td>
-                                        break;
-                                    case 3:
-                                        <td>@Math.Ceiling(item.L)</td>
-                                        break;
-                                    case 4:
-                                        <td>@Math.Ceiling(item.XL)</td>
-                                        break;
-                                }
+                                    @foreach (var item in ViewBag.Detailings)
+                                    {
+                                        if (item.IdGroupWashServices == itemGroup.Id)
+                                        {
+                                            <tbody class="customtable">
+                                                <tr class="Search">
+                                                    <th>
+                                                        <div class="row">
+                                                            <div class="col-md-1">
+                                                                <label class="customcheckbox">
+                                                                    @*<input type="checkbox" class="listCheckbox" />*@
+                                                                    @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
+                                                                    <label class="label">
+                                                                        <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                                                        <span class="label__text">
+                                                                            <span class="label__check">
+                                                                                <i class="fa fa-check icon"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </label>
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                @item.services_list
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @item.validity
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                @switch (Model.CarBody.Id)
+                                                                {
+                                                                    case 1:
+                                                                        @Math.Ceiling(item.S)
+                                                                        break;
+                                                                    case 2:
+                                                                        @Math.Ceiling(item.M)
+                                                                        break;
+                                                                    case 3:
+                                                                        @Math.Ceiling(item.L)
+                                                                        break;
+                                                                    case 4:
+                                                                        @Math.Ceiling(item.XL)
+                                                                        break;
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-6">
+                @foreach (var itemGroup in ViewBag.DetailingsGrup)
+                {
+                    if ((itemGroup.Id % 2) == 0)
+                    {
+                        <div class="card">
+                            <div class="card-body col-md-6">
 
-                            </tr>
+                                <h5 class="card-title m-b-0">@itemGroup.group</h5>
 
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    @foreach (var item in ViewBag.Detailings)
+                                    {
+                                        if (item.IdGroupWashServices == itemGroup.Id)
+                                        {
+                                            <tbody class="customtable">
+                                                <tr class="Search">
+                                                    <th>
+                                                        <div class="row">
+                                                            <div class="col-md-1">
+                                                                <label class="customcheckbox">
+                                                                    @*<input type="checkbox" class="listCheckbox" />*@
+                                                                    @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
+                                                                    <label class="label">
+                                                                        <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                                                        <span class="label__text">
+                                                                            <span class="label__check">
+                                                                                <i class="fa fa-check icon"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </label>
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                @item.services_list
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @item.validity
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                @switch (Model.CarBody.Id)
+                                                                {
+                                                                    case 1:
+                                                                        @Math.Ceiling(item.S)
+                                                                        break;
+                                                                    case 2:
+                                                                        @Math.Ceiling(item.M)
+                                                                        break;
+                                                                    case 3:
+                                                                        @Math.Ceiling(item.L)
+                                                                        break;
+                                                                    case 4:
+                                                                        @Math.Ceiling(item.XL)
+                                                                        break;
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
-        @*<div class="col-md-6">
-            <div class="card">
-                <div class="card-body col-md-6">
-                    <h5 class="card-title m-b-0">WashServices</h5>
-                </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>
-                                    <label class="customcheckbox m-b-20">
-                                        <input type="checkbox" id="mainCheckbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </th>
-                                <th scope="col">services_list</th>
-                                <th scope="col">Body</th>
-                            </tr>
-                        </thead>
-                        <tbody class="customtable">
-                            @foreach (var item in ViewBag.WashServises)
-                            {
-                            <tr class="Search">
-                                <th>
-                                    <label class="customcheckbox">
-                                        <label class="label">
-                                            <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
-                                            <span class="label__text">
-                                                <span class="label__check">
-                                                    <i class="fa fa-check icon"></i>
-                                                </span>
-                                            </span>
-                                        </label>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </th>
-
-                                <td>@item.services_list</td>
-                                @switch (Model.CarBody.Id)
-                                {
-                                    case 1:
-                                        <td>@Math.Ceiling(item.S)</td>
-                                        break;
-                                    case 2:
-                                        <td>@Math.Ceiling(item.M)</td>
-                                        break;
-                                    case 3:
-                                        <td>@Math.Ceiling(item.L)</td>
-                                        break;
-                                    case 4:
-                                        <td>@Math.Ceiling(item.XL)</td>
-                                        break;
-                                }
-
-                            </tr>
-                            }
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>*@
     </div>
-    <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
+    <div class="text-right">
+        <p></p>
+        <input class="btn btn-success" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
+    </div>
 }
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
-
     $(document).ready(function () {
         function Contains(text_one, text_two) {
             if (text_one.indexOf(text_two) != -1)
@@ -209,5 +231,4 @@
             });
         });
     });
-
 </script>

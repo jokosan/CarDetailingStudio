@@ -14,35 +14,6 @@
             <h4 class="card-title">Формирование смены</h4>
         </div>
 
-        @*<div class="comment-widgets scrollable">
-                @using (Html.BeginForm())
-                {
-                    foreach (var item in Model)
-                    {
-                        <div class="d-flex flex-row comment-row m-t-0">
-
-                            <label class="label">
-                                <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.id" />
-                                <span class="label__text">
-                                    <span class="label__check">
-                                        <i class="fa fa-check icon"></i>
-                                    </span>
-                                </span>
-                            </label>
-                            <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
-
-                            <div class="comment-text w-100">
-                                <h6>@Html.DisplayFor(modelItem => item.Name, new { @class = "font-medium" })  @Html.DisplayFor(modelItem => item.Surname, new { @class = "font-medium" })  @Html.DisplayFor(modelItem => item.Patronymic, new { @class = "font-medium" }) </h6>
-
-                                <span>@Html.DisplayFor(modelItem => item.JobTitleTable.Position, new { @class = "m-b-15 d-block" })</span>
-                            </div>
-                        </div>
-                    }
-
-                    <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" />
-                }
-            </div>*@
-
         @using (Html.BeginForm(new { id = "someform" }))
         {
             <div class="row">
@@ -148,7 +119,7 @@
                         <div class="comment-widgets scrollable">
                             <!-- Comment Row -->
 
-                            @foreach (var item in Model.Where(x => x.IdPosition > 2))
+                            @foreach (var item in Model)
                             {
                                 <div class="d-flex flex-row comment-row m-t-0">
                                     <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
@@ -172,14 +143,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-right">                  
-
-                        <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" />
-                 
+                <div class="container">
+                    <div class="row">
+                        <div class="col text-center">
+                            <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Создать смену" />
+                        </div>
+                    </div>
                 </div>
-               
             </div>
-
         }
 
     </div>
@@ -198,32 +169,5 @@
             $('#groupTwo input:checkbox').not(this).prop('checked', false);
         }
     });
-
-</script>
-
-<script>
-
-
-
-    // var handler = function ( event ){
-    //  event = event || window.event;
-    //  var target = event.target || event.srcElement;
-    //  if ( target.nodeType == 1 && target.nodeName.toLowerCase() == "input" && target.type == "checkbox" && target.checked ) {
-    //    var inputs = document.getElementsByTagName("input");
-    //    for ( var i = 0; inputs[i]; i++ ) {
-    //      if ( inputs[i].type == "checkbox" && inputs[i] != target ) {
-    //        inputs[i].checked = false;
-    //      }
-    //    }
-    //  }
-    //}
-    //if (document.addEventListener){
-    //  document.addEventListener('click', handler, false);
-    //} else if (document.attachEvent){
-    //  document.attachEvent('onclick', handler);
-    //}
-
-
-
 
 </script>

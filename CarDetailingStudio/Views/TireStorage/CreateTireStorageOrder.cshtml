@@ -1,0 +1,153 @@
+﻿@model CarDetailingStudio.Models.OrderTireStorageModelView
+
+
+<div class="row">
+    <div class="col-md-12">
+        
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title m-b-0">Заказчик</h5>
+                        </div>
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Номер машины</td>
+                                    <td> @ViewBag.Client.NumberCar</td>
+                                </tr>
+                                <tr>
+                                    <td>Марка/Модель</td>
+                                    <td> @ViewBag.Client.car_mark.name @ViewBag.Client.car_model.name</td>
+                                </tr>
+                                <tr>
+                                    <td>Ф.И.О</td>
+                                    <td> @ViewBag.Client.ClientInfo.Surname @ViewBag.Client.ClientInfo.Name  @ViewBag.Client.ClientInfo.Surname</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title m-b-0">Форма оформления услуги сезонного хранения шин</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.quantity)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.radius)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.radius, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.radius, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.firm)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.firm, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.firm, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.discAvailability)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.discAvailability, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.discAvailability, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.tireStorageBags)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.tireStorageBags, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.tireStorageBags, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.wheelWash)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.wheelWash, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.wheelWash, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.silicone)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.silicone, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.silicone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.storageTime)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.storageTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.storageTime, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-offset-2 col-md-12 text-right">
+                                        @Html.ActionLink("Вернуться на главную", "Index", "Order", null, new { @class = "btn btn-danger" })
+
+                                        <input type="hidden" value=@ViewBag.Client.id name="customer">
+                                        <input type="submit" value="Далее" class="btn btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <img src="~/Images/img/unnamed.png" class="mx-auto d-block">
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+        </div>
+

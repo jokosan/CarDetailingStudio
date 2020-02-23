@@ -10,13 +10,15 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5 class="card-title m-b-0">Staff</h5>
+                        <h5 class="card-title m-b-0">Персонал</h5>
                     </div>
                     <div class="col-md-6 text-right">
-                        @Html.ActionLink("Add employee", "AddEmployee", null, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Добавить нового сотрудника", "AddEmployee", null, new { @class = "btn btn-info" })
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="card">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -35,6 +37,9 @@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Experience)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AdministratorsInterestRate)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.InterestRate)
@@ -74,6 +79,9 @@
                                     @Html.DisplayFor(modelItem => item.Experience)
                                 </td>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.AdministratorsInterestRate)%
+                                </td>
+                                <td>
                                     @Html.DisplayFor(modelItem => item.InterestRate)%
                                 </td>
                                 <td>
@@ -110,6 +118,9 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Experience)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdministratorsInterestRate)%
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.InterestRate)%

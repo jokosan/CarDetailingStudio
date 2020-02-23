@@ -105,6 +105,7 @@
     <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Experience" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdministratorsInterestRate" Type="Int32" />
     <Property Name="InterestRate" Type="Int32" />
     <Property Name="rate" Type="Double" />
     <Property Name="DataRegistration" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
@@ -117,6 +118,7 @@
     <NavigationProperty Name="Credit" Relationship="Self.FK_Credit_CarWashWorkers" FromRole="CarWashWorkers" ToRole="Credit" />
     <NavigationProperty Name="OrderCarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="CarWashWorkers" ToRole="OrderCarWashWorkers" />
     <NavigationProperty Name="Wage" Relationship="Self.FK_Wage_CarWashWorkers1" FromRole="CarWashWorkers" ToRole="Wage" />
+    <NavigationProperty Name="shiftClosure" Relationship="carWashServerModel.FK_shiftClosure_CarWashWorkers" FromRole="CarWashWorkers" ToRole="shiftClosure" />
   </EntityType>
   <EntityType Name="ClientInfo">
     <Key>
@@ -241,6 +243,7 @@
     <Property Name="IdOrder" Type="Int32" Nullable="false" />
     <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
     <Property Name="CalculationStatus" Type="Boolean" />
+    <Property Name="Payroll" Type="Double" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="OrderCarWashWorkers" ToRole="CarWashWorkers" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderCarWashWorkers_OrderServicesCarWash" FromRole="OrderCarWashWorkers" ToRole="OrderServicesCarWash" />
   </EntityType>
@@ -721,7 +724,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="carWashEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="carWashServerEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" />
     <EntitySet Name="car_generation" EntityType="Self.car_generation" />
     <EntitySet Name="car_mark" EntityType="Self.car_mark" />
@@ -862,5 +865,33 @@
       <End Role="TireStorageServices" EntitySet="TireStorageServices" />
       <End Role="TireStorage" EntitySet="TireStorage" />
     </AssociationSet>
+    <EntitySet Name="shiftClosure" EntityType="carWashServerModel.shiftClosure" />
+    <AssociationSet Name="FK_shiftClosure_CarWashWorkers" Association="carWashServerModel.FK_shiftClosure_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="shiftClosure" EntitySet="shiftClosure" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="shiftClosure">
+    <Key>
+      <PropertyRef Name="shiftClosureId" />
+    </Key>
+    <Property Name="shiftClosureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="carWashWorkersId" Type="Int32" Nullable="false" />
+    <Property Name="dateTime" Type="DateTime" Precision="7" />
+    <Property Name="completedOrders" Type="Int32" />
+    <Property Name="totalEarnings" Type="Double" />
+    <NavigationProperty Name="CarWashWorkers" Relationship="carWashServerModel.FK_shiftClosure_CarWashWorkers" FromRole="shiftClosure" ToRole="CarWashWorkers" />
+  </EntityType>
+  <Association Name="FK_shiftClosure_CarWashWorkers">
+    <End Type="carWashServerModel.CarWashWorkers" Role="CarWashWorkers" Multiplicity="1" />
+    <End Type="carWashServerModel.shiftClosure" Role="shiftClosure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="shiftClosure">
+        <PropertyRef Name="carWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

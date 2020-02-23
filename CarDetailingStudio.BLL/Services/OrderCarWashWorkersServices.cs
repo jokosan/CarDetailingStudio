@@ -31,91 +31,30 @@ namespace CarDetailingStudio.BLL.Services
             _servisesCarWash = servisesCarWash;
         }
 
-        public void AddEmployeeToOrder(List<string> idBrigade, int idOrder)
-        {
-            foreach (var item in idBrigade)
-            {
-                _orderCarBrigade.IdCarWashWorkers = Convert.ToInt32(item);
-                _orderCarBrigade.IdOrder = idOrder;
-                _orderCarBrigade.CalculationStatus = false;
-
-                OrderCarWashWorkers orderCarWashWorkers = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(_orderCarBrigade);
-
-                _unitOfWork.OrderCarWasWorkersUnitOFWork.Insert(orderCarWashWorkers);
-                _unitOfWork.Save();
-            }
-
-            //ЗП для Adminstratora
-
-            Adminnistrator(idOrder);
-
-        }
-        private OrderCarWashWorkersBll ChoiceAdministrator(IEnumerable<BrigadeForTodayBll> brigade, int id, int idOrder)
-        {
-            var adminCarWash = brigade.Single(x => x.CarWashWorkers.IdPosition == id);
-
-            OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
-
-            orderCarWashWorkers.IdOrder = idOrder;
-            orderCarWashWorkers.IdCarWashWorkers = adminCarWash.CarWashWorkers.id;
-            orderCarWashWorkers.CalculationStatus = false;
-
-            return orderCarWashWorkers;
+        public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(DateTime dateTime)
+        {           
+            return TableCalculationStatusFolse().Where(x => x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == dateTime.ToString("dd.MM.yyyy"));
         }
 
-        private void Adminnistrator(int idOrder)
-        {
-            var ServicesOrder = _servisesCarWash.GetAllId(idOrder); // получаем услуги по текущему заказу
-
-            bool ServicesCarWash = ServicesOrder.Any(x => x.Detailings.IdTypeService == 2);
-            bool ServicesDetailings = ServicesOrder.Any(x => x.Detailings.IdTypeService == 1);
-
-            IEnumerable<BrigadeForTodayBll> brigade = _brigade.GetDateTimeNow(); //получаем всех сотрудников на смене
-
-            bool CarWash = brigade.Any(x => x.CarWashWorkers.IdPosition == 1);
-            bool Detailings = brigade.Any(x => x.CarWashWorkers.IdPosition == 2);
-
-
-            if (ServicesCarWash) // id услуги в таблице прайс
-            {
-                if (CarWash)
-                {
-                    _orderCarBrigade = ChoiceAdministrator(brigade, 1, idOrder);
-                }
-                else if (Detailings)
-                {
-                    _orderCarBrigade = ChoiceAdministrator(brigade, 2, idOrder);
-                }
-            }
-            else if (ServicesDetailings)
-            {
-                if (Detailings)
-                {
-                    _orderCarBrigade = ChoiceAdministrator(brigade, 2, idOrder);
-
-                }
-                else if (CarWash)
-                {
-                    _orderCarBrigade = ChoiceAdministrator(brigade, 1, idOrder);
-                }
-
-            }
-
-            OrderCarWashWorkers orderCarWashWorkers = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(_orderCarBrigade);
-
-            _unitOfWork.OrderCarWasWorkersUnitOFWork.Insert(orderCarWashWorkers);
-            _unitOfWork.Save();
+        public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int id, DateTime date)
+        {   
+            return TableCalculationStatusFolse().Where(x =>  (x.IdCarWashWorkers == id) && (x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy")));
         }
 
-        public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int IdCarWashWorkers)
+        public IEnumerable<OrderCarWashWorkersBll> TableCalculationStatusFolse()
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => (x.IdCarWashWorkers == IdCarWashWorkers)
-                                                                                                                       && (x.CalculationStatus == false)));
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash"));           
+        }
+
+        public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int? IdCarWashWorkers)
+        {
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == IdCarWashWorkers)
+                                                                                                                         && (x.CalculationStatus == false), "OrderServicesCarWash"));
         }
 
         public IEnumerable<OrderCarWashWorkersBll> СontractorAllId(int? id)
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => x.IdOrder == id));
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => x.Id == id));
         }
 
         public void OrderServicesUpdate(int id)
@@ -131,11 +70,44 @@ namespace CarDetailingStudio.BLL.Services
                 order.IdCarWashWorkers = x.IdCarWashWorkers;
                 order.CalculationStatus = true;
 
-                OrderCarWashWorkers orderCarWash = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(order);
-
-                _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(orderCarWash);
-                _unitOfWork.Save();
+                UpdateOrderCarWashWorkers(order);
             }
+        }
+
+        public IEnumerable<OrderCarWashWorkersBll> GetTableInclud()
+        {
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == true)
+                                                                                                                               && (x.CalculationStatus == false), "CarWashWorkers"));
+        }
+
+        public IEnumerable<OrderCarWashWorkersBll> GetClosedDay()
+        { 
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false) 
+                                                                                                                               && (x.CalculationStatus == false), "CarWashWorkers"));
+        }
+
+        public IEnumerable<OrderCarWashWorkersBll> GetClosedDay(int? id)
+        {
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id) 
+                                                                                                                               && (x.closedDayStatus == true)
+                                                                                                                               && (x.CalculationStatus == false),
+                                                                                                                               "OrderServicesCarWash"));
+        }
+
+        public void SaveOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash)
+        {
+            OrderCarWashWorkers orderCarWashWorkers = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(orderCarWash);
+
+            _unitOfWork.OrderCarWasWorkersUnitOFWork.Insert(orderCarWashWorkers);
+            _unitOfWork.Save();
+        }
+
+        public void UpdateOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash)
+        {
+            OrderCarWashWorkers orderCarWashWorkers = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(orderCarWash);
+
+            _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(orderCarWashWorkers);
+            _unitOfWork.Save();
         }
     }
 }

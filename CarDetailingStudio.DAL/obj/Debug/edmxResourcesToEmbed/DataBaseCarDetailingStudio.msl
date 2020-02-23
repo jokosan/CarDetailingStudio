@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Хранилище carWashServerModelContainer" CdmEntityContainer="carWashEntities">
+  <EntityContainerMapping StorageEntityContainer="Хранилище carWashServerModelContainer" CdmEntityContainer="carWashServerEntities">
     <EntitySetMapping Name="brigadeForToday">
       <EntityTypeMapping TypeName="carWashServerModel.brigadeForToday">
         <MappingFragment StoreEntitySet="brigadeForToday">
@@ -100,6 +100,7 @@
           <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
           <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
           <ScalarProperty Name="Experience" ColumnName="Experience" />
+          <ScalarProperty Name="AdministratorsInterestRate" ColumnName="AdministratorsInterestRate" />
           <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
           <ScalarProperty Name="rate" ColumnName="rate" />
           <ScalarProperty Name="DataRegistration" ColumnName="DataRegistration" />
@@ -224,6 +225,7 @@
           <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
           <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
           <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
+          <ScalarProperty Name="Payroll" ColumnName="Payroll" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -372,6 +374,17 @@
           <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
           <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
           <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="shiftClosure">
+      <EntityTypeMapping TypeName="carWashServerModel.shiftClosure">
+        <MappingFragment StoreEntitySet="shiftClosure">
+          <ScalarProperty Name="totalEarnings" ColumnName="totalEarnings" />
+          <ScalarProperty Name="completedOrders" ColumnName="completedOrders" />
+          <ScalarProperty Name="dateTime" ColumnName="dateTime" />
+          <ScalarProperty Name="carWashWorkersId" ColumnName="carWashWorkersId" />
+          <ScalarProperty Name="shiftClosureId" ColumnName="shiftClosureId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

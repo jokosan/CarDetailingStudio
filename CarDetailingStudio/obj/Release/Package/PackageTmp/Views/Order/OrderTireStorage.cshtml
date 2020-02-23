@@ -1,0 +1,133 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+
+<!-- row - 1 -->
+<div class="row">
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-cyan text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
+                <h6 class="text-white">@Html.ActionLink(" Заказ мойка/детейлинг", "../ClientsOfCarWashViews/Checkout", new { services = 1 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-success text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-chart-areaspline"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Заказ на хранение шин", "../ClientsOfCarWashViews/Checkout", new { services = 2 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Заказ стирка ковров", "../ClientsOfCarWashViews/Checkout", new { services = 3 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-danger text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-border-outside"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Расходы", "../ClientsOfCarWashViews/Checkout", null, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- row - 2 -->
+<div class="row">
+    <!-- Column -->
+    <div class="col-md-6 col-lg-6">
+        <div class="card card-hover">
+            <div class="box bg-info text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Мойка/Детейлинг", "../Order/Index", new { services = 1 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-success text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-chart-areaspline"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Хранение шин", "../Order/OrderTireStorage", new { services = 2 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Стирка ковров", "#", null, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="card-title m-b-0">Static Table</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    @(Html
+                       .Grid(Model)
+                       .Build(columns =>
+                       {
+                       columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
+                       columns.Add(model => model.OrderDate).Titled("Дата и время заказа").Filterable(false);
+                       columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа").Filterable(false);
+
+                       columns.Add(model => model.StatusOrder1.StatusOrder1).Titled("Статус заказа").Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Surname).Titled("Фамилия").Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Name).Titled("Имя").Sortable(false).Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.PatronymicName).Titled("Отчество").Filterable(false);
+                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Phone).Titled("Телефон");
+                       columns.Add(model => @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = model.Id }, new { @class = "btn btn-outline-success" })).Encoded(false);
+                        })
+                       .UsingFilterMode(GridFilterMode.Excel)
+                       .Empty("No data found")
+                       .Filterable(GridFilterType.Single)
+                       .Sortable()
+                       .Pageable(pager =>
+                       {
+                           pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" } };
+                           pager.ShowPageSizes = true;
+                           pager.RowsPerPage = 1;
+                       })
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

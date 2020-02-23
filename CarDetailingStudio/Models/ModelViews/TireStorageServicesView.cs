@@ -10,19 +10,22 @@ namespace CarDetailingStudio.Models.ModelViews
     public class TireStorageServicesView
     {
         
-        public TireStorageServicesView()
-        {
-            this.TireStorage = new HashSet<TireStorageView>();
-        }
-
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+        [Display(Name ="Услуга")]
         public string ServicesName { get; set; }
-        public Nullable<int> amount { get; set; }
-        public Nullable<double> Price { get; set; }
 
-        public virtual ICollection<TireStorageView> TireStorage { get; set; }
+        [Display (Name ="Радиус шин")]
+        public Nullable<int> radius { get; set; }
+
+        [Display (Name ="количество (шт)")]
+        public Nullable<int> amount { get; set; }
+
+        [Display (Name ="Период хранения")]
+        public Nullable<int> storageTime { get; set; }
+
+        [Display (Name ="Цена")]
+        public Nullable<double> Price { get; set; }
     }
 }

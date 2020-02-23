@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderCarWashWorkersView>
+
+<link href="~/Content/input.css" rel="stylesheet" />
+
+
+
+@using (Html.BeginForm())
+{
+    <div class="row>">
+        <div class="col-12">
+            <div class="card">
+                <table class="table">
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderServicesCarWash.ClosingData)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderServicesCarWash.ClosingData)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderServicesCarWash.DiscountPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Payroll)
+                        </th>
+
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="col-md-1">
+                                    <label class="customcheckbox">
+                                        @*<input type="checkbox" class="listCheckbox" />*@
+                                        @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
+                                        <label class="label">
+                                            <input class="label__checkbox" type="checkbox" name="idShiftClosure" value="@item.Id" />
+                                            <span class="label__text">
+                                                <span class="label__check">
+                                                    <i class="fa fa-check icon"></i>
+                                                </span>
+                                            </span>
+                                        </label>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate, "{0: tt:mm}")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderServicesCarWash.ClosingData, "{0: tt:mm}")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderServicesCarWash.DiscountPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Payroll)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Подробнее о заказе", "OrderDetails", new { id = item.IdOrder })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-right">
+        <p></p>
+        <input class="btn btn-success" type="submit" id="btnCreate" value="Рассчитать" />
+    </div>
+}
+
+

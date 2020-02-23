@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using AutoMapper;
-using CarDetailingStudio.BLL.Services.Modules.EmployeeSalary;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Model;
 
@@ -63,7 +62,7 @@ namespace CarDetailingStudio.Controllers
 
         public ActionResult Staff()
         {
-            var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetStaffAll().OrderBy(item => item.status));
+            var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetChooseEmployees());
             return View(StaffAll);
         }
 

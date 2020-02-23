@@ -35,9 +35,47 @@
                         <td>Ф.И.О</td>
                         <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
                     </tr>
+                    <tr>
+                        <td>% Скидки</td>
+                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.discont)</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Статус заказа</h5>
+            </div>
+
+            <table class="table">
+                <tbody>
+                    <tr>                      
+                        <td>
+                            <div class="form-group">
+                                @using (Html.BeginForm("StatusOrder", "Order", FormMethod.Post))
+                                {
+                                    <div class="input-group mb-9 ">
+                                        @Html.DropDownListFor(model => model.StatusOrder, this.ViewBag.Status as SelectList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.StatusOrder, "", new { @class = "text-danger" })
+                                        <div class="input-group-append">
+                                            <input value=@Model.Id name="OrderStatus" type="hidden" />
+                                            <input type="submit" name="submit" value="Изменить" class="btn btn-outline-secondary" />
+
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
 
         @using (Html.BeginForm())
         {
@@ -75,9 +113,11 @@
 
                                     </td>
                                     <td>
-                                        <input type="submit" value="ServicesDelete" class="btn btn-danger btn-sm" />
+                                        <input value=@ViewBag.DiscontClient name="discont" type="hidden" />
                                         <input value=@item.Id name="idServices" type="hidden" />
                                         <input value=@item.IdOrderServicesCarWash name="idOrder" type="hidden" />
+
+                                        <input type="submit" value="ServicesDelete" class="btn btn-danger btn-sm" />
                                     </td>
                                 </tr>
 
@@ -114,12 +154,12 @@
                 @foreach (var item in ViewBag.Brigade)
                 {
                     <div class="d-flex flex-row comment-row m-t-0">
-                                           
+
 
                         <div class="comment-text w-100">
                             <h6 class="font-medium"> @item.CarWashWorkers.Name @item.CarWashWorkers.Name </h6>
                             <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
-                               я
+                            я
                             <div class="comment-footer">
                                 <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
                                 @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })

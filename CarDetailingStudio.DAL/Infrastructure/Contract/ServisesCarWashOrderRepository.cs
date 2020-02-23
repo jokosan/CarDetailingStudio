@@ -40,9 +40,11 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
             var GetWhereResult = _context.ServisesCarWashOrder.Include("Detailings")
                                                                .Include("Detailings.GroupWashServices")
                                                                .Include("OrderServicesCarWash")
-                                                               .Include("OrderServicesCarWash.ClientsOfCarWash")
+                                                               //.Include("OrderServicesCarWash.ClientsOfCarWash")
                                                                .Where(predicate);
             return GetWhereResult;
         }
+
+       
     }
 }

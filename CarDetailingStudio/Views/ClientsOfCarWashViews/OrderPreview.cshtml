@@ -43,7 +43,7 @@
                 </div>
 
 
-                <div class="card">
+                @*<div class="card">
                     <div class="card-body">
                         <h5 class="card-title m-b-0">Смена</h5>
 
@@ -71,12 +71,12 @@
                         }
                     </div>
 
-                </div>
-                <div class="border-top">
+                </div>*@
+                @*<div class="border-top">
                     <div class="card-body">
                         <button type="button" class="btn btn-primary">Submit</button>
                     </div>
-                </div>
+                </div>*@
                 @*<p>
                         @Html.ActionLink("Edit", "Edit", new { id = Model.ib }) |
                         @Html.ActionLink("Back to List", "Index")
@@ -142,8 +142,9 @@
                             <div class="clearfix"></div>
                             <hr>
                             <div class="text-right">
+                                <input type="hidden" value=@ViewBag.Total name="total"/> 
                                 <input type="submit" value="Create" class="btn btn-success preview" />
-                                @Html.ActionLink("Cansel", "../Order/Index", new { id = Model.id }, new { @class = "btn btn-danger preview" })
+                                @Html.ActionLink("Cansel", "../Order/Index", new { id = Model.id}, new { @class = "btn btn-danger preview" })
                             </div>
                         </div>
                     </div>

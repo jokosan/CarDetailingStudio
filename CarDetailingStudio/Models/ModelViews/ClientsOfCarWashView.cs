@@ -12,7 +12,6 @@ namespace CarDetailingStudio.Models.ModelViews
         public ClientsOfCarWashView()
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWashView>();
-            this.TireStorage = new HashSet<TireStorageView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -36,6 +35,5 @@ namespace CarDetailingStudio.Models.ModelViews
         public virtual ClientInfoView ClientInfo { get; set; }
         public virtual ClientsGroupsView ClientsGroups { get; set; }
         public virtual ICollection<OrderServicesCarWashView> OrderServicesCarWash { get; set; }
-        public virtual ICollection<TireStorageView> TireStorage { get; set; }
     }
 }

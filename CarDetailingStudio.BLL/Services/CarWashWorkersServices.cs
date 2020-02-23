@@ -17,18 +17,21 @@ namespace CarDetailingStudio.BLL.Services
     {
         private IUnitOfWork _unitOfWork;
         private BrigadeForTodayBll _brigade;
-        private AutomapperConfig _automapper;
 
         public CarWashWorkersServices()
         {
             _unitOfWork = new UnitOfWork();
             _brigade = new BrigadeForTodayBll();
-            _automapper = new AutomapperConfig();
         }
 
         public void Dispose()
         {
             _unitOfWork.Dispose();
+        }
+
+        public IEnumerable<CarWashWorkersBll> GetTable()
+        {
+            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.CarWashWorkersUnitOfWork.Get());
         }
 
         public IEnumerable<CarWashWorkersBll> GetStaffAll()
@@ -70,7 +73,9 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.BrigadeForTodayUnitOfWork.Insert(brigade);
             _unitOfWork.Save();
         }
-        
+
+      
+
         public bool HomeEntryCondition()
         {
             string date = DateTime.Now.ToString("dd.MM.yyyy");
@@ -99,5 +104,7 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
             _unitOfWork.Save();
         }
+
+      
     }
 }

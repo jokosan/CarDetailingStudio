@@ -50,10 +50,16 @@ body {
 }
 
 .btn {
-	width: 100%;
+	width: 60%;
 }
 
-.card {
+.btn-outline-info {
+    color: #ffffff;
+    background-color: transparent;
+    background-image: none;
+    border-color: #f1f1f1;
+}
+    .card {
     background-color: #343a40;
     /*box-shadow: 4px 7px 21px -8px #000000;*/
    

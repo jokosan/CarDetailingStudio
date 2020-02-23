@@ -51,6 +51,7 @@ namespace CarDetailingStudio.Controllers
         }
 
         IEnumerable<DetailingsView> Price { get; set; }
+        private int? ServicesId;
 
         // GET: ClientsOfCarWashViews
         //public ActionResult Client(string search, string cansel, int? i)
@@ -59,27 +60,31 @@ namespace CarDetailingStudio.Controllers
         //    return View(RedirectModel.ToList().ToPagedList(i ?? 1, 15));
         //}
 
-        public ActionResult Client(string search, string cansel, int? i)
+        public ActionResult Client()
         {           
-            return View(Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll()));
+            return View(ClientSearch());
         }
 
-        public ActionResult Checkout(string search, string cansel, int? i)
+        public ActionResult Checkout(int? services)
         {
-            var RedirectModel = ClientSearch(search, cansel);
-            return View(RedirectModel.ToList().ToPagedList(i ?? 1, 8));
+            if (services != null)
+            {
+                ServicesId = services;
+                ViewBag.Service = ServicesId;
+
+                return View(ClientSearch());
+            }
+           
+            return Redirect("/Order/Index");
         }
 
-        private IEnumerable<ClientsOfCarWashView> ClientSearch(string search, string cansel)
+        private IEnumerable<ClientsOfCarWashView> ClientSearch()
         {
-            if (cansel == "Сansel")
-                search = null;
-
-            return Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll(search));
+            return Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll());
         }
 
         // GET: ClientsOfCarWashViews/Details/5
-        public ActionResult NewOrder(int? id, string body, int Services)
+        public ActionResult NewOrder(int? id, string body, int? Services)
         {
             if (id == null)
             {
@@ -149,9 +154,9 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult OrderPreview(List<double> carBody, List<int> id, List<int> sum, List<string> idBrigade)
+        public ActionResult OrderPreview(List<double> carBody, List<int> id, List<int> sum, List<string> idBrigade, double total)
         {
-            _orderServicesInsert.InsertOrders(carBody, id, sum);
+            _orderServicesInsert.InsertOrders(carBody, id, sum, total);
 
             return RedirectToAction("Index", "Order");
         }
@@ -171,7 +176,7 @@ namespace CarDetailingStudio.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Body = new SelectList(_carBody.WhereAllCarBody(), "Id", "Name");
+            ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
 
             return View(clientsOfCarWashView);
@@ -198,7 +203,7 @@ namespace CarDetailingStudio.Controllers
                 }
             }
 
-            ViewBag.Body = new SelectList(_carBody.WhereAllCarBody(), "Id", "Name");
+            ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
 
             return View(clientsOfCarWashView);
@@ -206,7 +211,6 @@ namespace CarDetailingStudio.Controllers
 
         public ActionResult AddCar(int? id)
         {
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -214,7 +218,7 @@ namespace CarDetailingStudio.Controllers
 
             TempData["IdClient"] = id;
 
-            ViewBag.Body = new SelectList(_carBody.WhereAllCarBody(), "Id", "Name");
+            ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
 
             return View();
@@ -242,12 +246,11 @@ namespace CarDetailingStudio.Controllers
                 }
             }
 
-            ViewBag.Body = new SelectList(_carBody.WhereAllCarBody(), "Id", "Name");
+            ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
 
             return View(clientsOfCarWashView);
         }
-
 
         // GET: ClientsOfCarWashViews/Details/5    
         public ActionResult Info(int? idClientInfo, int? idClient)

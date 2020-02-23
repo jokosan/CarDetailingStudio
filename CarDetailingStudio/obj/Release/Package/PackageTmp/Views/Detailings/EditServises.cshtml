@@ -88,9 +88,6 @@
                                 @Html.ValidationMessageFor(model => model.XL, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -152,8 +149,8 @@
                             <div class="col-md-9">
                                 @Html.DropDownListFor(model => model.IdTypeService, new List<SelectListItem>
                                                                                                          {
-                                                                                                             new SelectListItem {Text = "Мойка", Value = "1" },
-                                                                                                             new SelectListItem { Text = "Детейлинг", Value = "2"}
+                                                                                                             new SelectListItem {Text = "Мойка", Value = "2" },
+                                                                                                             new SelectListItem { Text = "Детейлинг", Value = "1"}
                                                                                                          },
                                                                                                          new { @class = "form-control" })
 
@@ -165,8 +162,8 @@
 
 
                 <div class="text-right">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                    @Html.ActionLink("Back to List", "PriceList")
+                    <input type="submit" value="Сохранить" class="btn btn-default" />
+                    @Html.ActionLink("Назад", "PriceList", null, new { @class = "btn btn-danger"})
                 </div>
 
             </div>

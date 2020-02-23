@@ -1,0 +1,82 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.WagesForDaysWorkedView>
+
+<link href="~/Content/input.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    <div class="row>">
+        <div class="col-12">
+            <div class="card">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ClosingData)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DiscountPrice)
+                        <th>
+                            @Html.DisplayNameFor(model => model.orderCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.calculationStatus)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.payroll)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="col-md-1">
+                                    <label class="customcheckbox">
+                                        @*<input type="checkbox" class="listCheckbox" />*@
+                                        @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
+                                        <label class="label">
+                                            <input class="label__checkbox" type="checkbox" name="carWashWorkers" value="@item.carWashWorkersId" />
+                                            <span class="label__text">
+                                                <span class="label__check">
+                                                    <i class="fa fa-check icon"></i>
+                                                </span>
+                                            </span>
+                                        </label>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClosingData)
+                                <input type="hidden" name="closingData" value="@item.ClosingData" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DiscountPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.orderCount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.calculationStatus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.payroll)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.carWashWorkersId })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="text-right">
+        <p></p>
+        <input class="btn btn-success" type="submit" id="btnCreate" value="Рассчитать" />
+    </div>
+}

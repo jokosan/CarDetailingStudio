@@ -59,9 +59,14 @@
     <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Quartz, Version=3.0.7.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.7\lib\net452\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -104,44 +109,53 @@
     <Compile Include="Model\ClientsGroupsBll.cs" />
     <Compile Include="Model\ClientsOfCarWashBll.cs" />
     <Compile Include="Model\ClientViewsBll.cs" />
-    <Compile Include="Model\CostsBll.cs" />
+    <Compile Include="Model\ConsumablesTireFittingBll.cs" />
+    <Compile Include="Model\CostsCarWashAndDeteylingBll.cs" />
     <Compile Include="Model\CreditBll.cs" />
     <Compile Include="Model\DetailingsBll.cs" />
     <Compile Include="Model\ExchangeRatesBll.cs" />
+    <Compile Include="Model\ExpenseCategoryBll.cs" />
     <Compile Include="Model\GroupWashServicesBll.cs" />
     <Compile Include="Model\InfoBrigadeForTodayBll.cs" />
     <Compile Include="Model\JobTitleTableBll.cs" />
+    <Compile Include="Model\ModelViewBll\DayResultModelBll.cs" />
+    <Compile Include="Model\ModelViewBll\OrderTireStorageModelBll.cs" />
+    <Compile Include="Model\ModelViewBll\ReviwOrderModelBll.cs" />
+    <Compile Include="Model\StorageFeeBll.cs" />
+    <Compile Include="Model\ModelViewBll\WagesForDaysWorkedBll.cs" />
     <Compile Include="Model\OrderCarWashWorkersBll.cs" />
     <Compile Include="Model\OrderInfoViewBll.cs" />
     <Compile Include="Model\OrderServicesCarWashBll.cs" />
+    <Compile Include="Model\OtherExpensesBll.cs" />
     <Compile Include="Model\PaymentStateBll.cs" />
-    <Compile Include="Model\PurchaseCostsBll.cs" />
-    <Compile Include="Model\RetailBll.cs" />
+    <Compile Include="Model\SalaryExpensesBll.cs" />
     <Compile Include="Model\ServisesCarWashOrderBll.cs" />
     <Compile Include="Model\StatusOrderBll.cs" />
     <Compile Include="Model\TireStorageBll.cs" />
     <Compile Include="Model\TireStorageServicesBll.cs" />
-    <Compile Include="Model\TypeOfCostsBll.cs" />
-    <Compile Include="Model\WageBll.cs" />
+    <Compile Include="Model\UtilityCostsBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BrigadeForTodayServices.cs" />
     <Compile Include="Services\CarBodyServices.cs" />
     <Compile Include="Services\CarMarkServices.cs" />
     <Compile Include="Services\CarModelServices.cs" />
     <Compile Include="Services\CarWashWorkersServices.cs" />
+    <Compile Include="Services\Checkout\CheckoutContract\IOrder.cs" />
+    <Compile Include="Services\Checkout\Order.cs" />
     <Compile Include="Services\ClientInfoServices.cs" />
     <Compile Include="Services\ClientsGroupsServices.cs" />
     <Compile Include="Services\ClientsOfCarWashServices.cs" />
+    <Compile Include="Services\Contract\GenericContract\IDatabaseOperations.cs" />
+    <Compile Include="Services\Contract\GenericContract\IDeleteFromDatabase.cs" />
+    <Compile Include="Services\Contract\GenericContract\IGetFromDatabase.cs" />
     <Compile Include="Services\Contract\IClientInfoServices.cs" />
     <Compile Include="Services\Contract\IClientModules.cs" />
     <Compile Include="Services\Contract\IClientsGroupsServices.cs" />
-    <Compile Include="Services\Contract\ICostServices.cs" />
     <Compile Include="Services\Contract\ICreditServices.cs" />
     <Compile Include="Services\Contract\IGroupWashServices.cs" />
     <Compile Include="Services\Contract\IJobTitleTableServices.cs" />
-    <Compile Include="Services\Contract\IOrderInfoViewServices.cs" />
-    <Compile Include="Services\Contract\ISalaryModules.cs" />
-    <Compile Include="Services\CostServices.cs" />
+    <Compile Include="Services\Contract\IStatusOrder.cs" />
+    <Compile Include="Services\Contract\IUpdate.cs" />
     <Compile Include="Services\CreditServices.cs" />
     <Compile Include="Services\DetailingsServises.cs" />
     <Compile Include="Services\Contract\IServisesCarWashOrderServices.cs" />
@@ -152,6 +166,19 @@
     <Compile Include="Services\Contract\IClientsOfCarWashServices.cs" />
     <Compile Include="Services\Contract\IOrderCarWashWorkersServices.cs" />
     <Compile Include="Services\ExchangeRatesServices.cs" />
+    <Compile Include="Services\Expenses\ConsumablesTireFittingServices.cs" />
+    <Compile Include="Services\Expenses\CostsCarWashAndDeteylingServices.cs" />
+    <Compile Include="Services\Expenses\ExpenseCategoryServices.cs" />
+    <Compile Include="Services\Expenses\ExpensesContract\IConsumablesTireFitting.cs" />
+    <Compile Include="Services\Expenses\ExpensesContract\ICostsCarWashAndDeteyling.cs" />
+    <Compile Include="Services\Expenses\ExpensesContract\IExpenseCategory.cs" />
+    <Compile Include="Services\Expenses\ExpensesContract\IOtherExpenses.cs" />
+    <Compile Include="Services\Expenses\ExpensesContract\ISalaryExpenses.cs" />
+    <Compile Include="Services\Expenses\ExpensesContract\IUtilityCosts.cs" />
+    <Compile Include="Services\Expenses\OtherExpensesServises.cs" />
+    <Compile Include="Services\Expenses\SalaryExpensesServices.cs" />
+    <Compile Include="Services\Expenses\UtilityCostsServices.cs" />
+    <Compile Include="Services\Filters\ShiftClosingStatus.cs" />
     <Compile Include="Services\Filters\TeamMonitoringFilters.cs" />
     <Compile Include="Services\Contract\ICarModelServices.cs" />
     <Compile Include="Services\Contract\ICarMarkServices.cs" />
@@ -162,16 +189,31 @@
     <Compile Include="Services\JobTitleTableServices.cs" />
     <Compile Include="Services\Modules\ApiPrivatBank.cs" />
     <Compile Include="Services\Modules\ClientModules.cs" />
-    <Compile Include="Services\Modules\EmployeeSalary\SalaryModules.cs" />
+    <Compile Include="Services\Modules\CloseShift\Contract\IWagesForDaysWorkedGroup.cs" />
+    <Compile Include="Services\Modules\CloseShift\WagesForDaysWorkedGroup.cs" />
+    <Compile Include="Services\Modules\CloseShift\CloseShiftModule.cs" />
+    <Compile Include="Services\Modules\CloseShift\Contract\ICloseShiftModule.cs" />
+    <Compile Include="Services\Modules\CloseShift\DayResult.cs" />
+    <Compile Include="Services\Modules\CloseShift\Contract\IDayResult.cs" />
     <Compile Include="Services\Contract\IOrderServices.cs" />
     <Compile Include="Services\Contract\IApiPrivatBank.cs" />
     <Compile Include="Services\Modules\ModulesModel\OrderPriceModel.cs" />
-    <Compile Include="Services\Modules\OrderInfoViewServices.cs" />
     <Compile Include="Services\Modules\OrderServices.cs" />
-    <Compile Include="Services\Modules\CloseSalary.cs" />
+    <Compile Include="Services\Modules\TireStorage\Contract\IReviwOrderModules.cs" />
+    <Compile Include="Services\Modules\TireStorage\ReviwOrderModules.cs" />
+    <Compile Include="Services\Modules\TireStorage\TireStorageModules.cs" />
+    <Compile Include="Services\Modules\Wage\Contract\IWageModules.cs" />
+    <Compile Include="Services\Modules\Wage\WageModules.cs" />
     <Compile Include="Services\OrderCarWashWorkersServices.cs" />
     <Compile Include="Services\OrderServicesCarWashServices.cs" />
     <Compile Include="Services\ServisesCarWashOrderServices.cs" />
+    <Compile Include="Services\StatusOrderServices.cs" />
+    <Compile Include="Services\TireStorageServices\StorageFeeServices.cs" />
+    <Compile Include="Services\TireStorageServices\TireStorageContract\IStorageFee.cs" />
+    <Compile Include="Services\TireStorageServices\TireStorageContract\ITireStorage.cs" />
+    <Compile Include="Services\TireStorageServices\TireStorageContract\ITireStorageServices.cs" />
+    <Compile Include="Services\TireStorageServices\TireStorageSerServices.cs" />
+    <Compile Include="Services\TireStorageServices\TireStorageServices.cs" />
     <Compile Include="Utilities\Map\AutomapperConfig.cs" />
     <Compile Include="Utilities\Ninject\NinjectDependencyResolverBll.cs" />
   </ItemGroup>

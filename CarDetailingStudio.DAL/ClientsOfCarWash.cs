@@ -18,7 +18,6 @@ namespace CarDetailingStudio.DAL
         public ClientsOfCarWash()
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWash>();
-            this.TireStorage = new HashSet<TireStorage>();
         }
     
         public int id { get; set; }
@@ -37,7 +36,5 @@ namespace CarDetailingStudio.DAL
         public virtual ClientsGroups ClientsGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderServicesCarWash> OrderServicesCarWash { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TireStorage> TireStorage { get; set; }
     }
 }

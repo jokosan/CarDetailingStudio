@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,7 @@ namespace CarDetailingStudio.Models.ModelViews
         }
 
         public int Id { get; set; }
+        [Display (Name ="Статус заказа")]
         public string StatusOrder1 { get; set; }
 
         public virtual ICollection<OrderServicesCarWashView> OrderServicesCarWash { get; set; }

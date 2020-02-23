@@ -6,43 +6,168 @@
 
 <link href="~/Content/car-wash-workers.css" rel="stylesheet" />
 
+
+
 <div class="col-lg-12">
     <div>
         <div class="card-body">
             <h4 class="card-title">Формирование смены</h4>
         </div>
 
-        <div class="comment-widgets scrollable">
-            @using (Html.BeginForm())
-            {
-                foreach (var item in Model)
-                {
-                    <!-- Comment Row -->
-                    <div class="d-flex flex-row comment-row m-t-0">
+        @using (Html.BeginForm(new { id = "someform" }))
+        {
+            <div class="row">
 
-                        @*<div class="custom-control custom-checkbox">
-                                <text><input type="checkbox" name="chkRow" value="@item.id" /></text>
-                            </div>*@
-                        <label class="label">
-                            <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.id" />
-                            <span class="label__text">
-                                <span class="label__check">
-                                    <i class="fa fa-check icon"></i>
-                                </span>
-                            </span>
-                        </label>
-                        <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
+                <div class="col-md-4">
+                    <div class="card">
 
-                        <div class="comment-text w-100">
-                            <h6>@Html.DisplayFor(modelItem => item.Name, new { @class = "font-medium" })  @Html.DisplayFor(modelItem => item.Surname, new { @class = "font-medium" })  @Html.DisplayFor(modelItem => item.Patronymic, new { @class = "font-medium" }) </h6>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="card-title">Администратор автомойки</h4>
+                                </div>
 
-                            <span>@Html.DisplayFor(modelItem => item.JobTitleTable.Position, new { @class = "m-b-15 d-block" })</span>
+                            </div>
+                        </div>
+
+
+                        <div class="comment-widgets scrollable" id="groupOne">
+                            <!-- Comment Row -->
+
+                            @foreach (var item in Model.Where(x => x.IdPosition <= 2))
+                            {
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
+                                        <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
+
+                                    </div>
+
+                                    <label class="label">
+                                        <input class="label__checkbox" type="checkbox" name="adminCarWosh" value="@item.id" />
+                                        <span class="label__text">
+                                            <span class="label__check">
+                                                <i class="fa fa-check icon"></i>
+                                            </span>
+                                        </span>
+                                    </label>
+
+                                </div>
+                            }
+
                         </div>
                     </div>
-                }
+                </div>
 
-                <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Create" />
-            }
-        </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="card-title">Администратор детейлинга</h4>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="comment-widgets scrollable" id="groupTwo">
+                            <!-- Comment Row -->
+
+                            @foreach (var item in Model.Where(x => x.IdPosition <= 2))
+                            {
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
+                                        <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
+
+                                    </div>
+
+                                    <label class="label">
+                                        <input class="label__checkbox" type="checkbox" name="adminDetailing" value="@item.id" />
+                                        <span class="label__text">
+                                            <span class="label__check">
+                                                <i class="fa fa-check icon"></i>
+                                            </span>
+                                        </span>
+                                    </label>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="card-title">Сотрудники</h4>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="comment-widgets scrollable">
+                            <!-- Comment Row -->
+
+                            @foreach (var item in Model)
+                            {
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
+                                        <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
+                                    </div>
+
+                                    <label class="label">
+                                        <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.id" />
+                                        <span class="label__text">
+                                            <span class="label__check">
+                                                <i class="fa fa-check icon"></i>
+                                            </span>
+                                        </span>
+                                    </label>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col text-center">
+                            <input class="btn btn-outline-info" type="submit" id="btnCreate" value="Создать смену" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
     </div>
 </div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $('#groupOne input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#groupOne input:checkbox').not(this).prop('checked', false);
+        }
+    });
+
+    $('#groupTwo input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#groupTwo input:checkbox').not(this).prop('checked', false);
+        }
+    });
+
+</script>

@@ -1,8 +1,13 @@
 ﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView>
 
+
 @{
     ViewBag.Title = "Client";
 }
+
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+
 
 <div class="row">
     <div class="col-12">
@@ -16,98 +21,48 @@
                         @Html.ActionLink("Create New", "../Client/NewClient", null, new { @class = "btn btn-info" })
                     </div>
                 </div>
-
             </div>
             <div class="table-responsive">
-                <table class="table">
-                    <tr>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.ClientInfo.Surname)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.ClientInfo.Name)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.ClientInfo.PatronymicName)
-                        </th>
 
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.ClientInfo.DateRegistration)
-                        </th>
+                @(Html
+                   .Grid(Model)
+                   .Build(columns =>
+                   {
+                   columns.Add(model => model.ClientInfo.Surname).Titled("Фамилия");
+                   columns.Add(model => model.ClientInfo.Name).Titled("Имя");
+                   columns.Add(model => model.ClientInfo.PatronymicName).Titled("Отчество");
 
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.discont)
-                        </th>
-
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.NumberCar)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdClientsGroups)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdMark)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdModel)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdBody)
-                        </th>
-
-                        <th scope="col">
-                            Action
-                        </th>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientInfo.Surname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientInfo.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientInfo.PatronymicName)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientInfo.DateRegistration)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.discont)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NumberCar)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientsGroups.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.car_mark.name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.car_model.name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CarBody.Name)
-                            </td>
-
-                            <td>
-                                @Html.ActionLink("Edit", "EditCarClient", new { id = item.id }, new { @class = "btn btn-cyan btn-sm" }) 
-                                @Html.ActionLink("AddCar", "AddCar", new { id = item.IdInfoClient }, new { @class = "btn btn-cyan btn-sm" }) 
-                                @Html.ActionLink("Details", "Info", new { idClientInfo = item.ClientInfo.Id, idClient = item.id }, new { @class = "btn btn-success btn-sm" })
-                            </td>
-                        </tr>
-                    }
-
-                </table>
+                   columns.Add(model => model.ClientInfo.DateRegistration).Titled("Дата регистрации");
+                   columns.Add(model => model.discont).Titled("% Скидки");
+                   columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
+                   columns.Add(model => model.ClientsGroups.Name).Titled("Группа");
+                   columns.Add(model => model.car_mark.name).Titled("Марка");
+                   columns.Add(model => model.car_model.name).Titled("Модель");
+                   columns.Add(model => @Html.ActionLink("Edit", "EditCarClient", new { id = model.id }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
+                   columns.Add(model => @Html.ActionLink("AddCar", "AddCar", new { id = model.IdInfoClient }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
+                   columns.Add(model => @Html.ActionLink("Details", "Info", new { idClientInfo = model.ClientInfo.Id, idClient = model.id }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+                    })
+                   .UsingFilterMode(GridFilterMode.Excel)
+                   .Empty("No data found")
+                   .Filterable(GridFilterType.Single)
+                   .Sortable()
+                   .Pageable(pager =>
+                   {
+                       pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 300, "300" }, { 500, "500" } };
+                       pager.ShowPageSizes = true;
+                       pager.RowsPerPage = 1;
+                   })
+                )
             </div>
         </div>
     </div>
 </div>
 
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

@@ -1,0 +1,76 @@
+﻿@model CarDetailingStudio.Models.ModelViews.OtherExpensesView
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            @using (Html.BeginForm(null, null, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="card-body">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="card-title m-b-0">Прочие расходы</h5>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group row">
+                            <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                @Html.LabelFor(model => model.nameExpenses)
+                            </label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.nameExpenses, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nameExpenses, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                @Html.LabelFor(model => model.amount)
+                            </label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                @Html.LabelFor(model => model.dateExpenses)
+                            </label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.dateExpenses, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.dateExpenses, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                @Html.LabelFor(model => model.expenseCategoryId)
+                            </label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.expenseCategoryId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.expenseCategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="border-top">
+                            <div class="card-body pull-right m-t-30 text-right">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                                @Html.ActionLink("Cansel", "../OtherExpenses/Index", null, new { @class = "btn btn-danger preview" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
