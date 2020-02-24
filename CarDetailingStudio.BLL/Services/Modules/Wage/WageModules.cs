@@ -76,7 +76,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
                 orderCarWashWorkers.IdCarWashWorkers = ConvertStringToInt(item);
                 orderCarWashWorkers.IdOrder = idOrder;
                 orderCarWashWorkers.CalculationStatus = false;
-                orderCarWashWorkers.Payroll = PercentOfTheOrder(ConvertStringToInt(item), numberOfEmployees, amountOfCurrentOrder.DiscountPrice);
+                orderCarWashWorkers.Payroll = PercentOfTheOrder(ConvertStringToInt(item), numberOfEmployees, amountOfCurrentOrder.DiscountPrice, false);
                 orderCarWashWorkers.closedDayStatus = false;
 
                 _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
@@ -95,13 +95,13 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.IdCarWashWorkers = idBrigade;
             orderCarWashWorkers.IdOrder = idOrder;
             orderCarWashWorkers.CalculationStatus = false;
-            orderCarWashWorkers.Payroll = PercentOfTheOrder(idBrigade, 1, amountOfCurrentOrder);
+            orderCarWashWorkers.Payroll = PercentOfTheOrder(idBrigade, 1, amountOfCurrentOrder, false);
             orderCarWashWorkers.closedDayStatus = false;
 
             _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 
             orderCarWashWorkers.IdCarWashWorkers = idAdmin;
-            orderCarWashWorkers.Payroll = PercentOfTheOrder(idAdmin, 1, amountOfCurrentOrder);
+            orderCarWashWorkers.Payroll = PercentOfTheOrder(idAdmin, 1, amountOfCurrentOrder, true);
 
             _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 
@@ -110,13 +110,17 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         private int ConvertStringToInt(string x) => Convert.ToInt32(x);
 
         // Процент от заказа
-        private double? PercentOfTheOrder(int employeeId, int count, double? orderPrice)
+        private double? PercentOfTheOrder(int employeeId, int count, double? orderPrice, bool status)
         {
             var selectedEmployee = _carWashWorkers.CarWashWorkersId(employeeId);
-            bool JobTitle = Regex.IsMatch(selectedEmployee.JobTitleTable.Position, "\\bАдминистратор\\b");
-
             double employeePercentage;
-            if (JobTitle)
+
+            //if (status)
+            //{
+            //   JobTitle = Regex.IsMatch(selectedEmployee.JobTitleTable.Position, "\\bАдминистратор\\b");
+            //}            
+
+            if (status)
             {
                 employeePercentage = ((double)selectedEmployee.AdministratorsInterestRate) / 100;
             }
@@ -170,7 +174,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.IdOrder = idOrder;
             orderCarWashWorkers.IdCarWashWorkers = adminSelectionByCategory.CarWashWorkers.id;
             orderCarWashWorkers.CalculationStatus = false;
-            orderCarWashWorkers.Payroll = PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice);
+            orderCarWashWorkers.Payroll = PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice, true);
             orderCarWashWorkers.closedDayStatus = false;
 
             _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
