@@ -55,3 +55,4 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDe
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Release\Quartz.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Release\Quartz.pdb
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\bin\Release\Quartz.xml
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.BLL\obj\Release\CarDetailingStudio.BLL.csproj.CoreCompileInputs.cache

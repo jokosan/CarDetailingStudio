@@ -15,18 +15,21 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
     {
         private IOrderCarWashWorkersServices _orderCarWash;
         private ISalaryExpenses _salaryExpenses;
+        private ISalaryBalanceService _salaryBalance;
 
-        public WagesForDaysWorkedGroup(IOrderCarWashWorkersServices orderCarWash, ISalaryExpenses salaryExpenses)
+        public WagesForDaysWorkedGroup(IOrderCarWashWorkersServices orderCarWash, ISalaryExpenses salaryExpenses,
+                                       ISalaryBalanceService salaryBalance)
         {
             _orderCarWash = orderCarWash;
             _salaryExpenses = salaryExpenses;
+            _salaryBalance = salaryBalance;
         }
 
         public IEnumerable<WagesForDaysWorkedBll> DayOrderResult(int? Id)
         {
             var getResult = _orderCarWash.SampleForPayroll(Id);
 
-            return getResult.GroupBy(x => x.IdCarWashWorkers)
+            return getResult.GroupBy(x => x.OrderServicesCarWash.OrderDate?.ToString("dd.MM.yyyy"))
                               .Select(y => new WagesForDaysWorkedBll
                               {
                                   carWashWorkersId = y.First().IdCarWashWorkers,
@@ -38,66 +41,72 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                               });
         }
 
-        public void PartPayroll(List<string> idCureentShift)
+        public void PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, bool closeMonth, bool NegativeBalance = false)
         {
-            foreach (var idShift in idCureentShift)
-            {
-                var pay = _orderCarWash.СontractorAllId(Convert.ToInt32(idShift));
-                PayWages(pay);
-            }
-        }
+            var lostMonthBalance = _salaryBalance.LastMonthBalance(employeeId);
+            SalaryBalanceBll salaryBalanceBll = new SalaryBalanceBll();
 
-        public void PayrollForDaysWorked(List<string> day, List<string> carWashWorkers)
-        {
-            Dictionary<int, DateTime> keyValues = new Dictionary<int, DateTime>();
+            double balance = 0;
 
-            for (int i = 0; i < day.Count; i++)
+            if (lostMonthBalance != null)
             {
-                if (day.Count == carWashWorkers.Count)
+                balance = lostMonthBalance.accountBalance.Value - lostMonthBalance.payoutAmount.Value;
+
+                if (payoutAmount >= lostMonthBalance.payoutAmount)
                 {
-                    keyValues.Add(Convert.ToInt32(carWashWorkers[i]), Convert.ToDateTime(day[i]));
+                    lostMonthBalance.accountBalance = 0;
+                    _salaryBalance.Update(lostMonthBalance);
+                }
+                else if (balance < 0)
+                {
+                    if (Math.Sign(balance) == -1)
+                    {
+                        balance = balance * -1;
+                    }
+
+                    if (NegativeBalance && payoutAmount <= balance)
+                    {
+                        lostMonthBalance.accountBalance = lostMonthBalance.accountBalance + payoutAmount;
+                        _salaryBalance.Update(lostMonthBalance);
+                    }
                 }
             }
 
-            foreach (var item in keyValues)
+            salaryBalanceBll.CarWashWorkersId = employeeId;
+            salaryBalanceBll.dateOfPayment = DateTime.Now;
+            salaryBalanceBll.payoutAmount = payoutAmount;
+            salaryBalanceBll.accountBalance = totalPayable;
+            salaryBalanceBll.currentMonthStatus = closeMonth;
+
+            _salaryBalance.Insert(salaryBalanceBll);
+            PayrollExpenses(salaryBalanceBll);
+
+            if (closeMonth == true)
             {
-                var result = _orderCarWash.SampleForPayroll(item.Key, item.Value);
-                PayWages(result);
+                OrderCarWashWorkersBll orderCarWash = new OrderCarWashWorkersBll();
+                var getResult = _orderCarWash.SampleForPayroll(employeeId);
+
+                foreach (var item in getResult)
+                {
+                    orderCarWash = item;
+                    orderCarWash.CalculationStatus = true;
+                    orderCarWash.salaryDate = salaryBalanceBll.dateOfPayment;
+
+                    _orderCarWash.UpdateOrderCarWashWorkers(orderCarWash);
+                }
             }
         }
 
-        public void PayWagesForAllDays(int? idCarWashWorkers)
+        private void PayrollExpenses(SalaryBalanceBll salaryBalance)
         {
-            var dayAll = _orderCarWash.SampleForPayroll(idCarWashWorkers);
-            PayWages(dayAll);
-        }
+            SalaryExpensesBll salaryExpenses = new SalaryExpensesBll();
 
-        private void PayWages(IEnumerable<OrderCarWashWorkersBll> orderCarWash)
-        {
-            foreach (var itemResultOrderDay in orderCarWash)
-            {
+            salaryExpenses.idCarWashWorkers = salaryBalance.CarWashWorkersId;
+            salaryExpenses.amount = salaryBalance.payoutAmount;
+            salaryExpenses.dateExpenses = salaryBalance.dateOfPayment;
+            salaryExpenses.expenseCategoryId = 21;
 
-                itemResultOrderDay.salaryDate = DateTime.Now;
-                itemResultOrderDay.CalculationStatus = true;
-
-
-                _orderCarWash.UpdateOrderCarWashWorkers(itemResultOrderDay);
-                AddSalaryExpenses(orderCarWash);
-            }
-        }
-
-        private void AddSalaryExpenses(IEnumerable<OrderCarWashWorkersBll> orderCarWash)
-        {
-            var SalaryExpenses = orderCarWash.GroupBy(x => x.IdCarWashWorkers)
-                               .Select(y => new SalaryExpensesBll
-                               {
-                                   idCarWashWorkers = y.First().IdCarWashWorkers,
-                                   amount = y.Sum(s => s.Payroll),
-                                   dateExpenses = DateTime.Now,
-                                   expenseCategoryId = 21
-                               });
-
-            _salaryExpenses.Insert(SalaryExpenses);
+            _salaryExpenses.Insert(salaryExpenses);
         }
     }
 }

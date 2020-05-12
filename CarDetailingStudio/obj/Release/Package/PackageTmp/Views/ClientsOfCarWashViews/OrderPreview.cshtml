@@ -4,7 +4,12 @@
     ViewBag.Title = "OrderPreview";
 }
 
+
 <link href="~/Content/form.css" rel="stylesheet" />
+
+
+
+@Html.Partial("_newOrder")
 
 @using (Html.BeginForm("OrderPreview", "ClientsOfCarWashViews"))
 {
@@ -44,47 +49,88 @@
 
 
                 @*<div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title m-b-0">Смена</h5>
+                        <div class="card-body">
+                            <h5 class="card-title m-b-0">Смена</h5>
 
-                    </div>
-                    <div class="comment-widgets scrollable">
-                        @foreach (var item in ViewBag.Brigade)
-                        {
-                            <div class="d-flex flex-row comment-row m-t-0">
+                        </div>
+                        <div class="comment-widgets scrollable">
+                            @foreach (var item in ViewBag.Brigade)
+                            {
+                                <div class="d-flex flex-row comment-row m-t-0">
 
-                                <div class="checkbox">
-                                    <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
-                                </div>
-
-                                <div class="comment-text w-100">
-                                    <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                    <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
-
-                                    <div class="comment-footer">
-                                        <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
-                                        @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
+                                    <div class="checkbox">
+                                        <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
                                     </div>
 
-                                </div>
-                            </div>
-                        }
-                    </div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                        <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
 
-                </div>*@
-                @*<div class="border-top">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>*@
-                @*<p>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.ib }) |
-                        @Html.ActionLink("Back to List", "Index")
-                    </p>*@
+                                        <div class="comment-footer">
+                                            <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>*@
             </div>
 
 
             <div class="col-md-6">
+                @if (ViewBag.OrderServices != null)
+                {
+                    <div class="card">
+                        <div class="card-body col-md-6">
+                            <h5 class="card-title m-b-0">OrderServices</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">validity</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Services</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="customtable">
+
+                                    @foreach (var item in ViewBag.OrderServices)
+                                    {
+                                        <tr>
+                                            <td>@item.Detailings.services_list</td>
+
+                                            <td>@item.Price</td>
+                                            <td>
+                                                @if (item.Detailings.IdTypeService == 1)
+                                                {
+                                                    <b>Детейлинг</b>
+                                                }
+                                                else
+                                                {
+                                                    <b>Мойка</b>
+                                                }
+
+                                            </td>
+                                            <td>
+                                                <input value=@ViewBag.DiscontClient name="discont" type="hidden" />
+                                                <input value=@item.Id name="idServices" type="hidden" />
+                                                <input value=@item.IdOrderServicesCarWash name="idOrder" type="hidden" />
+
+                                                @*<input type="submit" value="ServicesDelete" class="btn btn-danger btn-sm" />*@
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
@@ -95,34 +141,55 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table tableSum" id="table-price-box">
 
                                 <tbody class="customtable">
+
                                     @foreach (var item in ViewBag.PriceList)
                                     {
                                         <tr>
                                             <td>@item.services_list</td>
                                             <td>@item.validity</td>
-                                            <td><input value=@item.Id name="id" type="hidden" /></td>
+
+                                            <td>
+                                                <div class="col-md-10">
+                                                    <input value=@item.Id name="id" type="hidden" class="text-danger" />
+                                                </div>
+
+                                            </td>
 
                                             @switch (Model.CarBody.Id)
                                             {
                                                 case 1:
-                                                    <td class="disabled"><input class="text-input" value=@Math.Ceiling(item.S) name="carBody" readonly="readonly" /></td>
+                                                    <td class="disabled price"><input class="text-input" value=@Math.Ceiling(item.S) name="carBody" readonly="readonly" /></td>
                                                     break;
                                                 case 2:
-                                                    <td class="disabled"><input class="text-input" value=@Math.Ceiling(item.M) name="carBody" readonly="readonly" /></td>
+                                                    <td class="disabled price"><input class="text-input" value=@Math.Ceiling(item.M) name="carBody" readonly="readonly" /></td>
                                                     break;
                                                 case 3:
-                                                    <td class="disabled"><input class="text-input" value=@Math.Ceiling(item.L) name="carBody" readonly="readonly" /> </td>
+                                                    <td class="disabled price"><input class="text-input" value=@Math.Ceiling(item.L) name="carBody" readonly="readonly" /> </td>
                                                     break;
                                                 case 4:
-                                                    <td class="disabled"><input class="text-input" value=@Math.Ceiling(item.XL) name="carBody" readonly="readonly" /></td>
+                                                    <td class="disabled price"><input class="text-input" value=@Math.Ceiling(item.XL) name="carBody" readonly="readonly" /></td>
                                                     break;
+                                                    @*case 1:
+                                                            <td class="disabled price">@Math.Ceiling(item.S)</td>
+                                                            break;
+                                                        case 2:
+                                                            <td class="disabled price">@Math.Ceiling(item.M)</td>
+                                                            break;
+                                                        case 3:
+                                                            <td class="disabled price">@Math.Ceiling(item.L)</td>
+                                                            break;
+                                                        case 4:
+                                                            <td class="disabled price">@Math.Ceiling(item.XL)</td>
+                                                            break;*@
                                             }
 
-                                            <td><input class="text-input sum" name="sum" type="number" /></td>
+                                            <td class="mat_count"><input class="text-input inside" name="sum" type="number" id=@item.Id /></td>
                                             <td>грн.</td>
+                                            @*<td><input type="number" /></td>
+                                                <td> <span class="sum"></span></td>*@
                                         </tr>
                                     }
 
@@ -135,6 +202,8 @@
                         <div class="card-body">
                             <div class="pull-right m-t-30 text-right">
                                 <p>Скидка клиента @Html.DisplayFor(model => model.discont) %</p>
+
+                                @*<p>Дополнительно:<input class="text-input inside" type="hidden" id="count_1" name="column_1"></p>*@
                                 <p>Общая сумма: @ViewBag.SumOrder грн</p>
                                 <hr>
                                 <h3><b>Итого: </b>@ViewBag.Total грн.</h3>
@@ -142,9 +211,10 @@
                             <div class="clearfix"></div>
                             <hr>
                             <div class="text-right">
-                                <input type="hidden" value=@ViewBag.Total name="total"/> 
-                                <input type="submit" value="Create" class="btn btn-success preview" />
-                                @Html.ActionLink("Cansel", "../Order/Index", new { id = Model.id}, new { @class = "btn btn-danger preview" })
+                                <input type="hidden" value="@ViewBag.idOrder" name="idOrder"/>
+                                <input type="hidden" value=@ViewBag.Total name="total" />
+                                <input type="submit" value="Оформить" class="btn btn-success preview" />
+                                @Html.ActionLink("Отменить", "../Order/Index", new { id = Model.id }, new { @class = "btn btn-danger preview" })
                             </div>
                         </div>
                     </div>
@@ -152,11 +222,29 @@
             </div>
         </div>
     </form>
+
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+            $(document).on("input", ".mat_count input", function () {
+                var count = $('[id^="count"]').val(0),
+                    len = count.length;
+                $(".mat_count input").each(function (i, el) {
+                    i %= len;
+                    count[i].value -= -(+el.value || 0)
+                })
+            })
+        });
+
+
+    </script>*@
 
 <script>
 
@@ -169,5 +257,24 @@
         var result = $('#operand1').val() - $('#operand2').val();
         $('#result').val(result);
     }
+
+    document.getElementById("table-price-box").addEventListener("input", function (e) {
+        var inp = e.target;
+        if (inp.tagName === "INPUT") {
+            var tr = inp.parentElement.parentElement;
+            tr.querySelector(".sum").textContent = tr.querySelector(".price").textContent * inp.value;
+        }
+    });
+
+
+    var table = document.getElementById("tableSum"), sumVal = 0;
+
+    for (var i = 1; i < table.rows.length; i++) {
+        sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
+    }
+
+    document.getElementById("val").innerHTML = "Sum Value = " + sumVal;
+    console.log(sumVal);
+
 
 </script>

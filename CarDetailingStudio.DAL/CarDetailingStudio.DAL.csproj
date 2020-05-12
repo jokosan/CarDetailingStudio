@@ -188,6 +188,9 @@
     <Compile Include="logo_mark_car.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="orderCarpetWashing.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="OrderCarWashWorkers.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -201,6 +204,9 @@
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="salaryBalance.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="salaryExpenses.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>

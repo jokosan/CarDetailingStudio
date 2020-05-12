@@ -174,7 +174,6 @@
         <div class="card">
             <div class="card-body">
 
-
                 @if (ViewBag.ReviwOrder.priceSilicone != 0 || ViewBag.ReviwOrder.priceWheelWash != 0)
                 {
                     <h5 class="card-title m-b-0">Cпособ оплаты\Выбор сотрудника для выполнения услуг</h5>
@@ -192,7 +191,7 @@
                                 @Html.AntiForgeryToken()
 
                                 <div class="comment-widgets scrollable" id="admin">
-                                    @foreach (var item in  ViewBag.Adninistrator)
+                                    @foreach (var item in ViewBag.Adninistrator)
                                     {
                                         <div class="d-flex flex-row comment-row m-t-0">
 
@@ -228,8 +227,6 @@
                                         }
                                     </div>
                                 }
-
-
                                 <hr />
 
                                 <div>
@@ -247,25 +244,17 @@
                                     <input type="hidden" value=@ViewBag.Sum name="sum" />
                                     <input type="submit" value="Оформить заказ" class="btn btn-success preview" />
                                 </div>
-
-
                             }
                         </div>
                         <div class="col-md-6">
                             <h3><b>Итого: </b>@ViewBag.Sum  грн.</h3>
-                           
+
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
-
-
 </div>
 
 
@@ -277,7 +266,7 @@
         }
     });
 
-     $('#admin input:checkbox').click(function () {
+    $('#admin input:checkbox').click(function () {
         if ($(this).is(':checked')) {
             $('#admin input:checkbox').not(this).prop('checked', false);
         }

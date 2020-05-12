@@ -26,6 +26,30 @@ namespace CarDetailingStudio.BLL.Services.Checkout
             _tireStorage = tireStorage;
         }
 
+        #region
+
+        public int OrderForCarpetCleaning(OrderCarpetWashingBll orderCarpetWashing, int? idPaymentState, int prise)
+        {
+            double? sumOrder = orderCarpetWashing.area * (double)prise;
+
+            var orderservices = new OrderServicesCarWashBll
+            {
+                StatusOrder = 1,
+                OrderDate = orderCarpetWashing.orderDate,
+                ClosingData = DateTime.Now,
+                TotalCostOfAllServices = sumOrder,
+                DiscountPrice = sumOrder,
+                typeOfOrder = 3,
+                PaymentState = idPaymentState
+            };
+
+            return _orderServicesCarWash.CreateOrder(orderservices);
+        }
+
+        #endregion
+
+        #region оформление заказа "Хранение шин"
+
         public int Chekout(OrderTireStorageModelBll orderTireStorage, double? sum, int? idPaymentState)
         {
             var orderservices = new OrderServicesCarWashBll
@@ -80,5 +104,9 @@ namespace CarDetailingStudio.BLL.Services.Checkout
 
             return _storageFee.InsertVoidInt(storageFeeAdd);
         }
+
+        #endregion
+
+     
     }
 }

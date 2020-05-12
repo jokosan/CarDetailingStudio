@@ -1,0 +1,72 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderCarpetWashingView>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderServicesCarWash.DiscountPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderServicesCarWash.PaymentState1.PaymentState1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderServicesCarWash.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telephone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.area)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.orderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.orderClosingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.orderCompletionDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.DiscountPrice)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Customer)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.telephone)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.area)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.orderDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.orderClosingDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.orderCompletionDate)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.idOrderCarpetWashing }) |
+        @Html.ActionLink("Details", "Details", new { id = item.idOrderCarpetWashing }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.idOrderCarpetWashing })
+    </td>
+</tr>
+}
+
+</table>

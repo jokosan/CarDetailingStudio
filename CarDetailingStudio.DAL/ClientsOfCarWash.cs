@@ -28,6 +28,7 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> IdInfoClient { get; set; }
         public string NumberCar { get; set; }
         public Nullable<int> discont { get; set; }
+        public Nullable<bool> arxiv { get; set; }
     
         public virtual car_mark car_mark { get; set; }
         public virtual car_model car_model { get; set; }

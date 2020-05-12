@@ -130,3 +130,8 @@
 ::-webkit-scrollbar {
     width: 11px;
 }
+
+
+.colorTr {
+    background-color: #6e928f17;
+}

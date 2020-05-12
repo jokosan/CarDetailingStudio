@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ninject.Web.Mvc.FilterBindingSyntax;
+using CarDetailingStudio.Filters;
+using Ninject.Web.WebApi.FilterBindingSyntax;
 
 namespace CarDetailingStudio.Utilities.Ninjects
 {
@@ -35,7 +38,7 @@ namespace CarDetailingStudio.Utilities.Ninjects
         }
         private void AddBindings()
         {
-          
+         
         }
     }
 }

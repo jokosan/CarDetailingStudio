@@ -10,6 +10,7 @@ namespace CarDetailingStudio.BLL.Model
     {
         public OrderServicesCarWashBll()
         {
+            this.orderCarpetWashing = new HashSet<OrderCarpetWashingBll>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersBll>();
             this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderBll>();
             this.TireStorage = new HashSet<TireStorageBll>();
@@ -26,6 +27,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<int> typeOfOrder { get; set; }
 
         public virtual ClientsOfCarWashBll ClientsOfCarWash { get; set; }
+        public virtual ICollection<OrderCarpetWashingBll> orderCarpetWashing { get; set; }
         public virtual PaymentStateBll PaymentState1 { get; set; }
         public virtual StatusOrderBll StatusOrder1 { get; set; }
         public virtual ICollection<ServisesCarWashOrderBll> ServisesCarWashOrder { get; set; }

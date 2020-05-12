@@ -68,8 +68,6 @@ namespace CarDetailingStudio.BLL.Services
                     _unitOfWork.Save();
                 }
             }
-            
-        
         }
     }
 }

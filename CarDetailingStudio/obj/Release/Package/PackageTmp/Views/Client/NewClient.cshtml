@@ -1,12 +1,18 @@
-﻿@model CarDetailingStudio.Models.ClientView
+﻿          @model CarDetailingStudio.Models.ClientView
 
 <link href="~/Content/input.css" rel="stylesheet" />
 <link href="~/Content/css/select2.css" rel="stylesheet" />
 <script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+
+    if (IsPost) {
+        string Surname = Request.Form["Surname"];
+        string Name = Request.Form["Name"];
+    }
 
     <form id="Form1">
         <div class="container-fluid">
@@ -15,7 +21,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title">Customer</h4>
+                            <h4 class="card-title">Заказчик</h4>
                             <hr>
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -24,8 +30,8 @@
                                     @Html.LabelFor(model => model.Surname)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control",  value=@Request.Form["Surname"]  } })
+                                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger"})
                                 </div>
                             </div>
 
@@ -34,7 +40,7 @@
                                     @Html.LabelFor(model => model.Name)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" }, value=@Request.Form["Name"]  })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -44,7 +50,7 @@
                                     @Html.LabelFor(model => model.PatronymicName)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.PatronymicName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.PatronymicName, new { htmlAttributes = new { @class = "form-control" },  value=@Request.Form["PatronymicName"] })
                                     @Html.ValidationMessageFor(model => model.PatronymicName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -54,7 +60,7 @@
                                     @Html.LabelFor(model => model.phone)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" }, value=@Request.Form["phone"] })
                                     @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -64,7 +70,7 @@
                                     @Html.LabelFor(model => model.DateRegistration)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.DateRegistration, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.DateRegistration, new { htmlAttributes = new { @class = "form-control" },  value=@Request.Form["DateRegistration"] })
                                     @Html.ValidationMessageFor(model => model.DateRegistration, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -76,7 +82,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title">The car</h4>
+                            <h4 class="card-title">Машина</h4>
                             <hr>
 
                             <div class="form-group row">
@@ -84,15 +90,20 @@
                                     @Html.LabelFor(model => model.NumberCar)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.NumberCar, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.NumberCar, new { htmlAttributes = new { @class = "form-control", @id = "searchInput", @autocomplete = "on", value=@Request.Form["NumberCar"] }})
                                     @Html.ValidationMessageFor(model => model.NumberCar, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
-                            @*<div>
-                                <label>Country Search</label>
-                                <input class="form-control" id="searchInput" />
-                            </div>*@
+                            @*<div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.IdClientsGroups)
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" id="searchInput" />
+                                    </div>
+
+                                </div>*@
 
                             <div class="form-group row">
                                 <label class="col-sm-3 text-right control-label col-form-label">
@@ -166,7 +177,7 @@
                                             @Html.LabelFor(model => model.Recommendation)
                                         </label>
                                         <div class="col-sm-9">
-                                            @Html.EditorFor(model => model.Recommendation, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Recommendation, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["Recommendation"] } })
                                             @Html.ValidationMessageFor(model => model.Recommendation, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -176,7 +187,7 @@
                                             @Html.LabelFor(model => model.note)
                                         </label>
                                         <div class="col-sm-9">
-                                            @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" }, value=@Request.Form["note"] })
                                             @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -187,7 +198,7 @@
                                             @Html.LabelFor(model => model.Email)
                                         </label>
                                         <div class="col-sm-9">
-                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["Email"] } })
                                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -197,7 +208,7 @@
                                             @Html.LabelFor(model => model.discont)
                                         </label>
                                         <div class="col-sm-9">
-                                            @Html.EditorFor(model => model.discont, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.discont, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["discont"] } })
                                             @Html.ValidationMessageFor(model => model.discont, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -261,8 +272,8 @@
 
             <div class="form-group" align="right">
                 <div class="col-md-offset-4 col-md-10">
-                    @Html.ActionLink("Back to List", "../ClientsOfCarWashViews/Client", null, new { @class = "btn btn-danger" })
-                    <input type="submit" value="Create" class="btn btn-success" />
+                    @Html.ActionLink("Отменить", "../ClientsOfCarWashViews/Client", null, new { @class = "btn btn-danger" })
+                    <input type="submit" value="Добавить клиента" class="btn btn-success" />
                 </div>
             </div>
         }
@@ -329,15 +340,15 @@
     });
 
 
-     @*$("#searchInput").autocomplete({
+     $("#searchInput").autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: '@Url.Action("GetName","AddClientJson")',
                 dataType: "json",
-                data: { search: $("#searchName").val() },
+                data: { searchInput: $("#searchInput").val() },
                 success: function (data) {
                     response($.map(data, function (item) {
-                        return { label: item.Name, value: item.Name };
+                        return { label: item.NumberCar, value: item.NumberCar };
                     }));
                 },
                 error: function (xhr, status, error) {
@@ -345,7 +356,7 @@
                 }
             });
         }
-     });*@
+     });
 
 
     //$(".MarkCar").on("change", function () {
@@ -368,8 +379,4 @@
             $('#service input:checkbox').not(this).prop('checked', false);
         }
     });
-
-
-
-
 </script>

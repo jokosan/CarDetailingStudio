@@ -25,7 +25,7 @@
                                 @Html.LabelFor(model => model.nameExpenses)
                             </label>
                             <div class="col-md-8">
-                                @Html.EditorFor(model => model.nameExpenses, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.nameExpenses, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["nameExpenses"] } })
                                 @Html.ValidationMessageFor(model => model.nameExpenses, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                 @Html.LabelFor(model => model.amount)
                             </label>
                             <div class="col-md-8">
-                                @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["amount"] } })
                                 @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                                 @Html.LabelFor(model => model.dateExpenses)
                             </label>
                             <div class="col-md-8">
-                                @Html.EditorFor(model => model.dateExpenses, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.dateExpenses, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["dateExpenses"] } })
                                 @Html.ValidationMessageFor(model => model.dateExpenses, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                 @Html.LabelFor(model => model.expenseCategoryId)
                             </label>
                             <div class="col-md-8">
-                                @Html.EditorFor(model => model.expenseCategoryId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.expenseCategoryId, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["expenseCategoryId"]  } })
                                 @Html.ValidationMessageFor(model => model.expenseCategoryId, "", new { @class = "text-danger" })
                             </div>
                         </div>

@@ -34,7 +34,8 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<ClientInfo> ClientInfoUnitOfWork { get; set; }
         DbRepository<Credit> CreditUnitOgWork { get; set; }
         DbRepository<StatusOrder> StatusOrderUnitOfWork { get; set; }
-
+        DbRepository<salaryBalance> SalaruBalanceUnitOfWork { get; set; }
+        DbRepository<orderCarpetWashing> OrderCarpetWashingUnitOfWork { get; set; }
 
         // expenses - затраты
 

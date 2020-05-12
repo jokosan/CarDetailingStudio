@@ -34,8 +34,6 @@ namespace CarDetailingStudio.Controllers.Expenses
             return View(Mapper.Map<IEnumerable<SalaryExpensesView>>(_salaryExpenses.GetTableAll()));
         }
 
-
-
         // GET: SalaryExpenses/Details/5
         public ActionResult Details(int? id)
         {

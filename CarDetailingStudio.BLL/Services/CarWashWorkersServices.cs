@@ -52,9 +52,12 @@ namespace CarDetailingStudio.BLL.Services
 
         public void AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
-            AdninRegistr(adminCarWosh, 1);
-            AdninRegistr(adminDetailing, 2);
-
+            if (adminCarWosh != null && adminDetailing != null)
+            {
+                AdninRegistr(adminCarWosh, 1);
+                AdninRegistr(adminDetailing, 2);
+            }
+                        
             foreach (var item in chkRow)
             {
                 AdninRegistr(item, 3);
@@ -73,8 +76,6 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.BrigadeForTodayUnitOfWork.Insert(brigade);
             _unitOfWork.Save();
         }
-
-      
 
         public bool HomeEntryCondition()
         {
@@ -104,7 +105,5 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
             _unitOfWork.Save();
         }
-
-      
     }
 }

@@ -17,6 +17,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using PagedList;
 using PagedList.Mvc;
 using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
+using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -28,7 +29,6 @@ namespace CarDetailingStudio.Controllers
         private IBrigadeForTodayServices _brigade;
         private IOrderServices _orderServices;
         private IStatusOrder _statusOrder;
-
         private IWageModules _wageModules;
 
         public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises, IBrigadeForTodayServices brigade,
@@ -48,9 +48,15 @@ namespace CarDetailingStudio.Controllers
         [WorkShiftFilter]
         [PreviousShiftStatusFilter]
         [MonitoringTheNumberOfEmployeesFilter]
-        public ActionResult Index()
+        public ActionResult Index()        
         {
-            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1)));
+            var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1));
+            return View(order.OrderByDescending(x => x.Id));
+        }
+
+        public ActionResult ArxivOrder()
+        {
+            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(2, 1)));
         }
 
         public ActionResult OrderTireStorage()
@@ -72,6 +78,18 @@ namespace CarDetailingStudio.Controllers
             ViewBag.ServisesInfo = info;
             ViewBag.DiscontClient = OrderInfo.ClientsOfCarWash.discont;
             ViewBag.Status = new SelectList(Mapper.Map<IEnumerable<StatusOrderView>>(_statusOrder.GetTableAll()), "Id", "StatusOrder1");
+          
+            if (info.Any(x => x.Detailings.IdTypeService == 1))
+            {
+                ViewBag.ServisesId = 1;
+                ViewBag.ServersKey = id;
+            }
+            else
+            {
+                ViewBag.ServisesId = 2;
+                ViewBag.ServersKey = id;
+            }
+          
 
             if (OrderInfo == null)
             {
@@ -87,19 +105,19 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost, ActionName("OrderInfo")]
-        public ActionResult ServicesDelete(int? idOrder, int? discont,  int idServices = 0)
+        public ActionResult ServicesDelete(int? idOrder, int? discont, int idServices = 0)
         {
             if (idServices != 0)
             {
                 _servisesCarWash.ServicesDelete(idServices, nameof(OrderController));
                 _order.RecountOrder(idOrder.Value, discont);
                 return RedirectToAction("OrderInfo");
-            }
+            }       
             else
             {
                 _order.DeleteOrder(idOrder.Value);
                 return RedirectToAction("Index");
-            }          
+            }
         }
 
         [HttpPost]
@@ -124,7 +142,7 @@ namespace CarDetailingStudio.Controllers
         [HttpGet]
         [WorkShiftFilter]
         [MonitoringTheNumberOfEmployeesFilter]
-        public ActionResult CloseOrder(int? id)
+        public ActionResult CloseOrder(int? id, bool selectionStatus = true)
         {
             if (id == null)
             {
@@ -140,6 +158,11 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Services = Services;
             ViewBag.Brigade = Brigade;
             ViewBag.Price = Price;
+
+            if (selectionStatus == false)
+            {
+                ViewBag.SelectionStatus = selectionStatus;
+            }
 
             TempData["ServicesType"] = Services;
 
@@ -160,18 +183,36 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost]
-        public ActionResult CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState)
+        public ActionResult CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState, int idStatusOrder)
         {
             //var resultServices = TempData["ServicesType"] as IEnumerable<ServisesCarWashOrderView>;
 
-            if (idBrigade != null)
+            if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2)
             {
-                _wageModules.CloseOrder(idPaymentState, idOrder);
+                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
                 _wageModules.Payroll(idOrder, idBrigade);
+            }
+            else if (idBrigade != null && idPaymentState == 3 && idStatusOrder == 4)
+            {
+                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                _wageModules.Payroll(idOrder, idBrigade);
+            }
+            else if (idStatusOrder == 2 && idPaymentState != 3)
+            {
+                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+            }
+            else if (idStatusOrder == 3)
+            {
+                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
             }
             else
             {
-                return RedirectToAction("Index");
+                // return RedirectToAction("Index");
+                return RedirectToAction("CloseOrder", "Order", new RouteValueDictionary(new
+                {
+                    id = idOrder,
+                    selectionStatus = false
+                }));
             }
 
             return RedirectToAction("Index");

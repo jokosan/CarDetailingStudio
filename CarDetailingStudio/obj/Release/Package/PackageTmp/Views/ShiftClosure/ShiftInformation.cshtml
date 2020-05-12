@@ -10,58 +10,63 @@
                 </div>
             </div>
 
-
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.surname)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.patronymic)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.orderCount)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.payroll)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
+            <div class="card-body">
+                <table class="table">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.surname)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.patronymic)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.orderCount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.payroll)
-                        </td>
-                        <td align="right">
-                            @using (Html.BeginForm())
-                            {
-                                @Html.ActionLink("Оплата за выполненый заказ", "PaymentForTheCompletedOrder", new { idCarWash = item.carWashWorkersId }, new { @class = "btn btn-light btn-sm" })
-                                @Html.ActionLink("Закрыть день", "PaymentForSpecificDays", new { idCarWash = item.carWashWorkersId }, new { @class = "btn btn-light btn-sm" })
-                                <input value=@item.carWashWorkersId name="id" type="hidden" />
-                                <input class="btn btn-light btn-sm" type="submit" name="id" value="Выплата заработной платы" @Url.Action("Index", "Order") />
-                            }
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.surname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.patronymic)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.orderCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.payroll)
+                        </th>
+                      
+                        <th></th>
                     </tr>
-                }
 
-            </table>
+                    @foreach (var item in Model)
+                    {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.patronymic)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.orderCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.payroll)
+                    </td>
+                   
+
+
+                    <td align="right">
+                        @using (Html.BeginForm())
+                        {
+                            @*@Html.ActionLink("Оплата за выполненый заказ", "PaymentForTheCompletedOrder", new { idCarWash = item.carWashWorkersId }, new { @class = "btn btn-light btn-sm" })*@
+                            @Html.ActionLink("Выплата заработной платы", "PaymentForSpecificDays", new { idCarWash = item.carWashWorkersId }, new { @class = "btn btn-light btn-sm" })
+                            @*<input value=@item.carWashWorkersId name="id" type="hidden" />
+                <input class="btn btn-light btn-sm" type="submit" name="id" value="Выплата заработной платы" @Url.Action("Index", "Order") />*@
+                        }
+                    </td>
+                </tr>
+                    }
+
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -46,10 +46,12 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<expenseCategory> expenseCategory { get; set; }
         public virtual DbSet<GroupWashServices> GroupWashServices { get; set; }
         public virtual DbSet<JobTitleTable> JobTitleTable { get; set; }
+        public virtual DbSet<orderCarpetWashing> orderCarpetWashing { get; set; }
         public virtual DbSet<OrderCarWashWorkers> OrderCarWashWorkers { get; set; }
         public virtual DbSet<OrderServicesCarWash> OrderServicesCarWash { get; set; }
         public virtual DbSet<otherExpenses> otherExpenses { get; set; }
         public virtual DbSet<PaymentState> PaymentState { get; set; }
+        public virtual DbSet<salaryBalance> salaryBalance { get; set; }
         public virtual DbSet<salaryExpenses> salaryExpenses { get; set; }
         public virtual DbSet<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
         public virtual DbSet<StatusOrder> StatusOrder { get; set; }

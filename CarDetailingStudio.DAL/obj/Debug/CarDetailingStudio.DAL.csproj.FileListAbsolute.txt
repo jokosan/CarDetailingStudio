@@ -72,3 +72,4 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDe
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\bin\Debug\System.Web.WebPages.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.csproj.CoreCompileInputs.cache

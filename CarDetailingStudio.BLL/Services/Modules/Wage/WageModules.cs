@@ -42,13 +42,14 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
         // db Table [OrderServicesCarWash]
         // Закрыть заказ
-        public void CloseOrder(int idPaymentState, int idOrder)
+        public void CloseOrder(int idPaymentState, int idOrder, int idStatusOrder)
         {
             var Order = _orderServicesCarWash.GetId(idOrder);
 
             Order.PaymentState = idPaymentState;
             Order.ClosingData = DateTime.Now;
-            Order.StatusOrder = 2;
+            
+            Order.StatusOrder = idStatusOrder;
 
             if (Order.ClientsOfCarWash.discont > 0)
             {
@@ -111,7 +112,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
         // Процент от заказа
         private double? PercentOfTheOrder(int employeeId, int count, double? orderPrice, bool status)
-        {
+         {
             var selectedEmployee = _carWashWorkers.CarWashWorkersId(employeeId);
             double employeePercentage;
 

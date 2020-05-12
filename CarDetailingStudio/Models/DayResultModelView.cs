@@ -29,5 +29,9 @@ namespace CarDetailingStudio.Models
       
         [Display(Name = "Всего на зарплату")]
         public Nullable<double> payroll { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Дата оформления заказа")]
+        public Nullable<System.DateTime> salaryDate { get; set; }
     }
 }

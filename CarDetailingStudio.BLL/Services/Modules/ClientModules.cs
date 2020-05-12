@@ -15,15 +15,20 @@ namespace CarDetailingStudio.BLL.Services.Modules
     public class ClientModules : IClientModules
     {
         private IUnitOfWork _unitOfWork;
+        private IClientsOfCarWashServices _clientsOfCarWash;
+        private IClientInfoServices _clientInfo;
         private AutomapperConfig _automapperConfig;
 
-        public ClientModules(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig)
+        public ClientModules(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig, IClientsOfCarWashServices clientsOfCarWashServices, IClientInfoServices clientInfo)
         {
             _unitOfWork = unitOfWork;
             _automapperConfig = automapperConfig;
+            _clientsOfCarWash = clientsOfCarWashServices;
+            _clientInfo = clientInfo;
         }
 
         public int Distribute(ClientViewsBll client)
+
         {
             ClientsOfCarWashBll clientsOfCarWash = new ClientsOfCarWashBll();
             ClientInfoBll clientInfoBll = new ClientInfoBll();
@@ -49,12 +54,14 @@ namespace CarDetailingStudio.BLL.Services.Modules
             clientsOfCarWash.IdBody = client.IdBody;
             clientsOfCarWash.NumberCar = client.NumberCar;
             clientsOfCarWash.discont = client.discont;
-         
+            clientsOfCarWash.arxiv = true;
+
             ClientsOfCarWash clientsOfCar = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(clientsOfCarWash);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Insert(clientsOfCar);
             _unitOfWork.Save();
 
             return clientsOfCar.id;
         }
+
     }
 }

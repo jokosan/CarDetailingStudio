@@ -8,6 +8,5 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract
     {
         IEnumerable<DayResultModelBll> DayResultViewInfo();
         IEnumerable<DayResultModelBll> TotalForEachEmployee();
-        IEnumerable<OrderServicesCarWashBll> DayResultInfoOneEmployee(int idEmployee);
     }
 }

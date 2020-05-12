@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
@@ -26,7 +27,10 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
         public void Insert(OtherExpensesBll element)
         {
-            throw new NotImplementedException();
+            otherExpenses otherExpenses = Mapper.Map<OtherExpensesBll, otherExpenses>(element);
+
+            _unitOfWork.otherExpensesUnitOfWork.Insert(otherExpenses);
+            _unitOfWork.Save();
         }
 
         public OtherExpensesBll SelectId(int? elementId)
@@ -36,7 +40,10 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
         public void Update(OtherExpensesBll elementToUpdate)
         {
-            throw new NotImplementedException();
+            otherExpenses otherExpenses = Mapper.Map<OtherExpensesBll, otherExpenses>(elementToUpdate);
+
+            _unitOfWork.otherExpensesUnitOfWork.Update(otherExpenses);
+            _unitOfWork.Save();
         }
     }
 }

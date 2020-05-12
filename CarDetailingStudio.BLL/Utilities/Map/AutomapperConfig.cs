@@ -83,6 +83,12 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<CreditBll, Credit>();
             CreateMap<Credit, CreditBll>();
 
+            CreateMap<SalaryBalanceBll, salaryBalance>();
+            CreateMap<salaryBalance, SalaryBalanceBll>();
+
+            CreateMap<OrderCarpetWashingBll, orderCarpetWashing>();
+            CreateMap<orderCarpetWashing, OrderCarpetWashingBll>();
+
 
             // expenses - затраты
 

@@ -10,8 +10,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract
     public interface IWagesForDaysWorkedGroup
     {
         IEnumerable<WagesForDaysWorkedBll> DayOrderResult(int? Id);
-        void PayrollForDaysWorked(List<string> day, List<string> carWashWorkers);
-        void PayWagesForAllDays(int? idCarWashWorkers);
-        void PartPayroll(List<string> idCureentShift);
+        void PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, bool closeMonth, bool NegativeBalance = false);
     }
 }

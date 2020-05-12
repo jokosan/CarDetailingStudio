@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
@@ -26,7 +27,10 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
         public void Insert(CostsCarWashAndDeteylingBll element)
         {
-            throw new NotImplementedException();
+            costsCarWashAndDeteyling costsCarWashAndDeteylings = Mapper.Map<CostsCarWashAndDeteylingBll, costsCarWashAndDeteyling>(element);
+            
+            _unitOfWork.costsCarWashAndDeteylingUnitOfWork.Insert(costsCarWashAndDeteylings);
+            _unitOfWork.Save();
         }
 
         public CostsCarWashAndDeteylingBll SelectId(int? elementId)
@@ -36,7 +40,10 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
         public void Update(CostsCarWashAndDeteylingBll elementToUpdate)
         {
-            throw new NotImplementedException();
+            costsCarWashAndDeteyling costsCarWashAndDeteylings = Mapper.Map<CostsCarWashAndDeteylingBll, costsCarWashAndDeteyling>(elementToUpdate);
+
+            _unitOfWork.costsCarWashAndDeteylingUnitOfWork.Update(costsCarWashAndDeteylings);
+            _unitOfWork.Save();
         }
     }
 }

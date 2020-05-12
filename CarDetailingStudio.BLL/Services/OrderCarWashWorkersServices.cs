@@ -38,7 +38,7 @@ namespace CarDetailingStudio.BLL.Services
 
         public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int id, DateTime date)
         {   
-            return TableCalculationStatusFolse().Where(x =>  (x.IdCarWashWorkers == id) && (x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy")));
+            return TableCalculationStatusFolse().Where(x => (x.IdCarWashWorkers == id) && (x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy")));
         }
 
         public IEnumerable<OrderCarWashWorkersBll> TableCalculationStatusFolse()
@@ -57,41 +57,26 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => x.Id == id));
         }
 
-        public void OrderServicesUpdate(int id)
-        {
-            var OrderCarWashWorkersWhere = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => (x.CalculationStatus == false)
-                                                                                                                                             && (x.IdCarWashWorkers == id)));
-            OrderCarWashWorkersBll order = new OrderCarWashWorkersBll();
-
-            foreach (var x in OrderCarWashWorkersWhere)
-            {
-                order.Id = x.Id;
-                order.IdOrder = x.IdOrder;
-                order.IdCarWashWorkers = x.IdCarWashWorkers;
-                order.CalculationStatus = true;
-
-                UpdateOrderCarWashWorkers(order);
-            }
-        }
 
         public IEnumerable<OrderCarWashWorkersBll> GetTableInclud()
         {
             return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == true)
                                                                                                                                && (x.CalculationStatus == false), "CarWashWorkers"));
         }
-
+        // Закрыть текущий день 
         public IEnumerable<OrderCarWashWorkersBll> GetClosedDay()
         { 
             return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false) 
                                                                                                                                && (x.CalculationStatus == false), "CarWashWorkers"));
         }
 
-        public IEnumerable<OrderCarWashWorkersBll> GetClosedDay(int? id)
+        public IEnumerable<OrderCarWashWorkersBll> GetClosedDay(int? id, DateTime? date)
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id) 
-                                                                                                                               && (x.closedDayStatus == true)
-                                                                                                                               && (x.CalculationStatus == false),
-                                                                                                                               "OrderServicesCarWash"));
+            var getResult = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id),
+                                                                                                                             //   && (x.closedDayStatus == true)
+                                                                                                                             //   && (x.CalculationStatus == false),
+                                                                                                                                "OrderServicesCarWash"));
+            return getResult.Where(d => d.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date?.ToString("dd.MM.yyyy"));
         }
 
         public void SaveOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash)

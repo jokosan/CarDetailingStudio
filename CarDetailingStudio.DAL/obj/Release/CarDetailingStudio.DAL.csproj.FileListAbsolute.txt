@@ -37,3 +37,4 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDe
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\obj\Release\CarDetailingStudio.DAL.csproj.CopyComplete
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\obj\Release\CarDetailingStudio.DAL.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\obj\Release\CarDetailingStudio.DAL.pdb
+C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\obj\Release\CarDetailingStudio.DAL.csproj.CoreCompileInputs.cache

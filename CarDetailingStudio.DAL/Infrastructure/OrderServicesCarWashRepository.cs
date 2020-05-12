@@ -27,7 +27,11 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                       .Include("PaymentState1")
                                                       .Include("ServisesCarWashOrder")
                                                       .Include("ClientsOfCarWash.CarBody")
-                                                      .Include("OrderCarWashWorkers.CarWashWorkers");
+                                                      .Include("ClientsOfCarWash.ClientInfo")
+                                                      .Include("ClientsOfCarWash.car_mark")
+                                                      .Include("ClientsOfCarWash.car_model")
+                                                      .Include("ClientsOfCarWash.CarBody")
+                                                      .Include("ClientsOfCarWash.ClientsGroups");
             return result;
         }
 

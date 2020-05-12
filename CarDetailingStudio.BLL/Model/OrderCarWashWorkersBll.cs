@@ -8,6 +8,7 @@ namespace CarDetailingStudio.BLL.Model
 {
     public class OrderCarWashWorkersBll
     {
+      
         public int Id { get; set; }
         public int IdOrder { get; set; }
         public int IdCarWashWorkers { get; set; }

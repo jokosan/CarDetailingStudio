@@ -45,7 +45,7 @@ namespace CarDetailingStudio.BLL.Services
         {
             if (statusOrder != 2)
             {
-                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
+                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == 1) || (x.StatusOrder == 4)));
                 return GetAllResult;
             }
             else
@@ -58,9 +58,14 @@ namespace CarDetailingStudio.BLL.Services
             }
         }
 
+        public IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder, int typeOfOrder)
+        {
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == typeOfOrder)));
+        }
+
         public IEnumerable<OrderServicesCarWashBll> AllOrderOneEmployee(List<int> idOrder)
         {
-           return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.QueryObjectGraph(x => idOrder.Contains(x.Id)));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.QueryObjectGraph(x => idOrder.Contains(x.Id)));
         }
 
         public OrderServicesCarWashBll GetId(int? id)
@@ -82,7 +87,7 @@ namespace CarDetailingStudio.BLL.Services
                 typeOfOrder = 1
 
             };
-            
+
             int orderServicesCar = CreateOrder(OrderFormation);
 
             foreach (var item in OrderServices.OrderList)
@@ -103,6 +108,36 @@ namespace CarDetailingStudio.BLL.Services
 
             _orderServices.ClearListOrder();
         }
+
+        public void InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder)
+        {
+            var OrderServicesCarWashGetId = Mapper.Map<OrderServicesCarWashBll>(_unitOfWork.OrderServicesCarWashUnitOfWork.GetById(idOrder));
+
+            OrderServicesCarWashGetId.TotalCostOfAllServices = OrderServicesCarWashGetId.TotalCostOfAllServices + _orderServices.OrderPrice();
+            OrderServicesCarWashGetId.DiscountPrice = Math.Round(total);
+
+            SaveOrder(OrderServicesCarWashGetId);
+
+            foreach (var item in OrderServices.OrderList)
+            {
+                _servisesCar = new ServisesCarWashOrderBll
+                {
+                    IdClientsOfCarWash = Convert.ToInt32(OrderServices.idClient),
+                    IdOrderServicesCarWash = idOrder,
+                    IdWashServices = item.Id,
+                    Price = PriceServices(carBody, id, sum, item.Id)
+                };
+
+                ServisesCarWashOrder servisesCarWash = Mapper.Map<ServisesCarWashOrderBll, ServisesCarWashOrder>(_servisesCar);
+
+                _unitOfWork.ServisesCarWashOrderUnitOfWork.Insert(servisesCarWash);
+                _unitOfWork.Save();
+            }
+
+            _orderServices.ClearListOrder();
+        }
+
+
 
         public double PriceServices(List<double> carBody, List<int> idList, List<int> sum, int id)
         {
@@ -129,12 +164,12 @@ namespace CarDetailingStudio.BLL.Services
             return 0;
         }
 
-        public IEnumerable<OrderServicesCarWashBll> GetDataClosing ()
+        public IEnumerable<OrderServicesCarWashBll> GetDataClosing()
         {
             return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.OrderServicesCarWashUnitOfWork
                                                                               .GetWhere(x => x.ClosingData?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
         }
-        
+
         public void RecountOrder(int idOrder, int? ClientDiscont = null)
         {
             OrderServicesCarWashBll WhereIdOrder = GetId(idOrder);
@@ -160,7 +195,7 @@ namespace CarDetailingStudio.BLL.Services
         {
             var order = GetId(idOrder);
             order.StatusOrder = status;
-            
+
             SaveOrder(order);
         }
 

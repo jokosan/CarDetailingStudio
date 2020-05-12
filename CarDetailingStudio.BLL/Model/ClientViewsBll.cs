@@ -23,6 +23,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<System.DateTime> DateRegistration { get; set; }
         public string Email { get; set; }
         public Nullable<int> discont { get; set; }
+        public Nullable<bool> arxiv { get; set; }
         public string Recommendation { get; set; }
         public string NumberCar { get; set; }
         public Nullable<int> IdClientsGroups { get; set; }

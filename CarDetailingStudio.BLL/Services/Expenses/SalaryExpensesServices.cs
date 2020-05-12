@@ -40,13 +40,19 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
         public void Insert(SalaryExpensesBll element)
         {
-            throw new NotImplementedException();
+            salaryExpenses salaryExpenses = Mapper.Map<SalaryExpensesBll, salaryExpenses>(element);
+
+            _unitOfWork.salaryExpensesUnitOfWork.Insert(salaryExpenses);
+            _unitOfWork.Save();
         }
 
 
         public void Update(SalaryExpensesBll elementToUpdate)
         {
-            throw new NotImplementedException();
+            salaryExpenses salaryExpenses = Mapper.Map<SalaryExpensesBll, salaryExpenses>(elementToUpdate);
+
+            _unitOfWork.salaryExpensesUnitOfWork.Update(salaryExpenses);
+            _unitOfWork.Save();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
+﻿.@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
 
 @{
     ViewBag.Title = "NewOrder";
@@ -53,9 +53,9 @@
 @using (Html.BeginForm())
 {
     @*<div class="text-right">
-        <input class="btn btn-success" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
-        <p></p>
-    </div>*@
+            <input class="btn btn-success" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
+            <p></p>
+        </div>*@
 
     <div class="scroll">
         <div class="row">
@@ -83,10 +83,8 @@
                                                         <div class="row">
                                                             <div class="col-md-1">
                                                                 <label class="customcheckbox">
-                                                                    @*<input type="checkbox" class="listCheckbox" />*@
-                                                                    @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
                                                                     <label class="label">
-                                                                        <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                                                        <input class="label__checkbox" type="checkbox" name="chkRow"  value="@item.Id" id="checkme"  onchange="document.getElementById('submit').disabled = !this.checked"/>
                                                                         <span class="label__text">
                                                                             <span class="label__check">
                                                                                 <i class="fa fa-check icon"></i>
@@ -98,10 +96,13 @@
                                                             </div>
                                                             <div class="col-md-7">
                                                                 @item.services_list
+                                                                
                                                             </div>
+                                                  
                                                             <div class="col-md-3">
                                                                 @item.validity
                                                             </div>
+                                                           
                                                             <div class="col-md-1">
                                                                 @switch (Model.CarBody.Id)
                                                                 {
@@ -118,6 +119,9 @@
                                                                         @Math.Ceiling(item.XL)
                                                                         break;
                                                                 }
+
+                                                               
+
                                                             </div>
                                                         </div>
                                                     </th>
@@ -159,7 +163,7 @@
                                                                     @*<input type="checkbox" class="listCheckbox" />*@
                                                                     @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
                                                                     <label class="label">
-                                                                        <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" />
+                                                                        <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked" />
                                                                         <span class="label__text">
                                                                             <span class="label__check">
                                                                                 <i class="fa fa-check icon"></i>
@@ -208,7 +212,7 @@
     </div>
     <div class="text-right">
         <p></p>
-        <input class="btn btn-success" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
+        <input class="btn btn-success" type="submit" id="btnCreate" value="Далее" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
     </div>
 }
 
@@ -231,4 +235,23 @@
             });
         });
     });
+
+    jQuery(document).ready(function ($) {
+        // STOCK OPTIONS
+        $('input.label__checkbox').change(function () {
+            if ($(this).is(':checked'))
+                $(this).next('div.max_tickets').show();
+            else
+                $(this).next('div.max_tickets').hide();
+        }).change();
+    });
+
+
+
+        $('#service input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#service input:checkbox').not(this).prop('checked', false);
+        }
+    });
+
 </script>

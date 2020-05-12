@@ -28,13 +28,6 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<CreditBll>>(_unitOfWork.CreditUnitOgWork.GetInclude("CarWashWorkers"));
         }
 
-        
-
-        public CreditBll IdCredit(int id)
-        {
-            return Mapper.Map<CreditBll>(_unitOfWork.CreditUnitOgWork.IdInclude(id));
-        }
-
         public void Create(CreditBll credit)
         {
             Credit creditCreate = Mapper.Map<CreditBll, Credit>(credit);
@@ -43,6 +36,11 @@ namespace CarDetailingStudio.BLL.Services
         }
 
         public IEnumerable<CreditBll> GetCreditWhere()
+        {
+            throw new NotImplementedException();
+        }
+
+        public CreditBll IdCredit(int id)
         {
             throw new NotImplementedException();
         }

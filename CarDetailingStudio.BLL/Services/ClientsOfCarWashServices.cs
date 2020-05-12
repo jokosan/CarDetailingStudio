@@ -16,24 +16,26 @@ namespace CarDetailingStudio.BLL.Services
     {
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
-        private ClientsOfCarWashBll _clients;
+        private IClientInfoServices _clientInfo;
 
-        public ClientsOfCarWashServices(IUnitOfWork unitOfWork, AutomapperConfig maper, ClientsOfCarWashBll clients)
+        public ClientsOfCarWashServices(IUnitOfWork unitOfWork, AutomapperConfig maper, IClientInfoServices clientInfo)
         {
             _unitOfWork = unitOfWork;
             _automapper = maper;
-            _clients = clients;
+            _clientInfo = clientInfo;
         }
 
         public IEnumerable<ClientsOfCarWashBll> GetAll(string search)
-        {          
+        {
             return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsOfCarWashUnitOfWork.GetWhere(x => x.NumberCar.Contains(search)));
         }
 
         public IEnumerable<ClientsOfCarWashBll> GetAll(int? id)
-        { 
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.GetWhere(x => x.IdInfoClient == id));
+        {
+            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.GetId(id));
         }
+
+
 
         public ClientsOfCarWashBll GetId(int? id)
         {
@@ -50,6 +52,13 @@ namespace CarDetailingStudio.BLL.Services
             return clientsOfCarWash.id;
         }
 
+        public void Delete(ClientsOfCarWashBll elementToDelete)
+        {
+            //ClientsOfCarWash clients = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(elementToDelete);
+            _unitOfWork.ClientsOfCarWashUnitOfWork.Delete(elementToDelete.id);
+            _unitOfWork.Save();
+        }
+
         public void ClientCarUpdate(ClientsOfCarWashBll updateClientCar)
         {
             ClientsOfCarWash clients = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(updateClientCar);
@@ -61,6 +70,34 @@ namespace CarDetailingStudio.BLL.Services
         public IEnumerable<ClientsOfCarWashBll> GetAll()
         {
             return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.Get());
+        }
+
+        public void ClientCarArxiv(int carId, bool status)
+        {
+            var clientCar = GetId(carId);
+            clientCar.arxiv = status;
+
+            ClientCarUpdate(clientCar);
+        }
+
+        public void RemoveClient(int clientId)
+        {
+            var clientCar = GetId(clientId);
+            var clientInfo = _clientInfo.ClienWhereId(clientCar.IdInfoClient.Value);
+            int? carId = null;
+
+            Delete(clientCar);
+
+            foreach (var item in clientInfo)
+            {
+                if (carId == null)
+                    carId = item.Id;
+
+                _clientInfo.Delete(item);
+            }
+
+            //var delClient = _clientInfo.ClientInfoGetId(carId);
+
         }
     }
 }

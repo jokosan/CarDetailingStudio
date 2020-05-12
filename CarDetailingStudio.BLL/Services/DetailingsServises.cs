@@ -16,15 +16,14 @@ namespace CarDetailingStudio.BLL.Services
     public class DetailingsServises : IDetailingsServises
     {
         private IUnitOfWork _unitOfWork;
-        private AutomapperConfig _automapper;
         private IApiPrivatBank _apiPrivatBank;
 
-        public DetailingsServises(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig, IApiPrivatBank apiPrivatBank)
+        public DetailingsServises(IUnitOfWork unitOfWork, IApiPrivatBank apiPrivatBank)
         {
             _unitOfWork = unitOfWork;
-            _automapper = automapperConfig;
             _apiPrivatBank = apiPrivatBank;
         }
+              
 
         public IEnumerable<DetailingsBll> GetAll()
         {

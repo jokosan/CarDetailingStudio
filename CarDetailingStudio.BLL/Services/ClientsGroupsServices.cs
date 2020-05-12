@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -25,6 +26,33 @@ namespace CarDetailingStudio.BLL.Services
         public IEnumerable<ClientsGroupsBll> GetClientsGroups()
         {
             return Mapper.Map<IEnumerable<ClientsGroupsBll>>(_unitOfWork.ClientsGroupsUnitOfWork.Get());
+        }
+
+        public ClientsGroupsBll GetId(int? id)
+        {
+            return Mapper.Map<ClientsGroupsBll>(_unitOfWork.ClientsGroupsUnitOfWork.GetById(id));
+        }
+
+        public void Insert(ClientsGroupsBll element)
+        {
+            ClientsGroups clientsGroups = Mapper.Map<ClientsGroupsBll, ClientsGroups>(element);
+
+            _unitOfWork.ClientsGroupsUnitOfWork.Insert(clientsGroups);
+            _unitOfWork.Save();
+        }
+
+        public void Update(ClientsGroupsBll elementToUpdate)
+        {
+            ClientsGroups clientsGroups = Mapper.Map<ClientsGroupsBll, ClientsGroups>(elementToUpdate);
+
+            _unitOfWork.ClientsGroupsUnitOfWork.Update(clientsGroups);
+            _unitOfWork.Save();
+        }
+
+        public void Delete(ClientsGroupsBll elementToDelete)
+        {
+            _unitOfWork.ClientInfoUnitOfWork.Delete(elementToDelete.Id);
+            _unitOfWork.Save();
         }
     }
 

@@ -24,15 +24,17 @@ namespace CarDetailingStudio.Controllers
         }
 
         // Autocomplete Textbox - NumberCar
-        public JsonResult GetName(string searchName)
+        public JsonResult GetName(string searchInput)
         {
-            List<ClientsOfCarWashView> washWorkersViews = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_clientsOfCarWash.GetAll()).Select(x => new ClientsOfCarWashView
+            var washWorkersViews = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_clientsOfCarWash.GetAll(searchInput));
+
+            List<ClientsOfCarWashView> washWorkersViewsList = washWorkersViews.Select(x => new ClientsOfCarWashView
             {
                 id = x.id,
                 NumberCar = x.NumberCar
             }).ToList();
 
-            return new JsonResult { Data = washWorkersViews, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return new JsonResult { Data = washWorkersViewsList, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         // MarCar

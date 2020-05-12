@@ -23,14 +23,13 @@ namespace CarDetailingStudio.BLL.Services.Filters
 
         public  void ShiftStatus()
         {
-            DateTime dateTime = DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
+             DateTime dateTime = DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
             CurrentShift(dateTime);
         }
 
         public void CurrentShift(DateTime date)
         {
             var ordersFulfilled = TableCalculationStatusFolse().Where(x => x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy"));
-            int test = ordersFulfilled.Count();
 
             if (DateTime.Now != date)
             {
@@ -64,9 +63,15 @@ namespace CarDetailingStudio.BLL.Services.Filters
             }
         }
 
+        private IEnumerable<OrderCarWashWorkersBll> TableCalculationStatusFolse()
+        {
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash"));
+        }
+
         public IEnumerable<DayResultModelBll> DayResultViewInfo()
         {
-            var resultGetInclud = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "CarWashWorkers"));
+            var resultGetInclud = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false)
+                                                                                                                               && (x.CalculationStatus == false), "CarWashWorkers"));
             return resultGetInclud.GroupBy(x => x.IdCarWashWorkers)
                                   .Select(y => new DayResultModelBll
                                   {
@@ -78,11 +83,6 @@ namespace CarDetailingStudio.BLL.Services.Filters
                                       calculationStatus = y.First().CalculationStatus,
                                       payroll = y.Sum(c => c.Payroll)
                                   });
-        }
-
-        private IEnumerable<OrderCarWashWorkersBll> TableCalculationStatusFolse()
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash"));
         }
     }
 }

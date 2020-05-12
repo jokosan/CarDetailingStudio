@@ -13,46 +13,46 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h4 class="card-title">Customer</h4>
+                        <h4 class="card-title">Добавить нового сотрудника</h4>
                         <hr>
 
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.Name)
+                                * @Html.LabelFor(model => model.Name)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["Name"] } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.Surname)
+                                * @Html.LabelFor(model => model.Surname)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["Surname"] } })
                                 @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.Patronymic)
+                                * @Html.LabelFor(model => model.Patronymic)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["Patronymic"] } })
                                 @Html.ValidationMessageFor(model => model.Patronymic, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.MobilePhone)
+                                * @Html.LabelFor(model => model.MobilePhone)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["MobilePhone"] } })
                                 @Html.ValidationMessageFor(model => model.MobilePhone, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                                 @Html.LabelFor(model => model.Experience)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.Experience, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Experience, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["Experience"] } })
                                 @Html.ValidationMessageFor(model => model.Experience, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -72,10 +72,21 @@
                                 @Html.LabelFor(model => model.InterestRate)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control", @type = "number", value = @Request.Form["InterestRate"] } })
                                 @Html.ValidationMessageFor(model => model.InterestRate, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 text-right control-label col-form-label">
+                                @Html.LabelFor(model => model.AdministratorsInterestRate)
+                            </label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.AdministratorsInterestRate, new { htmlAttributes = new { @class = "form-control", @type = "number", value = @Request.Form["InterestRate"] } })
+                                @Html.ValidationMessageFor(model => model.AdministratorsInterestRate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -84,14 +95,14 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h4 class="card-title">Customer</h4>
+                        <h4 class="card-title"></h4>
                         <hr>
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
                                 @Html.LabelFor(model => model.rate)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.rate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.rate, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["rate"] } })
                                 @Html.ValidationMessageFor(model => model.rate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -101,28 +112,8 @@
                                 @Html.LabelFor(model => model.DataRegistration)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.DataRegistration, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                @Html.EditorFor(model => model.DataRegistration, new { htmlAttributes = new { @class = "form-control", @type = "date", value=@Request.Form["DataRegistration"]  } })
                                 @Html.ValidationMessageFor(model => model.DataRegistration, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.DataDismissal)
-                            </label>
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.DataDismissal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                @Html.ValidationMessageFor(model => model.DataDismissal, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.status)
-                            </label>
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @placeholder = "true", @Value="true"} })
-                                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -138,7 +129,7 @@
 
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.IdPosition)
+                                * @Html.LabelFor(model => model.IdPosition)
                             </label>
                             <div class="col-md-9">
                                 @Html.DropDownListFor(model => model.IdPosition, this.ViewBag.Job as SelectList, new { id ="IdPosition", @class = "form-control" })
@@ -149,9 +140,9 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <input type="submit" value="Create" class="btn btn-success preview" />
+                    <input type="submit" value="Добавить" class="btn btn-success preview" />
 
-                    @Html.ActionLink("Back to List", "Staff", null, new { @class = "btn btn-danger preview" })
+                    @Html.ActionLink("Отменить", "Staff", null, new { @class = "btn btn-danger preview" })
 
                 </div>
             </div>

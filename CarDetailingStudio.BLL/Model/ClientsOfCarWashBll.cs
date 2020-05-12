@@ -21,6 +21,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<int> IdInfoClient { get; set; }
         public string NumberCar { get; set; }
         public Nullable<int> discont { get; set; }
+        public Nullable<bool> arxiv { get; set; }
 
         public virtual CarMarkBll car_mark { get; set; }
         public virtual  CarModelBll car_model { get; set; }

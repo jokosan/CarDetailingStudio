@@ -17,25 +17,26 @@ namespace CarDetailingStudio.Models.ModelViews
             this.Credit = new HashSet<CreditView>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersView>();
             this.salaryExpenses = new HashSet<SalaryExpensesView>();
+            this.salaryBalance = new HashSet<SalaryBalanceView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [Display(Name = "Имя")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [Display(Name = "Фамилия")]
         public string Surname { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [Display(Name = "Отчество")]
         public string Patronymic { get; set; }
 
-        [Required(ErrorMessage = "Your must provide a PhoneNumber")]
+        [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [Display(Name = "Телефон")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
@@ -43,13 +44,11 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [Display(Name = "Стаж")]
         public string Experience { get; set; }
-
-        [Required]
+                
         [Range(0, 100, ErrorMessage = "Допустимое значение от 0 до 100")]
         [Display(Name = "Процентная ставка от заказа (Администратор)")]
         public Nullable<int> AdministratorsInterestRate { get; set; }
-
-        [Required]
+       
         [Range(0, 100, ErrorMessage = "Допустимое значение от 0 до 100")]
         [Display(Name = "Процентная ставка сотрудников")]
         public Nullable<int> InterestRate { get; set; }
@@ -58,33 +57,33 @@ namespace CarDetailingStudio.Models.ModelViews
         [Display(Name = "Ставка")]
         public Nullable<double> rate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [Display(Name = "Дата трудоустройства")]
         public string DataRegistration { get; set; }
-
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата увольнения")]
         public string DataDismissal { get; set; }
 
-        [Required]
+        //[Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [DefaultValue("true")]
         [Display (Name = "Статус работы")]
         public string status { get; set; }
+
         public string Photo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [Display(Name ="Должность")]
         public Nullable<int> IdPosition { get; set; }
+
         // public IEnumerable<SelectListItem> Position { get; set; }
-
-
        
         public virtual ICollection<BrigadeForTodayView> brigadeForToday { get; set; }
         public virtual JobTitleTableView JobTitleTable { get; set; }
         public virtual ICollection<CreditView> Credit { get; set; }
         public virtual ICollection<OrderCarWashWorkersView> OrderCarWashWorkers { get; set; }
         public virtual ICollection<SalaryExpensesView> salaryExpenses { get; set; }
+        public virtual ICollection<SalaryBalanceView> salaryBalance { get; set; }
     }
 }

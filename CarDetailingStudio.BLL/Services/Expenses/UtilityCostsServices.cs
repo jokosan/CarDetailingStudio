@@ -33,14 +33,18 @@ namespace CarDetailingStudio.BLL.Services.Expenses
         public void Insert(UtilityCostsBll element)
         {
             utilityCosts utilityCosts = Mapper.Map<UtilityCostsBll, utilityCosts>(element);
+
             _unitOfWork.utilityCostsUnitOfWork.Insert(utilityCosts);
+            _unitOfWork.Save();
         }
 
 
         public void Update(UtilityCostsBll elementToUpdate)
         {
             utilityCosts utilityCosts = Mapper.Map<UtilityCostsBll, utilityCosts>(elementToUpdate);
+
             _unitOfWork.utilityCostsUnitOfWork.Update(utilityCosts);
+            _unitOfWork.Save();
         }
     }
 }

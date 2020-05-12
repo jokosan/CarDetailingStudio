@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses.ExpensesContract
 {
-    public interface IConsumablesTireFitting : IGetFromDatabase<ConsumablesTireFittingBll>
+    public interface IConsumablesTireFitting : IGetFromDatabase<ConsumablesTireFittingBll>, IDatabaseOperations<ConsumablesTireFittingBll>
     {
     }
 }

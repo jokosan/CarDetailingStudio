@@ -16,6 +16,7 @@ using CarDetailingStudio.BLL.Services.TireStorageServices;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using CarDetailingStudio.DAL.Utilities.Ninject;
 using Ninject;
+using Ninject.Web.Mvc.FilterBindingSyntax;
 
 namespace CarDetailingStudio.BLL.Utilities.Ninject
 {
@@ -43,6 +44,8 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IDayResult>().To<DayResult>();
             kernel.Bind<IWagesForDaysWorkedGroup>().To<WagesForDaysWorkedGroup>();
             kernel.Bind<IStatusOrder>().To<StatusOrderServices>();
+            kernel.Bind<IOrderCarpetWashingServices>().To<OrderCarpetWashingServices>();
+            kernel.Bind<ISalaryBalanceService>().To<SalaryBalanceService>();
 
             // Order
 
@@ -68,6 +71,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IStorageFee>().To<StorageFeeServices>();
             kernel.Bind<IReviwOrderModules>().To<ReviwOrderModules>();
 
+          
             NinjectDependencyResolverDAL.Initialize(kernel);
         }
     }

@@ -105,6 +105,7 @@
     <Compile Include="Model\CarModificationBll.cs" />
     <Compile Include="Model\CarSerieBll.cs" />
     <Compile Include="Model\CarWashWorkersBll.cs" />
+    <Compile Include="Model\ClientCarTableBll.cs" />
     <Compile Include="Model\ClientInfoBll.cs" />
     <Compile Include="Model\ClientsGroupsBll.cs" />
     <Compile Include="Model\ClientsOfCarWashBll.cs" />
@@ -121,6 +122,8 @@
     <Compile Include="Model\ModelViewBll\DayResultModelBll.cs" />
     <Compile Include="Model\ModelViewBll\OrderTireStorageModelBll.cs" />
     <Compile Include="Model\ModelViewBll\ReviwOrderModelBll.cs" />
+    <Compile Include="Model\OrderCarpetWashingBll.cs" />
+    <Compile Include="Model\SalaryBalanceBll.cs" />
     <Compile Include="Model\StorageFeeBll.cs" />
     <Compile Include="Model\ModelViewBll\WagesForDaysWorkedBll.cs" />
     <Compile Include="Model\OrderCarWashWorkersBll.cs" />
@@ -154,6 +157,8 @@
     <Compile Include="Services\Contract\ICreditServices.cs" />
     <Compile Include="Services\Contract\IGroupWashServices.cs" />
     <Compile Include="Services\Contract\IJobTitleTableServices.cs" />
+    <Compile Include="Services\Contract\IOrderCarpetWashingServices.cs" />
+    <Compile Include="Services\Contract\ISalaryBalanceService.cs" />
     <Compile Include="Services\Contract\IStatusOrder.cs" />
     <Compile Include="Services\Contract\IUpdate.cs" />
     <Compile Include="Services\CreditServices.cs" />
@@ -204,8 +209,10 @@
     <Compile Include="Services\Modules\TireStorage\TireStorageModules.cs" />
     <Compile Include="Services\Modules\Wage\Contract\IWageModules.cs" />
     <Compile Include="Services\Modules\Wage\WageModules.cs" />
+    <Compile Include="Services\OrderCarpetWashingServices.cs" />
     <Compile Include="Services\OrderCarWashWorkersServices.cs" />
     <Compile Include="Services\OrderServicesCarWashServices.cs" />
+    <Compile Include="Services\SalaryBalanceService.cs" />
     <Compile Include="Services\ServisesCarWashOrderServices.cs" />
     <Compile Include="Services\StatusOrderServices.cs" />
     <Compile Include="Services\TireStorageServices\StorageFeeServices.cs" />
@@ -227,6 +234,8 @@
       <Name>CarDetailingStudio.DAL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\Modules\Clients\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

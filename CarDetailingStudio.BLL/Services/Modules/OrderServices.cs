@@ -49,6 +49,17 @@ namespace CarDetailingStudio.BLL.Services.Modules
             }
         }
 
+        public void IdOrderServices(List<int> idServises)
+        {
+            IdOrders.Clear();
+
+            foreach (var item in idServises)
+            {
+                IdOrders.Add(item);
+            }
+        }
+
+
         public void OrderPreview()
         {
             var AllDetailings = Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
@@ -63,7 +74,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
                     services_list = i.services_list,
                     S = i.S,
                     M = i.M,
-                    L = i.M,
+                    L = i.L,
                     XL = i.XL
                 });
             }

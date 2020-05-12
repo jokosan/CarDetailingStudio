@@ -22,14 +22,18 @@ namespace CarDetailingStudio.Controllers
         private ICloseShiftModule _closeShiftModule;
         private IDayResult _dayResult;
         private IOrderServicesCarWashServices _orderServices;
+        private IOrderCarWashWorkersServices _orderCarWashWorker;
+        private ICarWashWorkersServices _carWashWorkers;
 
         public ItogOrderController(IDayResult dayResult, ICloseShiftModule closeShiftModule,
-                                    IOrderServicesCarWashServices orderServices, IOrderCarWashWorkersServices orderCarWashWorkers)
+                                    IOrderServicesCarWashServices orderServices, IOrderCarWashWorkersServices orderCarWashWorkers,
+                                    ICarWashWorkersServices carWashWorkers)
         {
             _dayResult = dayResult;
             _closeShiftModule = closeShiftModule;
             _orderServices = orderServices;
-
+            _orderCarWashWorker = orderCarWashWorkers;
+            _carWashWorkers = carWashWorkers;
         }
 
         // GET: OrderInfoViewModels
@@ -58,16 +62,20 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpGet]
-        public ActionResult CompletedOrdersOfOneEmployee(string idEmploee)
+        public ActionResult CompletedOrdersOfOneEmployee(int? idEmploee)
         {
             if (idEmploee != null)
             {
-                int id = Convert.ToInt32(idEmploee);
-                return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_dayResult.DayResultInfoOneEmployee(id)));
+                var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(_orderCarWashWorker.SampleForPayroll(idEmploee.Value, DateTime.Now));
+
+                ViewBag.CarWashWorker = Mapper.Map<CarWashWorkersView>(_carWashWorkers.CarWashWorkersId(idEmploee));
+                ViewBag.SumOrder = carWashWorkersDayTotal.Sum(x => x.Payroll);
+                ViewBag.Sum = carWashWorkersDayTotal.Sum(x => x.OrderServicesCarWash.DiscountPrice);
+
+                return View(carWashWorkersDayTotal);
             }
 
             return View();
         }
-
     }
 }

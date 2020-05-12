@@ -145,6 +145,7 @@
           <ScalarProperty Name="IdInfoClient" ColumnName="IdInfoClient" />
           <ScalarProperty Name="NumberCar" ColumnName="NumberCar" />
           <ScalarProperty Name="discont" ColumnName="discont" />
+          <ScalarProperty Name="arxiv" ColumnName="arxiv" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -240,6 +241,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="orderCarpetWashing">
+      <EntityTypeMapping TypeName="carWashServerModel.orderCarpetWashing">
+        <MappingFragment StoreEntitySet="orderCarpetWashing">
+          <ScalarProperty Name="idOrderCarpetWashing" ColumnName="idOrderCarpetWashing" />
+          <ScalarProperty Name="orderServicesCarWashId" ColumnName="orderServicesCarWashId" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="area" ColumnName="area" />
+          <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+          <ScalarProperty Name="orderClosingDate" ColumnName="orderClosingDate" />
+          <ScalarProperty Name="orderCompletionDate" ColumnName="orderCompletionDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="OrderCarWashWorkers">
       <EntityTypeMapping TypeName="carWashServerModel.OrderCarWashWorkers">
         <MappingFragment StoreEntitySet="OrderCarWashWorkers">
@@ -284,6 +299,18 @@
         <MappingFragment StoreEntitySet="PaymentState">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PaymentState1" ColumnName="PaymentState" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="salaryBalance">
+      <EntityTypeMapping TypeName="carWashServerModel.salaryBalance">
+        <MappingFragment StoreEntitySet="salaryBalance">
+          <ScalarProperty Name="idSalaryBalance" ColumnName="idSalaryBalance" />
+          <ScalarProperty Name="CarWashWorkersId" ColumnName="CarWashWorkersId" />
+          <ScalarProperty Name="dateOfPayment" ColumnName="dateOfPayment" />
+          <ScalarProperty Name="payoutAmount" ColumnName="payoutAmount" />
+          <ScalarProperty Name="accountBalance" ColumnName="accountBalance" />
+          <ScalarProperty Name="currentMonthStatus" ColumnName="currentMonthStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

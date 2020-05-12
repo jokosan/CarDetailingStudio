@@ -15,111 +15,143 @@
 
             <div class="row">
 
+                @if (ViewBag.SelectionStatus == false)
+                {
+                    <div class="col-md-12">
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Внимание!</h5>
+                            <ul>
+                                <li>
+                                    Выберите хотя бы одного сотрудника.
+                                </li>
+                                <li>
+                                    Выбор формы оплаты можно оставить неизменным если статус заказа "Отменен" или "Ожидает оплаты"
+                                </li>
+                                <li>
+                                    Для того что-бы закрыть заказ нужно выбрать:
+                                    <ul>
+                                        <li>
+                                            Хотя бы одного сотрудника
+                                        </li>
+                                        <li>
+                                            Форму оплаты наличный или безналичный расчет
+                                        </li>
+                                        <li>
+                                            Статус заказа должен быть "Выполнен"
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+
                 <div class="col-md-6">
 
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-warning" role="alert">
                         <h6>№@Html.DisplayFor(model => model.Id) заказа</h6>
                     </div>
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title m-b-0">Customer</h5>
+                            <h5 class="card-title m-b-0">Заказчик</h5>
                         </div>
-
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>Номер машины</td>
-                                    <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumberCar)</td>
-                                </tr>
-                                <tr>
-                                    <td>Марка/Модель</td>
-                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)</td>
-                                </tr>
-                                <tr>
-                                    <td>Тип кузова</td>
-                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)</td>
-                                </tr>
-                                <tr>
-                                    <td>Ф.И.О</td>
-                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="card-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Номер машины</td>
+                                        <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumberCar)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Марка/Модель</td>
+                                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Тип кузова</td>
+                                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ф.И.О</td>
+                                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
+                    @if (Model.StatusOrder != 4)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title m-b-0">Смена</h5>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title m-b-0">Смена</h5>
+                            </div>
+                            <div class="comment-widgets scrollable">
+                                @foreach (var item in ViewBag.Brigade)
+                                {
+                                    <div class="d-flex flex-row comment-row m-t-0">
 
-                        </div>
-                        <div class="comment-widgets scrollable">
-                            @foreach (var item in ViewBag.Brigade)
-                            {
-                                <div class="d-flex flex-row comment-row m-t-0">
+                                        <div class="checkbox">
 
-                                    <div class="checkbox">
-
-                                        <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
-                                    </div>
-
-                                    <div class="comment-text w-100">
-                                        <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                        <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
-
-                                        <div class="comment-footer">
-                                            <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
-                                            @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
+                                            <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
                                         </div>
 
-                                    </div>
-                                </div>
-                            }
-                        </div>
+                                        <div class="comment-text w-100">
+                                            <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                            <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
 
-                    </div>
+                                            <div class="comment-footer">
+                                                <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
+                                                @*@Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })*@
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    }
                 </div>
 
                 <div class="col-md-6">
 
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-warning" role="alert">
                         <h6>Сумма к оплате <b id="prise">@Math.Ceiling(ViewBag.Total)</b></h6>
                     </div>
 
                     <div class="card">
 
                         <div class="card-body">
-                            <h5 class="card-title m-b-0">Order</h5>
+                            <h5 class="card-title m-b-0">Заказ</h5>
                         </div>
 
-                        <table class="table">
+                        <div class="card-body">
+                            <table class="table">
+                                <tbody class="customtable">
+                                    @foreach (var item in ViewBag.Services)
+                                    {
+                                        <tr>
+                                            <td>@item.Detailings.services_list</td>
+                                            <td>
+                                                @if (item.Detailings.IdTypeService == 1)
+                                                {
+                                                    <b>Детейлинг</b>
+                                                }
+                                                else
+                                                {
+                                                    <b>Мойка</b>
+                                                }
 
-                            <tbody class="customtable">
-                                @foreach (var item in ViewBag.Services)
-                                {
-                                    <tr>
+                                            </td>
+                                            <td>@item.Price </td>
+                                        </tr>
+                                    }
 
-                                        <td>@item.Detailings.services_list</td>
-                                        <td>
-                                            @if (item.Detailings.IdTypeService == 1)
-                                            {
-                                                <b>Детейлинг</b>
-                                            }
-                                            else
-                                            {
-                                                <b>Мойка</b>
-                                            }
-
-                                        </td>
-
-                                        <td>@item.Price </td>
-                                     
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="card">
@@ -131,31 +163,43 @@
                                 <hr>
 
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div>
-                                            @Html.DropDownList("idPaymentState", new List<SelectListItem>
-                                   {
-                                       new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
-                                       new SelectListItem { Text = "Наличный расчёт", Value = "1"},
-                                       new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
-                                   }, new { @class = "form-control" })
+                                    <div class="col-md-7">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div>
+                                                    @Html.DropDownList("idStatusOrder", new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem{ Text = "В работе", Value = "1"},
+                                                            new SelectListItem{ Text = "Выполнен", Value = "2"},
+                                                           new SelectListItem{ Text = "Ожидает оплаты", Value = "4"},
+                                                           new SelectListItem{ Text = "Отменен", Value = "3"},
+                                                       }, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div>
+                                                    @Html.DropDownList("idPaymentState", new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem{ Text = "Выберите форму оплаты", Value = "3"},
+                                                           new SelectListItem { Text = "Наличный расчёт", Value = "1"},
+                                                           new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
+                                                       }, new { @class = "form-control" })
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <h3><b>Итого: </b>@Math.Ceiling(ViewBag.Total) грн.</h3>
                                     </div>
-
-
                                 </div>
 
                             </div>
                             <div class="clearfix"></div>
                             <hr>
                             <div class="text-right">
-
-                                <input type="submit" value="CloseOrder" class="btn btn-success preview" id="click" />
-                                @Html.ActionLink("Cansel", "Index", null, new { @class = "btn btn-danger preview" })
-
+                                <input type="submit" value="Закрыть заказ" class="btn btn-success preview" id="click" />
+                                @Html.ActionLink("Вернуться на главную", "Index", null, new { @class = "btn btn-danger preview" })
                             </div>
                         </div>
                     </div>

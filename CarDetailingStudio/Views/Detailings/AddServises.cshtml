@@ -23,7 +23,7 @@
                                 @Html.LabelFor(model => model.services_list)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.services_list, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.services_list, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["services_list"] } })
                                 @Html.ValidationMessageFor(model => model.services_list, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                 @Html.LabelFor(model => model.validity)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.validity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.validity, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["validity"] } })
                                 @Html.ValidationMessageFor(model => model.validity, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                 @Html.LabelFor(model => model.note)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["note"] } })
                                 @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                 @Html.LabelFor(model => model.S)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.S, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.S, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["S"] } })
                                 @Html.ValidationMessageFor(model => model.S, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                                 @Html.LabelFor(model => model.M)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.M, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.M, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["M"] } })
                                 @Html.ValidationMessageFor(model => model.M, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                 @Html.LabelFor(model => model.L)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.L, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.L, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["L"] } })
                                 @Html.ValidationMessageFor(model => model.L, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                 @Html.LabelFor(model => model.XL)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.XL, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.XL, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["XL"] } })
                                 @Html.ValidationMessageFor(model => model.XL, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                             </label>
                             <div class="col-md-9">
                                 <div class="checkbox">
-                                    @Html.EditorFor(model => model.mark, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.mark, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["mark"]  } })
                                     @Html.ValidationMessageFor(model => model.mark, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -149,8 +149,9 @@
                             <div class="col-md-9">
                                 @Html.DropDownListFor(model => model.IdTypeService, new List<SelectListItem>
                                                                                                            {
-                                                                                                               new SelectListItem {Text = "Мойка", Value = "1" },
-                                                                                                               new SelectListItem { Text = "Детейлинг", Value = "2"}
+                                                                                                               new SelectListItem {Text = "Мойка", Value = "2" },
+                                                                                                               new SelectListItem { Text = "Детейлинг", Value = "1"},
+                                                                                                                 new SelectListItem { Text = "Стирка ковров", Value = "3"}
                                                                                                            },
                                                                                                            new { @class = "form-control" })
 

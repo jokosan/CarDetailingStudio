@@ -17,17 +17,30 @@ namespace CarDetailingStudio.Models.ModelViews
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id { get; set; }
+
+        [Display(Name = "Статус клиента")]
         public Nullable<int> IdClientsGroups { get; set; }
+
+        [Display(Name = "Марка машины")]
         public Nullable<int> IdMark { get; set; }
+
+        [Display(Name = "Модель машины")]
         public Nullable<int> IdModel { get; set; }
-        
+
         [Required]
+        [Display(Name ="Тип кузова")]
         public Nullable<int> IdBody { get; set; }
+
         public Nullable<int> IdInfoClient { get; set; }
         
         [Required]
+        [Display(Name ="Номер машины")]
         public string NumberCar { get; set; }
+
+        [Display(Name ="Дисконт")]
         public Nullable<int> discont { get; set; }
+
+        public Nullable<bool> arxiv { get; set; }
 
         public virtual CarMarkView car_mark { get; set; }
         public virtual CarModelView car_model { get; set; }

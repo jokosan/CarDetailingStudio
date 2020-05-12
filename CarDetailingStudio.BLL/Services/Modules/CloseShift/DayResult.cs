@@ -32,7 +32,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
         {
             var result = _orderCarWashWorkersServices.GetTableInclud();
             return GrupDayResult(result);
-
         }
        
         private IEnumerable<DayResultModelBll> GrupDayResult(IEnumerable<OrderCarWashWorkersBll> getResult)
@@ -46,20 +45,13 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                                       name = y.First().CarWashWorkers.Name,
                                       patronymic = y.First().CarWashWorkers.Patronymic,
                                       calculationStatus = y.First().CalculationStatus,
-                                      payroll = y.Sum(c => c.Payroll)
+                                      payroll = y.Sum(c => c.Payroll),
+                                      salaryDate = test(y.First().salaryDate)
+
                                   });
         }
 
-        public IEnumerable<OrderServicesCarWashBll> DayResultInfoOneEmployee(int idEmployee)
-        {
-            var allEmployeeOrdersPerDay = _orderCarWashWorkersServices.SampleForPayroll(idEmployee, DateTime.Now);
+        public DateTime test(DateTime? date) => Convert.ToDateTime(date?.ToString("dd.MM.yyyy"));
 
-            List<int> idOrder = new List<int>();
-
-            foreach (var itemOrder in allEmployeeOrdersPerDay)
-                idOrder.Add(itemOrder.IdOrder);
-
-            return _orderServicesCarWash.AllOrderOneEmployee(idOrder);
-        }
     }
 }

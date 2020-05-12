@@ -13,6 +13,7 @@ namespace CarDetailingStudio.Models.ModelViews
 
         public OrderServicesCarWashView()
         {
+            this.orderCarpetWashing = new HashSet<OrderCarpetWashingView>();
             this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderView>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersView>();
             this.TireStorage = new HashSet<TireStorageView>();
@@ -21,19 +22,32 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+        [Display(Name = "Номер заказа")]
         public int Id { get; set; }
         public Nullable<int> IdClientsOfCarWash { get; set; }
+
+        [Display(Name = "Статус заказа")]
         public Nullable<int> StatusOrder { get; set; }
+
+        [Display(Name = "Состояние платежа")]
         public Nullable<int> PaymentState { get; set; }
+
+        [Display(Name = "Дата/Время оформления заказа")]
         public Nullable<System.DateTime> OrderDate { get; set; }
-        [Display(Name ="Дата Выполнения заказа")]
+
+        [Display(Name = "Дата/Время выполнения заказа")]
         public Nullable<System.DateTime> ClosingData { get; set; }
+
+        [Display(Name = "Стоимость заказа без скидки")]
         public Nullable<double> TotalCostOfAllServices { get; set; }
-        [Display(Name ="Стоимость заказа")]
+
+        [Display(Name ="Стоимость заказа со скидкой")]
         public Nullable<double> DiscountPrice { get; set; }
+
         public Nullable<int> typeOfOrder { get; set; }
 
         public virtual ClientsOfCarWashView ClientsOfCarWash { get; set; }
+        public virtual ICollection<OrderCarpetWashingView> orderCarpetWashing { get; set; }
         public virtual PaymentStateView PaymentState1 { get; set; }
         public virtual StatusOrderView StatusOrder1 { get; set; }
         public virtual ICollection<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }

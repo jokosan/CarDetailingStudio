@@ -1,68 +1,212 @@
 ﻿@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
+<link href="~/Content/input.css" rel="stylesheet" />
 
-<div>
-    <h4>ClientsOfCarWashView</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IdClientsGroups)
-        </dt>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
 
-        <dd>
-            @Html.DisplayFor(model => model.IdClientsGroups)
-        </dd>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Клиент</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-right">
+                            @Html.ActionLink("Редакировать", "EditClient", new { id = Model.IdInfoClient, idCar = Model.id }, new { @class = "btn btn-outline-secondary" })
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IdMark)
-        </dt>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Группа: @Html.DisplayFor(model => model.ClientsGroups.Name)
+                </li>
+                <li class="list-group-item">
+                    ФИО:
+                    @Html.DisplayFor(model => model.ClientInfo.Surname)
+                    @Html.DisplayFor(model => model.ClientInfo.Name)
+                    @Html.DisplayFor(model => model.ClientInfo.PatronymicName)
+                </li>
+                <li class="list-group-item">
+                    Телефон:
+                    @Html.DisplayFor(model => model.ClientInfo.Phone)
+                </li>
+            </ul>
+            <br />
+        </div>
+        @foreach (var item in ViewBag.ClientInfo)
+        {
+            if (item.arxiv == true)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
 
-        <dd>
-            @Html.DisplayFor(model => model.IdMark)
-        </dd>
+                            <div class="col-md-6">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IdModel)
-        </dt>
+                                <h5 class="card-title m-b-0">Машина клиента</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-right">
+                                    @using (Html.BeginForm("CarArxiv", "ClientsOfCarWashViews", FormMethod.Post))
+                                    {
+                                        <input value=@item.id name="carId" type="hidden" />
+                                        <input type="submit" name="submit" value="Удалить" class="btn btn-outline-danger" />
+                                        @Html.ActionLink("Редакировать", "EditCarClient", new { id = item.id }, new { @class = "btn btn-outline-secondary" })
+                                    }
 
-        <dd>
-            @Html.DisplayFor(model => model.IdModel)
-        </dd>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IdBody)
-        </dt>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            @item.car_mark.name @item.car_model.name
+                        </li>
+                        <li class="list-group-item">
+                            Тип Кузова:  @item.CarBody.Name
+                        </li>
+                        <li class="list-group-item">
+                            Номер автомобиля: @item.NumberCar
+                        </li>
+                        <li class="list-group-item">
+                            Процент скидки для авто @item.discont
+                        </li>
+                    </ul>
+                    <br />
+                    @if (ViewBag.Page == false)
+                    {
+                        using (Html.BeginForm("NewOrder", "ClientsOfCarWashViews", FormMethod.Get))
+                        {
+                            <div id="service">
+                                <input value="false" name="Page" type="hidden" />
 
-        <dd>
-            @Html.DisplayFor(model => model.IdBody)
-        </dd>
+                                <div class="form-group" align="right">
+                                    <div class="col-md-offset-2 col-md-10">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IdInfoClient)
-        </dt>
+                                        <label class="h6">Детейлинг</label>
 
-        <dd>
-            @Html.DisplayFor(model => model.IdInfoClient)
-        </dd>
+                                        <label class="customcheckbox">
+                                            <label class="label">
+                                                <input class="label__checkbox" type="checkbox" name="Services" value="1" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                                <span class="label__text">
+                                                    <span class="label__check">
+                                                        <i class="fa fa-check icon"></i>
+                                                    </span>
+                                                </span>
+                                            </label>
+                                            <span class="checkmark"></span>
+                                        </label>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NumberCar)
-        </dt>
+                                        <label class="h6">Мойка</label>
+                                        <label class="customcheckbox">
+                                            <label class="label">
 
-        <dd>
-            @Html.DisplayFor(model => model.NumberCar)
-        </dd>
+                                                <input class="label__checkbox" type="checkbox" name="Services" value="2" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                                <span class="label__text">
+                                                    <span class="label__check">
+                                                        <i class="fa fa-check icon"></i>
+                                                    </span>
+                                                </span>
+                                            </label>
+                                            <span class="checkmark"></span>
+                                        </label>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.discont)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.discont)
-        </dd>
+                                        @Html.ActionLink("Отменить заказ", "../ClientsOfCarWashViews/Checkout", null, new { @class = "btn btn-outline-danger" })
+                                        @*@Html.ActionLink("Продолжить оформление заказа", "NewOrder", new { id = item.id, body = item.CarBody.Name }, new { @class = "btn btn-outline-secondary",  })*@
+                                        <input type="hidden" value=@item.id name="id" />
+                                        <input type="hidden" value=@item.CarBody.Name name="body" />
+                                        <input type="submit" name="submit" id="submit" value="Продолжить оформление заказа" class="btn btn-success" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        }
 
-    </dl>
+        <div class="text-right">
+            <div class="card-body">
+
+
+                @using (Html.BeginForm("RemoveClient", "ClientsOfCarWashViews", FormMethod.Post))
+                {
+                    <input value=@Model.id name="ClientId" type="hidden" />
+                    <input type="submit" name="submit" value="Удалить" class="btn btn-outline-danger" />
+
+                    @Html.ActionLink("Создать авто", "AddCar", new { IdInfoClient = Model.IdInfoClient, ClientsGroups = Model.ClientsGroups.Id }, new { @class = "btn btn-outline-secondary" })
+
+                }
+            </div>
+        </div>
+
+    </div>
+
+    @foreach (var item in ViewBag.ClientInfo)
+    {
+        if (item.arxiv == false)
+        {
+            <div class="col-md-6">
+                <div class="card">
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <h5 class="card-title m-b-0">Машина клиента (Архив)</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-right">
+                                        @using (Html.BeginForm("ReturnFromArchive", "ClientsOfCarWashViews", FormMethod.Post))
+                                        {
+                                            <input value=@item.id name="carId" type="hidden" />
+                                            <input type="submit" name="submit" value="Восстановить из архива" class="btn btn-outline-danger" />
+                                        }
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                @item.car_mark.name @item.car_model.name
+                            </li>
+                            <li class="list-group-item">
+                                Тип Кузова:  @item.CarBody.Name
+                            </li>
+                            <li class="list-group-item">
+                                Номер автомобиля: @item.NumberCar
+                            </li>
+                            <li class="list-group-item">
+                                Процент скидки для авто @item.discont
+                            </li>
+                        </ul>
+                        <br />
+                    </div>
+
+
+
+                </div>
+            </div>}
+    }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+<script>
+
+    $('#service input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#service input:checkbox').not(this).prop('checked', false);
+        }
+    });
+</script>

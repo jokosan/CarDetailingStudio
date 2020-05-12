@@ -13,6 +13,7 @@ namespace CarDetailingStudio.BLL.Model
             this.brigadeForToday = new HashSet<BrigadeForTodayBll>();
             this.Credit = new HashSet<CreditBll>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersBll>();
+            this.salaryBalance = new HashSet<SalaryBalanceBll>();
             this.salaryExpenses = new HashSet<SalaryExpensesBll>();
         }
 
@@ -36,5 +37,6 @@ namespace CarDetailingStudio.BLL.Model
         public virtual ICollection<CreditBll> Credit { get; set; }
         public virtual ICollection<OrderCarWashWorkersBll> OrderCarWashWorkers { get; set; }
         public virtual ICollection<SalaryExpensesBll> salaryExpenses { get; set; }
+        public virtual ICollection<SalaryBalanceBll> salaryBalance { get; set; }
     }
 }

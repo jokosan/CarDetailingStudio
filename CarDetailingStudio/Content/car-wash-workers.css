@@ -203,3 +203,7 @@ body {
 ::-webkit-scrollbar {
     width: 11px;
 }
+
+@media (min-width: 100px) and (max-width: 1380px) {
+    .p-2 { display:none }
+}

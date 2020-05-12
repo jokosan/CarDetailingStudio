@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
@@ -24,9 +25,25 @@ namespace CarDetailingStudio.BLL.Services.Expenses
             return Mapper.Map<IEnumerable<ExpenseCategoryBll>>(_unitOfWork.expenseCategoryUnitOfWork.Get());
         }
 
+        public void Insert(ExpenseCategoryBll element)
+        {
+            expenseCategory expenseCategorys = Mapper.Map<ExpenseCategoryBll, expenseCategory>(element);
+
+            _unitOfWork.expenseCategoryUnitOfWork.Insert(expenseCategorys);
+            _unitOfWork.Save();
+        }
+
         public ExpenseCategoryBll SelectId(int? elementId)
         {
             return Mapper.Map<ExpenseCategoryBll>(_unitOfWork.expenseCategoryUnitOfWork.GetById(elementId));
+        }
+
+        public void Update(ExpenseCategoryBll elementToUpdate)
+        {
+            expenseCategory expenseCategorys = Mapper.Map<ExpenseCategoryBll, expenseCategory>(elementToUpdate);
+
+            _unitOfWork.expenseCategoryUnitOfWork.Update(expenseCategorys);
+            _unitOfWork.Save();
         }
     }
 }

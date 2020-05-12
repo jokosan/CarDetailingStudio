@@ -71,9 +71,10 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
-                            </div>
+                                <div class="text-right">
+                                    <input type="submit" value="Добавить новое авто" class="btn btn-default" />
+                                    @Html.ActionLink("Отмена", "../ClientsOfCarWashViews/Info", null, new { @class = "btn btn-danger" })
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -83,12 +84,8 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+</div>
 
 
 <script>

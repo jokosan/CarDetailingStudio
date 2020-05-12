@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract.GenericContract
 {
-    interface IDeleteFromDatabase<T> where T : class
+    public interface IDeleteFromDatabase<T> where T : class
     {
         void Delete(T elementToDelete);
     }

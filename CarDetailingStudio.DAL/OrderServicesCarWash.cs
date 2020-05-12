@@ -17,6 +17,7 @@ namespace CarDetailingStudio.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OrderServicesCarWash()
         {
+            this.orderCarpetWashing = new HashSet<orderCarpetWashing>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkers>();
             this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrder>();
             this.TireStorage = new HashSet<TireStorage>();
@@ -33,6 +34,8 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> typeOfOrder { get; set; }
     
         public virtual ClientsOfCarWash ClientsOfCarWash { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<orderCarpetWashing> orderCarpetWashing { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderCarWashWorkers> OrderCarWashWorkers { get; set; }
         public virtual PaymentState PaymentState1 { get; set; }

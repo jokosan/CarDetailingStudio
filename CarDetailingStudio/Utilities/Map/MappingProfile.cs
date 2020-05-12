@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -88,6 +88,12 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<DayResultModelView, DayResultModelBll>();
             CreateMap<DayResultModelBll, DayResultModelView>();
+
+            CreateMap<SalaryBalanceView, SalaryBalanceBll>();
+            CreateMap<SalaryBalanceBll, SalaryBalanceView>();
+
+            CreateMap<OrderCarpetWashingView, OrderCarpetWashingBll>();
+            CreateMap<OrderCarpetWashingBll, OrderCarpetWashingView>();
 
 
             // expenses - затраты

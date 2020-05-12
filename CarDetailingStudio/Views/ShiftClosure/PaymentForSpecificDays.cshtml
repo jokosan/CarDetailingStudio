@@ -1,17 +1,19 @@
 ﻿@model IEnumerable<CarDetailingStudio.Models.WagesForDaysWorkedView>
 
 <link href="~/Content/input.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-6">
 
-@using (Html.BeginForm())
-{
-    <div class="row>">
-        <div class="col-12">
-            <div class="card">
+        <div class="card">
+            <div class="card-body">
+                <h3>@ViewBag.Employee.Surname @ViewBag.Employee.Name @ViewBag.Employee.Patronymic </h3>
+            </div>
+        </div>
 
+        <div class="card">
+            <div class="card-body">
                 <table class="table">
                     <tr>
-                        <th>
-                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.ClosingData)
                         </th>
@@ -21,34 +23,15 @@
                             @Html.DisplayNameFor(model => model.orderCount)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.calculationStatus)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.payroll)
                         </th>
-                        <th></th>
+                        @*<th></th>*@
                     </tr>
 
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                <div class="col-md-1">
-                                    <label class="customcheckbox">
-                                        @*<input type="checkbox" class="listCheckbox" />*@
-                                        @* <input type="checkbox" name="chkRow" value="@item.Id" />*@
-                                        <label class="label">
-                                            <input class="label__checkbox" type="checkbox" name="carWashWorkers" value="@item.carWashWorkersId" />
-                                            <span class="label__text">
-                                                <span class="label__check">
-                                                    <i class="fa fa-check icon"></i>
-                                                </span>
-                                            </span>
-                                        </label>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </td>
+
                             <td>
                                 @Html.DisplayFor(modelItem => item.ClosingData)
                                 <input type="hidden" name="closingData" value="@item.ClosingData" />
@@ -60,23 +43,204 @@
                                 @Html.DisplayFor(modelItem => item.orderCount)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.calculationStatus)
-                            </td>
-                            <td>
                                 @Html.DisplayFor(modelItem => item.payroll)
                             </td>
-                            <td>
-                                @Html.ActionLink("Details", "Details", new { id = item.carWashWorkersId })
-                            </td>
+                            @*<td>
+                                    @Html.ActionLink("Подробнее о заказах", "PaymentForTheCompletedOrder", new { idCarWash = item.carWashWorkersId, date = item.ClosingData })
+                                </td>*@
                         </tr>
                     }
 
                 </table>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="pull-right m-t-30 text-right">
+                    <p>Заработок сотрудника за месяц: @ViewBag.MonthlySalary грн.</p>
+                    <p>Остаток за прошлый месяц:  @ViewBag.LastMonth грн.</p>
+
+                    @*<p>Дополнительно:<input class="text-input inside" type="hidden" id="count_1" name="column_1"></p>*@
+                    <p>Выплачено в этом месяце: @ViewBag.PaidPerMonth грн</p>
+                    <hr>
+                    <h3>
+                        <b>Остаток к выплате: </b>
+                        @if (ViewBag.TotalPayable < 0)
+                        {
+                            <span class="text-danger">
+                                @ViewBag.TotalPayable
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-success">
+                                @ViewBag.TotalPayable
+                            </span>
+                        }
+                        грн.
+                    </h3>
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("PartialPayout", "ShiftClosure", FormMethod.Post))
+                        {
+                            if (ViewBag.Message == null)
+                            {
+                                <div class="input-group">
+                                    <input name="payout" type="text" class="form-control" />
+                                    <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                    <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+                                    <div class="input-group-append">
+                                        <input type="submit" name="submit" value="Частичная выплата" id="basic-addon2" class="btn btn-outline-danger" />
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+
+                                <div class="input-group">
+                                    <input name="payout" type="text" placeholder="@ViewBag.Message" class="form-control is-invalid" id="validationServer01" />
+                                    <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                    <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+                                    <div class="input-group-append">
+                                        <input type="submit" name="submit" value="Частичная выплата" id="basic-addon2" class="btn btn-outline-danger" />
+                                    </div>
+                                </div>
+                            }
+                            if (@ViewBag.LastMonth < 0)
+                            {
+                                <div class="card-body">
+                                    <div class="d-flex flex-row comment-row m-t-0">
+                                        <p>Закрыть частично (полностью) отрицательный баланс прошлого месяца</p>
+                                        <div class="col-md-1">
+                                            <label class="customcheckbox">
+                                                <label class="label">
+                                                    <input class="label__checkbox" type="checkbox" name="NegativeBalance" value="true"/>
+                                                    <span class="label__text">
+                                                        <span class="label__check">
+                                                            <i class="fa fa-check icon"></i>
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm())
+                        {
+                            if (ViewBag.MessageClose == null)
+                            {
+                                <div class="text-right">
+                                    <div class="input-group">
+                                        <input name="payout" type="text" class="form-control" />
+                                        <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                        <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+                                        <div class="input-group-append">
+                                            <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-right">
+                                    <div class="input-group">
+                                        <input name="payout" type="text" class="form-control is-invalid" id="validationServer01" placeholder="@ViewBag.MessageClose" />
+                                        <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                        <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+                                        <div class="input-group-append">
+                                            <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="text-right">
-        <p></p>
-        <input class="btn btn-success" type="submit" id="btnCreate" value="Рассчитать" />
+
+    <div class="col-6">
+        <div class="card">
+
+            <div class="card-body">
+                <h3>Отчет по выплатам за текущий месяц</h3>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Дата выплаты
+                        </th>
+                        <th>
+                            Сумма выплаты
+                        <th>
+                            Cостояние счета на момент выплаты
+                        </th>
+                        <th>
+                            Остаток
+                        </th>
+                    </tr>
+                    @foreach (var item in ViewBag.Payouts)
+                    {
+                        <tr>
+                            @{
+                                double resultSum = item.accountBalance - item.payoutAmount;
+                            }
+                            @if (resultSum < 0)
+                            {
+                                <td>
+                                    <span class="text-danger"> @item.dateOfPayment</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger">@item.payoutAmount</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger">@item.accountBalance</span>
+                                </td>
+
+                                <td>
+                                    <span class="text-danger">@resultSum</span>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @item.dateOfPayment
+                                </td>
+                                <td>
+                                    @item.payoutAmount
+                                </td>
+                                <td>
+                                    @item.accountBalance
+                                </td>
+                                <td>
+                                    @resultSum
+                                </td>
+                            }
+
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
     </div>
-}
+</div>
+
+

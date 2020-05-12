@@ -27,7 +27,12 @@ namespace CarDetailingStudio.BLL.Services
         {
             return Mapper.Map<IEnumerable<ClientInfoBll>>(_unitOfWork.ClientInfoUnitOfWork.Get());
         }
-        
+
+        public IEnumerable<ClientInfoBll> ClienWhereId(int id)
+        {
+            return Mapper.Map<IEnumerable<ClientInfoBll>>(_unitOfWork.ClientInfoUnitOfWork.GetWhere(x => x.Id == id));
+        }
+
         public ClientInfoBll ClientInfoGetId(int? IdClient)
         {
             return Mapper.Map<ClientInfoBll>(_unitOfWork.ClientInfoUnitOfWork.GetById(IdClient));
@@ -39,5 +44,13 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.ClientInfoUnitOfWork.Update(clientInfo);
             _unitOfWork.Save();
         }
+
+        public void Delete(ClientInfoBll elementToDelete)
+        {
+           // ClientInfo clients = Mapper.Map<ClientInfoBll, ClientInfo>(elementToDelete);
+            _unitOfWork.ClientInfoUnitOfWork.Delete(elementToDelete.Id);
+            _unitOfWork.Save();
+        }
+
     }
 }

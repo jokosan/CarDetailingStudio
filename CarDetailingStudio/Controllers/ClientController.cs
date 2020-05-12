@@ -34,6 +34,7 @@ namespace CarDetailingStudio.Controllers
             _clientsGroups = clientsGroupsServices;
         }
 
+       
         // GET: Client/Create
         public ActionResult NewClient(string idPage)
         {
@@ -41,8 +42,11 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
 
-            TempData["Checkout"] = idPage;
-
+            if ("Checkout" == idPage)
+            {
+                TempData["Checkout"] = idPage;
+            }
+       
             return View();
         }
 
@@ -50,7 +54,7 @@ namespace CarDetailingStudio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult NewClient([Bind(Include = "Id,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumberCar,IdClientsGroups,IdBody,note,barcode")] ClientView clientView, bool Page, int? Service)
         {
-            if (TempData.ContainsKey("Mark") == true && TempData.ContainsKey("Model") == true && clientView.IdBody != null)
+            if (TempData.ContainsKey("Mark") && TempData.ContainsKey("Model") && clientView.IdBody != null)
             {
                 clientView.Idmark = Int32.Parse(TempData["Mark"].ToString());
                 clientView.Idmodel = Int32.Parse(TempData["Model"].ToString());
@@ -78,6 +82,11 @@ namespace CarDetailingStudio.Controllers
                     {
                         if (Page)
                         {
+                            ClientViewsBll client = Mapper.Map<ClientView, ClientViewsBll>(clientView);
+                            int idNewClient = _clientModules.Distribute(client);
+
+                            var carBody = Mapper.Map<CarBodyView>(_carBody.SelectId(Convert.ToInt32(clientView.IdBody)));
+
                             return RedirectToAction("../ClientsOfCarWashViews/Client");
                         }
                         else
@@ -99,8 +108,7 @@ namespace CarDetailingStudio.Controllers
             else
             {
                 return View();
-            }
-                
+            } 
         }
     }
 }

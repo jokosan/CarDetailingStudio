@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
@@ -6,7 +7,8 @@ namespace CarDetailingStudio.BLL.Services.Contract
     {
         void ClearListOrder();
         double? Discont(int? discont, double? sum);
-        void IdOrderServices(FormCollection collection);
+        //void IdOrderServices(FormCollection collection);
+        void IdOrderServices(List<int> idServises);
         void OrderPreview();
         double? OrderPrice();
     }

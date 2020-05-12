@@ -16,7 +16,7 @@ using CarDetailingStudio.Filters;
 using CarDetailingStudio.Models;
 using PagedList.Mvc;
 using PagedList;
-
+using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -32,11 +32,14 @@ namespace CarDetailingStudio.Controllers
         private IClientInfoServices _clientInfo;
         private IGroupWashServices _groupWashServices;
         private IBrigadeForTodayServices _brigade;
+        private IServisesCarWashOrderServices _servisesCarWash;
+
 
         public ClientsOfCarWashViewsController(IClientsOfCarWashServices clients, IDetailingsServises detailingsView,
                                                IOrderServices order, IOrderServicesCarWashServices orderServices,
                                                ICarMarkServices carMark, ICarBodyServices carBody, IClientsGroupsServices clientsGroupsServices,
-                                               IClientInfoServices clientInfo, IGroupWashServices groupWashServices, IBrigadeForTodayServices brigade)
+                                               IClientInfoServices clientInfo, IGroupWashServices groupWashServices, IBrigadeForTodayServices brigade,
+                                                IServisesCarWashOrderServices servisesCarWash)
         {
             _services = clients;
             _detailings = detailingsView;
@@ -48,6 +51,7 @@ namespace CarDetailingStudio.Controllers
             _clientInfo = clientInfo;
             _groupWashServices = groupWashServices;
             _brigade = brigade;
+            _servisesCarWash = servisesCarWash;
         }
 
         IEnumerable<DetailingsView> Price { get; set; }
@@ -60,13 +64,33 @@ namespace CarDetailingStudio.Controllers
         //    return View(RedirectModel.ToList().ToPagedList(i ?? 1, 15));
         //}
 
-        public ActionResult Client()
-        {           
-            return View(ClientSearch());
+        public ActionResult Client(int idPaymentState = 1)
+        {
+            if (idPaymentState == 1)
+            {
+                return View(ClientSearch());
+            }
+            else
+            {
+                return RedirectToAction("ClientInfo", "ClientsOfCarWashViews", new RouteValueDictionary(new { idPaymentState = 2 }));
+            }
+        }
+
+        public ActionResult ClientInfo(int idPaymentState)
+        {
+            if (idPaymentState == 2)
+            {
+                return View(Mapper.Map<IEnumerable<ClientInfoView>>(_clientInfo.ClientInfoAll().Where(x => x.DateRegistration != null)));
+            }
+            else
+            {
+                return RedirectToAction("Client", "ClientsOfCarWashViews", new RouteValueDictionary(new { idPaymentState = 1 }));
+            }
         }
 
         public ActionResult Checkout(int? services)
         {
+
             if (services != null)
             {
                 ServicesId = services;
@@ -74,7 +98,7 @@ namespace CarDetailingStudio.Controllers
 
                 return View(ClientSearch());
             }
-           
+
             return Redirect("/Order/Index");
         }
 
@@ -84,11 +108,16 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: ClientsOfCarWashViews/Details/5
-        public ActionResult NewOrder(int? id, string body, int? Services)
+        public ActionResult NewOrder(int? id, string body, int? Services, int? idOrderServices = null)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if(idOrderServices != null)
+            {
+                TempData["OrderServices"] = idOrderServices;
             }
 
             _orderServices.ClearListOrder();
@@ -102,7 +131,7 @@ namespace CarDetailingStudio.Controllers
 
             var tablePriceResult = Price.Where(x => x.IdTypeService == Services);
 
-            ViewBag.Detailings = tablePriceResult;  
+            ViewBag.Detailings = tablePriceResult;
             ViewBag.DetailingsGrup = _groupWashServices.GetIdAll(Services);
             //ViewBag.WashServises = Price.Where(x => x.IdTypeService == 2);
 
@@ -116,12 +145,12 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [WorkShiftFilter]
-        public ActionResult NewOrder(FormCollection form)
+        public ActionResult NewOrder(FormCollection form, List<int> chkRow, List<int> countService)
         {
-            _orderServices.IdOrderServices(form);
+            
+            _orderServices.IdOrderServices(chkRow);
 
             _orderServices.OrderPreview();
-
             return RedirectToRoute(new { controller = "ClientsOfCarWashViews", action = "OrderPreview" });
         }
 
@@ -129,36 +158,109 @@ namespace CarDetailingStudio.Controllers
         {
             if (OrderServices.OrderList.Count() > 0)
             {
+                double orederSum = 0;
+                if (TempData.ContainsKey("OrderServices"))
+                {
+                    var orderServisesResult = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAllId(int.Parse(TempData["OrderServices"].ToString())));
+                    orederSum = orderServisesResult.Sum(x => x.Price).Value;                   
+
+                    ViewBag.OrderServices = orderServisesResult;
+                    ViewBag.idOrder = int.Parse(TempData["OrderServices"].ToString());
+
+                }
+
                 var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(_services.GetId(OrderServices.idClient));
 
                 var sum = _orderServices.OrderPrice();
+                var sumResult = sum + orederSum;
 
                 ViewBag.PriceList = OrderServices.OrderList;
-                ViewBag.SumOrder = sum;
-                ViewBag.Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow().Where(x => x.CarWashWorkers.IdPosition > 2));
+                ViewBag.SumOrder = sumResult;
+                ViewBag.Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow().Where(x => x.StatusId == 3));
 
                 if (CustomerOrders.discont > 0)
                 {
-                    ViewBag.Total = _orderServices.Discont(CustomerOrders.discont, sum);
+                    ViewBag.Total = _orderServices.Discont(CustomerOrders.discont, sumResult);
                 }
                 else
                 {
-                    ViewBag.Total = sum;
+                    ViewBag.Total = sumResult;
                 }
 
                 return View(CustomerOrders);
             }
 
-            return RedirectToAction("Checkout");          
+            return RedirectToAction("Checkout");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult OrderPreview(List<double> carBody, List<int> id, List<int> sum, List<string> idBrigade, double total)
+        public ActionResult OrderPreview(List<double> carBody, List<int> id, List<int> sum, List<string> idBrigade, double total, int? idOrder = null)
         {
-            _orderServicesInsert.InsertOrders(carBody, id, sum, total);
+            if (idOrder == null)
+            {
+                _orderServicesInsert.InsertOrders(carBody, id, sum, total);
+            }
+            else
+            {
+                _orderServicesInsert.InsertOrders(carBody, id, sum, total, idOrder);
+            }
 
             return RedirectToAction("Index", "Order");
+        }
+
+        public ActionResult EditClient(int? id, int? idCar)
+        {
+            if (id == null && idCar == null)
+            {
+                var infoLog = new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Client");
+            }
+
+            ClientInfoView clientInfo = Mapper.Map<ClientInfoView>(_clientInfo.ClientInfoGetId(id));
+
+            ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
+            ViewBag.IdClient = id;
+            ViewBag.IdCar = idCar;
+
+            if (clientInfo == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(clientInfo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditClient([Bind(Include = "id,Surname,Name,PatronymicName,Phone,DateRegistration,Email,barcode,note")] ClientInfoView client, int IdClient, int idCar, int? SelectGroupClient)
+        {
+            if (ModelState.IsValid)
+            {
+                ClientInfoView clientInfo = Mapper.Map<ClientInfoView>(_clientInfo.ClientInfoGetId(IdClient));
+                clientInfo = client;
+
+                ClientInfoBll clientInfoBll = Mapper.Map<ClientInfoView, ClientInfoBll>(client);
+                var clientsOfCarWashView = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll(idCar));
+
+                foreach (var item in clientsOfCarWashView)
+                {
+                    item.IdClientsGroups = SelectGroupClient;
+
+                    ClientsOfCarWashBll clients = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(item);
+                    _services.ClientCarUpdate(clients);
+                }
+                _clientInfo.ClientInfoEdit(clientInfoBll);
+
+                return RedirectToAction("Info", "ClientsOfCarWashViews", new RouteValueDictionary(new
+                {
+                    idClientInfo = IdClient,
+                    idClient = idCar
+                }));
+            }
+
+            ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
+            return View(client);
         }
 
         // GET: ClientsOfCarWashViews/Edit/5
@@ -178,7 +280,7 @@ namespace CarDetailingStudio.Controllers
 
             ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
-
+            ViewBag.IdCar = id;
             return View(clientsOfCarWashView);
         }
 
@@ -187,20 +289,28 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCarClient([Bind(Include = "id,IdClientsGroups,IdMark,IdModel,IdBody,IdInfoClient,NumberCar,discont")] ClientsOfCarWashView clientsOfCarWashView)
+        public ActionResult EditCarClient([Bind(Include = "id,IdClientsGroups,IdMark,IdModel,IdBody,IdInfoClient,NumberCar,discont")] ClientsOfCarWashView clientsOfCarWashView, int idCar)
         {
-            if (TempData.ContainsKey("Mark") == true && TempData.ContainsKey("Model") == true)
+            if (ModelState.IsValid)
             {
-                clientsOfCarWashView.IdMark = Int32.Parse(TempData["Mark"].ToString());
-                clientsOfCarWashView.IdModel = Int32.Parse(TempData["Model"].ToString());
+                ClientsOfCarWashView clientsOfCarWash = Mapper.Map<ClientsOfCarWashView>(_services.GetId(idCar));
+                //clientsOfCarWash = clientsOfCarWashView;
 
-                if (ModelState.IsValid)
+                clientsOfCarWashView.id = clientsOfCarWash.id;
+                clientsOfCarWashView.IdInfoClient = clientsOfCarWash.IdInfoClient;
+                clientsOfCarWashView.IdMark = clientsOfCarWash.IdMark;
+                clientsOfCarWashView.IdModel = clientsOfCarWash.IdModel;
+                clientsOfCarWashView.IdClientsGroups = clientsOfCarWash.IdClientsGroups;
+                clientsOfCarWashView.arxiv = clientsOfCarWash.arxiv;
+
+                ClientsOfCarWashBll clients = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(clientsOfCarWashView);
+                _services.ClientCarUpdate(clients);
+
+                return RedirectToAction("Info", "ClientsOfCarWashViews", new RouteValueDictionary(new
                 {
-                    ClientsOfCarWashBll clients = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(clientsOfCarWashView);
-                    _services.ClientCarUpdate(clients);
-
-                    return RedirectToAction("Client");
-                }
+                    idClientInfo = clientsOfCarWash.IdInfoClient,
+                    idClient = clientsOfCarWash.id
+                }));
             }
 
             ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
@@ -209,14 +319,15 @@ namespace CarDetailingStudio.Controllers
             return View(clientsOfCarWashView);
         }
 
-        public ActionResult AddCar(int? id)
+        public ActionResult AddCar(int? IdInfoClient, int? ClientsGroups)
         {
-            if (id == null)
+            if (IdInfoClient == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            TempData["IdClient"] = id;
+            List<int> client = new List<int>() { IdInfoClient.Value, ClientsGroups.Value };
+            TempData["IdClient"] = client;
 
             ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
@@ -235,7 +346,12 @@ namespace CarDetailingStudio.Controllers
             {
                 clientsOfCarWashView.IdMark = Int32.Parse(TempData["Mark"].ToString());
                 clientsOfCarWashView.IdModel = Int32.Parse(TempData["Model"].ToString());
-                clientsOfCarWashView.IdInfoClient = Int32.Parse(TempData["IdClient"].ToString());
+
+                var itemList = TempData["IdClient"] as List<int>;
+
+                clientsOfCarWashView.IdInfoClient = itemList[0];
+                clientsOfCarWashView.IdClientsGroups = itemList[1];
+                clientsOfCarWashView.arxiv = true;
 
                 if (ModelState.IsValid)
                 {
@@ -253,18 +369,33 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: ClientsOfCarWashViews/Details/5    
-        public ActionResult Info(int? idClientInfo, int? idClient)
+        public ActionResult Info(int? idClientInfo, int? idClient, bool? statusPage = true)
         {
-            if (idClient == null)
+            if (idClient == null && idClientInfo == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var logo = new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Client");
             }
 
-            ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(_services.GetId(idClient));
-            var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_services.GetAll(idClientInfo));
-            
-            ViewBag.ClientInfo = ClientWhare;
+           if (statusPage != null)            
+                ViewBag.Page = statusPage;            
 
+            //ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(_services.GetId(idClient));
+            var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll(idClientInfo));
+            var singlClien = ClientWhare.FirstOrDefault(x => x.IdInfoClient == idClientInfo);
+
+            ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(_services.GetId(singlClien.id));
+
+            if (idClient != null && idClientInfo != null)
+            {
+                ViewBag.ClientInfo = ClientWhare.Where(x => x.arxiv == true);
+            }
+            else if (idClient == null && idClientInfo != null)
+            {
+                ViewBag.ClientInfo = ClientWhare;
+            }
+
+            
             if (clientsOfCarWashView == null)
             {
                 return HttpNotFound();
@@ -273,110 +404,25 @@ namespace CarDetailingStudio.Controllers
             return View(clientsOfCarWashView);
         }
 
-        #region
-        //// GET: ClientsOfCarWashViews/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ClientsOfCarWashView clientsOfCarWashView = db.ClientsOfCarWash.Find(id);
-        //    if (clientsOfCarWashView == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(clientsOfCarWashView);
-        //}
+        [HttpPost]
+        public ActionResult CarArxiv(int carId)
+        {
+            _services.ClientCarArxiv(carId, false);
+            return RedirectToAction("Info");
+        }
 
-        //// GET: ClientsOfCarWashViews/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public ActionResult ReturnFromArchive(int carId)
+        {
+            _services.ClientCarArxiv(carId, true);
+            return RedirectToAction("Info");
+        }
 
-        //// POST: ClientsOfCarWashViews/Create
-        //// Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        //// сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "ib,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumderCar,IdClientsGroups,Idmark,Idmodel,IdBody,note,barcode")] ClientsOfCarWashView clientsOfCarWashView)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.ClientsOfCarWash.Add(clientsOfCarWashView);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(clientsOfCarWashView);
-        //}
-
-        //// GET: ClientsOfCarWashViews/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ClientsOfCarWashView clientsOfCarWashView = db.ClientsOfCarWash.Find(id);
-        //    if (clientsOfCarWashView == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(clientsOfCarWashView);
-        //}
-
-        //// POST: ClientsOfCarWashViews/Edit/5
-        //// Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        //// сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "ib,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumderCar,IdClientsGroups,Idmark,Idmodel,IdBody,note,barcode")] ClientsOfCarWashView clientsOfCarWashView)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(clientsOfCarWashView).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(clientsOfCarWashView);
-        //}
-
-        //// GET: ClientsOfCarWashViews/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ClientsOfCarWashView clientsOfCarWashView = db.ClientsOfCarWash.Find(id);
-        //    if (clientsOfCarWashView == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(clientsOfCarWashView);
-        //}
-
-        //// POST: ClientsOfCarWashViews/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    ClientsOfCarWashView clientsOfCarWashView = db.ClientsOfCarWash.Find(id);
-        //    db.ClientsOfCarWash.Remove(clientsOfCarWashView);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-        #endregion
+        [HttpPost]
+        public ActionResult RemoveClient(int ClientId)
+        {
+            _services.RemoveClient(ClientId);
+            return RedirectToAction("Info");
+        }
     }
 }

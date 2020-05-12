@@ -12,7 +12,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
 {
     public class DbRepository<T> : IGetRepository<T>, IDefaultRepository<T>, IGetInclude<T> where T : class
     {
-      
+
         internal carWashEntities _carWashEntitiesContext;
         internal DbSet<T> DbSeT;
 
@@ -32,7 +32,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
         }
 
         public virtual T GetById(int? id)
-        {          
+        {
             return DbSeT.Find(id);
         }
 
@@ -61,12 +61,11 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
             DbSeT.Remove(entityToDelete);
         }
-      
+
         public virtual void Update(T entityToUpdate)
         {
             _carWashEntitiesContext.Set<T>().AddOrUpdate(entityToUpdate);
-          //  _carWashEntitiesContext.Entry(entityToUpdate).State = EntityState.Modified;
-
+            //  _carWashEntitiesContext.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
         public virtual void AttachStubs(object[] stubs)
@@ -85,22 +84,23 @@ namespace CarDetailingStudio.DAL.Infrastructure
             var result = DbSeT.AsQueryable();
             result = result.Where(predicate).AsQueryable();
             return result;
-           // return DbSeT.AsEnumerable<T>().AsQueryable().Where(predicate);
+            // return DbSeT.AsEnumerable<T>().AsQueryable().Where(predicate);
         }
 
-        //public IEnumerable<T> MultipleInclude(Expression<Func<T, bool>> filter, List<string> includeProperties)
-        //{
-        //    foreach (var property in includeProperties)
-        //    {
-        //        DbSeT.Include(property);
-        //    }
-
-        //    return DbSeT.Where(filter);
-        //}
 
         public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
             return DbSeT.Include(children).Where(filter);
+        }
+
+        public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, List<string> children)
+        {
+            foreach (var property in children)
+            {
+                DbSeT.Include(property.ToString());
+            }
+
+            return DbSeT.Where(filter);
         }
 
         public IEnumerable<T> GetInclude(string children)
@@ -114,6 +114,16 @@ namespace CarDetailingStudio.DAL.Infrastructure
         {
             return DbSeT.Find(id);
         }
+
+        public IEnumerable<T> Item(Expression<Func<T, bool>> wherePredicate, params Expression<Func<T, object>>[] includeProperties)
+        {     
+            foreach (var property in includeProperties)
+            {
+                DbSeT.Include(property.ToString());
+            }
+            return DbSeT.Where(wherePredicate);
+        }
     }
 }
+
 

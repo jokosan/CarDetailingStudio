@@ -35,6 +35,8 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<ClientInfo> ClientInfoUW;
         private DbRepository<Credit> CreditUW;
         private DbRepository<StatusOrder> StatusOrderUW;
+        private DbRepository<salaryBalance> SalaryBalanceUW;
+        private DbRepository<orderCarpetWashing> OrderCarpetWashingUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -43,6 +45,17 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
 
+        public DbRepository<salaryBalance> SalaruBalanceUnitOfWork
+        {
+            get => SalaryBalanceUW ?? (SalaryBalanceUW = new DbRepository<salaryBalance>(_entities));
+            set => SalaryBalanceUW = value;
+        }
+
+        public DbRepository<orderCarpetWashing> OrderCarpetWashingUnitOfWork
+        {
+            get => OrderCarpetWashingUW ?? (OrderCarpetWashingUW = new DbRepository<orderCarpetWashing>(_entities));
+            set => OrderCarpetWashingUW = value;
+        }
         public DbRepository<StatusOrder> StatusOrderUnitOfWork
         {
             get => StatusOrderUW ?? (StatusOrderUW = new DbRepository<StatusOrder>(_entities));

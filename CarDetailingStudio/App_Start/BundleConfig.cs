@@ -22,6 +22,10 @@ namespace CarDetailingStudio
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/modalform").Include(
+                      "~/Scripts/modalform.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
@@ -29,6 +33,7 @@ namespace CarDetailingStudio
             // Homepage
             bundles.Add(new StyleBundle("~/Content/MatrixAdminCSS/css")
                 .Include("~/Content/MatrixAdminCSS/fullcalendar.min.css",
+                         "~/Content/themes/base/all.css",
                          "~/Content/MatrixAdminCSS/calendar.css",
                          "~/Content/MatrixAdminCSS/style.min.css",
                          "~/Conteent/MatrixAdminCSS/materialdesignicons.min.css",
@@ -38,6 +43,9 @@ namespace CarDetailingStudio
             bundles.Add(new StyleBundle("~/Content/MatrixAdminCSS/css")
                 .Include("~/Content/MatrixAdminCSS/style.min.css"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                     "~/Scripts/jquery-ui-*"));
         }
     }
 }
