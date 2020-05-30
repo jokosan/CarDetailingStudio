@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
 {
@@ -24,7 +21,7 @@ namespace CarDetailingStudio.BLL.Services.Expenses
         {
             return Mapper.Map<IEnumerable<UtilityCostsBll>>(_unitOfWork.utilityCostsUnitOfWork.GetInclude("expenseCategory"));
         }
-       
+
         public UtilityCostsBll SelectId(int? elementId)
         {
             return Mapper.Map<UtilityCostsBll>(_unitOfWork.utilityCostsUnitOfWork.GetById(elementId));
@@ -45,6 +42,11 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
             _unitOfWork.utilityCostsUnitOfWork.Update(utilityCosts);
             _unitOfWork.Save();
+        }
+
+        public IEnumerable<UtilityCostsBll> MonthlyReport(DateTime date)
+        {
+            return Mapper.Map<IEnumerable<UtilityCostsBll>>(_unitOfWork.utilityCostsUnitOfWork.GetWhere(x => x.dateExpenses?.Month == date.Month, "expenseCategory"));
         }
     }
 }

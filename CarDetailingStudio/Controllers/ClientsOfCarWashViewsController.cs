@@ -1,21 +1,15 @@
-﻿using System;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.Filters;
+using CarDetailingStudio.Models.ModelViews;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services;
-using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Services.Modules;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.Filters;
-using CarDetailingStudio.Models;
-using PagedList.Mvc;
-using PagedList;
 using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
@@ -115,7 +109,7 @@ namespace CarDetailingStudio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            if(idOrderServices != null)
+            if (idOrderServices != null)
             {
                 TempData["OrderServices"] = idOrderServices;
             }
@@ -147,7 +141,6 @@ namespace CarDetailingStudio.Controllers
         [WorkShiftFilter]
         public ActionResult NewOrder(FormCollection form, List<int> chkRow, List<int> countService)
         {
-            
             _orderServices.IdOrderServices(chkRow);
 
             _orderServices.OrderPreview();
@@ -162,7 +155,7 @@ namespace CarDetailingStudio.Controllers
                 if (TempData.ContainsKey("OrderServices"))
                 {
                     var orderServisesResult = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAllId(int.Parse(TempData["OrderServices"].ToString())));
-                    orederSum = orderServisesResult.Sum(x => x.Price).Value;                   
+                    orederSum = orderServisesResult.Sum(x => x.Price).Value;
 
                     ViewBag.OrderServices = orderServisesResult;
                     ViewBag.idOrder = int.Parse(TempData["OrderServices"].ToString());
@@ -377,8 +370,8 @@ namespace CarDetailingStudio.Controllers
                 return RedirectToAction("Client");
             }
 
-           if (statusPage != null)            
-                ViewBag.Page = statusPage;            
+            if (statusPage != null)
+                ViewBag.Page = statusPage;
 
             //ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(_services.GetId(idClient));
             var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_services.GetAll(idClientInfo));
@@ -395,7 +388,7 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.ClientInfo = ClientWhare;
             }
 
-            
+
             if (clientsOfCarWashView == null)
             {
                 return HttpNotFound();

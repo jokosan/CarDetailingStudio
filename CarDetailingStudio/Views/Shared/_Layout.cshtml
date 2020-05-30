@@ -262,7 +262,7 @@
 
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Расходы</span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
+                            <ul aria-expanded="false" class="collapse  first-level">    
                                 <li class="sidebar-item"><a href=@Url.Action("../SalaryExpenses/Index") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Заработная плата </span></a></li>
                                 <li class="sidebar-item"><a href=@Url.Action("../CostsCarWashAndDeteyling/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Мойка и детейлинг </span></a></li>
                                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu">  Вулканизация </span></a></li>
@@ -282,6 +282,14 @@
                             </ul>
                         </li>
 
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Аналитика</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item"><a href=@Url.Action("../Analytics/MonthlyReport") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">Отчеты за месяц</span></a></li>
+                                @*<li class="sidebar-item"><a href=@Url.Action("../ShiftClosure/ShiftInformation") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Выплата заработной платы </span></a></li>
+                                <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Кредит </span></a></li>*@
+                            </ul>
+                        </li>
 
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-pencil"></i><span class="hide-menu">Администрирование</span></a>

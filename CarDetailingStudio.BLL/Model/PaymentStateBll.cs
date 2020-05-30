@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Model
 {
     public class PaymentStateBll
     {
-      
+
         public PaymentStateBll()
         {
             this.OrderServicesCarWash = new HashSet<OrderServicesCarWashBll>();

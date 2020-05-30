@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using CarDetailingStudio.Models;
-using CarDetailingStudio.Models.ModelViews;
-using CarDetailingStudio.BLL.Services.Modules;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
+using CarDetailingStudio.Models;
+using CarDetailingStudio.Models.ModelViews;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
 {

@@ -1,13 +1,11 @@
-﻿using CarDetailingStudio.BLL.Model;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -77,7 +75,7 @@ namespace CarDetailingStudio.BLL.Services
                 //return getDate.accountBalance.Value;
                 var balance = Mapper.Map<IEnumerable<SalaryBalanceBll>>(_unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id)));
                 return balance.Last(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id));
-               
+
             }
             catch
             {

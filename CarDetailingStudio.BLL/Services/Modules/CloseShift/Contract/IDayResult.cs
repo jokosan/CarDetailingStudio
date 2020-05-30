@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Model.ModelViewBll;
+﻿using CarDetailingStudio.BLL.Model.ModelViewBll;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract
 {

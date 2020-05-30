@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CarDetailingStudio.BLL.Model;
+using System;
 using System.Collections.Generic;
-using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
@@ -9,6 +9,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
         IEnumerable<OrderServicesCarWashBll> GetOrderAllTireStorage();
         IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder, int typeOfOrder);
         IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder);
+        IEnumerable<OrderServicesCarWashBll> MonthlyReport(DateTime date);
         OrderServicesCarWashBll GetId(int? id);
         void InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total);
         void InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder);

@@ -1,8 +1,4 @@
-﻿ using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.Models;
@@ -76,7 +72,7 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<GroupWashServicesView, GroupWashServicesBll>();
             CreateMap<GroupWashServicesBll, ClientsGroupsView>();
-           
+
             CreateMap<ClientView, ClientViewsBll>();
             CreateMap<ClientViewsBll, ClientView>();
 

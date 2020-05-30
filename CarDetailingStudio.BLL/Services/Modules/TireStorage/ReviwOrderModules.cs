@@ -2,11 +2,8 @@
 using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.BLL.Services.Modules.TireStorage.Contract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Modules.TireStorage
 {

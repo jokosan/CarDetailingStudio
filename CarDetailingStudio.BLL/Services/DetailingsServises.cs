@@ -1,15 +1,11 @@
-﻿using CarDetailingStudio.BLL.Model;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Utilities.Map;
-using System;
+using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.DAL;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AutoMapper;
-using System.Threading.Tasks;
-using CarDetailingStudio.BLL.Services.Modules;
-using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
-using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -23,7 +19,7 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
             _apiPrivatBank = apiPrivatBank;
         }
-              
+
 
         public IEnumerable<DetailingsBll> GetAll()
         {
@@ -97,7 +93,7 @@ namespace CarDetailingStudio.BLL.Services
         }
 
         public ExchangeRatesBll SourceOfChoice()
-        {        
+        {
 
             if (ApiPrivatBank.exchangeRatesModel.Count != 0)
             {
@@ -106,10 +102,9 @@ namespace CarDetailingStudio.BLL.Services
             else
             {
                 var Result = Mapper.Map<IEnumerable<ExchangeRatesBll>>(_unitOfWork.ExchangeRatesUnitOfWork.GetWhere(x => x.ccy == "USD"));
-              
+
                 return Result.SingleOrDefault();
-            }         
-            
+            }
         }
 
         public double? ConvertCurrency(double? usd, double privat) => usd * privat;

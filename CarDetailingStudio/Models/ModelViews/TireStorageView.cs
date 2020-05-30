@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
@@ -12,7 +9,7 @@ namespace CarDetailingStudio.Models.ModelViews
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        public Nullable<int> ClientId { get; set; }      
+        public Nullable<int> ClientId { get; set; }
         public Nullable<int> carWashWorkersId { get; set; }
         [Display(Name = "Дата оформления заказа")]
         public Nullable<System.DateTime> dateOfAdoption { get; set; }

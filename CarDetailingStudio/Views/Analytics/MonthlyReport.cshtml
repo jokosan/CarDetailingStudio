@@ -1,0 +1,278 @@
+﻿
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm("MonthlyReport", "Analytics", FormMethod.Post))
+                {
+                    <div class="input-group">
+                        <input type="month" name="dateViewUser" class="form-control" />
+                        <div class="input-group-append">
+                            <input type="submit" name="submit" class="btn btn-outline-secondary" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-body printableArea">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <div class="pull-left">
+
+                            <address>
+                                <h3> &nbsp;<b class="text-danger">Мойка</b></h3>
+                                <p class="text-muted m-l-5">
+                                    Детейлинг студия "Motor Clean"
+                                    <br /> вулиця Велика Кільцева, 97
+                                    <br /> Харків - 61000
+                                    <br /> +380988283456
+                                </p>
+                            </address>
+                        </div>
+                        <div class="pull-right text-right">
+                            <address>
+                                <p class="m-t-30"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> @ViewBag.InvoiceDate</p>
+                                <p><b>Due Date :</b> <i class="fa fa-calendar"></i> @ViewBag.DueDate</p>
+                            </address>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive m-t-40" style="clear: both;">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Наименования</th>
+                                        <th class="text-right">Отчеты</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Количество Авто</td>
+                                        <td class="text-right">@ViewBag.OrderCount шт.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td>Касса мойки</td>
+                                        <td class="text-right">@ViewBag.OrderCarWashSum  грн. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">3</td>
+                                        <td>Расходы на мойку</td>
+                                        <td class="text-right"> @ViewBag.CostCarWash грн. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">4</td>
+                                        <td>ЗП администратора</td>
+                                        <td class="text-right"> @ViewBag.AdministratorCarWash грн. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">5</td>
+                                        <td>ЗП автомойщиков</td>
+                                        <td class="text-right"> @ViewBag.StaffCarWashWorker грн. </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right m-t-30 text-right">
+                            @* <p>Sub - Total amount: $13,848</p>
+                                <p>vat (10%) : $138 </p>*@
+                            <hr>
+                            <h3><b>Остаток:</b> @ViewBag.TotalCarWash грн.</h3>
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr>
+                        @*<div class="text-right">
+                                <button class="btn btn-danger" type="submit"> Proceed to payment </button>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card card-body printableArea">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <address>
+                            <h3> &nbsp;<b class="text-danger">Детейлинг</b></h3>
+                            <p class="text-muted m-l-5">
+                                Детейлинг студия "Motor Clean"
+                                <br /> вулиця Велика Кільцева, 97
+                                <br /> Харків - 61000
+                                <br /> +380988283456
+                            </p>
+                        </address>
+                    </div>
+                    <div class="pull-right text-right">
+                        <address>
+                            <p class="m-t-30"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> @ViewBag.InvoiceDate</p>
+                            <p><b>Due Date :</b> <i class="fa fa-calendar"></i> @ViewBag.DueDate</p>
+                        </address>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive m-t-40" style="clear: both;">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Наименования</th>
+                                    <th class="text-right">Отчеты</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>Количество Авто</td>
+                                    <td class="text-right">@ViewBag.CarCountDetailings шт.</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>Касса детейлинга</td>
+                                    <td class="text-right">@ViewBag.OrderDetailingsSum  грн. </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td>Расходы на детейлинг</td>
+                                    <td class="text-right"> @ViewBag.CostDetailings грн. </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>ЗП администратора детейлинга</td>
+                                    <td class="text-right"> @ViewBag.AdministratorDetailings грн. </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">5</td>
+                                    <td>ЗП детейлинга</td>
+                                    <td class="text-right"> @ViewBag.StaffDetailing грн. </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right m-t-30 text-right">
+                        @* <p>Sub - Total amount: $13,848</p>
+                            <p>vat (10%) : $138 </p>*@
+                        <hr>
+                        <h3><b>Остаток:</b> @ViewBag.TotalDetailing грн.</h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    @*<div class="text-right">
+                            <button class="btn btn-danger" type="submit"> Proceed to payment </button>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body printableArea">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <address>
+                            <h3> &nbsp;<b class="text-danger">Расходы</b></h3>
+                        </address>
+                    </div>
+                    <div class="pull-right text-right">
+                        <address>
+                            <p class="m-t-30"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> @ViewBag.InvoiceDate</p>
+                            <p><b>Due Date :</b> <i class="fa fa-calendar"></i> @ViewBag.DueDate</p>
+                        </address>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive m-t-40" style="clear: both;">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Наименования</th>
+                                    <th class="text-right">Отчеты</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3" class="text-center"><b class="text-danger">Комунальные услуги</b></td>
+                                </tr>
+
+                                @{
+                                    int x = 0;
+
+                                    foreach (var item in ViewBag.UtilityCost)
+                                    {
+                                        ++x;
+
+                                        <tr>
+                                            <td class="text-center">@x</td>
+                                            <td>@item.name </td>
+                                            <td class="text-right">@item.amount грн.</td>
+                                        </tr>
+                                    }
+                                }
+
+                                @if (ViewBag.OtherExpensesSum != 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center"><b class="text-danger">Другие расходы</b></td>
+                                    </tr>
+
+                                    {
+
+                                        int y = 0;
+
+                                        foreach (var item in ViewBag.OtherExpenses)
+                                        {
+                                            ++y;
+
+                                            <tr>
+                                                <td class="text-center">@y</td>
+                                                <td>@item.name </td>
+                                                <td class="text-right">@item.amount грн.</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="pull-right m-t-30 text-right">
+                        <p>Итог мойка:  @ViewBag.TotalCarWash грн.</p>
+                        <p>Итог детейлинг:  @ViewBag.TotalDetailing грн.</p>
+                        <p>Итого по комунальным услугам: @ViewBag.UtilityCostSum грн.</p>
+                        <p>Итого другие расходы: @ViewBag.OtherExpensesSum грн.</p>
+                        <hr>
+                        <h3><b>Остаток:</b> @ViewBag.TotalDetailing грн.</h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    @*<div class="text-right">
+            <button class="btn btn-danger" type="submit"> Proceed to payment </button>
+        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

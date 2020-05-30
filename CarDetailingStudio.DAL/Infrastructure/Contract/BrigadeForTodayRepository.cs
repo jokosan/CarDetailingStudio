@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure.Contract
 {
-    public class BrigadeForTodayRepository : IGetRepository<brigadeForToday>, IExtendedRepository<brigadeForToday> 
+    public class BrigadeForTodayRepository : IGetRepository<brigadeForToday>, IExtendedRepository<brigadeForToday>
     {
         internal carWashEntities _context;
 

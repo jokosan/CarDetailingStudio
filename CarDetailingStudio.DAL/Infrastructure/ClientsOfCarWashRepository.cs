@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
@@ -29,7 +26,8 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public ClientsOfCarWash GetById(int? id)
         {
-            var GetId = _context.ClientsOfCarWash.Include("ClientInfo")
+            var GetId = _context.ClientsOfCarWash.AsNoTracking()
+                                                 .Include("ClientInfo")
                                                  .Include("ClientsGroups")
                                                  .Include("car_mark")
                                                  .Include("car_model")
@@ -49,7 +47,8 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<ClientsOfCarWash> GetWhere(Func<ClientsOfCarWash, bool> predicate)
         {
-            var GetId = _context.ClientsOfCarWash.Include("ClientInfo")
+            var GetId = _context.ClientsOfCarWash.AsNoTracking()
+                                                .Include("ClientInfo")
                                                 .Include("ClientsGroups")
                                                 .Include("car_mark")
                                                 .Include("car_model")

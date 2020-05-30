@@ -1,10 +1,6 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure;
 using CarDetailingStudio.DAL.Infrastructure.Contract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 {
@@ -80,8 +76,8 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             set { ClientsGrupsUW = value; }
         }
 
-   
-        
+
+
         public DbRepository<GroupWashServices> GroupWashServicesUnitOfWork
         {
             get { return GroupWashServicesUW ?? (GroupWashServicesUW = new DbRepository<GroupWashServices>(_entities)); }
@@ -90,7 +86,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         public DbRepository<ExchangeRates> ExchangeRatesUnitOfWork
         {
-            get { return ExchangeRatesUW ?? (ExchangeRatesUW = new DbRepository<ExchangeRates>(_entities));}
+            get { return ExchangeRatesUW ?? (ExchangeRatesUW = new DbRepository<ExchangeRates>(_entities)); }
             set { ExchangeRatesUW = value; }
         }
 

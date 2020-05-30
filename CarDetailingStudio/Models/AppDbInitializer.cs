@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models
 {
@@ -26,7 +22,7 @@ namespace CarDetailingStudio.Models
             roleMenager.Create(manager);
 
             // создаем пользователя создание пользователей администратором
-           
+
         }
     }
 }

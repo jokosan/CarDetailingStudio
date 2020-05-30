@@ -1,5 +1,4 @@
-﻿using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Services;
+﻿using CarDetailingStudio.BLL.Services;
 using CarDetailingStudio.BLL.Services.Checkout;
 using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
 using CarDetailingStudio.BLL.Services.Contract;
@@ -16,18 +15,17 @@ using CarDetailingStudio.BLL.Services.TireStorageServices;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using CarDetailingStudio.DAL.Utilities.Ninject;
 using Ninject;
-using Ninject.Web.Mvc.FilterBindingSyntax;
 
 namespace CarDetailingStudio.BLL.Utilities.Ninject
 {
     public static class NinjectDependencyResolverBll
     {
         public static void Initialize(IKernel kernel)
-        {          
+        {
             kernel.Bind<IBrigadeForTodayServices>().To<BrigadeForTodayServices>();
             kernel.Bind<IDetailingsServises>().To<DetailingsServises>();
             kernel.Bind<ICarWashWorkersServices>().To<CarWashWorkersServices>();
-            kernel.Bind<IClientsOfCarWashServices>().To<ClientsOfCarWashServices>();          
+            kernel.Bind<IClientsOfCarWashServices>().To<ClientsOfCarWashServices>();
             kernel.Bind<ICarModelServices>().To<CarModelServices>();
             kernel.Bind<ICarMarkServices>().To<CarMarkServices>();
             kernel.Bind<ICarBodyServices>().To<CarBodyServices>();
@@ -71,7 +69,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IStorageFee>().To<StorageFeeServices>();
             kernel.Bind<IReviwOrderModules>().To<ReviwOrderModules>();
 
-          
+
             NinjectDependencyResolverDAL.Initialize(kernel);
         }
     }

@@ -1,22 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
+using CarDetailingStudio.Filters;
+using CarDetailingStudio.Models.ModelViews;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services;
-using CarDetailingStudio.Models;
-using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
-using CarDetailingStudio.Filters;
-using System.Threading.Tasks;
-using CarDetailingStudio.BLL.Services.Modules;
-using CarDetailingStudio.BLL.Services.Contract;
-using PagedList;
-using PagedList.Mvc;
-using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
 using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
@@ -48,7 +40,7 @@ namespace CarDetailingStudio.Controllers
         [WorkShiftFilter]
         [PreviousShiftStatusFilter]
         [MonitoringTheNumberOfEmployeesFilter]
-        public ActionResult Index()        
+        public ActionResult Index()
         {
             var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1));
             return View(order.OrderByDescending(x => x.Id));
@@ -78,7 +70,7 @@ namespace CarDetailingStudio.Controllers
             ViewBag.ServisesInfo = info;
             ViewBag.DiscontClient = OrderInfo.ClientsOfCarWash.discont;
             ViewBag.Status = new SelectList(Mapper.Map<IEnumerable<StatusOrderView>>(_statusOrder.GetTableAll()), "Id", "StatusOrder1");
-          
+
             if (info.Any(x => x.Detailings.IdTypeService == 1))
             {
                 ViewBag.ServisesId = 1;
@@ -89,7 +81,7 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.ServisesId = 2;
                 ViewBag.ServersKey = id;
             }
-          
+
 
             if (OrderInfo == null)
             {
@@ -112,7 +104,7 @@ namespace CarDetailingStudio.Controllers
                 _servisesCarWash.ServicesDelete(idServices, nameof(OrderController));
                 _order.RecountOrder(idOrder.Value, discont);
                 return RedirectToAction("OrderInfo");
-            }       
+            }
             else
             {
                 _order.DeleteOrder(idOrder.Value);

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services.TireStorageServices
 {
@@ -24,7 +21,7 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
         {
             throw new NotImplementedException();
         }
-       
+
         public TireStorageBll SelectId(int? elementId)
         {
             throw new NotImplementedException();
@@ -33,7 +30,7 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
         public void Insert(TireStorageBll element)
         {
             TireStorage tireStorage = Mapper.Map<TireStorageBll, TireStorage>(element);
-         
+
             _unitOfWork.tireStorageUnitOfWork.Insert(tireStorage);
             _unitOfWork.Save();
         }

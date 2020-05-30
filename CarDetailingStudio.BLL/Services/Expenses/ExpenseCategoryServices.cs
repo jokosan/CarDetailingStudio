@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
 {
@@ -17,7 +13,7 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
         public ExpenseCategoryServices(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;        
+            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<ExpenseCategoryBll> GetTableAll()

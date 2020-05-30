@@ -1,14 +1,11 @@
-﻿using CarDetailingStudio.BLL.Model;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
-using AutoMapper;
-using System.Linq.Expressions;
-using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
-using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.BLL.Services.Modules
 {

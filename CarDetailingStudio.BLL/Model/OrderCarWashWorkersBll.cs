@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Model
 {
     public class OrderCarWashWorkersBll
     {
-      
+
         public int Id { get; set; }
         public int IdOrder { get; set; }
         public int IdCarWashWorkers { get; set; }

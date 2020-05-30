@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
@@ -71,6 +69,20 @@ namespace CarDetailingStudio.DAL.Infrastructure
             return result;
         }
 
+        public IEnumerable<OrderServicesCarWash> WhereMonthlyReport(Func<OrderServicesCarWash, bool> predicate)
+        {
+            var result = _context.OrderServicesCarWash
+                                                      .AsNoTracking()
+                                                      .Include("ClientsOfCarWash")
+                                                      .Include("ServisesCarWashOrder")
+                                                      .Include("ServisesCarWashOrder.Detailings")
+                                                      .Include("OrderCarWashWorkers")
+                                                      .Include("OrderCarWashWorkers.CarWashWorkers")
+                                                      .Where(predicate).AsQueryable();
+            return result;
+        }
+
+
         public IEnumerable<OrderServicesCarWash> GetWhereDate(Func<OrderServicesCarWash, bool> predicate)
         {
             var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
@@ -82,7 +94,8 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<OrderServicesCarWash> QueryObjectGraph(Expression<Func<OrderServicesCarWash, bool>> filter)
         {
-            var result = _context.OrderServicesCarWash.Include("OrderCarWashWorkers")
+            var result = _context.OrderServicesCarWash.AsNoTracking()
+                                                      .Include("OrderCarWashWorkers")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
                                                       .Where(filter);
@@ -91,10 +104,11 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<OrderServicesCarWash> Test()
         {
-            var result = _context.OrderServicesCarWash.Include("OrderCarWashWorkers")
-                                                     .Include("OrderCarWashWorkers.CarWashWorkers")
-                                                     .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
-                                                     .Where(x => SqlMethods.Like(x.ClientsOfCarWash.NumberCar, x.ClientsOfCarWash.car_mark.name)).OrderBy(p => p.OrderDate);
+            var result = _context.OrderServicesCarWash.AsNoTracking()
+                                                         .Include("OrderCarWashWorkers")
+                                                         .Include("OrderCarWashWorkers.CarWashWorkers")
+                                                         .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
+                                                         .Where(x => SqlMethods.Like(x.ClientsOfCarWash.NumberCar, x.ClientsOfCarWash.car_mark.name)).OrderBy(p => p.OrderDate);
             return result;
         }
     }

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using CarDetailingStudio.BLL.Model;
+using System;
 using System.Collections.Generic;
-using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IOrderCarWashWorkersServices
-    {      
+    {
         IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(DateTime dateTime);
         IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int? IdCarWashWorkers);
         IEnumerable<OrderCarWashWorkersBll> СontractorAllId(int? id);

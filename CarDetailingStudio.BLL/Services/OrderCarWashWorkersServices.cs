@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -31,19 +29,20 @@ namespace CarDetailingStudio.BLL.Services
             _servisesCarWash = servisesCarWash;
         }
 
+
         public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(DateTime dateTime)
-        {           
+        {
             return TableCalculationStatusFolse().Where(x => x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == dateTime.ToString("dd.MM.yyyy"));
         }
 
         public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int id, DateTime date)
-        {   
+        {
             return TableCalculationStatusFolse().Where(x => (x.IdCarWashWorkers == id) && (x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy")));
         }
 
         public IEnumerable<OrderCarWashWorkersBll> TableCalculationStatusFolse()
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash"));           
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash"));
         }
 
         public IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int? IdCarWashWorkers)
@@ -65,16 +64,16 @@ namespace CarDetailingStudio.BLL.Services
         }
         // Закрыть текущий день 
         public IEnumerable<OrderCarWashWorkersBll> GetClosedDay()
-        { 
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false) 
+        {
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false)
                                                                                                                                && (x.CalculationStatus == false), "CarWashWorkers"));
         }
 
         public IEnumerable<OrderCarWashWorkersBll> GetClosedDay(int? id, DateTime? date)
         {
             var getResult = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id),
-                                                                                                                             //   && (x.closedDayStatus == true)
-                                                                                                                             //   && (x.CalculationStatus == false),
+                                                                                                                                //   && (x.closedDayStatus == true)
+                                                                                                                                //   && (x.CalculationStatus == false),
                                                                                                                                 "OrderServicesCarWash"));
             return getResult.Where(d => d.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date?.ToString("dd.MM.yyyy"));
         }

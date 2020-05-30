@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
 {
@@ -31,6 +28,11 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
             _unitOfWork.otherExpensesUnitOfWork.Insert(otherExpenses);
             _unitOfWork.Save();
+        }
+
+        public IEnumerable<OtherExpensesBll> MonthlyReport(DateTime date)
+        {
+            return Mapper.Map<IEnumerable<OtherExpensesBll>>(_unitOfWork.otherExpensesUnitOfWork.GetWhere(x => x.dateExpenses?.Month == date.Month));
         }
 
         public OtherExpensesBll SelectId(int? elementId)

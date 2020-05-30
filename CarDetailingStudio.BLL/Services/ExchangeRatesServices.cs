@@ -1,26 +1,23 @@
-﻿using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Utilities.Map;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.DAL;
-using CarDetailingStudio.BLL.Services.Modules;
 
 namespace CarDetailingStudio.BLL.Services
 {
     public class ExchangeRatesServices : IExchangeRatesServices
     {
         private IUnitOfWork _unitOfWork;
-      //  private AutomapperConfig _automapper;
+        //  private AutomapperConfig _automapper;
 
         public ExchangeRatesServices()
         {
             _unitOfWork = new UnitOfWork();
-           // _automapper = new AutomapperConfig();
+            // _automapper = new AutomapperConfig();
         }
 
         public void Insert(List<ExchangeRatesBll> exchangeRates)

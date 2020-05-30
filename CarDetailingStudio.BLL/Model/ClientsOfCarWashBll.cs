@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Model
 {
@@ -24,7 +21,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<bool> arxiv { get; set; }
 
         public virtual CarMarkBll car_mark { get; set; }
-        public virtual  CarModelBll car_model { get; set; }
+        public virtual CarModelBll car_model { get; set; }
         public virtual CarBodyBll CarBody { get; set; }
         public virtual ClientInfoBll ClientInfo { get; set; }
         public virtual ClientsGroupsBll ClientsGroups { get; set; }

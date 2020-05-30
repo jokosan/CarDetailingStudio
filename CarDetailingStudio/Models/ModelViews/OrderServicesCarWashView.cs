@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
@@ -41,7 +38,7 @@ namespace CarDetailingStudio.Models.ModelViews
         [Display(Name = "Стоимость заказа без скидки")]
         public Nullable<double> TotalCostOfAllServices { get; set; }
 
-        [Display(Name ="Стоимость заказа со скидкой")]
+        [Display(Name = "Стоимость заказа со скидкой")]
         public Nullable<double> DiscountPrice { get; set; }
 
         public Nullable<int> typeOfOrder { get; set; }

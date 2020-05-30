@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
@@ -44,11 +41,11 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [Display(Name = "Стаж")]
         public string Experience { get; set; }
-                
+
         [Range(0, 100, ErrorMessage = "Допустимое значение от 0 до 100")]
         [Display(Name = "Процентная ставка от заказа (Администратор)")]
         public Nullable<int> AdministratorsInterestRate { get; set; }
-       
+
         [Range(0, 100, ErrorMessage = "Допустимое значение от 0 до 100")]
         [Display(Name = "Процентная ставка сотрудников")]
         public Nullable<int> InterestRate { get; set; }
@@ -68,17 +65,17 @@ namespace CarDetailingStudio.Models.ModelViews
 
         //[Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [DefaultValue("true")]
-        [Display (Name = "Статус работы")]
+        [Display(Name = "Статус работы")]
         public string status { get; set; }
 
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
-        [Display(Name ="Должность")]
+        [Display(Name = "Должность")]
         public Nullable<int> IdPosition { get; set; }
 
         // public IEnumerable<SelectListItem> Position { get; set; }
-       
+
         public virtual ICollection<BrigadeForTodayView> brigadeForToday { get; set; }
         public virtual JobTitleTableView JobTitleTable { get; set; }
         public virtual ICollection<CreditView> Credit { get; set; }

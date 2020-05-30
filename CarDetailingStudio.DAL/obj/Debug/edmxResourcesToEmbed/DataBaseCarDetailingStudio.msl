@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Хранилище carWashServerModelContainer" CdmEntityContainer="carWashServerEntities">
+  <EntityContainerMapping StorageEntityContainer="Хранилище carWashServerModelContainer" CdmEntityContainer="carWashEntities">
     <EntitySetMapping Name="brigadeForToday">
       <EntityTypeMapping TypeName="carWashServerModel.brigadeForToday">
         <MappingFragment StoreEntitySet="brigadeForToday">
@@ -145,17 +145,30 @@
           <ScalarProperty Name="IdInfoClient" ColumnName="IdInfoClient" />
           <ScalarProperty Name="NumberCar" ColumnName="NumberCar" />
           <ScalarProperty Name="discont" ColumnName="discont" />
+          <ScalarProperty Name="arxiv" ColumnName="arxiv" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Costs">
-      <EntityTypeMapping TypeName="carWashServerModel.Costs">
-        <MappingFragment StoreEntitySet="Costs">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="expenses" ColumnName="expenses" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
+    <EntitySetMapping Name="consumablesTireFitting">
+      <EntityTypeMapping TypeName="carWashServerModel.consumablesTireFitting">
+        <MappingFragment StoreEntitySet="consumablesTireFitting">
+          <ScalarProperty Name="idConsumablesTireFitting" ColumnName="idConsumablesTireFitting" />
+          <ScalarProperty Name="nameExpenses" ColumnName="nameExpenses" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="dateExpenses" ColumnName="dateExpenses" />
+          <ScalarProperty Name="expenseCategoryId" ColumnName="expenseCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="costsCarWashAndDeteyling">
+      <EntityTypeMapping TypeName="carWashServerModel.costsCarWashAndDeteyling">
+        <MappingFragment StoreEntitySet="costsCarWashAndDeteyling">
+          <ScalarProperty Name="idCostsCarWashAndDeteyling" ColumnName="idCostsCarWashAndDeteyling" />
+          <ScalarProperty Name="nameExpenses" ColumnName="nameExpenses" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="dateExpenses" ColumnName="dateExpenses" />
+          <ScalarProperty Name="expenseCategoryId" ColumnName="expenseCategoryId" />
+          <ScalarProperty Name="typeServicesId" ColumnName="typeServicesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -164,9 +177,12 @@
         <MappingFragment StoreEntitySet="Credit">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CarWashWorkersId" ColumnName="CarWashWorkersId" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="Sum" ColumnName="Sum" />
-          <ScalarProperty Name="RepaidDebt" ColumnName="RepaidDebt" />
+          <ScalarProperty Name="loanDate" ColumnName="loanDate" />
+          <ScalarProperty Name="IssueAmount" ColumnName="IssueAmount" />
+          <ScalarProperty Name="RepaymentAmount" ColumnName="RepaymentAmount" />
+          <ScalarProperty Name="SalaryPercentage" ColumnName="SalaryPercentage" />
+          <ScalarProperty Name="maturityDate" ColumnName="maturityDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -202,6 +218,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="expenseCategory">
+      <EntityTypeMapping TypeName="carWashServerModel.expenseCategory">
+        <MappingFragment StoreEntitySet="expenseCategory">
+          <ScalarProperty Name="idExpenseCategory" ColumnName="idExpenseCategory" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="GroupWashServices">
       <EntityTypeMapping TypeName="carWashServerModel.GroupWashServices">
         <MappingFragment StoreEntitySet="GroupWashServices">
@@ -218,6 +242,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="orderCarpetWashing">
+      <EntityTypeMapping TypeName="carWashServerModel.orderCarpetWashing">
+        <MappingFragment StoreEntitySet="orderCarpetWashing">
+          <ScalarProperty Name="idOrderCarpetWashing" ColumnName="idOrderCarpetWashing" />
+          <ScalarProperty Name="orderServicesCarWashId" ColumnName="orderServicesCarWashId" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="area" ColumnName="area" />
+          <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+          <ScalarProperty Name="orderClosingDate" ColumnName="orderClosingDate" />
+          <ScalarProperty Name="orderCompletionDate" ColumnName="orderCompletionDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="OrderCarWashWorkers">
       <EntityTypeMapping TypeName="carWashServerModel.OrderCarWashWorkers">
         <MappingFragment StoreEntitySet="OrderCarWashWorkers">
@@ -226,6 +264,8 @@
           <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
           <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
           <ScalarProperty Name="Payroll" ColumnName="Payroll" />
+          <ScalarProperty Name="salaryDate" ColumnName="salaryDate" />
+          <ScalarProperty Name="closedDayStatus" ColumnName="closedDayStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -240,6 +280,18 @@
           <ScalarProperty Name="ClosingData" ColumnName="ClosingData" />
           <ScalarProperty Name="TotalCostOfAllServices" ColumnName="TotalCostOfAllServices" />
           <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+          <ScalarProperty Name="typeOfOrder" ColumnName="typeOfOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="otherExpenses">
+      <EntityTypeMapping TypeName="carWashServerModel.otherExpenses">
+        <MappingFragment StoreEntitySet="otherExpenses">
+          <ScalarProperty Name="idOtherExpenses" ColumnName="idOtherExpenses" />
+          <ScalarProperty Name="nameExpenses" ColumnName="nameExpenses" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="dateExpenses" ColumnName="dateExpenses" />
+          <ScalarProperty Name="expenseCategoryId" ColumnName="expenseCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -251,24 +303,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PurchaseCosts">
-      <EntityTypeMapping TypeName="carWashServerModel.PurchaseCosts">
-        <MappingFragment StoreEntitySet="PurchaseCosts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="IdRetail" ColumnName="IdRetail" />
-          <ScalarProperty Name="IdCosts" ColumnName="IdCosts" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
+    <EntitySetMapping Name="salaryBalance">
+      <EntityTypeMapping TypeName="carWashServerModel.salaryBalance">
+        <MappingFragment StoreEntitySet="salaryBalance">
+          <ScalarProperty Name="idSalaryBalance" ColumnName="idSalaryBalance" />
+          <ScalarProperty Name="CarWashWorkersId" ColumnName="CarWashWorkersId" />
+          <ScalarProperty Name="dateOfPayment" ColumnName="dateOfPayment" />
+          <ScalarProperty Name="payoutAmount" ColumnName="payoutAmount" />
+          <ScalarProperty Name="accountBalance" ColumnName="accountBalance" />
+          <ScalarProperty Name="currentMonthStatus" ColumnName="currentMonthStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Retail">
-      <EntityTypeMapping TypeName="carWashServerModel.Retail">
-        <MappingFragment StoreEntitySet="Retail">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="QuantityInStock" ColumnName="QuantityInStock" />
+    <EntitySetMapping Name="salaryExpenses">
+      <EntityTypeMapping TypeName="carWashServerModel.salaryExpenses">
+        <MappingFragment StoreEntitySet="salaryExpenses">
+          <ScalarProperty Name="idSalaryExpenses" ColumnName="idSalaryExpenses" />
+          <ScalarProperty Name="idCarWashWorkers" ColumnName="idCarWashWorkers" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="dateExpenses" ColumnName="dateExpenses" />
+          <ScalarProperty Name="expenseCategoryId" ColumnName="expenseCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -291,6 +345,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="storageFee">
+      <EntityTypeMapping TypeName="carWashServerModel.storageFee">
+        <MappingFragment StoreEntitySet="storageFee">
+          <ScalarProperty Name="idStorageFee" ColumnName="idStorageFee" />
+          <ScalarProperty Name="DateOfPayment" ColumnName="DateOfPayment" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="storageTime" ColumnName="storageTime" />
+          <ScalarProperty Name="storageStatus" ColumnName="storageStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
       <EntityTypeMapping TypeName="carWashServerModel.sysdiagrams">
         <MappingFragment StoreEntitySet="sysdiagrams">
@@ -306,10 +371,18 @@
       <EntityTypeMapping TypeName="carWashServerModel.TireStorage">
         <MappingFragment StoreEntitySet="TireStorage">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ServicesId" ColumnName="ServicesId" />
           <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-          <ScalarProperty Name="BrigadeId" ColumnName="BrigadeId" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="carWashWorkersId" ColumnName="carWashWorkersId" />
+          <ScalarProperty Name="dateOfAdoption" ColumnName="dateOfAdoption" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="radius" ColumnName="radius" />
+          <ScalarProperty Name="firm" ColumnName="firm" />
+          <ScalarProperty Name="discAvailability" ColumnName="discAvailability" />
+          <ScalarProperty Name="storageFeeId" ColumnName="storageFeeId" />
+          <ScalarProperty Name="tireStorageBags" ColumnName="tireStorageBags" />
+          <ScalarProperty Name="wheelWash" ColumnName="wheelWash" />
+          <ScalarProperty Name="IdOrderServicesCarWash" ColumnName="IdOrderServicesCarWash" />
+          <ScalarProperty Name="silicone" ColumnName="silicone" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -318,25 +391,37 @@
         <MappingFragment StoreEntitySet="TireStorageServices">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ServicesName" ColumnName="ServicesName" />
+          <ScalarProperty Name="radius" ColumnName="radius" />
           <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="storageTime" ColumnName="storageTime" />
           <ScalarProperty Name="Price" ColumnName="Price" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TypeOfCosts">
-      <EntityTypeMapping TypeName="carWashServerModel.TypeOfCosts">
-        <MappingFragment StoreEntitySet="TypeOfCosts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
+    <EntitySetMapping Name="typeOfOrder">
+      <EntityTypeMapping TypeName="carWashServerModel.typeOfOrder">
+        <MappingFragment StoreEntitySet="typeOfOrder">
+          <ScalarProperty Name="IdTypeOfOrder" ColumnName="IdTypeOfOrder" />
+          <ScalarProperty Name="nameOrder" ColumnName="nameOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Wage">
-      <EntityTypeMapping TypeName="carWashServerModel.Wage">
-        <MappingFragment StoreEntitySet="Wage">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
-          <ScalarProperty Name="CostsId" ColumnName="CostsId" />
+    <EntitySetMapping Name="TypeServices">
+      <EntityTypeMapping TypeName="carWashServerModel.TypeServices">
+        <MappingFragment StoreEntitySet="TypeServices">
+          <ScalarProperty Name="idTypeServices" ColumnName="idTypeServices" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="utilityCosts">
+      <EntityTypeMapping TypeName="carWashServerModel.utilityCosts">
+        <MappingFragment StoreEntitySet="utilityCosts">
+          <ScalarProperty Name="idUtilityCosts" ColumnName="idUtilityCosts" />
+          <ScalarProperty Name="indicationCounter" ColumnName="indicationCounter" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="dateExpenses" ColumnName="dateExpenses" />
+          <ScalarProperty Name="expenseCategoryId" ColumnName="expenseCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -352,39 +437,28 @@
     <EntitySetMapping Name="infoBrigadeForToday">
       <EntityTypeMapping TypeName="carWashServerModel.infoBrigadeForToday">
         <MappingFragment StoreEntitySet="infoBrigadeForToday">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Surname" ColumnName="Surname" />
-          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-          <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
           <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+          <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="ItogOrderView">
       <EntityTypeMapping TypeName="carWashServerModel.ItogOrderView">
         <MappingFragment StoreEntitySet="ItogOrderView">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="countOrder" ColumnName="countOrder" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Surname" ColumnName="Surname" />
-          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
-          <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
-          <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
           <ScalarProperty Name="Expr1" ColumnName="Expr1" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="shiftClosure">
-      <EntityTypeMapping TypeName="carWashServerModel.shiftClosure">
-        <MappingFragment StoreEntitySet="shiftClosure">
-          <ScalarProperty Name="totalEarnings" ColumnName="totalEarnings" />
-          <ScalarProperty Name="completedOrders" ColumnName="completedOrders" />
-          <ScalarProperty Name="dateTime" ColumnName="dateTime" />
-          <ScalarProperty Name="carWashWorkersId" ColumnName="carWashWorkersId" />
-          <ScalarProperty Name="shiftClosureId" ColumnName="shiftClosureId" />
+          <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
+          <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="countOrder" ColumnName="countOrder" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

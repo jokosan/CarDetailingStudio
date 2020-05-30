@@ -1,16 +1,13 @@
-﻿using CarDetailingStudio.BLL.Model;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.BLL.Services.Modules.ModulesModel;
+using CarDetailingStudio.DAL;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Utilities.Map;
-using CarDetailingStudio.BLL.Services.Modules;
-using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
-using CarDetailingStudio.DAL;
-using CarDetailingStudio.BLL.Services.Modules.ModulesModel;
 
 
 namespace CarDetailingStudio.BLL.Services
@@ -18,22 +15,24 @@ namespace CarDetailingStudio.BLL.Services
     public class OrderServicesCarWashServices : IOrderServicesCarWashServices
     {
         private IUnitOfWork _unitOfWork;
-        private AutomapperConfig _automapper;
         private IOrderServices _orderServices;
         private ServisesCarWashOrderBll _servisesCar;
         private IOrderCarWashWorkersServices _orderCarWashWorkersServices;
         private IServisesCarWashOrderServices _servisesCarWashOrder;
 
-        public OrderServicesCarWashServices(IUnitOfWork unitOfWork, AutomapperConfig automapper,
-                                            IOrderServices orderServices, ServisesCarWashOrderBll servisesCar,
+        public OrderServicesCarWashServices(IUnitOfWork unitOfWork, IOrderServices orderServices, ServisesCarWashOrderBll servisesCar,
                                             IOrderCarWashWorkersServices orderCarWash, IServisesCarWashOrderServices servisesCarWashOrder)
         {
             _unitOfWork = unitOfWork;
-            _automapper = automapper;
             _orderServices = orderServices;
             _servisesCar = servisesCar;
             _orderCarWashWorkersServices = orderCarWash;
             _servisesCarWashOrder = servisesCarWashOrder;
+        }
+
+        public IEnumerable<OrderServicesCarWashBll> MonthlyReport(DateTime date)
+        {
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => x.ClosingData?.Month == date.Month));
         }
 
         public IEnumerable<OrderServicesCarWashBll> GetOrderAllTireStorage()
@@ -136,8 +135,6 @@ namespace CarDetailingStudio.BLL.Services
 
             _orderServices.ClearListOrder();
         }
-
-
 
         public double PriceServices(List<double> carBody, List<int> idList, List<int> sum, int id)
         {

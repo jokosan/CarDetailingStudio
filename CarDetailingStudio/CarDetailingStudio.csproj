@@ -217,6 +217,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\ClientsGroupsController.cs" />
     <Compile Include="Controllers\Expenses\CostsCarWashAndDeteylingController.cs" />
     <Compile Include="Controllers\Expenses\OtherExpensesController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Filters\PreviousShiftStatusFilter.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\DayResultModelView.cs" />
+    <Compile Include="Models\ExpenseCategoryGroupView.cs" />
     <Compile Include="Models\ModelViews\ConsumablesTireFittingView.cs" />
     <Compile Include="Models\ModelViews\CostsCarWashAndDeteylingView.cs" />
     <Compile Include="Models\ModelViews\ExpenseCategoryView.cs" />
@@ -239,6 +241,7 @@
     <Compile Include="Models\ModelViews\UtilityCostsView.cs" />
     <Compile Include="Models\OrderTireStorageModelView.cs" />
     <Compile Include="Models\ReviwOrderModelView.cs" />
+    <Compile Include="Models\TypeServicesView.cs" />
     <Compile Include="Models\WagesForDaysWorkedView.cs" />
     <Compile Include="Utilities\Quartz\AutomaticShiftClose.cs" />
     <Content Include="Content\brigade-for-today.css" />
@@ -710,6 +713,7 @@
     <Content Include="Scripts\i18n\zh-CN.js" />
     <Content Include="Scripts\i18n\zh-TW.js" />
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
+    <Content Include="libman.json" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -1275,6 +1279,7 @@
     <Content Include="Views\ClientsGroups\Create.cshtml" />
     <Content Include="Views\ClientsGroups\Edit.cshtml" />
     <Content Include="Views\Order\ArxivOrder.cshtml" />
+    <Content Include="Views\Analytics\MonthlyReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

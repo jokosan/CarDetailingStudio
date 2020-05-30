@@ -136,6 +136,7 @@
     <Compile Include="Model\StatusOrderBll.cs" />
     <Compile Include="Model\TireStorageBll.cs" />
     <Compile Include="Model\TireStorageServicesBll.cs" />
+    <Compile Include="Model\TypeServicesBll.cs" />
     <Compile Include="Model\UtilityCostsBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BrigadeForTodayServices.cs" />

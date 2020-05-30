@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using CarDetailingStudio.BLL.Model;
+﻿using CarDetailingStudio.BLL.Model;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {

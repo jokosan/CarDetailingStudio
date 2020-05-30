@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model.ModelViewBll;
+using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Services.Modules.TireStorage.Contract;
+using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Model.ModelViewBll;
-using CarDetailingStudio.BLL.Services.Modules.TireStorage.Contract;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
-using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers.TireStorage
 {
@@ -121,7 +117,7 @@ namespace CarDetailingStudio.Controllers.TireStorage
             {
                 var pageCreateResult = TempData["TireStorageOrder"] as OrderTireStorageModelView;
                 var reviwOrderModules = TempData["ReviwOrderMode"] as ReviwOrderModelView;
-                                
+
                 OrderTireStorageModelBll orderTireStorage = Mapper.Map<OrderTireStorageModelView, OrderTireStorageModelBll>(pageCreateResult);
                 ReviwOrderModelBll orderModelBll = Mapper.Map<ReviwOrderModelView, ReviwOrderModelBll>(reviwOrderModules);
 

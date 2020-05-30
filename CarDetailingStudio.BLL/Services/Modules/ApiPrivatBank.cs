@@ -1,15 +1,8 @@
-﻿using CarDetailingStudio.BLL.Utilities.Map;
-using CarDetailingStudio.DAL;
-using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+﻿using CarDetailingStudio.BLL.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.BLL.Services.Modules
 {
@@ -56,7 +49,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
                         {
                             exchangeRatesServices.UpdateTable();
                         }
-                      
+
                     }
                     else
                     {

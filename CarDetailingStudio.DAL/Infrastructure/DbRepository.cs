@@ -5,8 +5,6 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
@@ -87,6 +85,13 @@ namespace CarDetailingStudio.DAL.Infrastructure
             // return DbSeT.AsEnumerable<T>().AsQueryable().Where(predicate);
         }
 
+        public IEnumerable<T> GetWhere(Func<T, bool> predicate, string children)
+        {
+            var result = DbSeT.AsQueryable();
+            result = result.Include(children).Where(predicate).AsQueryable();
+            return result;
+        }
+
 
         public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
@@ -116,7 +121,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
         }
 
         public IEnumerable<T> Item(Expression<Func<T, bool>> wherePredicate, params Expression<Func<T, object>>[] includeProperties)
-        {     
+        {
             foreach (var property in includeProperties)
             {
                 DbSeT.Include(property.ToString());

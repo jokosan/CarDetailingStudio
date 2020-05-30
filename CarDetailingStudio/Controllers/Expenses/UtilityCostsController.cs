@@ -1,16 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.Models.ModelViews;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
-using CarDetailingStudio.Models;
-using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers.Expenses
 {
@@ -34,7 +30,7 @@ namespace CarDetailingStudio.Controllers.Expenses
         // GET: UtilityCosts/Create
         public ActionResult CreateUtilityCosts()
         {
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll().Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name" );
+            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll().Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
             return View();
         }
 
@@ -67,7 +63,7 @@ namespace CarDetailingStudio.Controllers.Expenses
             }
 
             UtilityCostsView utilityCostsView = Mapper.Map<UtilityCostsView>(_utilityCosts.SelectId(id));
-            
+
             if (utilityCostsView == null)
             {
                 return HttpNotFound();

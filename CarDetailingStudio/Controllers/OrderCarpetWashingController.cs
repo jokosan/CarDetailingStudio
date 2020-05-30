@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.Models;
-using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
+using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
+using CarDetailingStudio.Models.ModelViews;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -82,7 +79,7 @@ namespace CarDetailingStudio.Controllers
                 int priceServis = Convert.ToInt32(TempData["priseServis"].ToString());
 
                 OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
-                
+
                 int resultOrderServicesCarWash = _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis);
                 orderCarpetWashing.orderServicesCarWashId = resultOrderServicesCarWash;
 

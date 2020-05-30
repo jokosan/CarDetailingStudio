@@ -1,12 +1,11 @@
-﻿using System;
+﻿using CarDetailingStudio.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using CarDetailingStudio.Models;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -32,9 +31,9 @@ namespace CarDetailingStudio.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -333,7 +332,7 @@ namespace CarDetailingStudio.Controllers
             base.Dispose(disposing);
         }
 
-#region Вспомогательные приложения
+        #region Вспомогательные приложения
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +383,6 @@ namespace CarDetailingStudio.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

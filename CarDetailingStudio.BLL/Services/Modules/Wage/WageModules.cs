@@ -1,17 +1,12 @@
-﻿using CarDetailingStudio.BLL.Services.Contract;
+﻿using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Model.ModelViewBll;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.DAL;
-using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
-using System.Text.RegularExpressions;
-using CarDetailingStudio.BLL.Model.ModelViewBll;
 
 namespace CarDetailingStudio.BLL.Services.Modules.Wage
 {
@@ -48,7 +43,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
             Order.PaymentState = idPaymentState;
             Order.ClosingData = DateTime.Now;
-            
+
             Order.StatusOrder = idStatusOrder;
 
             if (Order.ClientsOfCarWash.discont > 0)
@@ -112,7 +107,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
         // Процент от заказа
         private double? PercentOfTheOrder(int employeeId, int count, double? orderPrice, bool status)
-         {
+        {
             var selectedEmployee = _carWashWorkers.CarWashWorkersId(employeeId);
             double employeePercentage;
 
@@ -127,8 +122,8 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             }
             else
             {
-                 employeePercentage = ((double)selectedEmployee.InterestRate) / 100;
-            }            
+                employeePercentage = ((double)selectedEmployee.InterestRate) / 100;
+            }
 
             return employeePercentage * orderPrice / count;
         }
@@ -153,7 +148,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         public void AdminWageTireStorage(int idAdmin, int idOrder, int quantityTire)
         {
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
-            
+
             orderCarWashWorkers.IdOrder = idOrder;
             orderCarWashWorkers.IdCarWashWorkers = idAdmin;
             orderCarWashWorkers.CalculationStatus = false;

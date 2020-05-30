@@ -1,17 +1,15 @@
-﻿using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Model.ModelViewBll;
+using CarDetailingStudio.DAL;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model.ModelViewBll;
-using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services.Filters
 {
-    public class ShiftClosingStatus 
+    public class ShiftClosingStatus
     {
         private IUnitOfWork _unitOfWork;
         private bool statusFalse;
@@ -21,9 +19,9 @@ namespace CarDetailingStudio.BLL.Services.Filters
             _unitOfWork = new UnitOfWork();
         }
 
-        public  void ShiftStatus()
+        public void ShiftStatus()
         {
-             DateTime dateTime = DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
+            DateTime dateTime = DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
             CurrentShift(dateTime);
         }
 

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.Models;
-using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.Models.ModelViews;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -27,10 +20,10 @@ namespace CarDetailingStudio.Controllers
 
         // GET: Credit
         public ActionResult CreditInfo()
-        {         
+        {
             return View(Mapper.Map<IEnumerable<CreditView>>(_creditServices.GetAll()));
-        } 
-      
+        }
+
         // GET: Credit/Create
         public ActionResult Create()
         {

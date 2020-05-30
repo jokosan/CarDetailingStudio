@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
@@ -19,7 +16,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<CarWashWorkers> Get()
         {
-            var GetResultAll = _context.CarWashWorkers.Include("JobTitleTable")                                                  
+            var GetResultAll = _context.CarWashWorkers.Include("JobTitleTable")
                                                       .Include("brigadeForToday");
             return GetResultAll;
         }
@@ -32,7 +29,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public IEnumerable<CarWashWorkers> GetWhere(Func<CarWashWorkers, bool> predicate)
         {
-            var GetWhereResult = _context.CarWashWorkers.Include("JobTitleTable")                                                        
+            var GetWhereResult = _context.CarWashWorkers.Include("JobTitleTable")
                                                         .Include("brigadeForToday")
                                                         .Where(predicate);
             return GetWhereResult;
@@ -40,5 +37,5 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
     }
 
-   
+
 }

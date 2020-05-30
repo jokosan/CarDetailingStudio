@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
@@ -28,16 +26,16 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<int> IdModel { get; set; }
 
         [Required]
-        [Display(Name ="Тип кузова")]
+        [Display(Name = "Тип кузова")]
         public Nullable<int> IdBody { get; set; }
 
         public Nullable<int> IdInfoClient { get; set; }
-        
+
         [Required]
-        [Display(Name ="Номер машины")]
+        [Display(Name = "Номер машины")]
         public string NumberCar { get; set; }
 
-        [Display(Name ="Дисконт")]
+        [Display(Name = "Дисконт")]
         public Nullable<int> discont { get; set; }
 
         public Nullable<bool> arxiv { get; set; }

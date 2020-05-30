@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -47,7 +43,7 @@ namespace CarDetailingStudio.BLL.Services
 
         public void Delete(ClientInfoBll elementToDelete)
         {
-           // ClientInfo clients = Mapper.Map<ClientInfoBll, ClientInfo>(elementToDelete);
+            // ClientInfo clients = Mapper.Map<ClientInfoBll, ClientInfo>(elementToDelete);
             _unitOfWork.ClientInfoUnitOfWork.Delete(elementToDelete.Id);
             _unitOfWork.Save();
         }

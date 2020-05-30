@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model;
+﻿using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
-using Quartz;
+using System;
+using System.Linq;
 
 namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 {
@@ -26,7 +21,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
         {
             var ordersFulfilled = _orderCarWashWorkers.SampleForPayroll(DateTime.Now);
             var DayClose = _dayResult.DayResultViewInfo();
-           
+
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
             foreach (var itemShift in DayClose)

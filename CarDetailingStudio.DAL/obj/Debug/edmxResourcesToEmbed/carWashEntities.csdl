@@ -183,7 +183,9 @@
     <Property Name="amount" Type="Double" />
     <Property Name="dateExpenses" Type="DateTime" Precision="7" />
     <Property Name="expenseCategoryId" Type="Int32" />
+    <Property Name="typeServicesId" Type="Int32" />
     <NavigationProperty Name="expenseCategory" Relationship="Self.FK_costsCarWashAndDeteyling_expenseCategory" FromRole="costsCarWashAndDeteyling" ToRole="expenseCategory" />
+    <NavigationProperty Name="TypeServices" Relationship="Self.FK_costsCarWashAndDeteyling_TypeServices" FromRole="costsCarWashAndDeteyling" ToRole="TypeServices" />
   </EntityType>
   <EntityType Name="Credit">
     <Key>
@@ -430,6 +432,14 @@
     <Property Name="IdTypeOfOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="nameOrder" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="TypeServices">
+    <Key>
+      <PropertyRef Name="idTypeServices" />
+    </Key>
+    <Property Name="idTypeServices" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="costsCarWashAndDeteyling" Relationship="Self.FK_costsCarWashAndDeteyling_TypeServices" FromRole="TypeServices" ToRole="costsCarWashAndDeteyling" />
+  </EntityType>
   <EntityType Name="utilityCosts">
     <Key>
       <PropertyRef Name="idUtilityCosts" />
@@ -597,9 +607,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_OrderCarWashWorkers_CarWashWorkers">
-    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
     <End Role="OrderCarWashWorkers" Type="Self.OrderCarWashWorkers" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CarWashWorkers">
@@ -635,7 +643,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_ClientsOfCarWash_ClientInfo">
-    <End Role="ClientInfo" Type="Self.ClientInfo" Multiplicity="0..1" />
+    <End Role="ClientInfo" Type="Self.ClientInfo" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ClientInfo">
@@ -693,6 +703,18 @@
       </Principal>
       <Dependent Role="costsCarWashAndDeteyling">
         <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_costsCarWashAndDeteyling_TypeServices">
+    <End Role="TypeServices" Type="Self.TypeServices" Multiplicity="0..1" />
+    <End Role="costsCarWashAndDeteyling" Type="Self.costsCarWashAndDeteyling" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeServices">
+        <PropertyRef Name="idTypeServices" />
+      </Principal>
+      <Dependent Role="costsCarWashAndDeteyling">
+        <PropertyRef Name="typeServicesId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -757,7 +779,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_orderCarpetWashing_OrderServicesCarWash">
-    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1" />
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="orderCarpetWashing" Type="Self.orderCarpetWashing" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderServicesCarWash">
@@ -821,7 +845,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_TireStorage_OrderServicesCarWash">
-    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="0..1" />
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="TireStorage" Type="Self.TireStorage" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderServicesCarWash">
@@ -878,6 +904,7 @@
     <EntitySet Name="TireStorage" EntityType="Self.TireStorage" />
     <EntitySet Name="TireStorageServices" EntityType="Self.TireStorageServices" />
     <EntitySet Name="typeOfOrder" EntityType="Self.typeOfOrder" />
+    <EntitySet Name="TypeServices" EntityType="Self.TypeServices" />
     <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" />
     <EntitySet Name="infoBrigadeForToday" EntityType="Self.infoBrigadeForToday" />
@@ -952,6 +979,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_costsCarWashAndDeteyling_expenseCategory" Association="Self.FK_costsCarWashAndDeteyling_expenseCategory">
       <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="costsCarWashAndDeteyling" EntitySet="costsCarWashAndDeteyling" />
+    </AssociationSet>
+    <AssociationSet Name="FK_costsCarWashAndDeteyling_TypeServices" Association="Self.FK_costsCarWashAndDeteyling_TypeServices">
+      <End Role="TypeServices" EntitySet="TypeServices" />
       <End Role="costsCarWashAndDeteyling" EntitySet="costsCarWashAndDeteyling" />
     </AssociationSet>
     <AssociationSet Name="FK_Detailings_GroupWashServices" Association="Self.FK_Detailings_GroupWashServices">

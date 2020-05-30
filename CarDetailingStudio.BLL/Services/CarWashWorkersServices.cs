@@ -1,15 +1,11 @@
-﻿using CarDetailingStudio.BLL.Model;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.DAL;
+using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Utilities.Map;
-using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
-using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -57,7 +53,7 @@ namespace CarDetailingStudio.BLL.Services
                 AdninRegistr(adminCarWosh, 1);
                 AdninRegistr(adminDetailing, 2);
             }
-                        
+
             foreach (var item in chkRow)
             {
                 AdninRegistr(item, 3);

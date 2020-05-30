@@ -1,10 +1,5 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure;
 using CarDetailingStudio.DAL.Infrastructure.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 {

@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace CarDetailingStudio.Models
 {
@@ -21,52 +18,52 @@ namespace CarDetailingStudio.Models
         [Key]
         public int Id { get; set; }
 
-        [Display (Name ="Фамилия")]
+        [Display(Name = "Фамилия")]
         public string Surname { get; set; }
 
-        [Display (Name = "Имя")]
+        [Display(Name = "Имя")]
         public string Name { get; set; }
 
-        [Display (Name = "Отчество")]
+        [Display(Name = "Отчество")]
         public string PatronymicName { get; set; }
 
-        [Display (Name = "Номер телефона")]
+        [Display(Name = "Номер телефона")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public string phone { get; set; }
 
-        [Display (Name = "Дата регистрации")]
+        [Display(Name = "Дата регистрации")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> DateRegistration { get; set; }
 
-        [Display (Name = "Email")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Display (Name = "% Скидки")]
+        [Display(Name = "% Скидки")]
         public Nullable<int> discont { get; set; }
         public Nullable<bool> arxiv { get; set; }
         public string Recommendation { get; set; }
-        
-        [Display (Name = "Номер машины")]
+
+        [Display(Name = "Номер машины")]
         [Required]
         public string NumberCar { get; set; }
-        
+
         [Required]
-        [Display (Name = "Статус клиента")]
+        [Display(Name = "Статус клиента")]
         public Nullable<int> IdClientsGroups { get; set; }
 
-        [Display (Name = "Марка")]
+        [Display(Name = "Марка")]
         public Nullable<int> Idmark { get; set; }
 
-        [Display (Name = "Модель")]
+        [Display(Name = "Модель")]
         public Nullable<int> Idmodel { get; set; }
-        
-        [Display (Name = "Тип кузова")]
+
+        [Display(Name = "Тип кузова")]
         [Required]
         public Nullable<int> IdBody { get; set; }
 
-        [Display (Name = "Примечание")]
+        [Display(Name = "Примечание")]
         public string note { get; set; }
         public string barcode { get; set; }
 

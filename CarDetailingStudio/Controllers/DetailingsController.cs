@@ -1,17 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.Models.ModelViews;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarDetailingStudio.BLL.Services;
-using CarDetailingStudio.Models;
-using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -32,7 +26,7 @@ namespace CarDetailingStudio.Controllers
             return View(Mapper.Map<IEnumerable<DetailingsView>>(_detailings.GetAll()));
         }
 
-        
+
         public ActionResult AddServises()
         {
             ViewBag.GroupServises = new SelectList(_groupWashServices.GetAllTable(), "Id", "group");
@@ -70,7 +64,7 @@ namespace CarDetailingStudio.Controllers
             {
                 return HttpNotFound();
             }
-            
+
             return View(detailings);
         }
 

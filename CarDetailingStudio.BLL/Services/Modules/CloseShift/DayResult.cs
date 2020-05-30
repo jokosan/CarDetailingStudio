@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.BLL.Model;
+﻿using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 {
     public class DayResult : IDayResult
-    {        
+    {
         private IOrderCarWashWorkersServices _orderCarWashWorkersServices;
         private IOrderServicesCarWashServices _orderServicesCarWash;
 
@@ -33,7 +30,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             var result = _orderCarWashWorkersServices.GetTableInclud();
             return GrupDayResult(result);
         }
-       
+
         private IEnumerable<DayResultModelBll> GrupDayResult(IEnumerable<OrderCarWashWorkersBll> getResult)
         {
             return getResult.GroupBy(x => x.IdCarWashWorkers)

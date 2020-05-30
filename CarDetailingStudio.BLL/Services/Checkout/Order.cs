@@ -4,10 +4,6 @@ using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Checkout
 {
@@ -61,7 +57,7 @@ namespace CarDetailingStudio.BLL.Services.Checkout
                 TotalCostOfAllServices = sum,
                 DiscountPrice = sum,
                 typeOfOrder = 2,
-                PaymentState = idPaymentState                
+                PaymentState = idPaymentState
             };
 
             int idOrder = _orderServicesCarWash.CreateOrder(orderservices);
@@ -99,7 +95,7 @@ namespace CarDetailingStudio.BLL.Services.Checkout
                 DateOfPayment = DateTime.Now,
                 amount = sum,
                 storageTime = orderTireStorage.storageTime,
-                storageStatus = false                
+                storageStatus = false
             };
 
             return _storageFee.InsertVoidInt(storageFeeAdd);
@@ -107,6 +103,6 @@ namespace CarDetailingStudio.BLL.Services.Checkout
 
         #endregion
 
-     
+
     }
 }

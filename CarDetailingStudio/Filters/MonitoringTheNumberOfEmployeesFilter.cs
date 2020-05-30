@@ -1,10 +1,5 @@
-﻿using CarDetailingStudio.BLL.Services;
-using CarDetailingStudio.BLL.Services.Filters;
+﻿using CarDetailingStudio.BLL.Services.Filters;
 using CarDetailingStudio.BLL.Services.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 

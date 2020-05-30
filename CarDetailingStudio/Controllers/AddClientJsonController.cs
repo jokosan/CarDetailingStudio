@@ -1,12 +1,10 @@
-﻿using CarDetailingStudio.BLL.Services.Contract;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
-using CarDetailingStudio.Models;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -18,7 +16,7 @@ namespace CarDetailingStudio.Controllers
 
         public AddClientJsonController(ICarMarkServices carMark, ICarModelServices carModel, IClientsOfCarWashServices clientsOfCarWash)
         {
-            _carMark = carMark; 
+            _carMark = carMark;
             _carModel = carModel;
             _clientsOfCarWash = clientsOfCarWash;
         }
@@ -41,7 +39,7 @@ namespace CarDetailingStudio.Controllers
         public JsonResult GetCountryList(string searchTerm)
         {
             var CounrtyList = Mapper.Map<IEnumerable<CarMarkView>>(_carMark.Get()).ToList();
-            
+
             if (searchTerm != null)
             {
                 CounrtyList = Mapper.Map<IEnumerable<CarMarkView>>(_carMark.GetWhere(searchTerm)).ToList();

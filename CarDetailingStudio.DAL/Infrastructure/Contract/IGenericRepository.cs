@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure.Contract
 {
@@ -19,8 +15,8 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
         IEnumerable<T> GetWhere(Func<T, bool> predicate);
         void Insert(List<T> entity);
         void Update(List<T> entityUpdate);
-        
-       // IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children);
+
+        // IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children);
 
 
     }

@@ -1,10 +1,4 @@
-﻿using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.Filters;
-using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using CarDetailingStudio.BLL.Services.Filters;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Filters

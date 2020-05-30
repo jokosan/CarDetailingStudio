@@ -60,6 +60,7 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<TireStorage> TireStorage { get; set; }
         public virtual DbSet<TireStorageServices> TireStorageServices { get; set; }
         public virtual DbSet<typeOfOrder> typeOfOrder { get; set; }
+        public virtual DbSet<TypeServices> TypeServices { get; set; }
         public virtual DbSet<utilityCosts> utilityCosts { get; set; }
         public virtual DbSet<logo_mark_car> logo_mark_car { get; set; }
         public virtual DbSet<infoBrigadeForToday> infoBrigadeForToday { get; set; }

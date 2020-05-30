@@ -117,8 +117,8 @@
     <NavigationProperty Name="JobTitleTable" Relationship="Self.FK_CarWashWorkers_JobTitleTable" FromRole="CarWashWorkers" ToRole="JobTitleTable" />
     <NavigationProperty Name="Credit" Relationship="Self.FK_Credit_CarWashWorkers" FromRole="CarWashWorkers" ToRole="Credit" />
     <NavigationProperty Name="OrderCarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="CarWashWorkers" ToRole="OrderCarWashWorkers" />
-    <NavigationProperty Name="Wage" Relationship="Self.FK_Wage_CarWashWorkers1" FromRole="CarWashWorkers" ToRole="Wage" />
-    <NavigationProperty Name="shiftClosure" Relationship="carWashServerModel.FK_shiftClosure_CarWashWorkers" FromRole="CarWashWorkers" ToRole="shiftClosure" />
+    <NavigationProperty Name="salaryBalance" Relationship="Self.FK_salaryBalance_CarWashWorkers" FromRole="CarWashWorkers" ToRole="salaryBalance" />
+    <NavigationProperty Name="salaryExpenses" Relationship="Self.FK_salaryExpenses_CarWashWorkers" FromRole="CarWashWorkers" ToRole="salaryExpenses" />
   </EntityType>
   <EntityType Name="ClientInfo">
     <Key>
@@ -155,26 +155,37 @@
     <Property Name="IdInfoClient" Type="Int32" />
     <Property Name="NumberCar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="discont" Type="Int32" />
+    <Property Name="arxiv" Type="Boolean" />
     <NavigationProperty Name="car_mark" Relationship="Self.FK_ClientsOfCarWash_car_mark" FromRole="ClientsOfCarWash" ToRole="car_mark" />
     <NavigationProperty Name="car_model" Relationship="Self.FK_ClientsOfCarWash_car_model" FromRole="ClientsOfCarWash" ToRole="car_model" />
     <NavigationProperty Name="CarBody" Relationship="Self.FK_ClientsOfCarWash_CarBody" FromRole="ClientsOfCarWash" ToRole="CarBody" />
     <NavigationProperty Name="ClientInfo" Relationship="Self.FK_ClientsOfCarWash_ClientInfo" FromRole="ClientsOfCarWash" ToRole="ClientInfo" />
     <NavigationProperty Name="ClientsGroups" Relationship="Self.FK_ClientsOfCarWash_ClientsGroups" FromRole="ClientsOfCarWash" ToRole="ClientsGroups" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderServicesCarWash_ClientsOfCarWash" FromRole="ClientsOfCarWash" ToRole="OrderServicesCarWash" />
-    <NavigationProperty Name="TireStorage" Relationship="Self.FK_TireStorage_ClientsOfCarWash" FromRole="ClientsOfCarWash" ToRole="TireStorage" />
   </EntityType>
-  <EntityType Name="Costs">
+  <EntityType Name="consumablesTireFitting">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="idConsumablesTireFitting" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Type" Type="Int32" />
-    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="expenses" Type="Double" />
-    <Property Name="Date" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="TypeOfCosts" Relationship="Self.FK_Costs_TypeOfCosts" FromRole="Costs" ToRole="TypeOfCosts" />
-    <NavigationProperty Name="PurchaseCosts" Relationship="Self.FK_PurchaseCosts_Costs" FromRole="Costs" ToRole="PurchaseCosts" />
-    <NavigationProperty Name="Wage" Relationship="Self.FK_Wage_Costs" FromRole="Costs" ToRole="Wage" />
+    <Property Name="idConsumablesTireFitting" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameExpenses" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="amount" Type="Double" />
+    <Property Name="dateExpenses" Type="DateTime" Precision="7" />
+    <Property Name="expenseCategoryId" Type="Int32" />
+    <NavigationProperty Name="expenseCategory" Relationship="Self.FK_consumablesTireFitting_expenseCategory" FromRole="consumablesTireFitting" ToRole="expenseCategory" />
+  </EntityType>
+  <EntityType Name="costsCarWashAndDeteyling">
+    <Key>
+      <PropertyRef Name="idCostsCarWashAndDeteyling" />
+    </Key>
+    <Property Name="idCostsCarWashAndDeteyling" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameExpenses" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="amount" Type="Double" />
+    <Property Name="dateExpenses" Type="DateTime" Precision="7" />
+    <Property Name="expenseCategoryId" Type="Int32" />
+    <Property Name="typeServicesId" Type="Int32" />
+    <NavigationProperty Name="expenseCategory" Relationship="Self.FK_costsCarWashAndDeteyling_expenseCategory" FromRole="costsCarWashAndDeteyling" ToRole="expenseCategory" />
+    <NavigationProperty Name="TypeServices" Relationship="Self.FK_costsCarWashAndDeteyling_TypeServices" FromRole="costsCarWashAndDeteyling" ToRole="TypeServices" />
   </EntityType>
   <EntityType Name="Credit">
     <Key>
@@ -182,9 +193,12 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CarWashWorkersId" Type="Int32" />
-    <Property Name="Date" Type="DateTime" Precision="7" />
-    <Property Name="Sum" Type="Double" />
-    <Property Name="RepaidDebt" Type="Boolean" />
+    <Property Name="loanDate" Type="DateTime" Precision="7" />
+    <Property Name="IssueAmount" Type="Double" />
+    <Property Name="RepaymentAmount" Type="Double" />
+    <Property Name="SalaryPercentage" Type="Double" />
+    <Property Name="maturityDate" Type="DateTime" Precision="7" />
+    <Property Name="Status" Type="Boolean" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_Credit_CarWashWorkers" FromRole="Credit" ToRole="CarWashWorkers" />
   </EntityType>
   <EntityType Name="Detailings">
@@ -219,6 +233,18 @@
     <Property Name="sale" Type="Double" />
     <Property Name="Date" Type="DateTime" Precision="3" />
   </EntityType>
+  <EntityType Name="expenseCategory">
+    <Key>
+      <PropertyRef Name="idExpenseCategory" />
+    </Key>
+    <Property Name="idExpenseCategory" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="consumablesTireFitting" Relationship="Self.FK_consumablesTireFitting_expenseCategory" FromRole="expenseCategory" ToRole="consumablesTireFitting" />
+    <NavigationProperty Name="costsCarWashAndDeteyling" Relationship="Self.FK_costsCarWashAndDeteyling_expenseCategory" FromRole="expenseCategory" ToRole="costsCarWashAndDeteyling" />
+    <NavigationProperty Name="otherExpenses" Relationship="Self.FK_otherExpenses_expenseCategory" FromRole="expenseCategory" ToRole="otherExpenses" />
+    <NavigationProperty Name="salaryExpenses" Relationship="Self.FK_salaryExpenses_expenseCategory" FromRole="expenseCategory" ToRole="salaryExpenses" />
+    <NavigationProperty Name="utilityCosts" Relationship="Self.FK_utilityCosts_expenseCategory" FromRole="expenseCategory" ToRole="utilityCosts" />
+  </EntityType>
   <EntityType Name="GroupWashServices">
     <Key>
       <PropertyRef Name="Id" />
@@ -235,6 +261,20 @@
     <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_CarWashWorkers_JobTitleTable" FromRole="JobTitleTable" ToRole="CarWashWorkers" />
   </EntityType>
+  <EntityType Name="orderCarpetWashing">
+    <Key>
+      <PropertyRef Name="idOrderCarpetWashing" />
+    </Key>
+    <Property Name="idOrderCarpetWashing" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="orderServicesCarWashId" Type="Int32" Nullable="false" />
+    <Property Name="Customer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="area" Type="Double" />
+    <Property Name="orderDate" Type="DateTime" Precision="3" />
+    <Property Name="orderClosingDate" Type="DateTime" Precision="3" />
+    <Property Name="orderCompletionDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_orderCarpetWashing_OrderServicesCarWash" FromRole="orderCarpetWashing" ToRole="OrderServicesCarWash" />
+  </EntityType>
   <EntityType Name="OrderCarWashWorkers">
     <Key>
       <PropertyRef Name="Id" />
@@ -244,6 +284,8 @@
     <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
     <Property Name="CalculationStatus" Type="Boolean" />
     <Property Name="Payroll" Type="Double" />
+    <Property Name="salaryDate" Type="DateTime" Precision="7" />
+    <Property Name="closedDayStatus" Type="Boolean" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="OrderCarWashWorkers" ToRole="CarWashWorkers" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderCarWashWorkers_OrderServicesCarWash" FromRole="OrderCarWashWorkers" ToRole="OrderServicesCarWash" />
   </EntityType>
@@ -259,11 +301,25 @@
     <Property Name="ClosingData" Type="DateTime" Precision="7" />
     <Property Name="TotalCostOfAllServices" Type="Double" />
     <Property Name="DiscountPrice" Type="Double" />
+    <Property Name="typeOfOrder" Type="Int32" />
     <NavigationProperty Name="ClientsOfCarWash" Relationship="Self.FK_OrderServicesCarWash_ClientsOfCarWash" FromRole="OrderServicesCarWash" ToRole="ClientsOfCarWash" />
+    <NavigationProperty Name="orderCarpetWashing" Relationship="Self.FK_orderCarpetWashing_OrderServicesCarWash" FromRole="OrderServicesCarWash" ToRole="orderCarpetWashing" />
     <NavigationProperty Name="OrderCarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_OrderServicesCarWash" FromRole="OrderServicesCarWash" ToRole="OrderCarWashWorkers" />
     <NavigationProperty Name="PaymentState1" Relationship="Self.FK_OrderServicesCarWash_PaymentState" FromRole="OrderServicesCarWash" ToRole="PaymentState" />
     <NavigationProperty Name="StatusOrder1" Relationship="Self.FK_OrderServicesCarWash_StatusOrder" FromRole="OrderServicesCarWash" ToRole="StatusOrder" />
     <NavigationProperty Name="ServisesCarWashOrder" Relationship="Self.FK_ServisesCarWashOrder_OrderServicesCarWash" FromRole="OrderServicesCarWash" ToRole="ServisesCarWashOrder" />
+    <NavigationProperty Name="TireStorage" Relationship="Self.FK_TireStorage_OrderServicesCarWash" FromRole="OrderServicesCarWash" ToRole="TireStorage" />
+  </EntityType>
+  <EntityType Name="otherExpenses">
+    <Key>
+      <PropertyRef Name="idOtherExpenses" />
+    </Key>
+    <Property Name="idOtherExpenses" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameExpenses" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="amount" Type="Double" />
+    <Property Name="dateExpenses" Type="DateTime" Precision="7" />
+    <Property Name="expenseCategoryId" Type="Int32" />
+    <NavigationProperty Name="expenseCategory" Relationship="Self.FK_otherExpenses_expenseCategory" FromRole="otherExpenses" ToRole="expenseCategory" />
   </EntityType>
   <EntityType Name="PaymentState">
     <Key>
@@ -273,27 +329,29 @@
     <Property Name="PaymentState1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderServicesCarWash_PaymentState" FromRole="PaymentState" ToRole="OrderServicesCarWash" />
   </EntityType>
-  <EntityType Name="PurchaseCosts">
+  <EntityType Name="salaryBalance">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="idSalaryBalance" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdRetail" Type="Int32" />
-    <Property Name="IdCosts" Type="Int32" />
-    <Property Name="Date" Type="DateTime" Precision="3" />
-    <Property Name="Amount" Type="Int32" />
-    <NavigationProperty Name="Costs" Relationship="Self.FK_PurchaseCosts_Costs" FromRole="PurchaseCosts" ToRole="Costs" />
-    <NavigationProperty Name="Retail" Relationship="Self.FK_PurchaseCosts_Retail" FromRole="PurchaseCosts" ToRole="Retail" />
+    <Property Name="idSalaryBalance" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CarWashWorkersId" Type="Int32" />
+    <Property Name="dateOfPayment" Type="DateTime" Precision="3" />
+    <Property Name="payoutAmount" Type="Double" />
+    <Property Name="accountBalance" Type="Double" />
+    <Property Name="currentMonthStatus" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_salaryBalance_CarWashWorkers" FromRole="salaryBalance" ToRole="CarWashWorkers" />
   </EntityType>
-  <EntityType Name="Retail">
+  <EntityType Name="salaryExpenses">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="idSalaryExpenses" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="Price" Type="Double" />
-    <Property Name="QuantityInStock" Type="Int32" />
-    <NavigationProperty Name="PurchaseCosts" Relationship="Self.FK_PurchaseCosts_Retail" FromRole="Retail" ToRole="PurchaseCosts" />
+    <Property Name="idSalaryExpenses" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idCarWashWorkers" Type="Int32" />
+    <Property Name="amount" Type="Double" />
+    <Property Name="dateExpenses" Type="DateTime" Precision="7" />
+    <Property Name="expenseCategoryId" Type="Int32" />
+    <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_salaryExpenses_CarWashWorkers" FromRole="salaryExpenses" ToRole="CarWashWorkers" />
+    <NavigationProperty Name="expenseCategory" Relationship="Self.FK_salaryExpenses_expenseCategory" FromRole="salaryExpenses" ToRole="expenseCategory" />
   </EntityType>
   <EntityType Name="ServisesCarWashOrder">
     <Key>
@@ -315,6 +373,17 @@
     <Property Name="StatusOrder1" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderServicesCarWash_StatusOrder" FromRole="StatusOrder" ToRole="OrderServicesCarWash" />
   </EntityType>
+  <EntityType Name="storageFee">
+    <Key>
+      <PropertyRef Name="idStorageFee" />
+    </Key>
+    <Property Name="idStorageFee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateOfPayment" Type="DateTime" Precision="7" />
+    <Property Name="amount" Type="Double" />
+    <Property Name="storageTime" Type="Int32" />
+    <Property Name="storageStatus" Type="Boolean" />
+    <NavigationProperty Name="TireStorage" Relationship="Self.FK_TireStorage_storageFee" FromRole="storageFee" ToRole="TireStorage" />
+  </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
@@ -330,12 +399,20 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ServicesId" Type="Int32" />
     <Property Name="ClientId" Type="Int32" />
-    <Property Name="BrigadeId" Type="Int32" />
-    <Property Name="Date" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="ClientsOfCarWash" Relationship="Self.FK_TireStorage_ClientsOfCarWash" FromRole="TireStorage" ToRole="ClientsOfCarWash" />
-    <NavigationProperty Name="TireStorageServices" Relationship="Self.FK_TireStorage_TireStorageServices" FromRole="TireStorage" ToRole="TireStorageServices" />
+    <Property Name="carWashWorkersId" Type="Int32" />
+    <Property Name="dateOfAdoption" Type="DateTime" Precision="3" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="radius" Type="Int32" />
+    <Property Name="firm" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="discAvailability" Type="Int32" />
+    <Property Name="storageFeeId" Type="Int32" />
+    <Property Name="tireStorageBags" Type="Int32" />
+    <Property Name="wheelWash" Type="Int32" />
+    <Property Name="IdOrderServicesCarWash" Type="Int32" />
+    <Property Name="silicone" Type="Int32" />
+    <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_TireStorage_OrderServicesCarWash" FromRole="TireStorage" ToRole="OrderServicesCarWash" />
+    <NavigationProperty Name="storageFee" Relationship="Self.FK_TireStorage_storageFee" FromRole="TireStorage" ToRole="storageFee" />
   </EntityType>
   <EntityType Name="TireStorageServices">
     <Key>
@@ -343,27 +420,36 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ServicesName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="radius" Type="Int32" />
     <Property Name="amount" Type="Int32" />
+    <Property Name="storageTime" Type="Int32" />
     <Property Name="Price" Type="Double" />
-    <NavigationProperty Name="TireStorage" Relationship="Self.FK_TireStorage_TireStorageServices" FromRole="TireStorageServices" ToRole="TireStorage" />
   </EntityType>
-  <EntityType Name="TypeOfCosts">
+  <EntityType Name="typeOfOrder">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="IdTypeOfOrder" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Costs" Relationship="Self.FK_Costs_TypeOfCosts" FromRole="TypeOfCosts" ToRole="Costs" />
+    <Property Name="IdTypeOfOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameOrder" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityType Name="Wage">
+  <EntityType Name="TypeServices">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="idTypeServices" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
-    <Property Name="CostsId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_Wage_CarWashWorkers1" FromRole="Wage" ToRole="CarWashWorkers" />
-    <NavigationProperty Name="Costs" Relationship="Self.FK_Wage_Costs" FromRole="Wage" ToRole="Costs" />
+    <Property Name="idTypeServices" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="costsCarWashAndDeteyling" Relationship="Self.FK_costsCarWashAndDeteyling_TypeServices" FromRole="TypeServices" ToRole="costsCarWashAndDeteyling" />
+  </EntityType>
+  <EntityType Name="utilityCosts">
+    <Key>
+      <PropertyRef Name="idUtilityCosts" />
+    </Key>
+    <Property Name="idUtilityCosts" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="indicationCounter" Type="Int32" />
+    <Property Name="amount" Type="Double" />
+    <Property Name="dateExpenses" Type="DateTime" Precision="7" />
+    <Property Name="expenseCategoryId" Type="Int32" />
+    <NavigationProperty Name="expenseCategory" Relationship="Self.FK_utilityCosts_expenseCategory" FromRole="utilityCosts" ToRole="expenseCategory" />
   </EntityType>
   <EntityType Name="logo_mark_car">
     <Key>
@@ -372,33 +458,6 @@
     <Property Name="id_car_mark" Type="Double" Nullable="false" />
     <Property Name="logo_mark" Type="Binary" MaxLength="Max" FixedLength="false" />
     <Property Name="screen_format" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="infoBrigadeForToday">
-    <Key>
-      <PropertyRef Name="id" />
-      <PropertyRef Name="Expr1" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="Date" Type="DateTime" Precision="3" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="sumOrder" Type="Int32" />
-    <Property Name="Expr1" Type="Int32" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ItogOrderView">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="countOrder" Type="Int32" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="InterestRate" Type="Int32" />
-    <Property Name="CalculationStatus" Type="Boolean" />
-    <Property Name="Expr1" Type="Double" />
   </EntityType>
   <Association Name="FK_brigadeForToday_CarWashWorkers">
     <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
@@ -532,20 +591,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Wage_CarWashWorkers1">
-    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
-    <End Role="Wage" Type="Self.Wage" Multiplicity="*" />
+  <Association Name="FK_salaryBalance_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+    <End Role="salaryBalance" Type="Self.salaryBalance" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CarWashWorkers">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="Wage">
-        <PropertyRef Name="IdCarWashWorkers" />
+      <Dependent Role="salaryBalance">
+        <PropertyRef Name="CarWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_salaryExpenses_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+    <End Role="salaryExpenses" Type="Self.salaryExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="salaryExpenses">
+        <PropertyRef Name="idCarWashWorkers" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_ClientsOfCarWash_ClientInfo">
-    <End Role="ClientInfo" Type="Self.ClientInfo" Multiplicity="0..1" />
+    <End Role="ClientInfo" Type="Self.ClientInfo" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ClientInfo">
@@ -569,7 +642,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_OrderServicesCarWash_ClientsOfCarWash">
-    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="0..1" />
+    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ClientsOfCarWash">
@@ -580,51 +655,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TireStorage_ClientsOfCarWash">
-    <End Role="ClientsOfCarWash" Type="Self.ClientsOfCarWash" Multiplicity="0..1" />
-    <End Role="TireStorage" Type="Self.TireStorage" Multiplicity="*" />
+  <Association Name="FK_consumablesTireFitting_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="consumablesTireFitting" Type="Self.consumablesTireFitting" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ClientsOfCarWash">
-        <PropertyRef Name="id" />
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
       </Principal>
-      <Dependent Role="TireStorage">
-        <PropertyRef Name="ClientId" />
+      <Dependent Role="consumablesTireFitting">
+        <PropertyRef Name="expenseCategoryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Costs_TypeOfCosts">
-    <End Role="TypeOfCosts" Type="Self.TypeOfCosts" Multiplicity="0..1" />
-    <End Role="Costs" Type="Self.Costs" Multiplicity="*" />
+  <Association Name="FK_costsCarWashAndDeteyling_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="costsCarWashAndDeteyling" Type="Self.costsCarWashAndDeteyling" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TypeOfCosts">
-        <PropertyRef Name="Id" />
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
       </Principal>
-      <Dependent Role="Costs">
-        <PropertyRef Name="Type" />
+      <Dependent Role="costsCarWashAndDeteyling">
+        <PropertyRef Name="expenseCategoryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PurchaseCosts_Costs">
-    <End Role="Costs" Type="Self.Costs" Multiplicity="0..1" />
-    <End Role="PurchaseCosts" Type="Self.PurchaseCosts" Multiplicity="*" />
+  <Association Name="FK_costsCarWashAndDeteyling_TypeServices">
+    <End Role="TypeServices" Type="Self.TypeServices" Multiplicity="0..1" />
+    <End Role="costsCarWashAndDeteyling" Type="Self.costsCarWashAndDeteyling" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Costs">
-        <PropertyRef Name="Id" />
+      <Principal Role="TypeServices">
+        <PropertyRef Name="idTypeServices" />
       </Principal>
-      <Dependent Role="PurchaseCosts">
-        <PropertyRef Name="IdCosts" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Wage_Costs">
-    <End Role="Costs" Type="Self.Costs" Multiplicity="1" />
-    <End Role="Wage" Type="Self.Wage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Costs">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Wage">
-        <PropertyRef Name="CostsId" />
+      <Dependent Role="costsCarWashAndDeteyling">
+        <PropertyRef Name="typeServicesId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -652,8 +715,60 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_otherExpenses_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="otherExpenses" Type="Self.otherExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="otherExpenses">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_salaryExpenses_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="salaryExpenses" Type="Self.salaryExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="salaryExpenses">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_utilityCosts_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="utilityCosts" Type="Self.utilityCosts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="utilityCosts">
+        <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_orderCarpetWashing_OrderServicesCarWash">
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="orderCarpetWashing" Type="Self.orderCarpetWashing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderServicesCarWash">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="orderCarpetWashing">
+        <PropertyRef Name="orderServicesCarWashId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_OrderCarWashWorkers_OrderServicesCarWash">
-    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1" />
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="OrderCarWashWorkers" Type="Self.OrderCarWashWorkers" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderServicesCarWash">
@@ -689,7 +804,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_ServisesCarWashOrder_OrderServicesCarWash">
-    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="0..1" />
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="ServisesCarWashOrder" Type="Self.ServisesCarWashOrder" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderServicesCarWash">
@@ -700,31 +817,33 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PurchaseCosts_Retail">
-    <End Role="Retail" Type="Self.Retail" Multiplicity="0..1" />
-    <End Role="PurchaseCosts" Type="Self.PurchaseCosts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Retail">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PurchaseCosts">
-        <PropertyRef Name="IdCosts" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TireStorage_TireStorageServices">
-    <End Role="TireStorageServices" Type="Self.TireStorageServices" Multiplicity="0..1" />
+  <Association Name="FK_TireStorage_OrderServicesCarWash">
+    <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="TireStorage" Type="Self.TireStorage" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TireStorageServices">
+      <Principal Role="OrderServicesCarWash">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="TireStorage">
-        <PropertyRef Name="ServicesId" />
+        <PropertyRef Name="IdOrderServicesCarWash" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="carWashServerEntities" annotation:LazyLoadingEnabled="true">
+  <Association Name="FK_TireStorage_storageFee">
+    <End Role="storageFee" Type="Self.storageFee" Multiplicity="0..1" />
+    <End Role="TireStorage" Type="Self.TireStorage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="storageFee">
+        <PropertyRef Name="idStorageFee" />
+      </Principal>
+      <Dependent Role="TireStorage">
+        <PropertyRef Name="storageFeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="carWashEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" />
     <EntitySet Name="car_generation" EntityType="Self.car_generation" />
     <EntitySet Name="car_mark" EntityType="Self.car_mark" />
@@ -736,27 +855,31 @@
     <EntitySet Name="ClientInfo" EntityType="Self.ClientInfo" />
     <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" />
     <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" />
-    <EntitySet Name="Costs" EntityType="Self.Costs" />
+    <EntitySet Name="consumablesTireFitting" EntityType="Self.consumablesTireFitting" />
+    <EntitySet Name="costsCarWashAndDeteyling" EntityType="Self.costsCarWashAndDeteyling" />
     <EntitySet Name="Credit" EntityType="Self.Credit" />
     <EntitySet Name="Detailings" EntityType="Self.Detailings" />
     <EntitySet Name="ExchangeRates" EntityType="Self.ExchangeRates" />
+    <EntitySet Name="expenseCategory" EntityType="Self.expenseCategory" />
     <EntitySet Name="GroupWashServices" EntityType="Self.GroupWashServices" />
     <EntitySet Name="JobTitleTable" EntityType="Self.JobTitleTable" />
+    <EntitySet Name="orderCarpetWashing" EntityType="Self.orderCarpetWashing" />
     <EntitySet Name="OrderCarWashWorkers" EntityType="Self.OrderCarWashWorkers" />
     <EntitySet Name="OrderServicesCarWash" EntityType="Self.OrderServicesCarWash" />
+    <EntitySet Name="otherExpenses" EntityType="Self.otherExpenses" />
     <EntitySet Name="PaymentState" EntityType="Self.PaymentState" />
-    <EntitySet Name="PurchaseCosts" EntityType="Self.PurchaseCosts" />
-    <EntitySet Name="Retail" EntityType="Self.Retail" />
+    <EntitySet Name="salaryBalance" EntityType="Self.salaryBalance" />
+    <EntitySet Name="salaryExpenses" EntityType="Self.salaryExpenses" />
     <EntitySet Name="ServisesCarWashOrder" EntityType="Self.ServisesCarWashOrder" />
     <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" />
+    <EntitySet Name="storageFee" EntityType="Self.storageFee" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TireStorage" EntityType="Self.TireStorage" />
     <EntitySet Name="TireStorageServices" EntityType="Self.TireStorageServices" />
-    <EntitySet Name="TypeOfCosts" EntityType="Self.TypeOfCosts" />
-    <EntitySet Name="Wage" EntityType="Self.Wage" />
+    <EntitySet Name="typeOfOrder" EntityType="Self.typeOfOrder" />
+    <EntitySet Name="TypeServices" EntityType="Self.TypeServices" />
+    <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" />
-    <EntitySet Name="infoBrigadeForToday" EntityType="Self.infoBrigadeForToday" />
-    <EntitySet Name="ItogOrderView" EntityType="Self.ItogOrderView" />
     <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
       <End Role="brigadeForToday" EntitySet="brigadeForToday" />
@@ -801,9 +924,13 @@
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
       <End Role="OrderCarWashWorkers" EntitySet="OrderCarWashWorkers" />
     </AssociationSet>
-    <AssociationSet Name="FK_Wage_CarWashWorkers1" Association="Self.FK_Wage_CarWashWorkers1">
+    <AssociationSet Name="FK_salaryBalance_CarWashWorkers" Association="Self.FK_salaryBalance_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
-      <End Role="Wage" EntitySet="Wage" />
+      <End Role="salaryBalance" EntitySet="salaryBalance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_salaryExpenses_CarWashWorkers" Association="Self.FK_salaryExpenses_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="salaryExpenses" EntitySet="salaryExpenses" />
     </AssociationSet>
     <AssociationSet Name="FK_ClientsOfCarWash_ClientInfo" Association="Self.FK_ClientsOfCarWash_ClientInfo">
       <End Role="ClientInfo" EntitySet="ClientInfo" />
@@ -817,21 +944,17 @@
       <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
     </AssociationSet>
-    <AssociationSet Name="FK_TireStorage_ClientsOfCarWash" Association="Self.FK_TireStorage_ClientsOfCarWash">
-      <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
-      <End Role="TireStorage" EntitySet="TireStorage" />
+    <AssociationSet Name="FK_consumablesTireFitting_expenseCategory" Association="Self.FK_consumablesTireFitting_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="consumablesTireFitting" EntitySet="consumablesTireFitting" />
     </AssociationSet>
-    <AssociationSet Name="FK_Costs_TypeOfCosts" Association="Self.FK_Costs_TypeOfCosts">
-      <End Role="TypeOfCosts" EntitySet="TypeOfCosts" />
-      <End Role="Costs" EntitySet="Costs" />
+    <AssociationSet Name="FK_costsCarWashAndDeteyling_expenseCategory" Association="Self.FK_costsCarWashAndDeteyling_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="costsCarWashAndDeteyling" EntitySet="costsCarWashAndDeteyling" />
     </AssociationSet>
-    <AssociationSet Name="FK_PurchaseCosts_Costs" Association="Self.FK_PurchaseCosts_Costs">
-      <End Role="Costs" EntitySet="Costs" />
-      <End Role="PurchaseCosts" EntitySet="PurchaseCosts" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Wage_Costs" Association="Self.FK_Wage_Costs">
-      <End Role="Costs" EntitySet="Costs" />
-      <End Role="Wage" EntitySet="Wage" />
+    <AssociationSet Name="FK_costsCarWashAndDeteyling_TypeServices" Association="Self.FK_costsCarWashAndDeteyling_TypeServices">
+      <End Role="TypeServices" EntitySet="TypeServices" />
+      <End Role="costsCarWashAndDeteyling" EntitySet="costsCarWashAndDeteyling" />
     </AssociationSet>
     <AssociationSet Name="FK_Detailings_GroupWashServices" Association="Self.FK_Detailings_GroupWashServices">
       <End Role="GroupWashServices" EntitySet="GroupWashServices" />
@@ -840,6 +963,22 @@
     <AssociationSet Name="FK_ServisesCarWashOrder_Detailings" Association="Self.FK_ServisesCarWashOrder_Detailings">
       <End Role="Detailings" EntitySet="Detailings" />
       <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_otherExpenses_expenseCategory" Association="Self.FK_otherExpenses_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="otherExpenses" EntitySet="otherExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_salaryExpenses_expenseCategory" Association="Self.FK_salaryExpenses_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="salaryExpenses" EntitySet="salaryExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_utilityCosts_expenseCategory" Association="Self.FK_utilityCosts_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="utilityCosts" EntitySet="utilityCosts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_orderCarpetWashing_OrderServicesCarWash" Association="Self.FK_orderCarpetWashing_OrderServicesCarWash">
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+      <End Role="orderCarpetWashing" EntitySet="orderCarpetWashing" />
     </AssociationSet>
     <AssociationSet Name="FK_OrderCarWashWorkers_OrderServicesCarWash" Association="Self.FK_OrderCarWashWorkers_OrderServicesCarWash">
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
@@ -857,41 +996,42 @@
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
       <End Role="ServisesCarWashOrder" EntitySet="ServisesCarWashOrder" />
     </AssociationSet>
-    <AssociationSet Name="FK_PurchaseCosts_Retail" Association="Self.FK_PurchaseCosts_Retail">
-      <End Role="Retail" EntitySet="Retail" />
-      <End Role="PurchaseCosts" EntitySet="PurchaseCosts" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TireStorage_TireStorageServices" Association="Self.FK_TireStorage_TireStorageServices">
-      <End Role="TireStorageServices" EntitySet="TireStorageServices" />
+    <AssociationSet Name="FK_TireStorage_OrderServicesCarWash" Association="Self.FK_TireStorage_OrderServicesCarWash">
+      <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
       <End Role="TireStorage" EntitySet="TireStorage" />
     </AssociationSet>
-    <EntitySet Name="shiftClosure" EntityType="carWashServerModel.shiftClosure" />
-    <AssociationSet Name="FK_shiftClosure_CarWashWorkers" Association="carWashServerModel.FK_shiftClosure_CarWashWorkers">
-      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
-      <End Role="shiftClosure" EntitySet="shiftClosure" />
+    <AssociationSet Name="FK_TireStorage_storageFee" Association="Self.FK_TireStorage_storageFee">
+      <End Role="storageFee" EntitySet="storageFee" />
+      <End Role="TireStorage" EntitySet="TireStorage" />
     </AssociationSet>
+    <EntitySet Name="infoBrigadeForToday" EntityType="carWashServerModel.infoBrigadeForToday" />
+    <EntitySet Name="ItogOrderView" EntityType="carWashServerModel.ItogOrderView" />
   </EntityContainer>
-  <EntityType Name="shiftClosure">
+  <EntityType Name="infoBrigadeForToday">
     <Key>
-      <PropertyRef Name="shiftClosureId" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="Expr1" />
     </Key>
-    <Property Name="shiftClosureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="carWashWorkersId" Type="Int32" Nullable="false" />
-    <Property Name="dateTime" Type="DateTime" Precision="7" />
-    <Property Name="completedOrders" Type="Int32" />
-    <Property Name="totalEarnings" Type="Double" />
-    <NavigationProperty Name="CarWashWorkers" Relationship="carWashServerModel.FK_shiftClosure_CarWashWorkers" FromRole="shiftClosure" ToRole="CarWashWorkers" />
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sumOrder" Type="Int32" />
+    <Property Name="Expr1" Type="Int32" Nullable="false" />
   </EntityType>
-  <Association Name="FK_shiftClosure_CarWashWorkers">
-    <End Type="carWashServerModel.CarWashWorkers" Role="CarWashWorkers" Multiplicity="1" />
-    <End Type="carWashServerModel.shiftClosure" Role="shiftClosure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CarWashWorkers">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="shiftClosure">
-        <PropertyRef Name="carWashWorkersId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityType Name="ItogOrderView">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="countOrder" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InterestRate" Type="Int32" />
+    <Property Name="CalculationStatus" Type="Boolean" />
+    <Property Name="Expr1" Type="Double" />
+  </EntityType>
 </Schema>

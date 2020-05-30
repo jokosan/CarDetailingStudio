@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
@@ -13,7 +10,7 @@ namespace CarDetailingStudio.Models.ModelViews
         [Key]
         public int idSalaryExpenses { get; set; }
 
-        [Display(Name ="№")]
+        [Display(Name = "№")]
         public Nullable<int> idCarWashWorkers { get; set; }
 
         [Display(Name = "Сумма выдачи")]

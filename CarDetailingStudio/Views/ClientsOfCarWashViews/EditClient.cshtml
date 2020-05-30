@@ -22,7 +22,8 @@
                                         Статус клиента
                                     </label>
                                     <div class="col-md-9">
-                                        @Html.DropDownList("SelectGroupClient", this.ViewBag.Group as SelectList, new { @class = "form-control" })
+                                       @* @Html.DropDownList("SelectGroupClient", this.ViewBag.Group as SelectList, new { @class = "form-control" })*@
+                                        @Html.DropDownList("SelectGroupClient", (SelectList)ViewBag.Group, "---", new { @class = "form-control" })
                                     </div>
                                 </div>
 

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
     public class ClientInfoView
     {
-       
+
         public ClientInfoView()
         {
             this.ClientsOfCarWash = new HashSet<ClientsOfCarWashView>();
@@ -21,7 +19,7 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [Display(Name = "Фамилия")]
         public string Surname { get; set; }
-        
+
         [Display(Name = "Имя")]
         public string Name { get; set; }
 

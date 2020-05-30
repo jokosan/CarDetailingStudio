@@ -31,7 +31,7 @@
                             @Html.DisplayNameFor(model => model.dateExpenses)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.expenseCategoryId)
+                            @Html.DisplayNameFor(model => model.expenseCategory.name)
                         </th>
                         <th></th>
                     </tr>
@@ -49,7 +49,7 @@
                                 @Html.DisplayFor(modelItem => item.dateExpenses)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.expenseCategoryId)
+                                @Html.DisplayFor(modelItem => item.expenseCategory.name)
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "EditUtilityCosts", new { id = item.idUtilityCosts }) |

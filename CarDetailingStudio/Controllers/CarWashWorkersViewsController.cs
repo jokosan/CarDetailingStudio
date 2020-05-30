@@ -1,16 +1,13 @@
-﻿using System;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.Models.ModelViews;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarDetailingStudio.Models;
-using CarDetailingStudio.Models.ModelViews;
-using AutoMapper;
-using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -51,7 +48,7 @@ namespace CarDetailingStudio.Controllers
             else
             {
                 var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigadeForToday.GetDateTimeNow());
-                            
+
                 ViewBag.StatusAdministtratorCarWash = brigade.Any(x => (x.StatusId == 1) && (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
                 ViewBag.StatusAdministtratorDeteling = brigade.Any(x => (x.StatusId == 2) && (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
 
@@ -67,14 +64,14 @@ namespace CarDetailingStudio.Controllers
                 _services.AddToCurrentShift(adminCarWosh, adminDetailing, chkRow);
                 return Redirect("/Order/Index");
             }
-            else if(chkRow != null)
+            else if (chkRow != null)
             {
                 _services.AddToCurrentShift(adminCarWosh, adminDetailing, chkRow);
                 return Redirect("/BrigadeForToday/TodayShift");
             }
 
-            var ReirectModel = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetChooseEmployees());   
-            
+            var ReirectModel = Mapper.Map<IEnumerable<CarWashWorkersView>>(_services.GetChooseEmployees());
+
             return View(ReirectModel);
         }
 

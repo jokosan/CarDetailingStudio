@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
@@ -54,19 +52,19 @@ namespace CarDetailingStudio.Models.ModelViews
         [Required]
         public string status { get; set; }
 
-        [Display (Name = "Тип валюты")]
+        [Display(Name = "Тип валюты")]
         [Required]
         public string currency { get; set; }
 
-        [Display (Name ="Статус услуги")]
+        [Display(Name = "Статус услуги")]
         public Nullable<bool> mark { get; set; }
 
         [Required]
-        [Display(Name ="Группа услуги")]
+        [Display(Name = "Группа услуги")]
         public Nullable<int> IdGroupWashServices { get; set; }
 
         [Required]
-        [Display (Name ="Категория услуги")]
+        [Display(Name = "Категория услуги")]
         public Nullable<int> IdTypeService { get; set; }
 
         public virtual GroupWashServicesView GroupWashServices { get; set; }

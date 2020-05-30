@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
@@ -26,6 +24,6 @@ namespace CarDetailingStudio.Models.ModelViews
         public string idbody { get; set; }
 
         public CarGenerationView car_generation { get; set; }
-        public  ICollection<CarModificationView> car_modification { get; set; }
+        public ICollection<CarModificationView> car_modification { get; set; }
     }
 }

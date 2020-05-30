@@ -1,13 +1,9 @@
-﻿using CarDetailingStudio.BLL.Model;
+﻿using AutoMapper;
+using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CarDetailingStudio.BLL.Services.Contract;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -41,7 +37,7 @@ namespace CarDetailingStudio.BLL.Services
             {
                 return GetAllTable();
             }
-            
+
         }
     }
 }

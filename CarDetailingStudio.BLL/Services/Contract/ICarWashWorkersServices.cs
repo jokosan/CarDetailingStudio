@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using CarDetailingStudio.BLL.Model;
+﻿using CarDetailingStudio.BLL.Model;
+using System.Collections.Generic;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {

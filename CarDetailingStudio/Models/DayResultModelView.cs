@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CarDetailingStudio.Models
 {
@@ -15,18 +12,18 @@ namespace CarDetailingStudio.Models
 
         [Display(Name = "Фамилия")]
         public string surname { get; set; }
-       
+
         [Display(Name = "Имя")]
         public string name { get; set; }
-        
-        [Display(Name ="Отчество")]
+
+        [Display(Name = "Отчество")]
         public string patronymic { get; set; }
-      
-        [Display(Name ="Количество заказов")]
+
+        [Display(Name = "Количество заказов")]
         public int orderCount { get; set; }
-       
+
         public Nullable<bool> calculationStatus { get; set; }
-      
+
         [Display(Name = "Всего на зарплату")]
         public Nullable<double> payroll { get; set; }
 

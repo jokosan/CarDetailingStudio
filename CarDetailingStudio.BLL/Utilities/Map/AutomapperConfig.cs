@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
-using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Utilities.Map
@@ -66,7 +60,7 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<ItogOrderView, OrderInfoViewBll>();
 
             CreateMap<CarBodyBll, CarBody>();
-            CreateMap<CarBody, CarBodyBll>();      
+            CreateMap<CarBody, CarBodyBll>();
 
             CreateMap<ExchangeRatesBll, ExchangeRates>();
             CreateMap<ExchangeRates, ExchangeRatesBll>();
@@ -79,7 +73,7 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<GroupWashServicesBll, GroupWashServices>();
             CreateMap<GroupWashServices, GroupWashServicesBll>();
-            
+
             CreateMap<CreditBll, Credit>();
             CreateMap<Credit, CreditBll>();
 
@@ -122,7 +116,7 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<StorageFeeBll, storageFee>();
             CreateMap<storageFee, StorageFeeBll>();
 
-           
+
         }
     }
 }
