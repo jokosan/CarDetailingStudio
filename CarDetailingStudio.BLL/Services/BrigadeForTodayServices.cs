@@ -6,6 +6,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -18,22 +19,22 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<BrigadeForTodayBll> GetDateTimeNow()
+        public async Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow()
         {
-            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeUnitOfWork
-              .GetWhere(x => (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")
-                    && (x.EarlyTermination == true))));
+            var brigadeResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork.GetWhere(x => x.EarlyTermination == true));
+
+            return brigadeResult.Where(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
         }
 
-        public IEnumerable<BrigadeForTodayBll> Info(int? id)
+        public async Task<IEnumerable<BrigadeForTodayBll>> Info(int? id)
         {
-            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeUnitOfWork
+            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork
                 .GetWhere(x => x.IdCarWashWorkers == id)).OrderByDescending(x => x.id);
         }
 
-        public void RemoveFromBrigade(int id)
+        public async Task RemoveFromBrigade(int id)
         {
-            BrigadeForTodayBll brigadeForTodayBll = GetId(id);
+            BrigadeForTodayBll brigadeForTodayBll = await GetId(id);
 
             brigadeForToday removeFromBrigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(brigadeForTodayBll);
 
@@ -41,12 +42,12 @@ namespace CarDetailingStudio.BLL.Services
             removeFromBrigade.EarlyTermination = false;
 
             _unitOfWork.BrigadeForTodayUnitOfWork.Update(removeFromBrigade);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public BrigadeForTodayBll GetId(int id)
+        public async Task<BrigadeForTodayBll> GetId(int id)
         {
-            return Mapper.Map<BrigadeForTodayBll>(_unitOfWork.BrigadeUnitOfWork.GetById(id));
+            return Mapper.Map<BrigadeForTodayBll>(await _unitOfWork.BrigadeUnitOfWork.GetById(id));
         }
     }
 }

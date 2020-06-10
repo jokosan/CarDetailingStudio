@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers.Expenses
@@ -25,19 +26,19 @@ namespace CarDetailingStudio.Controllers.Expenses
         }
 
         // GET: SalaryExpenses
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(Mapper.Map<IEnumerable<SalaryExpensesView>>(_salaryExpenses.GetTableAll()));
+            return View(Mapper.Map<IEnumerable<SalaryExpensesView>>(await _salaryExpenses.GetTableAll()));
         }
 
         // GET: SalaryExpenses/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalaryExpensesView salaryExpensesView = Mapper.Map<SalaryExpensesView>(_salaryExpenses.SelectId(id));
+            SalaryExpensesView salaryExpensesView = Mapper.Map<SalaryExpensesView>(await _salaryExpenses.SelectId(id));
             if (salaryExpensesView == null)
             {
                 return HttpNotFound();
@@ -46,9 +47,9 @@ namespace CarDetailingStudio.Controllers.Expenses
         }
 
         // GET: SalaryExpenses/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            DropDownListView();
+            await DropDownListView();
             return View();
         }
 
@@ -57,36 +58,36 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idSalaryExpenses,idCarWashWorkers,amount,dateExpenses,expenseCategoryId")] SalaryExpensesView salaryExpensesView)
+        public async Task<ActionResult> Create([Bind(Include = "idSalaryExpenses,idCarWashWorkers,amount,dateExpenses,expenseCategoryId")] SalaryExpensesView salaryExpensesView)
         {
             if (ModelState.IsValid)
             {
                 SalaryExpensesBll salaryExpensesBll = Mapper.Map<SalaryExpensesView, SalaryExpensesBll>(salaryExpensesView);
-                _salaryExpenses.Insert(salaryExpensesBll);
+                await _salaryExpenses.Insert(salaryExpensesBll);
 
                 return RedirectToAction("Index");
             }
 
-            DropDownListView();
+            await DropDownListView();
             return View(salaryExpensesView);
         }
 
         // GET: SalaryExpenses/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            SalaryExpensesView salaryExpensesView = Mapper.Map<SalaryExpensesView>(_salaryExpenses.SelectId(id));
+            SalaryExpensesView salaryExpensesView = Mapper.Map<SalaryExpensesView>(await _salaryExpenses.SelectId(id));
 
             if (salaryExpensesView == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(salaryExpensesView);
         }
 
@@ -95,29 +96,31 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idSalaryExpenses,idCarWashWorkers,amount,dateExpenses,expenseCategoryId")] SalaryExpensesView salaryExpensesView)
+        public async Task<ActionResult> Edit([Bind(Include = "idSalaryExpenses,idCarWashWorkers,amount,dateExpenses,expenseCategoryId")] SalaryExpensesView salaryExpensesView)
         {
             if (ModelState.IsValid)
             {
                 SalaryExpensesBll salaryExpensesBll = Mapper.Map<SalaryExpensesView, SalaryExpensesBll>(salaryExpensesView);
-                _salaryExpenses.Insert(salaryExpensesBll);
+                await _salaryExpenses.Insert(salaryExpensesBll);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(salaryExpensesView);
         }
 
-        public void DropDownListView()
+        public async Task DropDownListView()
         {
-            ViewBag.CarWashWorkers = new SelectList((from s in _carWashWorkers.GetStaffAll()
-                                                     select new
+            var getStaff = await _carWashWorkers.GetStaffAll();
+
+            ViewBag.CarWashWorkers =  new SelectList((from s in getStaff
+                                                      select new
                                                      {
                                                          id = s.id,
                                                          FullName = s.Surname + " " + s.Name + " " + s.Patronymic
                                                      }), "id", "FullName", null);
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
         }
     }
 }

@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
 {
@@ -16,30 +17,30 @@ namespace CarDetailingStudio.BLL.Services.Expenses
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<ExpenseCategoryBll> GetTableAll()
+        public async Task<IEnumerable<ExpenseCategoryBll>> GetTableAll()
         {
-            return Mapper.Map<IEnumerable<ExpenseCategoryBll>>(_unitOfWork.expenseCategoryUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<ExpenseCategoryBll>>(await _unitOfWork.expenseCategoryUnitOfWork.Get());
         }
 
-        public void Insert(ExpenseCategoryBll element)
+        public async Task Insert(ExpenseCategoryBll element)
         {
             expenseCategory expenseCategorys = Mapper.Map<ExpenseCategoryBll, expenseCategory>(element);
 
             _unitOfWork.expenseCategoryUnitOfWork.Insert(expenseCategorys);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public ExpenseCategoryBll SelectId(int? elementId)
+        public async Task<ExpenseCategoryBll> SelectId(int? elementId)
         {
-            return Mapper.Map<ExpenseCategoryBll>(_unitOfWork.expenseCategoryUnitOfWork.GetById(elementId));
+            return Mapper.Map<ExpenseCategoryBll>(await _unitOfWork.expenseCategoryUnitOfWork.GetById(elementId));
         }
 
-        public void Update(ExpenseCategoryBll elementToUpdate)
+        public async Task Update(ExpenseCategoryBll elementToUpdate)
         {
             expenseCategory expenseCategorys = Mapper.Map<ExpenseCategoryBll, expenseCategory>(elementToUpdate);
 
             _unitOfWork.expenseCategoryUnitOfWork.Update(expenseCategorys);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
     }
 }

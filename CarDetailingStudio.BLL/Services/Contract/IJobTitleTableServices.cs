@@ -1,10 +1,11 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IJobTitleTableServices
     {
-        IEnumerable<JobTitleTableBll> SelectJobTitle();
+       Task<IEnumerable<JobTitleTableBll>> SelectJobTitle();
     }
 }

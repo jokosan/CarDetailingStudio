@@ -5,6 +5,7 @@ using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -19,36 +20,36 @@ namespace CarDetailingStudio.BLL.Services
             _automapperConfig = automapperConfig;
         }
 
-        public IEnumerable<ClientsGroupsBll> GetClientsGroups()
+        public async Task<IEnumerable<ClientsGroupsBll>> GetClientsGroups()
         {
-            return Mapper.Map<IEnumerable<ClientsGroupsBll>>(_unitOfWork.ClientsGroupsUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<ClientsGroupsBll>>(await _unitOfWork.ClientsGroupsUnitOfWork.Get());
         }
 
-        public ClientsGroupsBll GetId(int? id)
+        public async Task<ClientsGroupsBll> GetId(int? id)
         {
-            return Mapper.Map<ClientsGroupsBll>(_unitOfWork.ClientsGroupsUnitOfWork.GetById(id));
+            return Mapper.Map<ClientsGroupsBll>(await _unitOfWork.ClientsGroupsUnitOfWork.GetById(id));
         }
 
-        public void Insert(ClientsGroupsBll element)
+        public async Task Insert(ClientsGroupsBll element)
         {
             ClientsGroups clientsGroups = Mapper.Map<ClientsGroupsBll, ClientsGroups>(element);
 
             _unitOfWork.ClientsGroupsUnitOfWork.Insert(clientsGroups);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void Update(ClientsGroupsBll elementToUpdate)
+        public async Task Update(ClientsGroupsBll elementToUpdate)
         {
             ClientsGroups clientsGroups = Mapper.Map<ClientsGroupsBll, ClientsGroups>(elementToUpdate);
 
             _unitOfWork.ClientsGroupsUnitOfWork.Update(clientsGroups);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void Delete(ClientsGroupsBll elementToDelete)
+        public async Task Delete(ClientsGroupsBll elementToDelete)
         {
             _unitOfWork.ClientInfoUnitOfWork.Delete(elementToDelete.Id);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
     }
 

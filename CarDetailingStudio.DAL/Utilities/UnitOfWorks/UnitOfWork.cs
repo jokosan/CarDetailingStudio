@@ -1,6 +1,7 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure;
 using CarDetailingStudio.DAL.Infrastructure.Contract;
 using System;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 {
@@ -339,9 +340,9 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             }
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _entities.SaveChanges();
+           await _entities.SaveChangesAsync();
         }
         #endregion
     }

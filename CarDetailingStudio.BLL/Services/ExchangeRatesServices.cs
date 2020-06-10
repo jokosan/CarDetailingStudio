@@ -6,6 +6,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -20,16 +21,16 @@ namespace CarDetailingStudio.BLL.Services
             // _automapper = new AutomapperConfig();
         }
 
-        public void Insert(List<ExchangeRatesBll> exchangeRates)
+        public async Task Insert(List<ExchangeRatesBll> exchangeRates)
         {
             var Add = Mapper.Map<IEnumerable<ExchangeRatesBll>, IEnumerable<ExchangeRates>>(exchangeRates);
             _unitOfWork.ExchangeRatesUnitOfWork.Insert(Add.ToList());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void UpdateTable()
+        public async Task UpdateTable()
         {
-            var ResultCount = GetAll();
+            var ResultCount = await GetAll();
 
             if (ResultCount.Count() > 0)
             {
@@ -45,31 +46,31 @@ namespace CarDetailingStudio.BLL.Services
 
                     ExchangeRates exchangeRates = Mapper.Map<ExchangeRatesBll, ExchangeRates>(x);
                     _unitOfWork.ExchangeRatesUnitOfWork.Update(exchangeRates);
-                    _unitOfWork.Save();
+                    await _unitOfWork.Save();
 
                     z++;
                 }
             }
             else
             {
-                Insert(ApiPrivatBank.exchangeRatesModel);
+                await Insert(ApiPrivatBank.exchangeRatesModel);
             }
         }
 
-        public IEnumerable<ExchangeRatesBll> GetAll()
+        public async Task<IEnumerable<ExchangeRatesBll>> GetAll()
         {
-            return Mapper.Map<IEnumerable<ExchangeRatesBll>>(_unitOfWork.ExchangeRatesUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<ExchangeRatesBll>>(await _unitOfWork.ExchangeRatesUnitOfWork.Get());
         }
 
-        public bool CheckForUpdate()
+        public async Task<bool> CheckForUpdate()
         {
-            var check = GetAll();
+            var check = await GetAll();
             return check.Any(x => (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
         }
 
-        public void UpdateListExchangeRates()
+        public async Task UpdateListExchangeRates()
         {
-            var GetExchangeRates = GetAll();
+            var GetExchangeRates = await GetAll();
 
             ApiPrivatBank.exchangeRatesModel.Clear();
             ApiPrivatBank.exchangeRatesModel.AddRange(GetExchangeRates);

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure.Contract
 {
@@ -14,35 +16,36 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
             _context = entities;
         }
 
-        public IEnumerable<ServisesCarWashOrder> Get()
+        public async Task<IEnumerable<ServisesCarWashOrder>> Get()
         {
-            var GetAllResult = _context.ServisesCarWashOrder.AsNoTracking()
+            var GetAllResult = await _context.ServisesCarWashOrder.AsNoTracking()
                                                             .Include("Detailings")
                                                             .Include("Detailings.GroupWashServices")
                                                             .Include("OrderServicesCarWash")
-                                                            .Include("OrderServicesCarWash.ClientsOfCarWash");
+                                                            .Include("OrderServicesCarWash.ClientsOfCarWash")
+                                                            .ToListAsync();
             return GetAllResult;
         }
 
-        public ServisesCarWashOrder GetById(int? id)
+        public async Task<ServisesCarWashOrder> GetById(int? id)
         {
-            var GetIdResult = _context.ServisesCarWashOrder.AsNoTracking()
+            var GetIdResult = await _context.ServisesCarWashOrder.AsNoTracking()
                                                            .Include("Detailings")
                                                            .Include("Detailings.GroupWashServices")
                                                            .Include("OrderServicesCarWash")
                                                            .Include("OrderServicesCarWash.ClientsOfCarWash")
-                                                           .FirstOrDefault(x => x.Id == id);
+                                                           .FirstAsync(x => x.Id == id);
             return GetIdResult;
         }
 
-        public IEnumerable<ServisesCarWashOrder> GetWhere(Func<ServisesCarWashOrder, bool> predicate)
+        public async Task<IEnumerable<ServisesCarWashOrder>> GetWhere(Expression<Func<ServisesCarWashOrder, bool>> predicate)
         {
-            var GetWhereResult = _context.ServisesCarWashOrder.AsNoTracking()
+            var GetWhereResult = await _context.ServisesCarWashOrder.AsNoTracking()
                                                                .Include("Detailings")
                                                                .Include("Detailings.GroupWashServices")
                                                                .Include("OrderServicesCarWash")
                                                                //.Include("OrderServicesCarWash.ClientsOfCarWash")
-                                                               .Where(predicate);
+                                                               .Where(predicate).AsQueryable().ToListAsync();
       
             return GetWhereResult;
         }

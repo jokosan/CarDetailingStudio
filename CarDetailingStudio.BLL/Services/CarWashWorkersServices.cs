@@ -6,6 +6,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -25,42 +26,42 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.Dispose();
         }
 
-        public IEnumerable<CarWashWorkersBll> GetTable()
+        public async Task<IEnumerable<CarWashWorkersBll>> GetTable()
         {
-            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.CarWashWorkersUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.CarWashWorkersUnitOfWork.Get());
         }
 
-        public IEnumerable<CarWashWorkersBll> GetStaffAll()
+        public async Task<IEnumerable<CarWashWorkersBll>> GetStaffAll()
         {
-            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.WorkersUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.Get());
         }
 
-        public IEnumerable<CarWashWorkersBll> GetChooseEmployees()
+        public async Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees()
         {
-            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(_unitOfWork.WorkersUnitOfWork
+            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork
                 .GetWhere(x => (x.status == "true")));
         }
 
-        public CarWashWorkersBll CarWashWorkersId(int? id)
+        public async Task<CarWashWorkersBll> CarWashWorkersId(int? id)
         {
-            return Mapper.Map<CarWashWorkersBll>(_unitOfWork.WorkersUnitOfWork.GetById(id));
+            return Mapper.Map<CarWashWorkersBll>(await _unitOfWork.WorkersUnitOfWork.GetById(id));
         }
 
-        public void AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
+        public async Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
             if (adminCarWosh != null && adminDetailing != null)
             {
-                AdninRegistr(adminCarWosh, 1);
-                AdninRegistr(adminDetailing, 2);
+                await AdninRegistr(adminCarWosh, 1);
+                await AdninRegistr(adminDetailing, 2);
             }
 
             foreach (var item in chkRow)
             {
-                AdninRegistr(item, 3);
+                await AdninRegistr(item, 3);
             }
         }
 
-        private void AdninRegistr(int? admin, int status)
+        private async Task AdninRegistr(int? admin, int status)
         {
             _brigade.Date = DateTime.Now;
             _brigade.IdCarWashWorkers = admin;
@@ -70,25 +71,26 @@ namespace CarDetailingStudio.BLL.Services
             brigadeForToday brigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(_brigade);
 
             _unitOfWork.BrigadeForTodayUnitOfWork.Insert(brigade);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public bool HomeEntryCondition()
+        public async Task<bool> HomeEntryCondition()
         {
             string date = DateTime.Now.ToString("dd.MM.yyyy");
-            var thisDay = _unitOfWork.BrigadeForTodayUnitOfWork.Get().Any(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
+            var thisDay = await _unitOfWork.BrigadeForTodayUnitOfWork.Get();
+            var result = thisDay.Any(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
 
-            return thisDay;
+            return result;
         }
 
-        public void InsertEmployee(CarWashWorkersBll carWashWorkersBll)
+        public async Task InsertEmployee(CarWashWorkersBll carWashWorkersBll)
         {
             CarWashWorkers carWashWorkers = Mapper.Map<CarWashWorkersBll, CarWashWorkers>(carWashWorkersBll);
             _unitOfWork.CarWashWorkersUnitOfWork.Insert(carWashWorkers);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action)
+        public async Task UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action)
         {
             CarWashWorkers carWashWorkers = Mapper.Map<CarWashWorkersBll, CarWashWorkers>(carWashWorkersId);
 
@@ -99,7 +101,7 @@ namespace CarDetailingStudio.BLL.Services
             }
 
             _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
     }
 }

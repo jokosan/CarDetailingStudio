@@ -1,5 +1,6 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure;
 using CarDetailingStudio.DAL.Infrastructure.Contract;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 {
@@ -7,7 +8,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
     {
         void Dispose();
 
-        void Save();
+        Task Save();
 
         //  GenericRepository
 

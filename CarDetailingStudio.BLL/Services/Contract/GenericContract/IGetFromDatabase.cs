@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract.GenericContract
 {
     public interface IGetFromDatabase<T> where T : class
     {
-        IEnumerable<T> GetTableAll();
-        T SelectId(int? elementId);
+        Task<IEnumerable<T>> GetTableAll();
+        Task<T> SelectId(int? elementId);
     }
 }

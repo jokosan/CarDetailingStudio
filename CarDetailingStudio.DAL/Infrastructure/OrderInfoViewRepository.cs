@@ -1,6 +1,8 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure.Contract;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
@@ -13,14 +15,14 @@ namespace CarDetailingStudio.DAL.Infrastructure
             _context = entities;
         }
 
-        public IEnumerable<ItogOrderView> Get()
+        public async Task<IEnumerable<ItogOrderView>> Get()
         {
-            return _context.ItogOrderView;
+            return await _context.ItogOrderView.ToListAsync();
         }
 
-        public ItogOrderView GetById(int? id)
+        public async Task<ItogOrderView> GetById(int? id)
         {
-            return _context.ItogOrderView.FirstOrDefault(x => x.id == id);
+            return await _context.ItogOrderView.FindAsync(id);
         }
     }
 }

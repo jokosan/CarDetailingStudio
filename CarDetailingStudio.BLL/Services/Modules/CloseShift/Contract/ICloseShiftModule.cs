@@ -1,7 +1,9 @@
-﻿namespace CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract
+﻿using System.Threading.Tasks;
+
+namespace CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract
 {
     public interface ICloseShiftModule
     {
-        void CurrentShift();
+        Task CurrentShift();
     }
 }

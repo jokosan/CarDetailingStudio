@@ -1,8 +1,10 @@
-﻿namespace CarDetailingStudio.BLL.Services.Contract.GenericContract
+﻿using System.Threading.Tasks;
+
+namespace CarDetailingStudio.BLL.Services.Contract.GenericContract
 {
     public interface IDatabaseOperations<T> where T : class
     {
-        void Insert(T element);
-        void Update(T elementToUpdate);
+        Task Insert(T element);
+        Task Update(T elementToUpdate);
     }
 }

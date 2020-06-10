@@ -6,6 +6,7 @@ using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 {
@@ -23,9 +24,9 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             _salaryBalance = salaryBalance;
         }
 
-        public IEnumerable<WagesForDaysWorkedBll> DayOrderResult(int? Id)
+        public async Task<IEnumerable<WagesForDaysWorkedBll>> DayOrderResult(int? Id)
         {
-            var getResult = _orderCarWash.SampleForPayroll(Id);
+            var getResult = await _orderCarWash.SampleForPayroll(Id);
 
             return getResult.GroupBy(x => x.OrderServicesCarWash.OrderDate?.ToString("dd.MM.yyyy"))
                               .Select(y => new WagesForDaysWorkedBll
@@ -39,9 +40,9 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                               });
         }
 
-        public void PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, bool closeMonth, bool NegativeBalance = false)
+        public async Task PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, bool closeMonth, bool NegativeBalance = false)
         {
-            var lostMonthBalance = _salaryBalance.LastMonthBalance(employeeId);
+            var lostMonthBalance = await _salaryBalance.LastMonthBalance(employeeId);
             SalaryBalanceBll salaryBalanceBll = new SalaryBalanceBll();
 
             double balance = 0;
@@ -53,7 +54,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                 if (payoutAmount >= lostMonthBalance.payoutAmount)
                 {
                     lostMonthBalance.accountBalance = 0;
-                    _salaryBalance.Update(lostMonthBalance);
+                    await _salaryBalance.Update(lostMonthBalance);
                 }
                 else if (balance < 0)
                 {
@@ -65,7 +66,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                     if (NegativeBalance && payoutAmount <= balance)
                     {
                         lostMonthBalance.accountBalance = lostMonthBalance.accountBalance + payoutAmount;
-                        _salaryBalance.Update(lostMonthBalance);
+                        await _salaryBalance.Update(lostMonthBalance);
                     }
                 }
             }
@@ -76,13 +77,13 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             salaryBalanceBll.accountBalance = totalPayable;
             salaryBalanceBll.currentMonthStatus = closeMonth;
 
-            _salaryBalance.Insert(salaryBalanceBll);
-            PayrollExpenses(salaryBalanceBll);
+            await _salaryBalance.Insert(salaryBalanceBll);
+            await PayrollExpenses(salaryBalanceBll);
 
             if (closeMonth == true)
             {
                 OrderCarWashWorkersBll orderCarWash = new OrderCarWashWorkersBll();
-                var getResult = _orderCarWash.SampleForPayroll(employeeId);
+                var getResult = await _orderCarWash.SampleForPayroll(employeeId);
 
                 foreach (var item in getResult)
                 {
@@ -90,12 +91,12 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                     orderCarWash.CalculationStatus = true;
                     orderCarWash.salaryDate = salaryBalanceBll.dateOfPayment;
 
-                    _orderCarWash.UpdateOrderCarWashWorkers(orderCarWash);
+                   await _orderCarWash.UpdateOrderCarWashWorkers(orderCarWash);
                 }
             }
         }
 
-        private void PayrollExpenses(SalaryBalanceBll salaryBalance)
+        private async Task PayrollExpenses(SalaryBalanceBll salaryBalance)
         {
             SalaryExpensesBll salaryExpenses = new SalaryExpensesBll();
 
@@ -104,7 +105,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             salaryExpenses.dateExpenses = salaryBalance.dateOfPayment;
             salaryExpenses.expenseCategoryId = 21;
 
-            _salaryExpenses.Insert(salaryExpenses);
+            await _salaryExpenses.Insert(salaryExpenses);
         }
     }
 }

@@ -6,6 +6,7 @@ using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -32,20 +33,20 @@ namespace CarDetailingStudio.Controllers
             _carWashWorkers = carWashWorkers;
         }
 
-        public ActionResult ShiftInformation()
+        public async Task<ActionResult> ShiftInformation()
         {
-            return View(Mapper.Map<IEnumerable<DayResultModelView>>(_dayResult.TotalForEachEmployee()));
+            return View(Mapper.Map<IEnumerable<DayResultModelView>>(await _dayResult.TotalForEachEmployee()));
         }
 
         #region Выплаты за дни 
 
-        public ActionResult PaymentForSpecificDays(int? idCarWash, bool message = true, bool messageClose = true)
+        public async Task<ActionResult> PaymentForSpecificDays(int? idCarWash, bool message = true, bool messageClose = true)
         {
             if (idCarWash != null)
             {
-                var viewResult = Mapper.Map<IEnumerable<WagesForDaysWorkedView>>(_wagesForDays.DayOrderResult(idCarWash));
-                var payouts = Mapper.Map<IEnumerable<SalaryBalanceView>>(_salaryBalance.SelectIdToDate(idCarWash, DateTime.Now));
-                var salaryBalance = Mapper.Map<SalaryBalanceView>(_salaryBalance.LastMonthBalance(idCarWash));
+                var viewResult = Mapper.Map<IEnumerable<WagesForDaysWorkedView>>(await _wagesForDays.DayOrderResult(idCarWash));
+                var payouts = Mapper.Map<IEnumerable<SalaryBalanceView>>(await _salaryBalance.SelectIdToDate(idCarWash, DateTime.Now));
+                var salaryBalance = Mapper.Map<SalaryBalanceView>(await _salaryBalance.LastMonthBalance(idCarWash));
 
                 double monthlySalary = viewResult.Sum(s => s.payroll).Value;
                 double paidPerMonth = payouts.Sum(s => s.payoutAmount).Value;
@@ -77,7 +78,7 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost]
-        public ActionResult PaymentForSpecificDays(string payout, int? id, double totalPayable)
+        public async Task<ActionResult> PaymentForSpecificDays(string payout, int? id, double totalPayable)
         {
             try
             {
@@ -85,7 +86,7 @@ namespace CarDetailingStudio.Controllers
 
                 if (id != null)
                 {
-                    _wagesForDays.PaymentOfPartOfTheSalary(id, payoutAmount.Value, totalPayable, true);
+                    await _wagesForDays.PaymentOfPartOfTheSalary(id, payoutAmount.Value, totalPayable, true);
                 }
 
                 return RedirectToAction("PaymentForSpecificDays", "ShiftClosure", new RouteValueDictionary(new
@@ -122,7 +123,7 @@ namespace CarDetailingStudio.Controllers
 
 
         [HttpPost]
-        public ActionResult PartialPayout(string payout, int? id, double totalPayable, bool NegativeBalance = false)
+        public async Task<ActionResult> PartialPayout(string payout, int? id, double totalPayable, bool NegativeBalance = false)
         {
             try
             {
@@ -131,7 +132,7 @@ namespace CarDetailingStudio.Controllers
 
                 if (id != null)
                 {
-                    _wagesForDays.PaymentOfPartOfTheSalary(id, payoutAmount, totalPayable, false, NegativeBalance);
+                    await _wagesForDays.PaymentOfPartOfTheSalary(id, payoutAmount, totalPayable, false, NegativeBalance);
                 }
 
                 return RedirectToAction("PaymentForSpecificDays", "ShiftClosure", new RouteValueDictionary(new

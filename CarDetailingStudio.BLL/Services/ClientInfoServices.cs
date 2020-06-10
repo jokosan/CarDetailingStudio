@@ -5,6 +5,7 @@ using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -19,33 +20,33 @@ namespace CarDetailingStudio.BLL.Services
             _automapper = automapperConfig;
         }
 
-        public IEnumerable<ClientInfoBll> ClientInfoAll()
+        public async Task<IEnumerable<ClientInfoBll>> ClientInfoAll()
         {
-            return Mapper.Map<IEnumerable<ClientInfoBll>>(_unitOfWork.ClientInfoUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<ClientInfoBll>>(await _unitOfWork.ClientInfoUnitOfWork.Get());
         }
 
-        public IEnumerable<ClientInfoBll> ClienWhereId(int id)
+        public async Task<IEnumerable<ClientInfoBll>> ClienWhereId(int id)
         {
-            return Mapper.Map<IEnumerable<ClientInfoBll>>(_unitOfWork.ClientInfoUnitOfWork.GetWhere(x => x.Id == id));
+            return Mapper.Map<IEnumerable<ClientInfoBll>>(await _unitOfWork.ClientInfoUnitOfWork.GetWhere(x => x.Id == id));
         }
 
-        public ClientInfoBll ClientInfoGetId(int? IdClient)
+        public async Task<ClientInfoBll> ClientInfoGetId(int? IdClient)
         {
-            return Mapper.Map<ClientInfoBll>(_unitOfWork.ClientInfoUnitOfWork.GetById(IdClient));
+            return Mapper.Map<ClientInfoBll>(await _unitOfWork.ClientInfoUnitOfWork.GetById(IdClient));
         }
 
-        public void ClientInfoEdit(ClientInfoBll editClient)
+        public async Task ClientInfoEdit(ClientInfoBll editClient)
         {
             ClientInfo clientInfo = Mapper.Map<ClientInfoBll, ClientInfo>(editClient);
             _unitOfWork.ClientInfoUnitOfWork.Update(clientInfo);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void Delete(ClientInfoBll elementToDelete)
+        public async Task Delete(ClientInfoBll elementToDelete)
         {
             // ClientInfo clients = Mapper.Map<ClientInfoBll, ClientInfo>(elementToDelete);
             _unitOfWork.ClientInfoUnitOfWork.Delete(elementToDelete.Id);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
     }

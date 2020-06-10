@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure.Contract
 {
@@ -13,25 +16,27 @@ namespace CarDetailingStudio.DAL.Infrastructure.Contract
             _context = entities;
         }
 
-        public IEnumerable<brigadeForToday> Get()
+        public Task<IEnumerable<brigadeForToday>> Get()
         {
             throw new NotImplementedException();
         }
 
-        public brigadeForToday GetById(int? id)
+        public async Task<brigadeForToday> GetById(int? id)
         {
-            var GetIdResult = _context.brigadeForToday.Include("CarWashWorkers")
+            var GetIdResult = await _context.brigadeForToday.AsNoTracking()
+                                                      .Include("CarWashWorkers")
                                                       .Include("CarWashWorkers.JobTitleTable")
-                                                      .FirstOrDefault(x => x.id == id);
+                                                      .FirstAsync(x => x.id == id);
 
             return GetIdResult;
         }
 
-        public IEnumerable<brigadeForToday> GetWhere(Func<brigadeForToday, bool> predicate)
+        public async Task<IEnumerable<brigadeForToday>> GetWhere(Expression<Func<brigadeForToday, bool>> predicate)
         {
-            var GetWhereResult = _context.brigadeForToday.Include("CarWashWorkers")
+            var GetWhereResult = await _context.brigadeForToday.AsNoTracking()
+                                                         .Include("CarWashWorkers")
                                                          .Include("CarWashWorkers.JobTitleTable")
-                                                         .Where(predicate);
+                                                         .Where(predicate).AsQueryable().ToListAsync();
 
             return GetWhereResult;
         }

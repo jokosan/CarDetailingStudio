@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
@@ -21,9 +22,9 @@ namespace CarDetailingStudio.Controllers
 
         [MonitoringTheNumberOfEmployeesFilter]
         // GET: BrigadeForToday
-        public ActionResult TodayShift()
+        public async Task<ActionResult> TodayShift()
         {
-            var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_services.GetDateTimeNow());
+            var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _services.GetDateTimeNow());
 
             TempData["BrigadeId"] = brigade.Where(x => x.EarlyTermination == true);
 
@@ -33,25 +34,25 @@ namespace CarDetailingStudio.Controllers
         // POST: BrigadeForToday/Delete/5
         [HttpPost, ActionName("TodayShift")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (id != 0)
             {
-                _services.RemoveFromBrigade(id);
+               await _services.RemoveFromBrigade(id);
             }
 
             return RedirectToAction("TodayShift");
         }
 
         // GET: BrigadeForToday/Details/5
-        public ActionResult EmployeeInformation(int? id)
+        public async Task<ActionResult> EmployeeInformation(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var brigadeForTodayView = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_services.Info(id));
+            var brigadeForTodayView = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _services.Info(id));
 
             if (brigadeForTodayView == null)
             {

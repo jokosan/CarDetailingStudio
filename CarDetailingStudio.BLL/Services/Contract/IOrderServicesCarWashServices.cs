@@ -1,26 +1,27 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IOrderServicesCarWashServices
     {
-        IEnumerable<OrderServicesCarWashBll> GetOrderAllTireStorage();
-        IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder, int typeOfOrder);
-        IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder);
-        IEnumerable<OrderServicesCarWashBll> MonthlyReport(DateTime date);
-        OrderServicesCarWashBll GetId(int? id);
-        void InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total);
-        void InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder);
-        IEnumerable<OrderServicesCarWashBll> OrderReport(DateTime start, DateTime final);
+        Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage();
+        Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder, int typeOfOrder);
+        Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder);
+        Task<IEnumerable<OrderServicesCarWashBll>> MonthlyReport(DateTime date);
+        Task<OrderServicesCarWashBll> GetId(int? id);
+        Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total);
+        Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder);
+        Task<IEnumerable<OrderServicesCarWashBll>> OrderReport(DateTime start, DateTime final);
         double PriceServices(List<double> carBody, List<int> idList, List<int> sum, int id);
-        void RecountOrder(int idOrder, int? ClientDiscont = null);
-        void DeleteOrder(int idOrder);
-        void StatusOrder(int? idOrder, int status);
-        void SaveOrder(OrderServicesCarWashBll orderSave);
-        int CreateOrder(OrderServicesCarWashBll orderSave);
-        IEnumerable<OrderServicesCarWashBll> GetDataClosing();
-        IEnumerable<OrderServicesCarWashBll> AllOrderOneEmployee(List<int> idOrder);
+        Task RecountOrder(int idOrder, int? ClientDiscont = null);
+        Task DeleteOrder(int idOrder);
+        Task StatusOrder(int? idOrder, int status);
+        Task SaveOrder(OrderServicesCarWashBll orderSave);
+        Task<int> CreateOrder(OrderServicesCarWashBll orderSave);
+        Task<IEnumerable<OrderServicesCarWashBll>> GetDataClosing();
+        Task<IEnumerable<OrderServicesCarWashBll>> AllOrderOneEmployee(List<int> idOrder);
     }
 }

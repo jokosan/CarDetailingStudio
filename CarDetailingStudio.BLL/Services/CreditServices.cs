@@ -6,6 +6,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -20,26 +21,26 @@ namespace CarDetailingStudio.BLL.Services
             _automapper = automapperConfig;
         }
 
-        public IEnumerable<CreditBll> GetAll()
+        public async Task<IEnumerable<CreditBll>> GetAll()
         {
-            return Mapper.Map<IEnumerable<CreditBll>>(_unitOfWork.CreditUnitOgWork.GetInclude("CarWashWorkers"));
+            return Mapper.Map<IEnumerable<CreditBll>>(await _unitOfWork.CreditUnitOgWork.GetInclude("CarWashWorkers"));
         }
 
-        public void Create(CreditBll credit)
+        public async Task Create(CreditBll credit)
         {
             Credit creditCreate = Mapper.Map<CreditBll, Credit>(credit);
             _unitOfWork.CreditUnitOgWork.Insert(creditCreate);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public IEnumerable<CreditBll> GetCreditWhere()
+        public async Task<IEnumerable<CreditBll>> GetCreditWhere()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<CreditBll>>(await _unitOfWork.CreditUnitOgWork.Get());
         }
 
-        public CreditBll IdCredit(int id)
+        public async Task<CreditBll> IdCredit(int id)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<CreditBll>(await _unitOfWork.CreditUnitOgWork.GetById(id));
         }
     }
 }

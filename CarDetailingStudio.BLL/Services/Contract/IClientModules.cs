@@ -1,9 +1,10 @@
 ﻿using CarDetailingStudio.BLL.Model;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IClientModules
     {
-        int Distribute(ClientViewsBll client);
+        Task<int> Distribute(ClientViewsBll client);
     }
 }

@@ -1,20 +1,21 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IOrderCarWashWorkersServices
     {
-        IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(DateTime dateTime);
-        IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int? IdCarWashWorkers);
-        IEnumerable<OrderCarWashWorkersBll> СontractorAllId(int? id);
-        void SaveOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash);
-        void UpdateOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash);
-        IEnumerable<OrderCarWashWorkersBll> GetTableInclud();
-        IEnumerable<OrderCarWashWorkersBll> SampleForPayroll(int id, System.DateTime date);
-        IEnumerable<OrderCarWashWorkersBll> TableCalculationStatusFolse();
-        IEnumerable<OrderCarWashWorkersBll> GetClosedDay();
-        IEnumerable<OrderCarWashWorkersBll> GetClosedDay(int? id, DateTime? date);
+        Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(DateTime dateTime);
+        Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(int? IdCarWashWorkers);
+        Task<IEnumerable<OrderCarWashWorkersBll>> СontractorAllId(int? id);
+        Task SaveOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash);
+        Task UpdateOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash);
+        Task<IEnumerable<OrderCarWashWorkersBll>> GetTableInclud();
+        Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(int id, System.DateTime date);
+        Task<IEnumerable<OrderCarWashWorkersBll>> TableCalculationStatusFolse();
+        Task<IEnumerable<OrderCarWashWorkersBll>> GetClosedDay();
+        Task<IEnumerable<OrderCarWashWorkersBll>> GetClosedDay(int? id, DateTime? date);
     }
 }

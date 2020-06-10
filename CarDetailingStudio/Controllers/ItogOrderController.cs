@@ -6,6 +6,7 @@ using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
@@ -30,24 +31,25 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: OrderInfoViewModels
-        public ActionResult DayResult()
+        public async Task<ActionResult> DayResult()
         {
             var ItogSalary = Mapper.Map<IEnumerable<DayResultModelView>>(_dayResult.DayResultViewInfo());
             var ItogSalarySum = ItogSalary.Sum(x => x.payroll);
+            var orderServices = await _orderServices.GetDataClosing();
 
             ViewBag.NumberOfEmployees = ItogSalary.Sum(x => x.orderCount);
-            ViewBag.OrderCount = _orderServices.GetDataClosing().Count();
+            ViewBag.OrderCount = orderServices.Count();
             ViewBag.Sum = ItogSalarySum;
 
             return View(ItogSalary);
         }
 
         [HttpPost]
-        public ActionResult DayResult(bool confirmation = false)
+        public async Task<ActionResult> DayResult(bool confirmation = false)
         {
             if (confirmation)
             {
-                _closeShiftModule.CurrentShift();
+                await _closeShiftModule.CurrentShift();
                 return RedirectToAction("Index", "Order");
             }
 
@@ -55,13 +57,13 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpGet]
-        public ActionResult CompletedOrdersOfOneEmployee(int? idEmploee)
+        public async Task<ActionResult> CompletedOrdersOfOneEmployee(int? idEmploee)
         {
             if (idEmploee != null)
             {
                 var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(_orderCarWashWorker.SampleForPayroll(idEmploee.Value, DateTime.Now));
 
-                ViewBag.CarWashWorker = Mapper.Map<CarWashWorkersView>(_carWashWorkers.CarWashWorkersId(idEmploee));
+                ViewBag.CarWashWorker = Mapper.Map<CarWashWorkersView>(await _carWashWorkers.CarWashWorkersId(idEmploee));
                 ViewBag.SumOrder = carWashWorkersDayTotal.Sum(x => x.Payroll);
                 ViewBag.Sum = carWashWorkersDayTotal.Sum(x => x.OrderServicesCarWash.DiscountPrice);
 

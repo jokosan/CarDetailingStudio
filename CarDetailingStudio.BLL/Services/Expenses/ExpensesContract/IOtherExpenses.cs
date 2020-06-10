@@ -2,11 +2,12 @@
 using CarDetailingStudio.BLL.Services.Contract.GenericContract;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses.ExpensesContract
 {
     public interface IOtherExpenses : IGetFromDatabase<OtherExpensesBll>, IDatabaseOperations<OtherExpensesBll>
     {
-        IEnumerable<OtherExpensesBll> MonthlyReport(DateTime date);
+        Task<IEnumerable<OtherExpensesBll>> MonthlyReport(DateTime date);
     }
 }

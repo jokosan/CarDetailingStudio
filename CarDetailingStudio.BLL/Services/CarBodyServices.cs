@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -18,14 +19,14 @@ namespace CarDetailingStudio.BLL.Services
             _automapperConfig = automapper;
         }
 
-        public IEnumerable<CarBodyBll> GetTableAll()
+        public async Task<IEnumerable<CarBodyBll>> GetTableAll()
         {
-            return Mapper.Map<IEnumerable<CarBodyBll>>(_unitOfWork.CarBodyUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<CarBodyBll>>(await _unitOfWork.CarBodyUnitOfWork.Get());
         }
 
-        public CarBodyBll SelectId(int? elementId)
+        public async Task<CarBodyBll> SelectId(int? elementId)
         {
-            return Mapper.Map<CarBodyBll>(_unitOfWork.CarBodyUnitOfWork.GetById(elementId));
+            return Mapper.Map<CarBodyBll>(await _unitOfWork.CarBodyUnitOfWork.GetById(elementId));
         }
     }
 }

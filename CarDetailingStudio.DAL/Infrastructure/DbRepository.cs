@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
@@ -20,18 +21,18 @@ namespace CarDetailingStudio.DAL.Infrastructure
             DbSeT = entities.Set<T>();
         }
 
-        public virtual IEnumerable<T> Get()
+        public virtual async  Task<IEnumerable<T>> Get()
         {
             Lazy<T> lazy = new Lazy<T>();
 
-            var query = DbSeT.AsEnumerable<T>().AsQueryable();
+            var query = await DbSeT.AsEnumerable<T>().AsQueryable().ToListAsync();
 
             return query;
         }
 
-        public virtual T GetById(int? id)
+        public virtual async Task<T> GetById(int? id)
         {
-            return DbSeT.Find(id);
+            return await DbSeT.FindAsync(id);
         }
 
         public virtual void Insert(T entity)
@@ -77,56 +78,40 @@ namespace CarDetailingStudio.DAL.Infrastructure
                 _carWashEntitiesContext.Set(stub.GetType()).Attach(stub);
         }
 
-        public IEnumerable<T> GetWhere(Func<T, bool> predicate)
-        {
-            var result = DbSeT.AsQueryable();
-            result = result.Where(predicate).AsQueryable();
-            return result;
-            // return DbSeT.AsEnumerable<T>().AsQueryable().Where(predicate);
+        public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate)
+        {                  
+            return await DbSeT.Where(predicate).AsQueryable().ToListAsync();
         }
 
-        public IEnumerable<T> GetWhere(Func<T, bool> predicate, string children)
+        public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate, string children)
         {
-            var result = DbSeT.AsQueryable();
-            result = result.Include(children).Where(predicate).AsQueryable();
-            return result;
+             return await DbSeT.Include(children).Where(predicate).AsQueryable().ToListAsync();            
         }
 
 
-        public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
+        public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
-            return DbSeT.Include(children).Where(filter);
+            return await DbSeT.Include(children).Where(filter).ToListAsync();
         }
 
-        public IEnumerable<T> QueryObjectGraph(Expression<Func<T, bool>> filter, List<string> children)
+        public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, List<string> children)
         {
             foreach (var property in children)
             {
                 DbSeT.Include(property.ToString());
             }
 
-            return DbSeT.Where(filter);
+            return  DbSeT.Where(filter);
         }
 
-        public IEnumerable<T> GetInclude(string children)
+        public async Task<IEnumerable<T>> GetInclude(string children)
         {
-            var query = DbSeT.Include(children).AsEnumerable<T>().AsQueryable();
-
-            return query;
+            return await DbSeT.Include(children).AsEnumerable<T>().AsQueryable().ToListAsync();
         }
 
-        public T IdInclude(int id)
+        public async Task<T> IdInclude(int id)
         {
-            return DbSeT.Find(id);
-        }
-
-        public IEnumerable<T> Item(Expression<Func<T, bool>> wherePredicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            foreach (var property in includeProperties)
-            {
-                DbSeT.Include(property.ToString());
-            }
-            return DbSeT.Where(wherePredicate);
+            return await DbSeT.FindAsync(id);
         }
     }
 }

@@ -168,6 +168,7 @@
           <ScalarProperty Name="amount" ColumnName="amount" />
           <ScalarProperty Name="dateExpenses" ColumnName="dateExpenses" />
           <ScalarProperty Name="expenseCategoryId" ColumnName="expenseCategoryId" />
+          <ScalarProperty Name="typeServicesId" ColumnName="typeServicesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -402,6 +403,14 @@
         <MappingFragment StoreEntitySet="typeOfOrder">
           <ScalarProperty Name="IdTypeOfOrder" ColumnName="IdTypeOfOrder" />
           <ScalarProperty Name="nameOrder" ColumnName="nameOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypeServices">
+      <EntityTypeMapping TypeName="carWashServerModel.TypeServices">
+        <MappingFragment StoreEntitySet="TypeServices">
+          <ScalarProperty Name="idTypeServices" ColumnName="idTypeServices" />
+          <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

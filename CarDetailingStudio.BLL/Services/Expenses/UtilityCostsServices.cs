@@ -5,6 +5,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
 {
@@ -17,36 +18,35 @@ namespace CarDetailingStudio.BLL.Services.Expenses
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<UtilityCostsBll> GetTableAll()
+        public async Task<IEnumerable<UtilityCostsBll>> GetTableAll()
         {
-            return Mapper.Map<IEnumerable<UtilityCostsBll>>(_unitOfWork.utilityCostsUnitOfWork.GetInclude("expenseCategory"));
+            return Mapper.Map<IEnumerable<UtilityCostsBll>>(await _unitOfWork.utilityCostsUnitOfWork.GetInclude("expenseCategory"));
         }
 
-        public UtilityCostsBll SelectId(int? elementId)
+        public async Task<UtilityCostsBll> SelectId(int? elementId)
         {
-            return Mapper.Map<UtilityCostsBll>(_unitOfWork.utilityCostsUnitOfWork.GetById(elementId));
+            return Mapper.Map<UtilityCostsBll>(await _unitOfWork.utilityCostsUnitOfWork.GetById(elementId));
         }
 
-        public void Insert(UtilityCostsBll element)
+        public async Task Insert(UtilityCostsBll element)
         {
             utilityCosts utilityCosts = Mapper.Map<UtilityCostsBll, utilityCosts>(element);
 
             _unitOfWork.utilityCostsUnitOfWork.Insert(utilityCosts);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-
-        public void Update(UtilityCostsBll elementToUpdate)
+        public async Task Update(UtilityCostsBll elementToUpdate)
         {
             utilityCosts utilityCosts = Mapper.Map<UtilityCostsBll, utilityCosts>(elementToUpdate);
 
             _unitOfWork.utilityCostsUnitOfWork.Update(utilityCosts);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public IEnumerable<UtilityCostsBll> MonthlyReport(DateTime date)
+        public async Task<IEnumerable<UtilityCostsBll>> MonthlyReport(DateTime date)
         {
-            return Mapper.Map<IEnumerable<UtilityCostsBll>>(_unitOfWork.utilityCostsUnitOfWork.GetWhere(x => x.dateExpenses?.Month == date.Month, "expenseCategory"));
+            return Mapper.Map<IEnumerable<UtilityCostsBll>>(await _unitOfWork.utilityCostsUnitOfWork.GetWhere(x => x.dateExpenses.Value.Month == date.Month, "expenseCategory"));
         }
     }
 }

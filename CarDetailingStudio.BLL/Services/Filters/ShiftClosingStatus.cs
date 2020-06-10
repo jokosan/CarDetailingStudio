@@ -6,6 +6,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Filters
 {
@@ -19,15 +20,16 @@ namespace CarDetailingStudio.BLL.Services.Filters
             _unitOfWork = new UnitOfWork();
         }
 
-        public void ShiftStatus()
+        public async Task ShiftStatus()
         {
             DateTime dateTime = DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
-            CurrentShift(dateTime);
+            await CurrentShift(dateTime);
         }
 
-        public void CurrentShift(DateTime date)
+        public async Task CurrentShift(DateTime date)
         {
-            var ordersFulfilled = TableCalculationStatusFolse().Where(x => x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy"));
+            var ordersFulfilled = await TableCalculationStatusFolse();
+            var ordersFulfilledWhere = ordersFulfilled.Where(x => x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy"));
 
             if (DateTime.Now != date)
             {
@@ -36,7 +38,7 @@ namespace CarDetailingStudio.BLL.Services.Filters
 
             if (statusFalse)
             {
-                var DayClose = DayResultViewInfo();
+                var DayClose = await DayResultViewInfo();
 
                 OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
@@ -55,20 +57,20 @@ namespace CarDetailingStudio.BLL.Services.Filters
 
                         OrderCarWashWorkers orderCarWash = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(orderCarWashWorkers);
                         _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(orderCarWash);
-                        _unitOfWork.Save();
+                        await _unitOfWork.Save();
                     }
                 }
             }
         }
 
-        private IEnumerable<OrderCarWashWorkersBll> TableCalculationStatusFolse()
+        private async Task<IEnumerable<OrderCarWashWorkersBll>> TableCalculationStatusFolse()
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash"));
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash"));
         }
 
-        public IEnumerable<DayResultModelBll> DayResultViewInfo()
+        public async Task<IEnumerable<DayResultModelBll>> DayResultViewInfo()
         {
-            var resultGetInclud = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(_unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false)
+            var resultGetInclud = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false)
                                                                                                                                && (x.CalculationStatus == false), "CarWashWorkers"));
             return resultGetInclud.GroupBy(x => x.IdCarWashWorkers)
                                   .Select(y => new DayResultModelBll

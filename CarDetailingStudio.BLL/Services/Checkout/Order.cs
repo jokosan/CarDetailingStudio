@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using System;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Checkout
 {
@@ -24,7 +25,7 @@ namespace CarDetailingStudio.BLL.Services.Checkout
 
         #region
 
-        public int OrderForCarpetCleaning(OrderCarpetWashingBll orderCarpetWashing, int? idPaymentState, int prise)
+        public async Task<int> OrderForCarpetCleaning(OrderCarpetWashingBll orderCarpetWashing, int? idPaymentState, int prise)
         {
             double? sumOrder = orderCarpetWashing.area * (double)prise;
 
@@ -39,14 +40,14 @@ namespace CarDetailingStudio.BLL.Services.Checkout
                 PaymentState = idPaymentState
             };
 
-            return _orderServicesCarWash.CreateOrder(orderservices);
+            return await _orderServicesCarWash.CreateOrder(orderservices);
         }
 
         #endregion
 
         #region оформление заказа "Хранение шин"
 
-        public int Chekout(OrderTireStorageModelBll orderTireStorage, double? sum, int? idPaymentState)
+        public async Task<int> Chekout(OrderTireStorageModelBll orderTireStorage, double? sum, int? idPaymentState)
         {
             var orderservices = new OrderServicesCarWashBll
             {
@@ -60,8 +61,8 @@ namespace CarDetailingStudio.BLL.Services.Checkout
                 PaymentState = idPaymentState
             };
 
-            int idOrder = _orderServicesCarWash.CreateOrder(orderservices);
-            int idStorageFee = CreateStorageFee(orderTireStorage, sum);
+            int idOrder = await _orderServicesCarWash.CreateOrder(orderservices);
+            int idStorageFee = await CreateStorageFee(orderTireStorage, sum);
 
             CreateOrderTireStorage(orderTireStorage, idOrder, idStorageFee);
 
@@ -88,7 +89,7 @@ namespace CarDetailingStudio.BLL.Services.Checkout
             _tireStorage.Insert(tireStorage);
         }
 
-        private int CreateStorageFee(OrderTireStorageModelBll orderTireStorage, double? sum)
+        private async Task<int> CreateStorageFee(OrderTireStorageModelBll orderTireStorage, double? sum)
         {
             var storageFeeAdd = new StorageFeeBll
             {
@@ -98,11 +99,9 @@ namespace CarDetailingStudio.BLL.Services.Checkout
                 storageStatus = false
             };
 
-            return _storageFee.InsertVoidInt(storageFeeAdd);
+            return await _storageFee.InsertVoidInt(storageFeeAdd);
         }
 
         #endregion
-
-
     }
 }

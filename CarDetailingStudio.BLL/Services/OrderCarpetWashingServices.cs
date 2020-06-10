@@ -4,6 +4,8 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -17,16 +19,16 @@ namespace CarDetailingStudio.BLL.Services
         }
 
 
-        public IEnumerable<OrderCarpetWashingBll> GetTableAll()
+        public async Task<IEnumerable<OrderCarpetWashingBll>> GetTableAll()
         {
-            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(_unitOfWork.OrderCarpetWashingUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.Get());
         }
 
-        public IEnumerable<OrderCarpetWashingBll> GetIncludeWhere()
+        public async Task<IEnumerable<OrderCarpetWashingBll>> GetIncludeWhere()
         {
             // return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(_unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => x.OrderServicesCarWash.typeOfOrder == 3, "OrderServicesCarWash"));
             List<string> input = new List<string>() { "OrderServicesCarWash", "PaymentState1", "StatusOrder1" };
-            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(_unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => x.OrderServicesCarWash.typeOfOrder == 3, input));
+            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => x.OrderServicesCarWash.typeOfOrder == 3, input));
             //return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(_unitOfWork.OrderCarpetWashingUnitOfWork.Item(x => x.OrderServicesCarWash.typeOfOrder == 3,
             //                                                                                                    y => y.OrderServicesCarWash,
             //                                                                                                    y => y.OrderServicesCarWash.PaymentState1,
@@ -34,25 +36,25 @@ namespace CarDetailingStudio.BLL.Services
             //                                                                                                    ));
         }
 
-        public OrderCarpetWashingBll SelectId(int? elementId)
+        public async Task<OrderCarpetWashingBll> SelectId(int? elementId)
         {
-            return Mapper.Map<OrderCarpetWashingBll>(_unitOfWork.OrderCarpetWashingUnitOfWork.GetById(elementId));
+            return Mapper.Map<OrderCarpetWashingBll>(await _unitOfWork.OrderCarpetWashingUnitOfWork.GetById(elementId));
         }
 
-        public void Insert(OrderCarpetWashingBll element)
+        public async Task Insert(OrderCarpetWashingBll element)
         {
             orderCarpetWashing ordersCarpetWashing = Mapper.Map<OrderCarpetWashingBll, orderCarpetWashing>(element);
 
             _unitOfWork.OrderCarpetWashingUnitOfWork.Insert(ordersCarpetWashing);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void Update(OrderCarpetWashingBll elementToUpdate)
+        public async Task Update(OrderCarpetWashingBll elementToUpdate)
         {
             orderCarpetWashing ordersCarpetWashing = Mapper.Map<OrderCarpetWashingBll, orderCarpetWashing>(elementToUpdate);
 
             _unitOfWork.OrderCarpetWashingUnitOfWork.Update(ordersCarpetWashing);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
     }
 }

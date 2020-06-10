@@ -5,6 +5,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.TireStorageServices
 {
@@ -17,33 +18,37 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<StorageFeeBll> GetTableAll()
+        public async Task<IEnumerable<StorageFeeBll>> GetTableAll()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<StorageFeeBll>>(await _unitOfWork.storageFeeUnitOfWork.Get());
         }
 
-        public void Insert(StorageFeeBll element)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int InsertVoidInt(StorageFeeBll element)
+        public async Task Insert(StorageFeeBll element)
         {
             storageFee storage = Mapper.Map<StorageFeeBll, storageFee>(element);
             _unitOfWork.storageFeeUnitOfWork.Insert(storage);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
+        }
+
+        public async Task<int> InsertVoidInt(StorageFeeBll element)
+        {
+            storageFee storage = Mapper.Map<StorageFeeBll, storageFee>(element);
+            _unitOfWork.storageFeeUnitOfWork.Insert(storage);
+            await _unitOfWork.Save();
 
             return storage.idStorageFee;
         }
 
-        public StorageFeeBll SelectId(int? elementId)
+        public async Task<StorageFeeBll> SelectId(int? elementId)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<StorageFeeBll>(await _unitOfWork.storageFeeUnitOfWork.GetById(elementId));
         }
 
-        public void Update(StorageFeeBll elementToUpdate)
+        public async Task Update(StorageFeeBll elementToUpdate)
         {
-            throw new NotImplementedException();
+            storageFee storage = Mapper.Map<StorageFeeBll, storageFee>(elementToUpdate);
+            _unitOfWork.storageFeeUnitOfWork.Update(storage);
+            await _unitOfWork.Save();
         }
     }
 }

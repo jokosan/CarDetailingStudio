@@ -5,6 +5,7 @@ using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 {
@@ -19,21 +20,21 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             _orderServicesCarWash = orderServicesCarWash;
         }
 
-        public IEnumerable<DayResultModelBll> DayResultViewInfo()
+        public async Task<IEnumerable<DayResultModelBll>> DayResultViewInfo()
         {
-            var resultGetInclud = _orderCarWashWorkersServices.GetClosedDay();
+            var resultGetInclud = await _orderCarWashWorkersServices.GetClosedDay();
             return GrupDayResult(resultGetInclud);
         }
 
-        public IEnumerable<DayResultModelBll> TotalForEachEmployee()
+        public async Task<IEnumerable<DayResultModelBll>> TotalForEachEmployee()
         {
-            var result = _orderCarWashWorkersServices.GetTableInclud();
+            var result = await _orderCarWashWorkersServices.GetTableInclud();
             return GrupDayResult(result);
         }
 
         private IEnumerable<DayResultModelBll> GrupDayResult(IEnumerable<OrderCarWashWorkersBll> getResult)
         {
-            return getResult.GroupBy(x => x.IdCarWashWorkers)
+            return  getResult.GroupBy(x => x.IdCarWashWorkers)
                                   .Select(y => new DayResultModelBll
                                   {
                                       carWashWorkersId = y.First().CarWashWorkers.id,

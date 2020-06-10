@@ -1,12 +1,13 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface ICarMarkServices
     {
-        IEnumerable<CarMarkBll> Get();
-        IEnumerable<CarMarkBll> GetWhere(string id);
-        IEnumerable<CarMarkBll> GetInclude();
+        Task<IEnumerable<CarMarkBll>> Get();
+        Task<IEnumerable<CarMarkBll>> GetWhere(string id);
+        Task<IEnumerable<CarMarkBll>> GetInclude();
     }
 }

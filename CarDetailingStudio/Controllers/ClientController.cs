@@ -5,6 +5,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -30,11 +31,11 @@ namespace CarDetailingStudio.Controllers
 
 
         // GET: Client/Create
-        public ActionResult NewClient(string idPage)
+        public async Task<ActionResult> NewClient(string idPage)
         {
             ViewBag.OpenPage = idPage;
-            ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
-            ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
+            ViewBag.Body = new SelectList(await _carBody.GetTableAll(), "Id", "Name");
+            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
 
             if ("Checkout" == idPage)
             {
@@ -46,7 +47,7 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewClient([Bind(Include = "Id,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumberCar,IdClientsGroups,IdBody,note,barcode")] ClientView clientView, bool Page, int? Service)
+        public async Task<ActionResult> NewClient([Bind(Include = "Id,Surname,Name,PatronymicName,phone,DateRegistration,Email,discont,Recommendation,NumberCar,IdClientsGroups,IdBody,note,barcode")] ClientView clientView, bool Page, int? Service)
         {
             if (TempData.ContainsKey("Mark") && TempData.ContainsKey("Model") && clientView.IdBody != null)
             {
@@ -62,9 +63,9 @@ namespace CarDetailingStudio.Controllers
                         if (Service != null)
                         {
                             ClientViewsBll client = Mapper.Map<ClientView, ClientViewsBll>(clientView);
-                            int idNewClient = _clientModules.Distribute(client);
+                            int idNewClient =  await _clientModules.Distribute(client);
 
-                            var carBody = Mapper.Map<CarBodyView>(_carBody.SelectId(Convert.ToInt32(clientView.IdBody)));
+                            var carBody = Mapper.Map<CarBodyView>(await _carBody.SelectId(Convert.ToInt32(clientView.IdBody)));
                             return RedirectToAction("NewOrder", "ClientsOfCarWashViews", new RouteValueDictionary(new { id = idNewClient, body = carBody.Name, Services = Service }));
                         }
                         else
@@ -77,9 +78,9 @@ namespace CarDetailingStudio.Controllers
                         if (Page)
                         {
                             ClientViewsBll client = Mapper.Map<ClientView, ClientViewsBll>(clientView);
-                            int idNewClient = _clientModules.Distribute(client);
+                            int idNewClient = await _clientModules.Distribute(client);
 
-                            var carBody = Mapper.Map<CarBodyView>(_carBody.SelectId(Convert.ToInt32(clientView.IdBody)));
+                            var carBody = Mapper.Map<CarBodyView>(await _carBody.SelectId(Convert.ToInt32(clientView.IdBody)));
 
                             return RedirectToAction("../ClientsOfCarWashViews/Client");
                         }
@@ -91,8 +92,8 @@ namespace CarDetailingStudio.Controllers
                 }
             }
 
-            ViewBag.Body = new SelectList(_carBody.GetTableAll(), "Id", "Name");
-            ViewBag.Group = new SelectList(_clientsGroups.GetClientsGroups(), "Id", "Name");
+            ViewBag.Body = new SelectList(await _carBody.GetTableAll(), "Id", "Name");
+            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
 
             if ((TempData.ContainsKey("Checkout")))
             {

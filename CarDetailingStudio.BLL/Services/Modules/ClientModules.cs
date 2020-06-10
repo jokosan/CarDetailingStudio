@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Modules
 {
@@ -22,7 +23,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
             _clientInfo = clientInfo;
         }
 
-        public int Distribute(ClientViewsBll client)
+        public async Task<int> Distribute(ClientViewsBll client)
 
         {
             ClientsOfCarWashBll clientsOfCarWash = new ClientsOfCarWashBll();
@@ -39,7 +40,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
             ClientInfo clientInfo = Mapper.Map<ClientInfoBll, ClientInfo>(clientInfoBll);
             _unitOfWork.ClientInfoUnitOfWork.Insert(clientInfo);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             clientsOfCarWash.IdBody = client.IdBody;
             clientsOfCarWash.IdClientsGroups = client.IdClientsGroups;
@@ -53,7 +54,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
             ClientsOfCarWash clientsOfCar = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(clientsOfCarWash);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Insert(clientsOfCar);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return clientsOfCar.id;
         }

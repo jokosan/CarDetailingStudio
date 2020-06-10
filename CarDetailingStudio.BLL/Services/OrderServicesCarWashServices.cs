@@ -8,7 +8,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -30,49 +30,49 @@ namespace CarDetailingStudio.BLL.Services
             _servisesCarWashOrder = servisesCarWashOrder;
         }
 
-        public IEnumerable<OrderServicesCarWashBll> MonthlyReport(DateTime date)
+        public async Task<IEnumerable<OrderServicesCarWashBll>> MonthlyReport(DateTime date)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => x.ClosingData?.Month == date.Month));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => x.ClosingData.Value.Month == date.Month));
         }
 
-        public IEnumerable<OrderServicesCarWashBll> GetOrderAllTireStorage()
+        public async Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage()
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == 5));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == 5));
         }
 
-        public IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder)
+        public async Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder)
         {
             if (statusOrder != 2)
             {
-                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == 1) || (x.StatusOrder == 4)));
+                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == 1) || (x.StatusOrder == 4)));
                 return GetAllResult;
             }
             else
             {
                 var dateCriteria = DateTime.Now.Date.AddDays(-7);
-                var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
+                var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == statusOrder));
                 var Test = OrderByDate.Where(x => x.ClosingData >= dateCriteria);
 
                 return Test;
             }
         }
 
-        public IEnumerable<OrderServicesCarWashBll> GetAll(int statusOrder, int typeOfOrder)
+        public async Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder, int typeOfOrder)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == typeOfOrder)));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == typeOfOrder)));
         }
 
-        public IEnumerable<OrderServicesCarWashBll> AllOrderOneEmployee(List<int> idOrder)
+        public async Task<IEnumerable<OrderServicesCarWashBll>> AllOrderOneEmployee(List<int> idOrder)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.QueryObjectGraph(x => idOrder.Contains(x.Id)));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.QueryObjectGraph(x => idOrder.Contains(x.Id)));
         }
 
-        public OrderServicesCarWashBll GetId(int? id)
+        public async Task<OrderServicesCarWashBll> GetId(int? id)
         {
-            return Mapper.Map<OrderServicesCarWashBll>(_unitOfWork.orderUnitiOfWork.GetById(id));
+            return Mapper.Map<OrderServicesCarWashBll>(await _unitOfWork.orderUnitiOfWork.GetById(id));
         }
 
-        public void InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total)
+        public async Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total)
         {
             OrderServicesCarWashBll OrderFormation = new OrderServicesCarWashBll();
 
@@ -81,13 +81,13 @@ namespace CarDetailingStudio.BLL.Services
                 IdClientsOfCarWash = OrderServices.idClient,
                 StatusOrder = 1,
                 OrderDate = DateTime.Now,
-                TotalCostOfAllServices = _orderServices.OrderPrice(),
+                TotalCostOfAllServices =  _orderServices.OrderPrice(),
                 DiscountPrice = Math.Round(total),
                 typeOfOrder = 1
 
             };
 
-            int orderServicesCar = CreateOrder(OrderFormation);
+            int orderServicesCar = await CreateOrder(OrderFormation);
 
             foreach (var item in OrderServices.OrderList)
             {
@@ -102,20 +102,20 @@ namespace CarDetailingStudio.BLL.Services
                 ServisesCarWashOrder servisesCarWash = Mapper.Map<ServisesCarWashOrderBll, ServisesCarWashOrder>(_servisesCar);
 
                 _unitOfWork.ServisesCarWashOrderUnitOfWork.Insert(servisesCarWash);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
             }
 
             _orderServices.ClearListOrder();
         }
 
-        public void InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder)
+        public async Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder)
         {
             var OrderServicesCarWashGetId = Mapper.Map<OrderServicesCarWashBll>(_unitOfWork.OrderServicesCarWashUnitOfWork.GetById(idOrder));
 
             OrderServicesCarWashGetId.TotalCostOfAllServices = OrderServicesCarWashGetId.TotalCostOfAllServices + _orderServices.OrderPrice();
             OrderServicesCarWashGetId.DiscountPrice = Math.Round(total);
 
-            SaveOrder(OrderServicesCarWashGetId);
+            await SaveOrder(OrderServicesCarWashGetId);
 
             foreach (var item in OrderServices.OrderList)
             {
@@ -130,7 +130,7 @@ namespace CarDetailingStudio.BLL.Services
                 ServisesCarWashOrder servisesCarWash = Mapper.Map<ServisesCarWashOrderBll, ServisesCarWashOrder>(_servisesCar);
 
                 _unitOfWork.ServisesCarWashOrderUnitOfWork.Insert(servisesCarWash);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
             }
 
             _orderServices.ClearListOrder();
@@ -161,19 +161,21 @@ namespace CarDetailingStudio.BLL.Services
             return 0;
         }
 
-        public IEnumerable<OrderServicesCarWashBll> GetDataClosing()
+        public async Task<IEnumerable<OrderServicesCarWashBll>> GetDataClosing()
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.OrderServicesCarWashUnitOfWork
-                                                                              .GetWhere(x => x.ClosingData?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.OrderServicesCarWashUnitOfWork
+                                                                              .GetWhere(x => x.ClosingData.Value.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
         }
 
-        public void RecountOrder(int idOrder, int? ClientDiscont = null)
+        public async Task RecountOrder(int idOrder, int? ClientDiscont = null)
         {
-            OrderServicesCarWashBll WhereIdOrder = GetId(idOrder);
+            OrderServicesCarWashBll WhereIdOrder = await GetId(idOrder);
 
             OrderServicesCarWash EditOrder = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(WhereIdOrder);
 
-            EditOrder.TotalCostOfAllServices = _unitOfWork.ServisesCarWashOrderUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == idOrder).Sum(x => x.Price);
+            var getResult =  await _unitOfWork.ServisesCarWashOrderUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == idOrder);
+
+            EditOrder.TotalCostOfAllServices  = getResult.Sum(x => x.Price);
 
             if (ClientDiscont != null)
             {
@@ -185,51 +187,51 @@ namespace CarDetailingStudio.BLL.Services
             }
 
             _unitOfWork.OrderServicesCarWashUnitOfWork.Update(EditOrder);
-            _unitOfWork.Save();
+           await _unitOfWork.Save();
         }
 
-        public void StatusOrder(int? idOrder, int status)
+        public async Task StatusOrder(int? idOrder, int status)
         {
-            var order = GetId(idOrder);
+            var order = await GetId(idOrder);
             order.StatusOrder = status;
 
-            SaveOrder(order);
+            await SaveOrder(order);
         }
 
-        public IEnumerable<OrderServicesCarWashBll> OrderReport(DateTime start, DateTime final)
+        public async Task<IEnumerable<OrderServicesCarWashBll>> OrderReport(DateTime start, DateTime final)
         {
             var dateStart = start.Date;
             var dateFinal = final.Date.AddDays(1);
 
-            var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(_unitOfWork.orderUnitiOfWork.GetWhereDate(x => x.StatusOrder == 2));
+            var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhereDate(x => x.StatusOrder == 2));
             var Test = OrderByDate.Where(x => x.ClosingData > dateStart && x.ClosingData <= final.Date.AddDays(1));
             //va);
             return Test;
         }
 
-        public void DeleteOrder(int idOrder)
+        public async Task DeleteOrder(int idOrder)
         {
             _unitOfWork.OrderServicesCarWashUnitOfWork.Delete(idOrder);
 
-            _servisesCarWashOrder.ServicesDelete(idOrder, nameof(OrderServicesCarWashServices));
+            await _servisesCarWashOrder.ServicesDelete(idOrder, nameof(OrderServicesCarWashServices));
 
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void SaveOrder(OrderServicesCarWashBll orderSave)
+        public async Task SaveOrder(OrderServicesCarWashBll orderSave)
         {
             OrderServicesCarWash orderCarWashWorkers = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(orderSave);
 
             _unitOfWork.OrderServicesCarWashUnitOfWork.Update(orderCarWashWorkers);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public int CreateOrder(OrderServicesCarWashBll orderSave)
+        public async Task<int> CreateOrder(OrderServicesCarWashBll orderSave)
         {
             OrderServicesCarWash orderCarWashWorkers = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(orderSave);
 
             _unitOfWork.OrderServicesCarWashUnitOfWork.Insert(orderCarWashWorkers);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return orderCarWashWorkers.Id;
         }

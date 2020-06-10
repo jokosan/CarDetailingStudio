@@ -5,6 +5,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.BLL.Services.Modules
@@ -57,9 +58,9 @@ namespace CarDetailingStudio.BLL.Services.Modules
         }
 
 
-        public void OrderPreview()
+        public async Task OrderPreview()
         {
-            var AllDetailings = Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
+            var AllDetailings = Mapper.Map<IEnumerable<DetailingsBll>>(await _unitOfWork.DetailingsUnitOfWork.Get());
 
             Atest = AllDetailings.Where(a => IdOrders.Contains(a.Id));
 

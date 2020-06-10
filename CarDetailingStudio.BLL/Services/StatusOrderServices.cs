@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -16,14 +17,14 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<StatusOrderBll> GetTableAll()
+        public async Task<IEnumerable<StatusOrderBll>> GetTableAll()
         {
-            return Mapper.Map<IEnumerable<StatusOrderBll>>(_unitOfWork.StatusOrderUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<StatusOrderBll>>(await _unitOfWork.StatusOrderUnitOfWork.Get());
         }
 
-        public StatusOrderBll SelectId(int? elementId)
+        public async Task<StatusOrderBll> SelectId(int? elementId)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<StatusOrderBll>(await _unitOfWork.StatusOrderUnitOfWork.GetById(elementId));
         }
     }
 }

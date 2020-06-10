@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers.Expenses
@@ -22,15 +23,17 @@ namespace CarDetailingStudio.Controllers.Expenses
         }
 
         // GET: UtilityCosts
-        public ActionResult ViewUtilityCosts()
+        public async Task<ActionResult> ViewUtilityCosts()
         {
-            return View(Mapper.Map<IEnumerable<UtilityCostsView>>(_utilityCosts.GetTableAll()));
+            return View(Mapper.Map<IEnumerable<UtilityCostsView>>(await _utilityCosts.GetTableAll()));
         }
 
         // GET: UtilityCosts/Create
-        public ActionResult CreateUtilityCosts()
+        public async Task<ActionResult> CreateUtilityCosts()
         {
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll().Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
+            var expenseCategory = await _expenseCategory.GetTableAll();
+
+            ViewBag.Category = new SelectList(expenseCategory.Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
             return View();
         }
 
@@ -39,37 +42,41 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUtilityCosts([Bind(Include = "idUtilityCosts,indicationCounter,amount,dateExpenses,expenseCategoryId")] UtilityCostsView utilityCostsView)
+        public async Task<ActionResult> CreateUtilityCosts([Bind(Include = "idUtilityCosts,indicationCounter,amount,dateExpenses,expenseCategoryId")] UtilityCostsView utilityCostsView)
         {
             if (ModelState.IsValid)
             {
                 UtilityCostsBll utilityCosts = Mapper.Map<UtilityCostsView, UtilityCostsBll>(utilityCostsView);
-                _utilityCosts.Insert(utilityCosts);
+                await _utilityCosts.Insert(utilityCosts);
 
                 return RedirectToAction("ViewUtilityCosts");
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll().Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
+            var expenseCategory = await _expenseCategory.GetTableAll();
+
+            ViewBag.Category = new SelectList(expenseCategory.Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
             return View(utilityCostsView);
         }
 
 
         // GET: UtilityCosts/Edit/5
-        public ActionResult EditUtilityCosts(int? id)
+        public async Task<ActionResult> EditUtilityCosts(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            UtilityCostsView utilityCostsView = Mapper.Map<UtilityCostsView>(_utilityCosts.SelectId(id));
+            UtilityCostsView utilityCostsView = Mapper.Map<UtilityCostsView>(await _utilityCosts.SelectId(id));
 
             if (utilityCostsView == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll().Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
+            var expenseCategory = await _expenseCategory.GetTableAll();
+
+            ViewBag.Category = new SelectList(expenseCategory.Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
             return View(utilityCostsView);
         }
 
@@ -78,17 +85,22 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUtilityCosts([Bind(Include = "idUtilityCosts,indicationCounter,amount,dateExpenses,expenseCategoryId")] UtilityCostsView utilityCostsView)
+        public async Task<ActionResult> EditUtilityCosts([Bind(Include = "idUtilityCosts,indicationCounter,amount,dateExpenses,expenseCategoryId")] UtilityCostsView utilityCostsView)
         {
             if (ModelState.IsValid)
             {
                 UtilityCostsBll utilityCosts = Mapper.Map<UtilityCostsView, UtilityCostsBll>(utilityCostsView);
-                _utilityCosts.Update(utilityCosts);
+                await _utilityCosts.Update(utilityCosts);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll().Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
+            var expenseCategory = await SelectValue();
+
+            ViewBag.Category = new SelectList(expenseCategory.Where(x => (x.idExpenseCategory >= 10) && (x.idExpenseCategory <= 15)), "idExpenseCategory", "name");
             return View(utilityCostsView);
         }
+
+        private async Task<IEnumerable<ExpenseCategoryView>> SelectValue() => Mapper.Map<IEnumerable<ExpenseCategoryView>>(await _expenseCategory.GetTableAll());
+        
     }
 }

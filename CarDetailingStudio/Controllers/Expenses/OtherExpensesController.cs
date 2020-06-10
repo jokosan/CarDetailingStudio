@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.Models.ModelViews;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers.Expenses
@@ -20,19 +21,19 @@ namespace CarDetailingStudio.Controllers.Expenses
         }
 
         // GET: OtherExpenses
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(Mapper.Map<IEnumerable<OtherExpensesView>>(_otherExpenses.GetTableAll()));
+            return View(Mapper.Map<IEnumerable<OtherExpensesView>>(await _otherExpenses.GetTableAll()));
         }
 
         // GET: OtherExpenses/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            OtherExpensesView otherExpensesView = Mapper.Map<OtherExpensesView>(_otherExpenses.SelectId(id));
+            OtherExpensesView otherExpensesView = Mapper.Map<OtherExpensesView>(await _otherExpenses.SelectId(id));
             if (otherExpensesView == null)
             {
                 return HttpNotFound();
@@ -41,9 +42,9 @@ namespace CarDetailingStudio.Controllers.Expenses
         }
 
         // GET: OtherExpenses/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View();
         }
 
@@ -52,34 +53,34 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idOtherExpenses,nameExpenses,amount,dateExpenses,expenseCategoryId")] OtherExpensesView otherExpensesView)
+        public async Task<ActionResult> Create([Bind(Include = "idOtherExpenses,nameExpenses,amount,dateExpenses,expenseCategoryId")] OtherExpensesView otherExpensesView)
         {
             if (ModelState.IsValid)
             {
                 OtherExpensesBll otherExpenses = Mapper.Map<OtherExpensesView, OtherExpensesBll>(otherExpensesView);
-                _otherExpenses.Insert(otherExpenses);
+                await _otherExpenses.Insert(otherExpenses);
 
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(otherExpensesView);
         }
 
         // GET: OtherExpenses/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            OtherExpensesView otherExpensesView = Mapper.Map<OtherExpensesView>(_otherExpenses.SelectId(id));
+            OtherExpensesView otherExpensesView = Mapper.Map<OtherExpensesView>(await _otherExpenses.SelectId(id));
             if (otherExpensesView == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(otherExpensesView);
         }
 
@@ -88,16 +89,16 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idOtherExpenses,nameExpenses,amount,dateExpenses,expenseCategoryId")] OtherExpensesView otherExpensesView)
+        public async Task<ActionResult> Edit([Bind(Include = "idOtherExpenses,nameExpenses,amount,dateExpenses,expenseCategoryId")] OtherExpensesView otherExpensesView)
         {
             if (ModelState.IsValid)
             {
                 OtherExpensesBll otherExpenses = Mapper.Map<OtherExpensesView, OtherExpensesBll>(otherExpensesView);
-                _otherExpenses.Insert(otherExpenses);
+                await _otherExpenses.Insert(otherExpenses);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(otherExpensesView);
         }
     }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace CarDetailingStudio.BLL.Services.Modules
@@ -13,9 +14,9 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
         internal static List<ExchangeRatesBll> exchangeRatesModel = new List<ExchangeRatesBll>();
 
-        public void ApiPrivat()
+        public async Task ApiPrivat()
         {
-            bool check = exchangeRatesServices.CheckForUpdate();
+            bool check = await exchangeRatesServices.CheckForUpdate();
 
             try
             {
@@ -47,20 +48,20 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
                         if (check == false)
                         {
-                            exchangeRatesServices.UpdateTable();
+                           await exchangeRatesServices.UpdateTable();
                         }
 
                     }
                     else
                     {
-                        exchangeRatesServices.UpdateListExchangeRates();
+                       await exchangeRatesServices.UpdateListExchangeRates();
                     }
                 }
             }
             catch (Exception ex)
             {
                 string log = ex.Message;
-                exchangeRatesServices.UpdateListExchangeRates();
+               await exchangeRatesServices.UpdateListExchangeRates();
             }
         }
     }

@@ -4,6 +4,8 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -18,19 +20,19 @@ namespace CarDetailingStudio.BLL.Services
             _automapper = automapper;
         }
 
-        public IEnumerable<CarMarkBll> Get()
+        public async Task<IEnumerable<CarMarkBll>> Get()
         {
-            return Mapper.Map<IEnumerable<CarMarkBll>>(_unitOfWork.CarMarkUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.Get());
         }
 
-        public IEnumerable<CarMarkBll> GetWhere(string id)
+        public async Task<IEnumerable<CarMarkBll>> GetWhere(string id)
         {
-            return Mapper.Map<IEnumerable<CarMarkBll>>(_unitOfWork.CarMarkUnitOfWork.GetWhere(x => x.name.Contains(id)));
+            return Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.GetWhere(x => x.name.Contains(id)));
         }
 
-        public IEnumerable<CarMarkBll> GetInclude()
+        public async Task<IEnumerable<CarMarkBll>> GetInclude()
         {
-            return Mapper.Map<IEnumerable<CarMarkBll>>(_unitOfWork.CarMarkUnitOfWork.GetInclude("car_model"));
+            return Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.GetInclude("car_model"));
         }
     }
 }

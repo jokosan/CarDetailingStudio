@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -33,17 +34,17 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: Analytics
-        public ActionResult MonthlyReport(DateTime? date = null)
+        public async Task<ActionResult> MonthlyReport(DateTime? date = null)
         {           
             if (date == null)
             {
                  date = DateTime.Now;
             }         
 
-            var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_orderServicesCarWash.MonthlyReport(date.Value));
-            var costCarWashToDetailings = Mapper.Map<IEnumerable<CostsCarWashAndDeteylingView>>(_costsCarWashAndDeteyling.MonthlyReport(date.Value));
-            var utilityCost = Mapper.Map<IEnumerable<UtilityCostsView>>(_utilityCosts.MonthlyReport(date.Value));
-            var otherExpenses = Mapper.Map<IEnumerable<OtherExpensesView>>(_otherExpenses.MonthlyReport(date.Value));
+            var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _orderServicesCarWash.MonthlyReport(date.Value));
+            var costCarWashToDetailings = Mapper.Map<IEnumerable<CostsCarWashAndDeteylingView>>(await _costsCarWashAndDeteyling.MonthlyReport(date.Value));
+            var utilityCost = Mapper.Map<IEnumerable<UtilityCostsView>>(await _utilityCosts.MonthlyReport(date.Value));
+            var otherExpenses = Mapper.Map<IEnumerable<OtherExpensesView>>(await _otherExpenses.MonthlyReport(date.Value));
 
             var carWash = order.Where(x => x.ServisesCarWashOrder.Any(y => y.Detailings.IdTypeService == 2));
             var detailings = order.Where(x => x.ServisesCarWashOrder.Any(y => y.Detailings.IdTypeService == 1));

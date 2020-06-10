@@ -2,13 +2,14 @@
 using CarDetailingStudio.BLL.Services.Contract.GenericContract;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface ISalaryBalanceService : IGetFromDatabase<SalaryBalanceBll>, IDatabaseOperations<SalaryBalanceBll>
     {
-        IEnumerable<SalaryBalanceBll> SelectIdToDate(int? idCarWash, DateTime date);
-        SalaryBalanceBll LastMonthBalance(int? id);
+        Task<IEnumerable<SalaryBalanceBll>> SelectIdToDate(int? idCarWash, DateTime date);
+        Task<SalaryBalanceBll> LastMonthBalance(int? id);
 
     }
 }

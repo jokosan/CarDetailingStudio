@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.Models.ModelViews;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
@@ -18,9 +19,9 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: ClientsGroups
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(Mapper.Map<IEnumerable<ClientsGroupsView>>(_clientsGroups.GetClientsGroups()));
+            return View(Mapper.Map<IEnumerable<ClientsGroupsView>>(await _clientsGroups.GetClientsGroups()));
         }
 
         // GET: ClientsGroups/Create
@@ -34,12 +35,12 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] ClientsGroupsView clientsGroupsView)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name")] ClientsGroupsView clientsGroupsView)
         {
             if (ModelState.IsValid)
             {
                 ClientsGroupsBll clientsGroups = Mapper.Map<ClientsGroupsView, ClientsGroupsBll>(clientsGroupsView);
-                _clientsGroups.Insert(clientsGroups);
+                await _clientsGroups.Insert(clientsGroups);
 
                 return RedirectToAction("Index");
             }
@@ -48,14 +49,14 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: ClientsGroups/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ClientsGroupsView clientsGroupsView = Mapper.Map<ClientsGroupsView>(_clientsGroups.GetId(id));
+            ClientsGroupsView clientsGroupsView = Mapper.Map<ClientsGroupsView>(await _clientsGroups.GetId(id));
 
             if (clientsGroupsView == null)
             {
@@ -70,12 +71,12 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] ClientsGroupsView clientsGroupsView)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name")] ClientsGroupsView clientsGroupsView)
         {
             if (ModelState.IsValid)
             {
                 ClientsGroupsBll clientsGroups = Mapper.Map<ClientsGroupsView, ClientsGroupsBll>(clientsGroupsView);
-                _clientsGroups.Update(clientsGroups);
+                await _clientsGroups.Update(clientsGroups);
                 return RedirectToAction("Index");
             }
             return View(clientsGroupsView);

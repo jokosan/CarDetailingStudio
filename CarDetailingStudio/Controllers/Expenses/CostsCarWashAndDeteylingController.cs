@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.Models.ModelViews;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers.Expenses
@@ -20,32 +21,33 @@ namespace CarDetailingStudio.Controllers.Expenses
         }
 
         // GET: CostsCarWashAndDeteyling
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(Mapper.Map<IEnumerable<CostsCarWashAndDeteylingView>>(_costsCarWashAndDeteyling.GetTableAll()));
+            return View(Mapper.Map<IEnumerable<CostsCarWashAndDeteylingView>>(await _costsCarWashAndDeteyling.GetTableAll()));
         }
 
         // GET: CostsCarWashAndDeteyling/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CostsCarWashAndDeteylingView costsCarWashAndDeteylingView = Mapper.Map<CostsCarWashAndDeteylingView>(_costsCarWashAndDeteyling.SelectId(id));
+            CostsCarWashAndDeteylingView costsCarWashAndDeteylingView = Mapper.Map<CostsCarWashAndDeteylingView>(await _costsCarWashAndDeteyling.SelectId(id));
 
             if (costsCarWashAndDeteylingView == null)
             {
                 return HttpNotFound();
             }
+
             return View(costsCarWashAndDeteylingView);
         }
 
         // GET: CostsCarWashAndDeteyling/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View();
         }
 
@@ -54,34 +56,34 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
+        public async Task<ActionResult> Create([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
         {
             if (ModelState.IsValid)
             {
                 CostsCarWashAndDeteylingBll costsCarWashAndDeteyling = Mapper.Map<CostsCarWashAndDeteylingView, CostsCarWashAndDeteylingBll>(costsCarWashAndDeteylingView);
-                _costsCarWashAndDeteyling.Insert(costsCarWashAndDeteyling);
+                await _costsCarWashAndDeteyling.Insert(costsCarWashAndDeteyling);
 
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(costsCarWashAndDeteylingView);
         }
 
         // GET: CostsCarWashAndDeteyling/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CostsCarWashAndDeteylingView costsCarWashAndDeteylingView = Mapper.Map<CostsCarWashAndDeteylingView>(_costsCarWashAndDeteyling.SelectId(id));
+            CostsCarWashAndDeteylingView costsCarWashAndDeteylingView = Mapper.Map<CostsCarWashAndDeteylingView>(await _costsCarWashAndDeteyling.SelectId(id));
             if (costsCarWashAndDeteylingView == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(costsCarWashAndDeteylingView);
         }
 
@@ -90,16 +92,16 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
+        public async Task<ActionResult> Edit([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
         {
             if (ModelState.IsValid)
             {
                 CostsCarWashAndDeteylingBll costsCarWashAndDeteyling = Mapper.Map<CostsCarWashAndDeteylingView, CostsCarWashAndDeteylingBll>(costsCarWashAndDeteylingView);
-                _costsCarWashAndDeteyling.Update(costsCarWashAndDeteyling);
+                await _costsCarWashAndDeteyling.Update(costsCarWashAndDeteyling);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Category = new SelectList(_expenseCategory.GetTableAll(), "idExpenseCategory", "name");
+            ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name");
             return View(costsCarWashAndDeteylingView);
         }
     }

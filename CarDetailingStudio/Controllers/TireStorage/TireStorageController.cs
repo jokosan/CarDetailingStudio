@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers.TireStorage
@@ -39,17 +40,17 @@ namespace CarDetailingStudio.Controllers.TireStorage
         }
 
         // GET: TireStorage
-        public ActionResult OrderTireStorage()
+        public async Task<ActionResult> OrderTireStorage()
         {
-            return View(Mapper.Map<IEnumerable<TireStorageView>>(_tireStorage.GetTableAll()));
+            return View(Mapper.Map<IEnumerable<TireStorageView>>(await _tireStorage.GetTableAll()));
         }
 
         // GET: TireStorage/Create
-        public ActionResult CreateTireStorageOrder(int? IdClient)
+        public async Task<ActionResult> CreateTireStorageOrder(int? IdClient)
         {
             if (IdClient != null)
             {
-                ClientsOfCarWashView clientList = Mapper.Map<ClientsOfCarWashView>(_clientsOfCarWash.GetId(IdClient));
+                ClientsOfCarWashView clientList = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(IdClient));
                 ViewBag.Client = clientList;
 
                 return View();
@@ -80,7 +81,7 @@ namespace CarDetailingStudio.Controllers.TireStorage
             return View(tireStorageView);
         }
 
-        public ActionResult ReviewTireStorageOrder()
+        public async Task<ActionResult> ReviewTireStorageOrder()
         {
             if (TempData.ContainsKey("TireStorageOrder"))
             {
@@ -90,13 +91,13 @@ namespace CarDetailingStudio.Controllers.TireStorage
                 TempData.Keep("TireStorageOrder");
 
                 OrderTireStorageModelBll tireStorageBll = Mapper.Map<OrderTireStorageModelView, OrderTireStorageModelBll>(pageCreateResult);
-                var reviwOrderModules = Mapper.Map<ReviwOrderModelBll, ReviwOrderModelView>(_reviwOrder.ReviwOrder(tireStorageBll));
+                var reviwOrderModules = Mapper.Map<ReviwOrderModelBll, ReviwOrderModelView>(await _reviwOrder.ReviwOrder(tireStorageBll));
 
                 var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigadeForToday.GetDateTimeNow());
 
                 ViewBag.Adninistrator = brigadeForToday.Where(x => x.StatusId < 3);
                 ViewBag.Brigade = brigadeForToday.Where(x => x.StatusId == 3);
-                ViewBag.CarWashWorkers = new SelectList(_brigadeForToday.GetDateTimeNow(), "id", "IdCarWashWorkers");
+                ViewBag.CarWashWorkers = new SelectList(await _brigadeForToday.GetDateTimeNow(), "id", "IdCarWashWorkers");
                 ViewBag.ReviwOrder = reviwOrderModules;
                 ViewBag.Services = reviwOrderModules.tireStorageServices;
                 ViewBag.Sum = reviwOrderModules.priceDisk + reviwOrderModules.priceNumberOfPackets +
@@ -111,7 +112,7 @@ namespace CarDetailingStudio.Controllers.TireStorage
         }
 
         [HttpPost]
-        public ActionResult ReviewTireStorageOrder(string idBrigade, double? sum, int? idPaymentState, string idAdmin)
+        public async Task<ActionResult> ReviewTireStorageOrder(string idBrigade, double? sum, int? idPaymentState, string idAdmin)
         {
             if (TempData.ContainsKey("TireStorageOrder") && TempData.ContainsKey("ReviwOrderMode"))
             {
@@ -121,13 +122,13 @@ namespace CarDetailingStudio.Controllers.TireStorage
                 OrderTireStorageModelBll orderTireStorage = Mapper.Map<OrderTireStorageModelView, OrderTireStorageModelBll>(pageCreateResult);
                 ReviwOrderModelBll orderModelBll = Mapper.Map<ReviwOrderModelView, ReviwOrderModelBll>(reviwOrderModules);
 
-                int idOrder = _order.Chekout(orderTireStorage, sum, idPaymentState);
+                int idOrder = await _order.Chekout(orderTireStorage, sum, idPaymentState);
 
-                _wage.AdminWageTireStorage(Convert.ToInt32(idAdmin), idOrder, pageCreateResult.quantity.Value);
+                await _wage.AdminWageTireStorage(Convert.ToInt32(idAdmin), idOrder, pageCreateResult.quantity.Value);
 
                 if (reviwOrderModules.priceSilicone != 0 || reviwOrderModules.priceWheelWash != 0)
                 {
-                    _wage.Payroll(idOrder, Convert.ToInt32(idBrigade), Convert.ToInt32(idAdmin), orderModelBll);
+                    await _wage.Payroll(idOrder, Convert.ToInt32(idBrigade), Convert.ToInt32(idAdmin), orderModelBll);
                 }
 
                 pageCreateResult.carWashWorkersId = Convert.ToInt32(idAdmin);

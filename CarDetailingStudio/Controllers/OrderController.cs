@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -40,36 +41,36 @@ namespace CarDetailingStudio.Controllers
         [WorkShiftFilter]
         [PreviousShiftStatusFilter]
         [MonitoringTheNumberOfEmployeesFilter]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(1));
+            var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(1));
             return View(order.OrderByDescending(x => x.Id));
         }
 
-        public ActionResult ArxivOrder()
+        public async Task<ActionResult> ArxivOrder()
         {
-            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(2, 1)));
+            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(2, 1)));
         }
 
-        public ActionResult OrderTireStorage()
+        public async Task<ActionResult> OrderTireStorage()
         {
-            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetOrderAllTireStorage()));
+            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetOrderAllTireStorage()));
         }
 
         // GET: Order/Details/5
-        public ActionResult OrderInfo(int? id)
+        public async Task<ActionResult> OrderInfo(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var OrderInfo = Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
-            var info = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAllId(id));
+            var OrderInfo = Mapper.Map<OrderServicesCarWashView>(await _order.GetId(id));
+            var info = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(id));
 
             ViewBag.ServisesInfo = info;
             ViewBag.DiscontClient = OrderInfo.ClientsOfCarWash.discont;
-            ViewBag.Status = new SelectList(Mapper.Map<IEnumerable<StatusOrderView>>(_statusOrder.GetTableAll()), "Id", "StatusOrder1");
+            ViewBag.Status = new SelectList(Mapper.Map<IEnumerable<StatusOrderView>>(await _statusOrder.GetTableAll()), "Id", "StatusOrder1");
 
             if (info.Any(x => x.Detailings.IdTypeService == 1))
             {
@@ -90,39 +91,39 @@ namespace CarDetailingStudio.Controllers
 
             if (TempData.ContainsKey("PageSettings"))
             {
-                ViewBag.Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow());
+                ViewBag.Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
             }
 
             return View(OrderInfo);
         }
 
         [HttpPost, ActionName("OrderInfo")]
-        public ActionResult ServicesDelete(int? idOrder, int? discont, int idServices = 0)
+        public async Task<ActionResult> ServicesDelete(int? idOrder, int? discont, int idServices = 0)
         {
             if (idServices != 0)
             {
-                _servisesCarWash.ServicesDelete(idServices, nameof(OrderController));
-                _order.RecountOrder(idOrder.Value, discont);
+                await _servisesCarWash.ServicesDelete(idServices, nameof(OrderController));
+                await _order.RecountOrder(idOrder.Value, discont);
                 return RedirectToAction("OrderInfo");
             }
             else
             {
-                _order.DeleteOrder(idOrder.Value);
+                await _order.DeleteOrder(idOrder.Value);
                 return RedirectToAction("Index");
             }
         }
 
         [HttpPost]
-        public ActionResult StatusOrder([Bind(Include = "StatusOrder")] OrderServicesCarWashView orderServices, int? OrderStatus)
+        public async Task<ActionResult> StatusOrder([Bind(Include = "StatusOrder")] OrderServicesCarWashView orderServices, int? OrderStatus)
         {
             if (orderServices.StatusOrder == 4 && OrderStatus != null)
             {
-                _order.StatusOrder(OrderStatus, orderServices.StatusOrder.Value);
+                await _order.StatusOrder(OrderStatus, orderServices.StatusOrder.Value);
                 return View();
             }
             else if (orderServices.StatusOrder == 3 && OrderStatus != null)
             {
-                _order.DeleteOrder(OrderStatus.Value);
+                await _order.DeleteOrder(OrderStatus.Value);
                 return RedirectToAction("Index");
             }
             else
@@ -134,21 +135,21 @@ namespace CarDetailingStudio.Controllers
         [HttpGet]
         [WorkShiftFilter]
         [MonitoringTheNumberOfEmployeesFilter]
-        public ActionResult CloseOrder(int? id, bool selectionStatus = true)
+        public async Task<ActionResult> CloseOrder(int? id, bool selectionStatus = true)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var Order = Mapper.Map<OrderServicesCarWashView>(_order.GetId(id));
-            var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(_servisesCarWash.GetAllId(id));
-            var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigade.GetDateTimeNow().Where(x => x.StatusId == 3));
+            var Order = Mapper.Map<OrderServicesCarWashView>(await _order.GetId(id));
+            var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(id));
+            var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
 
             Price = Services.Sum(x => x.Price);
 
             ViewBag.Services = Services;
-            ViewBag.Brigade = Brigade;
+            ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
             ViewBag.Price = Price;
 
             if (selectionStatus == false)
@@ -175,27 +176,27 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost]
-        public ActionResult CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState, int idStatusOrder)
+        public async Task<ActionResult> CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState, int idStatusOrder)
         {
             //var resultServices = TempData["ServicesType"] as IEnumerable<ServisesCarWashOrderView>;
 
             if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2)
             {
-                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
-                _wageModules.Payroll(idOrder, idBrigade);
+                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                await _wageModules.Payroll(idOrder, idBrigade);
             }
             else if (idBrigade != null && idPaymentState == 3 && idStatusOrder == 4)
             {
-                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
-                _wageModules.Payroll(idOrder, idBrigade);
+                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                await _wageModules.Payroll(idOrder, idBrigade);
             }
             else if (idStatusOrder == 2 && idPaymentState != 3)
             {
-                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
             }
             else if (idStatusOrder == 3)
             {
-                _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
             }
             else
             {
@@ -219,18 +220,18 @@ namespace CarDetailingStudio.Controllers
             return View();
         }
 
-        public ActionResult OrderReport()
+        public async Task<ActionResult> OrderReport()
         {
-            var OrderAll = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.GetAll(2));
+            var OrderAll = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(2));
             //TempData["PageSettings"] = nameof(OrderReport);
 
             return View(OrderAll);
         }
 
         [HttpPost]
-        public ActionResult OrderReport(DateTime startDate, DateTime finalDate)
+        public async Task<ActionResult> OrderReport(DateTime startDate, DateTime finalDate)
         {
-            var OrderWhere = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(_order.OrderReport(startDate, finalDate));
+            var OrderWhere = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.OrderReport(startDate, finalDate));
 
             ViewBag.Date = $"Выборка заказов за период с {startDate.ToString("dd.MM.yyyy")} по {finalDate.ToString("dd.MM.yyyy")} ";
             return View(OrderWhere);

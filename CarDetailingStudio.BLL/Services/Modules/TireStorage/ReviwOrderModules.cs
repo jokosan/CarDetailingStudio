@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Modules.TireStorage.Contract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Modules.TireStorage
 {
@@ -20,9 +21,9 @@ namespace CarDetailingStudio.BLL.Services.Modules.TireStorage
             _tireStorageServices = tireStorageServices;
         }
 
-        public ReviwOrderModelBll ReviwOrder(OrderTireStorageModelBll tireStorage)
+        public async Task<ReviwOrderModelBll> ReviwOrder(OrderTireStorageModelBll tireStorage)
         {
-            var servicesTireStorage = _tireStorageServices.GetTableAll();
+            var servicesTireStorage = await _tireStorageServices.GetTableAll();
             reviwOrder.tireStorageServices = new List<TireStorageServicesBll>();
 
             // наличие дисков

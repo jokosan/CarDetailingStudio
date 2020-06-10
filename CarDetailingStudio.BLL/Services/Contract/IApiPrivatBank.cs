@@ -1,7 +1,9 @@
-﻿namespace CarDetailingStudio.BLL.Services.Modules
+﻿using System.Threading.Tasks;
+
+namespace CarDetailingStudio.BLL.Services.Modules
 {
     public interface IApiPrivatBank
     {
-        void ApiPrivat();
+        Task ApiPrivat();
     }
 }

@@ -1,18 +1,19 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface ICarWashWorkersServices
     {
-        IEnumerable<CarWashWorkersBll> GetTable();
-        void AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow);
+        Task<IEnumerable<CarWashWorkersBll>> GetTable();
+        Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow);
         void Dispose();
-        IEnumerable<CarWashWorkersBll> GetChooseEmployees();
-        IEnumerable<CarWashWorkersBll> GetStaffAll();
-        bool HomeEntryCondition();
-        void InsertEmployee(CarWashWorkersBll carWashWorkersBll);
-        CarWashWorkersBll CarWashWorkersId(int? id);
-        void UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action);
+        Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees();
+        Task<IEnumerable<CarWashWorkersBll>> GetStaffAll();
+        Task<bool> HomeEntryCondition();
+        Task InsertEmployee(CarWashWorkersBll carWashWorkersBll);
+        Task<CarWashWorkersBll> CarWashWorkersId(int? id);
+        Task UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action);
     }
 }

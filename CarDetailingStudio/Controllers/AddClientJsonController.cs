@@ -4,6 +4,7 @@ using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
@@ -22,9 +23,9 @@ namespace CarDetailingStudio.Controllers
         }
 
         // Autocomplete Textbox - NumberCar
-        public JsonResult GetName(string searchInput)
+        public async Task<JsonResult> GetName(string searchInput)
         {
-            var washWorkersViews = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(_clientsOfCarWash.GetAll(searchInput));
+            var washWorkersViews = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _clientsOfCarWash.GetAll(searchInput));
 
             List<ClientsOfCarWashView> washWorkersViewsList = washWorkersViews.Select(x => new ClientsOfCarWashView
             {
@@ -36,13 +37,13 @@ namespace CarDetailingStudio.Controllers
         }
 
         // MarCar
-        public JsonResult GetCountryList(string searchTerm)
+        public async Task<JsonResult> GetCountryList(string searchTerm)
         {
-            var CounrtyList = Mapper.Map<IEnumerable<CarMarkView>>(_carMark.Get()).ToList();
+            var CounrtyList = Mapper.Map<IEnumerable<CarMarkView>>(await _carMark.Get()).ToList();
 
             if (searchTerm != null)
             {
-                CounrtyList = Mapper.Map<IEnumerable<CarMarkView>>(_carMark.GetWhere(searchTerm)).ToList();
+                CounrtyList = Mapper.Map<IEnumerable<CarMarkView>>(await _carMark.GetWhere(searchTerm)).ToList();
             }
 
             var modifiedData = CounrtyList.Select(x => new
@@ -55,14 +56,14 @@ namespace CarDetailingStudio.Controllers
         }
 
         // Model
-        public JsonResult GetStateList(string CountryIDs)
+        public async Task<JsonResult> GetStateList(string CountryIDs)
         {
             int modelCar = Int32.Parse(CountryIDs);
             TempData["Mark"] = modelCar;
 
             List<CarModelView> StateList = new List<CarModelView>();
 
-            var listDataByCountryID = Mapper.Map<IEnumerable<CarModelView>>(_carModel.GetWhere(modelCar));
+            var listDataByCountryID = Mapper.Map<IEnumerable<CarModelView>>(await _carModel.GetWhere(modelCar));
 
             foreach (var item in listDataByCountryID)
             {

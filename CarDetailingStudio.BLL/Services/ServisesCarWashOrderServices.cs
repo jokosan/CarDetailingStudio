@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -18,14 +19,14 @@ namespace CarDetailingStudio.BLL.Services
             _automapper = automapper;
         }
 
-        public IEnumerable<ServisesCarWashOrderBll> GetAll()
+        public async Task<IEnumerable<ServisesCarWashOrderBll>> GetAll()
         {
-            return Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(_unitOfWork.ServisesUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(await _unitOfWork.ServisesUnitOfWork.Get());
         }
 
-        public IEnumerable<ServisesCarWashOrderBll> GetAllId(int? id)
+        public async Task<IEnumerable<ServisesCarWashOrderBll>> GetAllId(int? id)
         {
-            var servises = Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(_unitOfWork.ServisesUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == id));
+            var servises = Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(await _unitOfWork.ServisesUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == id));
 
             return servises;
         }
@@ -47,12 +48,12 @@ namespace CarDetailingStudio.BLL.Services
             }
         }
 
-        public void ServicesDelete(int id, string NameClass)
+        public async Task ServicesDelete(int id, string NameClass)
         {
             if (NameClass == "OrderController")
             {
                 _unitOfWork.ServisesCarWashOrderUnitOfWork.Delete(id);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
             }
             else
             {
@@ -61,7 +62,7 @@ namespace CarDetailingStudio.BLL.Services
                 foreach (var x in resultId)
                 {
                     _unitOfWork.ServisesCarWashOrderUnitOfWork.Delete(x.Id);
-                    _unitOfWork.Save();
+                    await _unitOfWork.Save();
                 }
             }
         }

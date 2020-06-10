@@ -3,6 +3,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 {
@@ -17,10 +18,10 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             _dayResult = dayResult;
         }
 
-        public void CurrentShift()
+        public async Task CurrentShift()
         {
-            var ordersFulfilled = _orderCarWashWorkers.SampleForPayroll(DateTime.Now);
-            var DayClose = _dayResult.DayResultViewInfo();
+            var ordersFulfilled = await _orderCarWashWorkers.SampleForPayroll(DateTime.Now);
+            var DayClose = await _dayResult.DayResultViewInfo();
 
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
@@ -37,7 +38,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                     orderCarWashWorkers.Payroll = itemOrder.Payroll;
                     orderCarWashWorkers.closedDayStatus = true;
 
-                    _orderCarWashWorkers.UpdateOrderCarWashWorkers(orderCarWashWorkers);
+                    await _orderCarWashWorkers.UpdateOrderCarWashWorkers(orderCarWashWorkers);
                 }
             }
         }

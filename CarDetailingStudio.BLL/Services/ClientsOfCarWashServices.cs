@@ -5,91 +5,88 @@ using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
     public class ClientsOfCarWashServices : IClientsOfCarWashServices
     {
         private IUnitOfWork _unitOfWork;
-        private AutomapperConfig _automapper;
         private IClientInfoServices _clientInfo;
 
-        public ClientsOfCarWashServices(IUnitOfWork unitOfWork, AutomapperConfig maper, IClientInfoServices clientInfo)
+        public ClientsOfCarWashServices(IUnitOfWork unitOfWork, IClientInfoServices clientInfo)
         {
             _unitOfWork = unitOfWork;
-            _automapper = maper;
             _clientInfo = clientInfo;
         }
 
-        public IEnumerable<ClientsOfCarWashBll> GetAll(string search)
+        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll(string search)
         {
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsOfCarWashUnitOfWork.GetWhere(x => x.NumberCar.Contains(search)));
+            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsOfCarWashUnitOfWork.GetWhere(x => x.NumberCar.Contains(search)));
         }
 
-        public IEnumerable<ClientsOfCarWashBll> GetAll(int? id)
+        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll(int? id)
         {
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.GetId(id));
+            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.GetId(id));
         }
 
-
-
-        public ClientsOfCarWashBll GetId(int? id)
+        public async Task<ClientsOfCarWashBll> GetId(int? id)
         {
-            return Mapper.Map<ClientsOfCarWashBll>(_unitOfWork.ClientsUnitOfWork.GetById(id));
+            return Mapper.Map<ClientsOfCarWashBll>(await _unitOfWork.ClientsUnitOfWork.GetById(id));
         }
 
-        public int Insert(ClientsOfCarWashBll AddCliens)
+        public async Task<int> Insert(ClientsOfCarWashBll AddCliens)
         {
             ClientsOfCarWash clientsOfCarWash = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(AddCliens);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Insert(clientsOfCarWash);
 
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return clientsOfCarWash.id;
         }
 
-        public void Delete(ClientsOfCarWashBll elementToDelete)
+        public async Task Delete(ClientsOfCarWashBll elementToDelete)
         {
             //ClientsOfCarWash clients = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(elementToDelete);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Delete(elementToDelete.id);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void ClientCarUpdate(ClientsOfCarWashBll updateClientCar)
+        public async Task ClientCarUpdate(ClientsOfCarWashBll updateClientCar)
         {
             ClientsOfCarWash clients = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(updateClientCar);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Update(clients);
 
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public IEnumerable<ClientsOfCarWashBll> GetAll()
+        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll()
         {
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(_unitOfWork.ClientsUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.Get());
         }
 
-        public void ClientCarArxiv(int carId, bool status)
+        public async Task ClientCarArxiv(int carId, bool status)
         {
-            var clientCar = GetId(carId);
+            var clientCar = await GetId(carId);
             clientCar.arxiv = status;
 
-            ClientCarUpdate(clientCar);
+            await ClientCarUpdate(clientCar);
         }
 
-        public void RemoveClient(int clientId)
+        public async Task RemoveClient(int clientId)
         {
-            var clientCar = GetId(clientId);
-            var clientInfo = _clientInfo.ClienWhereId(clientCar.IdInfoClient.Value);
+            var clientCar = await GetId(clientId);
+            var clientInfo = await _clientInfo.ClienWhereId(clientCar.IdInfoClient.Value);
             int? carId = null;
 
-            Delete(clientCar);
+            await Delete(clientCar);
 
             foreach (var item in clientInfo)
             {
                 if (carId == null)
                     carId = item.Id;
 
-                _clientInfo.Delete(item);
+               await _clientInfo.Delete(item);
             }
 
             //var delClient = _clientInfo.ClientInfoGetId(carId);

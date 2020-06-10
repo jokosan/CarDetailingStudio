@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -18,24 +19,24 @@ namespace CarDetailingStudio.BLL.Services
             _automapperConfig = automapperConfig;
         }
 
-        public IEnumerable<GroupWashServicesBll> GetAllTable()
+        public async Task<IEnumerable<GroupWashServicesBll>> GetAllTable()
         {
-            return Mapper.Map<IEnumerable<GroupWashServicesBll>>(_unitOfWork.GroupWashServicesUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.Get());
         }
 
-        public IEnumerable<GroupWashServicesBll> GetIdAll(int? id)
+        public async Task <IEnumerable<GroupWashServicesBll>> GetIdAll(int? id)
         {
             if (id == 2)
             {
-                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(_unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id <= 2));
+                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id <= 2));
             }
             else if (id == 1)
             {
-                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(_unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id != 2));
+                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id != 2));
             }
             else
             {
-                return GetAllTable();
+                return await GetAllTable();
             }
 
         }

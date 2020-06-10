@@ -32,6 +32,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.expenseCategoryId)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.typeServicesId)
+                        </th>
                         <th></th>
                     </tr>
 
@@ -48,8 +51,19 @@
                                 @Html.DisplayFor(modelItem => item.dateExpenses)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.expenseCategoryId)
+                                @Html.DisplayFor(modelItem => item.expenseCategory.name)
                             </td>
+                            <td>
+                                @if (item.typeServicesId == 1)
+                                {
+                                    <p>Мойка</p>
+                                }
+                                else if (item.typeServicesId == 2)
+                                {
+                                    <p>Детейлинг</p>
+                                }
+                            </td>
+
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.idCostsCarWashAndDeteyling }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.idCostsCarWashAndDeteyling }) |
@@ -57,7 +71,6 @@
                             </td>
                         </tr>
                     }
-
                 </table>
             </div>
         </div>

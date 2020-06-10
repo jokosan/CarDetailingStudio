@@ -1,9 +1,11 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure.Contract;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
 {
@@ -16,9 +18,9 @@ namespace CarDetailingStudio.DAL.Infrastructure
             _context = entities;
         }
 
-        public IEnumerable<OrderServicesCarWash> Get()
+        public async Task<IEnumerable<OrderServicesCarWash>> Get()
         {
-            var result = _context.OrderServicesCarWash
+            var result = await _context.OrderServicesCarWash
                                                       .AsNoTracking()
                                                       .Include("ClientsOfCarWash")
                                                       .Include("StatusOrder1")
@@ -29,13 +31,14 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                       .Include("ClientsOfCarWash.car_mark")
                                                       .Include("ClientsOfCarWash.car_model")
                                                       .Include("ClientsOfCarWash.CarBody")
-                                                      .Include("ClientsOfCarWash.ClientsGroups");
+                                                      .Include("ClientsOfCarWash.ClientsGroups")
+                                                      .ToListAsync();
             return result;
         }
 
-        public OrderServicesCarWash GetById(int? id)
+        public async Task<OrderServicesCarWash> GetById(int? id)
         {
-            var result = _context.OrderServicesCarWash
+            var result =  await _context.OrderServicesCarWash
                                                        .AsNoTracking()
                                                        .Include("ClientsOfCarWash")
                                                        .Include("ClientsOfCarWash.ClientInfo")
@@ -48,13 +51,13 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                        .Include("ClientsOfCarWash.car_model")
                                                        .Include("ClientsOfCarWash.CarBody")
                                                        .Include("ClientsOfCarWash.ClientsGroups")
-                                                       .FirstOrDefault(x => x.Id == id);
+                                                       .FirstAsync(x => x.Id == id);
             return result;
         }
 
-        public IEnumerable<OrderServicesCarWash> GetWhere(Func<OrderServicesCarWash, bool> predicate)
+        public async Task<IEnumerable<OrderServicesCarWash>> GetWhere(Expression<Func<OrderServicesCarWash, bool>> predicate)
         {
-            var result = _context.OrderServicesCarWash
+            var result = await _context.OrderServicesCarWash
                                                       .AsNoTracking()
                                                       .Include("ClientsOfCarWash")
                                                       .Include("StatusOrder1")
@@ -65,50 +68,51 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                       .Include("ClientsOfCarWash.car_model")
                                                       .Include("ClientsOfCarWash.CarBody")
                                                       .Include("ClientsOfCarWash.ClientsGroups")
-                                                      .Where(predicate).AsQueryable();
+                                                      .Where(predicate).AsQueryable().ToListAsync();
             return result;
         }
 
-        public IEnumerable<OrderServicesCarWash> WhereMonthlyReport(Func<OrderServicesCarWash, bool> predicate)
+        public async Task<IEnumerable<OrderServicesCarWash>> WhereMonthlyReport(Expression<Func<OrderServicesCarWash, bool>> predicate)
         {
-            var result = _context.OrderServicesCarWash
+            var result = await _context.OrderServicesCarWash
                                                       .AsNoTracking()
                                                       .Include("ClientsOfCarWash")
                                                       .Include("ServisesCarWashOrder")
                                                       .Include("ServisesCarWashOrder.Detailings")
                                                       .Include("OrderCarWashWorkers")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers")
-                                                      .Where(predicate).AsQueryable();
+                                                      .Where(predicate).AsQueryable().ToListAsync();
             return result;
         }
 
 
-        public IEnumerable<OrderServicesCarWash> GetWhereDate(Func<OrderServicesCarWash, bool> predicate)
+        public async Task<IEnumerable<OrderServicesCarWash>> GetWhereDate(Expression<Func<OrderServicesCarWash, bool>> predicate)
         {
-            var result = _context.OrderServicesCarWash.Include("ClientsOfCarWash")
+            var result = await _context.OrderServicesCarWash.Include("ClientsOfCarWash")
                                                       .Include("StatusOrder1")
                                                       .Include("PaymentState1")
-                                                      .Where(predicate).AsQueryable();
+                                                      .Where(predicate).AsQueryable().ToListAsync();
             return result;
         }
 
-        public IEnumerable<OrderServicesCarWash> QueryObjectGraph(Expression<Func<OrderServicesCarWash, bool>> filter)
+        public async Task<IEnumerable<OrderServicesCarWash>> QueryObjectGraph(Expression<Func<OrderServicesCarWash, bool>> filter)
         {
-            var result = _context.OrderServicesCarWash.AsNoTracking()
+            var result = await _context.OrderServicesCarWash.AsNoTracking()
                                                       .Include("OrderCarWashWorkers")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
-                                                      .Where(filter);
+                                                      .Where(filter).AsQueryable().ToListAsync();
             return result;
         }
 
-        public IEnumerable<OrderServicesCarWash> Test()
+        public async Task<IEnumerable<OrderServicesCarWash>> Test()
         {
-            var result = _context.OrderServicesCarWash.AsNoTracking()
+            var result = await _context.OrderServicesCarWash.AsNoTracking()
                                                          .Include("OrderCarWashWorkers")
                                                          .Include("OrderCarWashWorkers.CarWashWorkers")
                                                          .Include("OrderCarWashWorkers.CarWashWorkers.JobTitleTable")
-                                                         .Where(x => SqlMethods.Like(x.ClientsOfCarWash.NumberCar, x.ClientsOfCarWash.car_mark.name)).OrderBy(p => p.OrderDate);
+                                                         .Where(x => SqlMethods.Like(x.ClientsOfCarWash.NumberCar, x.ClientsOfCarWash.car_mark.name))
+                                                         .OrderBy(p => p.OrderDate).AsQueryable().ToListAsync();
             return result;
         }
     }

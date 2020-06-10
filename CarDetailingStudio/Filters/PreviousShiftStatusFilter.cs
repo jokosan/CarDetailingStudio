@@ -1,4 +1,5 @@
 ﻿using CarDetailingStudio.BLL.Services.Filters;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CarDetailingStudio.Filters
@@ -9,8 +10,8 @@ namespace CarDetailingStudio.Filters
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             ShiftClosingStatus shiftClosingStatus = new ShiftClosingStatus();
-            shiftClosingStatus.ShiftStatus();
 
+            Task task = Task.Run(async () => await shiftClosingStatus.ShiftStatus());
 
             base.OnActionExecuted(filterContext);
         }

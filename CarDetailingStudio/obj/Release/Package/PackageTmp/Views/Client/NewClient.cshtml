@@ -110,7 +110,8 @@
                                     @Html.LabelFor(model => model.IdClientsGroups)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.DropDownListFor(model => model.IdClientsGroups, this.ViewBag.Group as SelectList, new { @class = "form-control" })
+                                      @Html.DropDownListFor(model => model.IdClientsGroups, (SelectList)ViewBag.Group, "---", new { @class = "form-control"})
+                                    @*  @Html.DropDownListFor(model => model.IdClientsGroups, this.ViewBag.Group as SelectList, new { @class = "form-control" })*@
                                     @Html.ValidationMessageFor(model => model.IdClientsGroups, "", new { @class = "text-danger" })
                                 </div>
                             </div>

@@ -1,15 +1,16 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IDetailingsServises
     {
         double? ConvertCurrency(double? usd, double privat);
-        IEnumerable<DetailingsBll> Converter();
-        IEnumerable<DetailingsBll> GetAll();
-        void AddNewServices(DetailingsBll prive);
-        void UpdateServices(DetailingsBll updateServices);
-        DetailingsBll GetId(int? id);
+        Task<IEnumerable<DetailingsBll>> Converter();
+        Task<IEnumerable<DetailingsBll>> GetAll();
+        Task AddNewServices(DetailingsBll prive);
+        Task UpdateServices(DetailingsBll updateServices);
+        Task<DetailingsBll> GetId(int? id);
     }
 }

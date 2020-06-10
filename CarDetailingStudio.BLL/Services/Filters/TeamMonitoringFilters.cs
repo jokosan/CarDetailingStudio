@@ -4,6 +4,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Filters
 {
@@ -16,10 +17,10 @@ namespace CarDetailingStudio.BLL.Services.Filters
             _unitOfWork = new UnitOfWork();
         }
 
-        public int Monitoring()
+        public async Task<int> Monitoring()
         {
-            var TeamMonitoring = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(_unitOfWork.BrigadeUnitOfWork
-                .GetWhere(x => (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy") && (x.EarlyTermination == true))));
+            var brigadeResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork.GetWhere(x => x.EarlyTermination == true));
+            var TeamMonitoring = brigadeResult.Where(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
 
             return TeamMonitoring.Where(b => b.EarlyTermination == true).Count();
         }

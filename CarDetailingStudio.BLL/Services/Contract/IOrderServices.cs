@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
@@ -8,7 +9,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
         double? Discont(int? discont, double? sum);
         //void IdOrderServices(FormCollection collection);
         void IdOrderServices(List<int> idServises);
-        void OrderPreview();
+        Task OrderPreview();
         double? OrderPrice();
     }
 }

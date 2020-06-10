@@ -5,6 +5,8 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
 {
@@ -17,35 +19,35 @@ namespace CarDetailingStudio.BLL.Services.Expenses
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<CostsCarWashAndDeteylingBll> GetTableAll()
+        public async Task<IEnumerable<CostsCarWashAndDeteylingBll>> GetTableAll()
         {
-            return Mapper.Map<IEnumerable<CostsCarWashAndDeteylingBll>>(_unitOfWork.costsCarWashAndDeteylingUnitOfWork.GetInclude("expenseCategory"));
+            return Mapper.Map<IEnumerable<CostsCarWashAndDeteylingBll>>(await _unitOfWork.costsCarWashAndDeteylingUnitOfWork.GetInclude("expenseCategory"));
         }
 
-        public void Insert(CostsCarWashAndDeteylingBll element)
+        public async Task Insert(CostsCarWashAndDeteylingBll element)
         {
             costsCarWashAndDeteyling costsCarWashAndDeteylings = Mapper.Map<CostsCarWashAndDeteylingBll, costsCarWashAndDeteyling>(element);
 
             _unitOfWork.costsCarWashAndDeteylingUnitOfWork.Insert(costsCarWashAndDeteylings);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public CostsCarWashAndDeteylingBll SelectId(int? elementId)
+        public async Task<CostsCarWashAndDeteylingBll> SelectId(int? elementId)
         {
-            return Mapper.Map<CostsCarWashAndDeteylingBll>(_unitOfWork.costsCarWashAndDeteylingUnitOfWork.GetById(elementId));
+            return Mapper.Map<CostsCarWashAndDeteylingBll>(await _unitOfWork.costsCarWashAndDeteylingUnitOfWork.GetById(elementId));
         }
 
-        public IEnumerable<CostsCarWashAndDeteylingBll> MonthlyReport(DateTime date)
+        public async Task<IEnumerable<CostsCarWashAndDeteylingBll>> MonthlyReport(DateTime date)
         {
-            return Mapper.Map<IEnumerable<CostsCarWashAndDeteylingBll>>(_unitOfWork.costsCarWashAndDeteylingUnitOfWork.GetWhere(x => x.dateExpenses?.ToString("mm.yyyy") == date.ToString("mm.yyyy")));
+            return Mapper.Map<IEnumerable<CostsCarWashAndDeteylingBll>>(await _unitOfWork.costsCarWashAndDeteylingUnitOfWork.GetWhere(x => x.dateExpenses.Value.Month == date.Month));
         }
 
-        public void Update(CostsCarWashAndDeteylingBll elementToUpdate)
+        public async Task Update(CostsCarWashAndDeteylingBll elementToUpdate)
         {
             costsCarWashAndDeteyling costsCarWashAndDeteylings = Mapper.Map<CostsCarWashAndDeteylingBll, costsCarWashAndDeteyling>(elementToUpdate);
 
             _unitOfWork.costsCarWashAndDeteylingUnitOfWork.Update(costsCarWashAndDeteylings);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
     }
 }

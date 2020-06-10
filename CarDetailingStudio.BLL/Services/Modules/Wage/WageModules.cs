@@ -7,6 +7,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Modules.Wage
 {
@@ -37,9 +38,9 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
         // db Table [OrderServicesCarWash]
         // Закрыть заказ
-        public void CloseOrder(int idPaymentState, int idOrder, int idStatusOrder)
+        public async Task CloseOrder(int idPaymentState, int idOrder, int idStatusOrder)
         {
-            var Order = _orderServicesCarWash.GetId(idOrder);
+            var Order = await _orderServicesCarWash.GetId(idOrder);
 
             Order.PaymentState = idPaymentState;
             Order.ClosingData = DateTime.Now;
@@ -56,14 +57,14 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
                 Order.DiscountPrice = Order.TotalCostOfAllServices;
             }
 
-            _orderServicesCarWash.SaveOrder(Order);
+            await _orderServicesCarWash.SaveOrder(Order);
         }
 
         // Начисление заработной платы
-        public void Payroll(int idOrder, List<string> idBrigade)
+        public async Task Payroll(int idOrder, List<string> idBrigade)
         {
             int numberOfEmployees = idBrigade.Count;
-            var amountOfCurrentOrder = _orderServicesCarWash.GetId(idOrder);
+            var amountOfCurrentOrder = await _orderServicesCarWash.GetId(idOrder);
 
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
@@ -72,17 +73,17 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
                 orderCarWashWorkers.IdCarWashWorkers = ConvertStringToInt(item);
                 orderCarWashWorkers.IdOrder = idOrder;
                 orderCarWashWorkers.CalculationStatus = false;
-                orderCarWashWorkers.Payroll = PercentOfTheOrder(ConvertStringToInt(item), numberOfEmployees, amountOfCurrentOrder.DiscountPrice, false);
+                orderCarWashWorkers.Payroll = await PercentOfTheOrder(ConvertStringToInt(item), numberOfEmployees, amountOfCurrentOrder.DiscountPrice, false);
                 orderCarWashWorkers.closedDayStatus = false;
 
-                _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+                await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
             }
 
-            AdminWage(amountOfCurrentOrder, amountOfCurrentOrder.DiscountPrice);
+            await AdminWage(amountOfCurrentOrder, amountOfCurrentOrder.DiscountPrice);
         }
 
         // Начисление ЗП за хранение шин 
-        public void Payroll(int idOrder, int idBrigade, int idAdmin, ReviwOrderModelBll reviwOrder)
+        public async Task Payroll(int idOrder, int idBrigade, int idAdmin, ReviwOrderModelBll reviwOrder)
         {
             var amountOfCurrentOrder = reviwOrder.priceSilicone + reviwOrder.priceWheelWash;
 
@@ -91,24 +92,24 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.IdCarWashWorkers = idBrigade;
             orderCarWashWorkers.IdOrder = idOrder;
             orderCarWashWorkers.CalculationStatus = false;
-            orderCarWashWorkers.Payroll = PercentOfTheOrder(idBrigade, 1, amountOfCurrentOrder, false);
+            orderCarWashWorkers.Payroll = await PercentOfTheOrder(idBrigade, 1, amountOfCurrentOrder, false);
             orderCarWashWorkers.closedDayStatus = false;
 
-            _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+            await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 
             orderCarWashWorkers.IdCarWashWorkers = idAdmin;
-            orderCarWashWorkers.Payroll = PercentOfTheOrder(idAdmin, 1, amountOfCurrentOrder, true);
+            orderCarWashWorkers.Payroll = await PercentOfTheOrder(idAdmin, 1, amountOfCurrentOrder, true);
 
-            _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+            await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 
         }
 
         private int ConvertStringToInt(string x) => Convert.ToInt32(x);
 
         // Процент от заказа
-        private double? PercentOfTheOrder(int employeeId, int count, double? orderPrice, bool status)
+        private async Task<double?> PercentOfTheOrder(int employeeId, int count, double? orderPrice, bool status)
         {
-            var selectedEmployee = _carWashWorkers.CarWashWorkersId(employeeId);
+            var selectedEmployee = await _carWashWorkers.CarWashWorkersId(employeeId);
             double employeePercentage;
 
             //if (status)
@@ -129,23 +130,23 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         }
 
         // Заработная плата администратора
-        private void AdminWage(OrderServicesCarWashBll orderServicesCarWash, double? orderPrice)
+        private async Task AdminWage(OrderServicesCarWashBll orderServicesCarWash, double? orderPrice)
         {
-            var servicesOrder = _servisesCarWash.GetAllId(orderServicesCarWash.Id);
+            var servicesOrder = await _servisesCarWash.GetAllId(orderServicesCarWash.Id);
             bool serviceСategory = servicesOrder.Any(x => x.Detailings.IdTypeService == 1);
 
             if (serviceСategory)
             {
-                ChoiceAdministrator(2, orderServicesCarWash.Id, orderPrice);
+                await ChoiceAdministrator(2, orderServicesCarWash.Id, orderPrice);
             }
             else
             {
-                ChoiceAdministrator(1, orderServicesCarWash.Id, orderPrice);
+               await ChoiceAdministrator(1, orderServicesCarWash.Id, orderPrice);
             }
         }
 
         // Начисление заработной платы за оформление заказа (хранения шин)
-        public void AdminWageTireStorage(int idAdmin, int idOrder, int quantityTire)
+        public async Task AdminWageTireStorage(int idAdmin, int idOrder, int quantityTire)
         {
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
@@ -155,14 +156,14 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.Payroll = 5 * quantityTire;
             orderCarWashWorkers.closedDayStatus = false;
 
-            _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+            await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 
         }
 
         // Выбор Администратора
-        private void ChoiceAdministrator(int adminСategory, int idOrder, double? orderPrice)
+        private async Task ChoiceAdministrator(int adminСategory, int idOrder, double? orderPrice)
         {
-            var category = _brigadeForToday.GetDateTimeNow();
+            var category = await _brigadeForToday.GetDateTimeNow();
             var adminSelectionByCategory = category.Single(x => x.StatusId == adminСategory);
 
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
@@ -170,10 +171,10 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.IdOrder = idOrder;
             orderCarWashWorkers.IdCarWashWorkers = adminSelectionByCategory.CarWashWorkers.id;
             orderCarWashWorkers.CalculationStatus = false;
-            orderCarWashWorkers.Payroll = PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice, true);
+            orderCarWashWorkers.Payroll = await PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice, true);
             orderCarWashWorkers.closedDayStatus = false;
 
-            _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+            await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
         }
     }
 }

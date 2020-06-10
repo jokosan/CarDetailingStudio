@@ -5,6 +5,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.TireStorageServices
 {
@@ -17,25 +18,25 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<TireStorageBll> GetTableAll()
+        public async Task<IEnumerable<TireStorageBll>> GetTableAll()
+        {
+            return Mapper.Map<IEnumerable<TireStorageBll>>(_unitOfWork.tireStorageUnitOfWork.Get());
+        }
+
+        public async Task<TireStorageBll> SelectId(int? elementId)
         {
             throw new NotImplementedException();
         }
 
-        public TireStorageBll SelectId(int? elementId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(TireStorageBll element)
+        public async Task Insert(TireStorageBll element)
         {
             TireStorage tireStorage = Mapper.Map<TireStorageBll, TireStorage>(element);
 
             _unitOfWork.tireStorageUnitOfWork.Insert(tireStorage);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
-        public void Update(TireStorageBll elementToUpdate)
+        public async Task Update(TireStorageBll elementToUpdate)
         {
             throw new NotImplementedException();
         }
