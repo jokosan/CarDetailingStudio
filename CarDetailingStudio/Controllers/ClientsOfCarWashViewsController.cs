@@ -71,6 +71,11 @@ namespace CarDetailingStudio.Controllers
             }
         }
 
+        public async Task<ActionResult> ClientCarpetWashing()
+        {
+            return View(Mapper.Map<IEnumerable<ClientInfoView>>(await _clientInfo.ClientInfoAll()));
+        }
+
         public async Task<ActionResult> ClientInfo(int idPaymentState)
         {
             if (idPaymentState == 2)
@@ -116,7 +121,7 @@ namespace CarDetailingStudio.Controllers
                 TempData["OrderServices"] = idOrderServices;
             }
 
-             _orderServices.ClearListOrder();
+            _orderServices.ClearListOrder();
 
             OrderServices.idClient = id;
             OrderServices.body = body;
@@ -143,7 +148,7 @@ namespace CarDetailingStudio.Controllers
         [WorkShiftFilter]
         public async Task<ActionResult> NewOrder(FormCollection form, List<int> chkRow, List<int> countService)
         {
-             _orderServices.IdOrderServices(chkRow);
+            _orderServices.IdOrderServices(chkRow);
 
             await _orderServices.OrderPreview();
             return RedirectToRoute(new { controller = "ClientsOfCarWashViews", action = "OrderPreview" });
@@ -213,7 +218,7 @@ namespace CarDetailingStudio.Controllers
                 return RedirectToAction("Client");
             }
 
-            ClientInfoView clientInfo = Mapper.Map<ClientInfoView>(_clientInfo.ClientInfoGetId(id));
+            ClientInfoView clientInfo = Mapper.Map<ClientInfoView>(await _clientInfo.ClientInfoGetId(id));
 
             ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
             ViewBag.IdClient = id;
@@ -225,6 +230,28 @@ namespace CarDetailingStudio.Controllers
             }
 
             return View(clientInfo);
+        }
+
+        public async Task<ActionResult> AddClient()
+        {
+            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddClient([Bind(Include = "Surname,Name,PatronymicName,Phone,DataFormatString,Email,note")] ClientInfoView client)
+        {
+            if (ModelState.IsValid)
+            {
+                ClientInfoBll clientInfo = Mapper.Map<ClientInfoView, ClientInfoBll>(client);
+                await _clientInfo.AddClient(clientInfo);
+
+                return RedirectToAction("ClientCarpetWashing");
+            }
+
+            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
+            return View(client);
         }
 
         [HttpPost]

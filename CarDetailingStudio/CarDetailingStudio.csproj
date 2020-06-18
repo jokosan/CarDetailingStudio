@@ -261,6 +261,7 @@
     <Compile Include="Controllers\TireStorage\TireStorageController.cs" />
     <Compile Include="Filters\PreviousShiftStatusFilter.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
+    <Compile Include="Models\ClientJoinCarpetWashingModelView.cs" />
     <Compile Include="Models\DayResultModelView.cs" />
     <Compile Include="Models\ExpenseCategoryGroupView.cs" />
     <Compile Include="Models\ModelViews\ConsumablesTireFittingView.cs" />
@@ -1314,6 +1315,9 @@
     <Content Include="Views\ClientsGroups\Edit.cshtml" />
     <Content Include="Views\Order\ArxivOrder.cshtml" />
     <Content Include="Views\Analytics\MonthlyReport.cshtml" />
+    <Content Include="Views\ClientsOfCarWashViews\ClientCarpetWashing.cshtml" />
+    <Content Include="Views\ClientsOfCarWashViews\AddClient.cshtml" />
+    <Content Include="Views\OrderCarpetWashing\AboutOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,6 +14,30 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
+                            <h5 class="card-title m-b-0">Заказчик</h5>
+                            <hr />
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-9">
+                                        <label for="exampleInputEmail1">@ViewBag.Client.Surname @ViewBag.Client.Name @ViewBag.Client.PatronymicName</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <label class="comment-text w-100" for="exampleInputEmail1">tel. @ViewBag.Client.Phone</label>
+                                    </div>
+
+                                </div>
+                                <hr />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
                             <h5 class="card-title m-b-0">Оформление заказа на чистку\мойку ковров</h5>
                         </div>
                         <div class="card-body">
@@ -23,30 +47,10 @@
 
                                 <div class="form-group row">
                                     <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.Customer)
-                                    </label>
-                                    <div class="col-md-8">
-                                        @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["Customer"] } })
-                                        @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.telephone)
-                                    </label>
-                                    <div class="col-md-8">
-                                        @Html.EditorFor(model => model.telephone, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["telephone"] } })
-                                        @Html.ValidationMessageFor(model => model.telephone, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
                                         @Html.LabelFor(model => model.area)
                                     </label>
                                     <div class="col-md-8">
-                                        @Html.EditorFor(model => model.area, new { htmlAttributes = new { @class = "form-control", id = "quantity",  value=@Request.Form["area"] } })
+                                        @Html.EditorFor(model => model.area, new { htmlAttributes = new { @class = "form-control", id = "quantity", value = @Request.Form["area"] } })
                                         @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -56,7 +60,7 @@
                                         @Html.LabelFor(model => model.orderDate)
                                     </label>
                                     <div class="col-md-8">
-                                        @Html.EditorFor(model => model.orderDate, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["orderDate"] } })
+                                        @Html.EditorFor(model => model.orderDate, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["orderDate"] } })
                                         @Html.ValidationMessageFor(model => model.orderDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -64,14 +68,19 @@
                         </div>
                     </div>
 
+                  
+
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title m-b-0">Cпособ оплаты\Выбор сотрудника для выполнения услуг</h5>
                             <div class="clearfix"></div>
-                            <hr/>
+                            <div class="checkbox">
+                                <input type="checkbox" id="checkbox" name="chooseEmployee" value="true" /> Выбрать исполнителя
+                            </div>
+                            <hr />
                             <div class="pull-right m-t-30 text-right">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-6" id="Adninistrator" style="display: none;">
                                         @foreach (var item in ViewBag.Adninistrator)
                                         {
                                             <div class="d-flex flex-row comment-row m-t-0">
@@ -89,7 +98,7 @@
                                         }
                                     </div>
                                     <hr />
-                                    <div class="col-6">
+                                    <div class="col-6" id="Brigade" style="display: none;">
                                         @foreach (var item in ViewBag.Brigade)
                                         {
                                             <div class="d-flex flex-row comment-row m-t-0">
@@ -107,12 +116,13 @@
                                         }
                                     </div>
                                     <hr />
+
                                     <div class="card-body">
                                         <div class="pull-right m-t-30 text-right">
                                             <hr />
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <div>
+                                                    <div  id="pay" style="display: none;">
                                                         @Html.DropDownList("idPaymentState", new List<SelectListItem>
                                                            {
                                                                new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
@@ -132,12 +142,11 @@
                                         <div class="clearfix"></div>
                                         <hr />
                                         <div class="text-right">
+                                            <input type="hidden" value="@ViewBag.Client.Id" name="clientId" />
                                             <input type="submit" value="Оформить заказ" class="btn btn-default" />
                                             @Html.ActionLink("Вернуться на главную", "Index", null, new { @class = "btn btn-danger" })
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -156,6 +165,20 @@
     </div>
 </div>
 
+
+<script>
+    $('#checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('#Adninistrator').show(100);
+            $('#Brigade').show(100);
+            $('#pay').show(100)
+        } else {
+            $('#Adninistrator').hide(100);
+            $('#Brigade').hide(100);
+            $('#pay').hide(100)
+        }
+    });
+</script>
 
 <script>
     $('#quantity').keyup(function () {

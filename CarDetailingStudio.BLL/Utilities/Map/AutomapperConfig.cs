@@ -116,6 +116,8 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<StorageFeeBll, storageFee>();
             CreateMap<storageFee, StorageFeeBll>();
 
+           
+
 
         }
     }

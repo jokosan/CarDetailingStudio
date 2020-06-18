@@ -88,7 +88,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
              return await DbSeT.Include(children).Where(predicate).AsQueryable().ToListAsync();            
         }
 
-
         public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
             return await DbSeT.Include(children).Where(filter).ToListAsync();

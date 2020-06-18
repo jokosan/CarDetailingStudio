@@ -24,6 +24,11 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.Get());
         }
 
+        public async Task<IEnumerable<OrderCarpetWashingBll>> GetTableAllInclude()
+        {
+            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.GetInclude("OrderServicesCarWash"));
+        }
+
         public async Task<IEnumerable<OrderCarpetWashingBll>> GetIncludeWhere()
         {
             // return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(_unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => x.OrderServicesCarWash.typeOfOrder == 3, "OrderServicesCarWash"));

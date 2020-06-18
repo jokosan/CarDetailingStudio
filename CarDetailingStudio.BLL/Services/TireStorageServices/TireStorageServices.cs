@@ -20,7 +20,7 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
 
         public async Task<IEnumerable<TireStorageBll>> GetTableAll()
         {
-            return Mapper.Map<IEnumerable<TireStorageBll>>(_unitOfWork.tireStorageUnitOfWork.Get());
+            return Mapper.Map<IEnumerable<TireStorageBll>>(await _unitOfWork.tireStorageUnitOfWork.Get());
         }
 
         public async Task<TireStorageBll> SelectId(int? elementId)

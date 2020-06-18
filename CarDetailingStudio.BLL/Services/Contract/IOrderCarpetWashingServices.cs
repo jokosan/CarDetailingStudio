@@ -8,5 +8,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
     public interface IOrderCarpetWashingServices : IGetFromDatabase<OrderCarpetWashingBll>, IDatabaseOperations<OrderCarpetWashingBll>
     {
         Task<IEnumerable<OrderCarpetWashingBll>> GetIncludeWhere();
+        Task<IEnumerable<OrderCarpetWashingBll>> GetTableAllInclude();
     }
 }

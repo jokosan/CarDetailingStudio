@@ -33,7 +33,7 @@ namespace CarDetailingStudio.Controllers
         // GET: OrderInfoViewModels
         public async Task<ActionResult> DayResult()
         {
-            var ItogSalary = Mapper.Map<IEnumerable<DayResultModelView>>(_dayResult.DayResultViewInfo());
+            var ItogSalary = Mapper.Map<IEnumerable<DayResultModelView>>(await _dayResult.DayResultViewInfo());
             var ItogSalarySum = ItogSalary.Sum(x => x.payroll);
             var orderServices = await _orderServices.GetDataClosing();
 
@@ -61,7 +61,7 @@ namespace CarDetailingStudio.Controllers
         {
             if (idEmploee != null)
             {
-                var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(_orderCarWashWorker.SampleForPayroll(idEmploee.Value, DateTime.Now));
+                var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorker.SampleForPayroll(idEmploee.Value, DateTime.Now));
 
                 ViewBag.CarWashWorker = Mapper.Map<CarWashWorkersView>(await _carWashWorkers.CarWashWorkersId(idEmploee));
                 ViewBag.SumOrder = carWashWorkersDayTotal.Sum(x => x.Payroll);

@@ -81,7 +81,7 @@ namespace CarDetailingStudio.BLL.Services
                 IdClientsOfCarWash = OrderServices.idClient,
                 StatusOrder = 1,
                 OrderDate = DateTime.Now,
-                TotalCostOfAllServices =  _orderServices.OrderPrice(),
+                TotalCostOfAllServices = _orderServices.OrderPrice(),
                 DiscountPrice = Math.Round(total),
                 typeOfOrder = 1
 
@@ -163,8 +163,8 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> GetDataClosing()
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.OrderServicesCarWashUnitOfWork
-                                                                              .GetWhere(x => x.ClosingData.Value.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
+            var result = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.OrderServicesCarWashUnitOfWork.Get());
+            return result.Where(x => x.ClosingData?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
         }
 
         public async Task RecountOrder(int idOrder, int? ClientDiscont = null)
@@ -173,9 +173,9 @@ namespace CarDetailingStudio.BLL.Services
 
             OrderServicesCarWash EditOrder = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(WhereIdOrder);
 
-            var getResult =  await _unitOfWork.ServisesCarWashOrderUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == idOrder);
+            var getResult = await _unitOfWork.ServisesCarWashOrderUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == idOrder);
 
-            EditOrder.TotalCostOfAllServices  = getResult.Sum(x => x.Price);
+            EditOrder.TotalCostOfAllServices = getResult.Sum(x => x.Price);
 
             if (ClientDiscont != null)
             {
@@ -187,7 +187,7 @@ namespace CarDetailingStudio.BLL.Services
             }
 
             _unitOfWork.OrderServicesCarWashUnitOfWork.Update(EditOrder);
-           await _unitOfWork.Save();
+            await _unitOfWork.Save();
         }
 
         public async Task StatusOrder(int? idOrder, int status)

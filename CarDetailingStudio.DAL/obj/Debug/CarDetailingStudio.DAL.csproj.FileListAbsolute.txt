@@ -73,7 +73,6 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDe
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\Vasilenko\Desktop\CarDetailingStudio11-10-2019\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.csproj.CoreCompileInputs.cache
-C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.csprojAssemblyReference.cache
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.csproj.CoreCompileInputs.cache
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.pdb
@@ -113,3 +112,4 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailin
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\bin\Debug\ru\EntityFramework.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.csproj.CopyComplete
+C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.DAL\obj\Debug\CarDetailingStudio.DAL.csprojAssemblyReference.cache

@@ -193,6 +193,9 @@
     <Compile Include="Services\GroupWash_Services.cs" />
     <Compile Include="Services\InfoBrigadeForTodayServices.cs" />
     <Compile Include="Services\JobTitleTableServices.cs" />
+    <Compile Include="Services\JoinModel\ClientJoinOrderCarpetWashing.cs" />
+    <Compile Include="Services\JoinModel\Contract\IClientJoinOrderCarpetWashing.cs" />
+    <Compile Include="Services\JoinModel\Model\ClientJoinCarpetWashingModel.cs" />
     <Compile Include="Services\Modules\ApiPrivatBank.cs" />
     <Compile Include="Services\Modules\ClientModules.cs" />
     <Compile Include="Services\Modules\CloseShift\Contract\IWagesForDaysWorkedGroup.cs" />

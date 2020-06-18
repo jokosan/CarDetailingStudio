@@ -4,6 +4,8 @@ using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Expenses;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.BLL.Services.JoinModel;
+using CarDetailingStudio.BLL.Services.JoinModel.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
@@ -69,6 +71,8 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IStorageFee>().To<StorageFeeServices>();
             kernel.Bind<IReviwOrderModules>().To<ReviwOrderModules>();
 
+            // Join
+            kernel.Bind<IClientJoinOrderCarpetWashing>().To<ClientJoinOrderCarpetWashing>();
 
             NinjectDependencyResolverDAL.Initialize(kernel);
         }

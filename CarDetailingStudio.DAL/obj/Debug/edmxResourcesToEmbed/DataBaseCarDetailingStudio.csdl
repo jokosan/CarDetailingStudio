@@ -267,8 +267,7 @@
     </Key>
     <Property Name="idOrderCarpetWashing" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="orderServicesCarWashId" Type="Int32" Nullable="false" />
-    <Property Name="Customer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="clientId" Type="Int32" />
     <Property Name="area" Type="Double" />
     <Property Name="orderDate" Type="DateTime" Precision="3" />
     <Property Name="orderClosingDate" Type="DateTime" Precision="3" />
@@ -458,6 +457,33 @@
     <Property Name="id_car_mark" Type="Double" Nullable="false" />
     <Property Name="logo_mark" Type="Binary" MaxLength="Max" FixedLength="false" />
     <Property Name="screen_format" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="infoBrigadeForToday">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="Expr1" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sumOrder" Type="Int32" />
+    <Property Name="Expr1" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ItogOrderView">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="countOrder" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InterestRate" Type="Int32" />
+    <Property Name="CalculationStatus" Type="Boolean" />
+    <Property Name="Expr1" Type="Double" />
   </EntityType>
   <Association Name="FK_brigadeForToday_CarWashWorkers">
     <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
@@ -880,6 +906,8 @@
     <EntitySet Name="TypeServices" EntityType="Self.TypeServices" />
     <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" />
+    <EntitySet Name="infoBrigadeForToday" EntityType="Self.infoBrigadeForToday" />
+    <EntitySet Name="ItogOrderView" EntityType="Self.ItogOrderView" />
     <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
       <End Role="brigadeForToday" EntitySet="brigadeForToday" />
@@ -1004,34 +1032,5 @@
       <End Role="storageFee" EntitySet="storageFee" />
       <End Role="TireStorage" EntitySet="TireStorage" />
     </AssociationSet>
-    <EntitySet Name="infoBrigadeForToday" EntityType="carWashServerModel.infoBrigadeForToday" />
-    <EntitySet Name="ItogOrderView" EntityType="carWashServerModel.ItogOrderView" />
   </EntityContainer>
-  <EntityType Name="infoBrigadeForToday">
-    <Key>
-      <PropertyRef Name="id" />
-      <PropertyRef Name="Expr1" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="Date" Type="DateTime" Precision="3" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="sumOrder" Type="Int32" />
-    <Property Name="Expr1" Type="Int32" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ItogOrderView">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="countOrder" Type="Int32" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="InterestRate" Type="Int32" />
-    <Property Name="CalculationStatus" Type="Boolean" />
-    <Property Name="Expr1" Type="Double" />
-  </EntityType>
 </Schema>

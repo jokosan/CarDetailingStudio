@@ -247,8 +247,7 @@
         <MappingFragment StoreEntitySet="orderCarpetWashing">
           <ScalarProperty Name="idOrderCarpetWashing" ColumnName="idOrderCarpetWashing" />
           <ScalarProperty Name="orderServicesCarWashId" ColumnName="orderServicesCarWashId" />
-          <ScalarProperty Name="Customer" ColumnName="Customer" />
-          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="clientId" ColumnName="clientId" />
           <ScalarProperty Name="area" ColumnName="area" />
           <ScalarProperty Name="orderDate" ColumnName="orderDate" />
           <ScalarProperty Name="orderClosingDate" ColumnName="orderClosingDate" />
@@ -437,28 +436,28 @@
     <EntitySetMapping Name="infoBrigadeForToday">
       <EntityTypeMapping TypeName="carWashServerModel.infoBrigadeForToday">
         <MappingFragment StoreEntitySet="infoBrigadeForToday">
-          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
-          <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
-          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-          <ScalarProperty Name="Surname" ColumnName="Surname" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="ItogOrderView">
       <EntityTypeMapping TypeName="carWashServerModel.ItogOrderView">
         <MappingFragment StoreEntitySet="ItogOrderView">
-          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
-          <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
-          <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
-          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
-          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-          <ScalarProperty Name="Surname" ColumnName="Surname" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="countOrder" ColumnName="countOrder" />
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="countOrder" ColumnName="countOrder" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+          <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

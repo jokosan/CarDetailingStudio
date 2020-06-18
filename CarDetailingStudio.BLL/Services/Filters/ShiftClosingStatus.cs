@@ -33,7 +33,7 @@ namespace CarDetailingStudio.BLL.Services.Filters
 
             if (DateTime.Now != date)
             {
-                statusFalse = ordersFulfilled.Any(x => x.CalculationStatus == false);
+                statusFalse = ordersFulfilledWhere.Any(x => x.CalculationStatus == false);
             }
 
             if (statusFalse)
@@ -44,7 +44,7 @@ namespace CarDetailingStudio.BLL.Services.Filters
 
                 foreach (var itemShift in DayClose)
                 {
-                    var resultShift = ordersFulfilled.Where(x => x.IdCarWashWorkers == itemShift.carWashWorkersId);
+                    var resultShift = ordersFulfilledWhere.Where(x => x.IdCarWashWorkers == itemShift.carWashWorkersId);
 
                     foreach (var itemOrder in resultShift)
                     {

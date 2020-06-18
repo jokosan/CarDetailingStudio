@@ -4,19 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
-    public class OrderCarpetWashingView
+    public class OrderCarpetWashingView 
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int idOrderCarpetWashing { get; set; }
         public int orderServicesCarWashId { get; set; }
-
-        [Display(Name = "Заказчик*")]
-        [Required]
-        public string Customer { get; set; }
-
-        [Display(Name = "Телефон")]
-        public string telephone { get; set; }
+        public Nullable<int> clientId { get; set; }
 
         [Display(Name = "Площадь м2 ковра*")]
         [Required]

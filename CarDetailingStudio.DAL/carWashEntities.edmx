@@ -243,8 +243,7 @@
           </Key>
           <Property Name="idOrderCarpetWashing" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="orderServicesCarWashId" Type="int" Nullable="false" />
-          <Property Name="Customer" Type="nvarchar" MaxLength="500" />
-          <Property Name="telephone" Type="nvarchar" MaxLength="50" />
+          <Property Name="clientId" Type="int" />
           <Property Name="area" Type="float" />
           <Property Name="orderDate" Type="datetime" />
           <Property Name="orderClosingDate" Type="datetime" />
@@ -1283,8 +1282,7 @@
           </Key>
           <Property Name="idOrderCarpetWashing" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="orderServicesCarWashId" Type="Int32" Nullable="false" />
-          <Property Name="Customer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="clientId" Type="Int32" />
           <Property Name="area" Type="Double" />
           <Property Name="orderDate" Type="DateTime" Precision="3" />
           <Property Name="orderClosingDate" Type="DateTime" Precision="3" />
@@ -2302,8 +2300,7 @@
               <MappingFragment StoreEntitySet="orderCarpetWashing">
                 <ScalarProperty Name="idOrderCarpetWashing" ColumnName="idOrderCarpetWashing" />
                 <ScalarProperty Name="orderServicesCarWashId" ColumnName="orderServicesCarWashId" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="clientId" ColumnName="clientId" />
                 <ScalarProperty Name="area" ColumnName="area" />
                 <ScalarProperty Name="orderDate" ColumnName="orderDate" />
                 <ScalarProperty Name="orderClosingDate" ColumnName="orderClosingDate" />

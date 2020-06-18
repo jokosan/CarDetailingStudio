@@ -49,5 +49,11 @@ namespace CarDetailingStudio.BLL.Services
             await _unitOfWork.Save();
         }
 
+        public async Task AddClient(ClientInfoBll client)
+        {
+            ClientInfo clientInfoBll  = Mapper.Map<ClientInfoBll, ClientInfo>(client);
+            _unitOfWork.ClientInfoUnitOfWork.Insert(clientInfoBll);
+            await _unitOfWork.Save();
+        }
     }
 }

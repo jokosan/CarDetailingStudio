@@ -11,6 +11,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task<ClientInfoBll> ClientInfoGetId(int? IdClient);
         Task ClientInfoEdit(ClientInfoBll editClient);
         Task<IEnumerable<ClientInfoBll>> ClienWhereId(int id);
+        Task AddClient(ClientInfoBll client);
 
     }
 }

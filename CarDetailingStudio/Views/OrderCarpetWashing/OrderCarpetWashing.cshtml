@@ -1,72 +1,82 @@
-﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderCarpetWashingView>
+﻿@model IEnumerable<CarDetailingStudio.Models.ClientJoinCarpetWashingModelView>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderServicesCarWash.DiscountPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderServicesCarWash.PaymentState1.PaymentState1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderServicesCarWash.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Customer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.telephone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.area)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.orderDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.orderClosingDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.orderCompletionDate)
-        </th>
-        <th></th>
-    </tr>
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.DiscountPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.Id)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Customer)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.telephone)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.area)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.orderDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.orderClosingDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.orderCompletionDate)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.idOrderCarpetWashing }) |
-        @Html.ActionLink("Details", "Details", new { id = item.idOrderCarpetWashing }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.idOrderCarpetWashing })
-    </td>
-</tr>
-}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Стирка ковров</h5>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        @using (Html.BeginForm("Client", "ClientsOfCarWashViews", FormMethod.Get))
+                        {
+                            <div class="input-group">
+                                @Html.DropDownList("idPaymentState", new List<SelectListItem>
+                                       {
+                                           new SelectListItem { Text = "Активные заказы", Value = "1"},
+                                           new SelectListItem{ Text = "Все заказы", Value = "2"},
+                                       }, new { @class = "custom-select", id = "inputGroupSelect04" })
 
-</table>
+                                <div class="input-group-append">
+                                    <input type="submit" name="submit" value="Выполнить" class="btn btn-outline-secondary" />
+                                    @Html.ActionLink("Добавить заказ", "../ClientsOfCarWashViews/ClientCarpetWashing", null, new { @class = "btn btn-outline-secondary" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <div class="card">
+        <div class="table-responsive">
+
+            @(Html
+               .Grid(Model)
+               .Build(columns =>
+               {
+                   columns.Add(model => model.Surname);
+                   columns.Add(model => model.Name);
+                   columns.Add(model => model.PatronymicName);
+                   columns.Add(model => model.Phone);
+                   columns.Add(model => model.area);
+                   columns.Add(model => model.DiscountPrice);
+                   columns.Add(model => model.orderDate);
+                   columns.Add(model => model.orderClosingDate);
+                   columns.Add(model => model.orderCompletionDate);
+                   columns.Add(model => Html.ActionLink("Закрыть заказ", "AboutOrder", new { idOrder = model.idOrderCarpetWashing, idClient = model.clientId, idPage = 2 }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+                   columns.Add(model => Html.ActionLink("О заказе", "AboutOrder", new { idOrder = model.idOrderCarpetWashing, idClient = model.clientId, idPage = 1 }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+
+               })
+               .UsingFilterMode(GridFilterMode.Excel)
+               .Empty("No data found")
+               .Filterable(GridFilterType.Single)
+               .Sortable()
+               .Pageable(pager =>
+               {
+                   pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" }};
+                   pager.ShowPageSizes = true;
+                   pager.RowsPerPage = 1;
+               })
+            )
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+
+

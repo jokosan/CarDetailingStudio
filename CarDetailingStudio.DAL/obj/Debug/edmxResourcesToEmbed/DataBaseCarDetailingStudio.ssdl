@@ -238,8 +238,7 @@
     </Key>
     <Property Name="idOrderCarpetWashing" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="orderServicesCarWashId" Type="int" Nullable="false" />
-    <Property Name="Customer" Type="nvarchar" MaxLength="500" />
-    <Property Name="telephone" Type="nvarchar" MaxLength="50" />
+    <Property Name="clientId" Type="int" />
     <Property Name="area" Type="float" />
     <Property Name="orderDate" Type="datetime" />
     <Property Name="orderClosingDate" Type="datetime" />

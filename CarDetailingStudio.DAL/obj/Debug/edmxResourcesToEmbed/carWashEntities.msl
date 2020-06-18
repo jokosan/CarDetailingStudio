@@ -247,8 +247,7 @@
         <MappingFragment StoreEntitySet="orderCarpetWashing">
           <ScalarProperty Name="idOrderCarpetWashing" ColumnName="idOrderCarpetWashing" />
           <ScalarProperty Name="orderServicesCarWashId" ColumnName="orderServicesCarWashId" />
-          <ScalarProperty Name="Customer" ColumnName="Customer" />
-          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="clientId" ColumnName="clientId" />
           <ScalarProperty Name="area" ColumnName="area" />
           <ScalarProperty Name="orderDate" ColumnName="orderDate" />
           <ScalarProperty Name="orderClosingDate" ColumnName="orderClosingDate" />

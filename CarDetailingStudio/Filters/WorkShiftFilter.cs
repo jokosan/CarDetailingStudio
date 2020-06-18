@@ -13,6 +13,7 @@ namespace CarDetailingStudio.Filters
     public class WorkShiftFilter : ActionFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
+        
         {
             CarWashWorkersServices services = new CarWashWorkersServices();
 

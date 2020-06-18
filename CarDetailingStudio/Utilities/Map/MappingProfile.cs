@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Model.ModelViewBll;
+using CarDetailingStudio.BLL.Services.JoinModel.Model;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 
@@ -130,6 +131,7 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<ReviwOrderModelView, ReviwOrderModelBll>();
             CreateMap<ReviwOrderModelBll, ReviwOrderModelView>();
 
+            CreateMap<ClientJoinCarpetWashingModelView, ClientJoinCarpetWashingModel>();
         }
     }
 }

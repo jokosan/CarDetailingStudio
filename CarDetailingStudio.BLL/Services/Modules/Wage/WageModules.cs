@@ -127,6 +127,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             }
 
             return employeePercentage * orderPrice / count;
+        
         }
 
         // Заработная плата администратора
