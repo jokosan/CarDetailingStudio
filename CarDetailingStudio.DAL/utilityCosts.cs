@@ -19,7 +19,9 @@ namespace CarDetailingStudio.DAL
         public Nullable<double> amount { get; set; }
         public Nullable<System.DateTime> dateExpenses { get; set; }
         public Nullable<int> expenseCategoryId { get; set; }
+        public Nullable<int> utilityCostsCategoryId { get; set; }
     
         public virtual expenseCategory expenseCategory { get; set; }
+        public virtual utilityCostsCategory utilityCostsCategory { get; set; }
     }
 }

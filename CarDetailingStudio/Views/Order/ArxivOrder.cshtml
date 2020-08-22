@@ -22,15 +22,16 @@
                        .Build(columns =>
                        {
                            columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
-                           columns.Add(model => model.OrderDate).Titled("Дата и время заказа").Filterable(false);
-                           columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа").Filterable(false);
+                           columns.Add(model => model.OrderDate).Titled("Дата и время заказа");
+                           columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа");
 
                            columns.Add(model => model.StatusOrder1.StatusOrder1).Titled("Статус заказа").Filterable(false);
                            columns.Add(model => model.ClientsOfCarWash.ClientInfo.Surname).Titled("Фамилия").Filterable(false);
                            columns.Add(model => model.ClientsOfCarWash.ClientInfo.Name).Titled("Имя").Sortable(false).Filterable(false);
                            columns.Add(model => model.ClientsOfCarWash.ClientInfo.PatronymicName).Titled("Отчество").Filterable(false);
                            columns.Add(model => model.ClientsOfCarWash.ClientInfo.Phone).Titled("Телефон");
-                           //columns.Add(model => @Html.ActionLink("О заказе", "OrderInfo", new { id = model.Id }, new { @class = "btn btn-outline-info" })).Encoded(false);
+
+                           columns.Add(model => @Html.ActionLink("Просмотреть", "CompletedOrders", new { idOrder = model.Id}, new { @class = "btn btn-outline-info" })).Encoded(false);
                            //columns.Add(model => @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = model.Id }, new { @class = "btn btn-outline-success" })).Encoded(false);
                        })
                        .UsingFilterMode(GridFilterMode.Excel)

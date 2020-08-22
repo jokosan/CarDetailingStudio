@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.OrderCarWashWorkersDayGroupView>
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <h5 class="card-title m-b-0"> @ViewBag.FIO.Surname @ViewBag.FIO.Name @ViewBag.FIO.Patronymic</h5>
+            </div>
+
+            <div class="card-body">
+                @(Html
+                       .Grid(Model)
+                       .Build(columns =>
+                       {
+                           columns.Add(model => model.CountOrder).Filterable(false);
+                           columns.Add(model => model.OrderDate);
+                           columns.Add(model => model.ClosingData);
+                           columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа с учетом скидки").Filterable(false);
+                           columns.Add(model => model.Payroll);
+
+                           columns.Add(model => @Html.ActionLink("Details", "OrderDay", new { idEmployee = model.IdCarWashWorkers, date = model.ClosingData }));
+                       })
+                       .UsingFilterMode(GridFilterMode.Excel)
+                       .Empty("No data found")
+                       .Filterable(GridFilterType.Single)
+                       .Sortable()
+                       .Pageable(pager =>
+                       {
+                           pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" } };
+                           pager.ShowPageSizes = true;
+                           pager.RowsPerPage = 1;
+                       })
+                    )
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

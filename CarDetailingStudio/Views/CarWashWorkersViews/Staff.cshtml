@@ -96,8 +96,8 @@
                                     @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "EditEmployee", new { id = item.id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.id })
+                                    @Html.ActionLink("Редактировать", "EditEmployee", new { id = item.id }) |
+                                    @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id })
                                 </td>
                             </tr>
                         }
@@ -136,8 +136,8 @@
                                     @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "EditEmployee", new { id = item.id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.id })
+                                    @Html.ActionLink("Редактировать", "EditEmployee", new { id = item.id }) |
+                                    @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id })
                                 </td>
                             </tr>
                         }

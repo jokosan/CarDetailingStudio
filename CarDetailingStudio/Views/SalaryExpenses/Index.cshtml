@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.SalaryExpensesView>
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-12">
@@ -11,60 +13,52 @@
                     </div>
                     <div class="col-md-6">
                         <div class="pull-right m-t-30 text-right">
-                            @Html.ActionLink("Добавить к зарплате", "Create", null, new { @class = "btn btn-info"})
-                        </div>                      
+                            @Html.ActionLink("Добавить к зарплате", "Create", null, new { @class = "btn btn-info" })
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.idCarWashWorkers)
-                        </th>
-                        <th>
-                            Ф.И.О
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.amount)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.dateExpenses)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.expenseCategoryId)
-                        </th>
-                        @*<th></th>*@
-                    </tr>
+            <div class="col-12">
+                <div class="card-body">
+                    <div class="table-responsive">
 
-                    @foreach (var item in Model)
-                    {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.idCarWashWorkers)
-                    </td>
-                    <th>
-                        @Html.DisplayFor(modelItem => item.CarWashWorkers.Surname)  @Html.DisplayFor(modelItem => item.CarWashWorkers.Name)  @Html.DisplayFor(modelItem => item.CarWashWorkers.Patronymic)
-                    </th>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.amount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.dateExpenses)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.expenseCategoryId)
-                    </td>
-                    @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.idSalaryExpenses }) |
-            @Html.ActionLink("Details", "Details", new { id = item.idSalaryExpenses })
-        </td>*@
-                </tr>
-                    }
+                        @(Html
+                           .Grid(Model)
+                           .Build(columns =>
+                           {
 
-                </table>
+                               columns.Add(model => model.idCarWashWorkers);
+                               columns.Add(model => model.CarWashWorkers.Surname);
+                               columns.Add(model => model.CarWashWorkers.Name);
+                               columns.Add(model => model.CarWashWorkers.Patronymic);
+                               columns.Add(model => model.amount);
+                               columns.Add(model => model.dateExpenses);
+                               columns.Add(model => model.expenseCategory.name);
+                           })
+                           .UsingFilterMode(GridFilterMode.Excel)
+                           .Empty("No data found")
+                           .Filterable(GridFilterType.Single)
+                           .Sortable()
+                           .Pageable(pager =>
+                           {
+                               pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 300, "300" }, { 500, "500" } };
+                               pager.ShowPageSizes = true;
+                               pager.RowsPerPage = 1;
+                           })
+                         )
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

@@ -10,6 +10,7 @@ using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Deployment.Internal;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -28,10 +29,12 @@ namespace CarDetailingStudio.Controllers
         private IClientInfoServices _clientInfo;
         private IClientJoinOrderCarpetWashing _orderCarpetWashing;
         private IOrderServicesCarWashServices _orderServicesCarWash;
+        private IPaymentState _paymentState;
 
         public OrderCarpetWashingController(IOrderCarpetWashingServices orderCarpetWashing, IBrigadeForTodayServices brigadeForTodayServices,
-                                            IDetailingsServises detailings, IOrder order, IWageModules wageModules, IClientInfoServices clientInfo, 
-                                            IClientJoinOrderCarpetWashing clientJoinOrderCarpetWashing, IOrderServicesCarWashServices orderServicesCarWash)
+                                            IDetailingsServises detailings, IOrder order, IWageModules wageModules, IClientInfoServices clientInfo,
+                                            IClientJoinOrderCarpetWashing clientJoinOrderCarpetWashing, IOrderServicesCarWashServices orderServicesCarWash,
+                                            IPaymentState paymentState)
         {
             _orderCarpetWashingServices = orderCarpetWashing;
             _brigadeForToday = brigadeForTodayServices;
@@ -41,12 +44,20 @@ namespace CarDetailingStudio.Controllers
             _clientInfo = clientInfo;
             _orderCarpetWashing = clientJoinOrderCarpetWashing;
             _orderServicesCarWash = orderServicesCarWash;
+            _paymentState = paymentState;
         }
 
         // GET: OrderCarpetWashing
         public async Task<ActionResult> OrderCarpetWashing()
         {
-            return View(Mapper.Map<IEnumerable<ClientJoinCarpetWashingModelView>>(await _orderCarpetWashing.JoinTableClientToCarpetWashing()));
+            var orderCarpet = Mapper.Map<IEnumerable<ClientJoinCarpetWashingModelView>>(await _orderCarpetWashing.ActiveOrdersWashingCarpets());
+            return View(orderCarpet.OrderByDescending(x => x.idOrderCarpetWashing));
+        }
+
+        public async Task<ActionResult> ArxivOrderCarpet()
+        {
+            var orderCarpet = Mapper.Map<IEnumerable<ClientJoinCarpetWashingModelView>>(await _orderCarpetWashing.ActiveOrdersCarpets());
+            return View(orderCarpet.OrderByDescending(x => x.idOrderCarpetWashing));
         }
 
         // GET: OrderCarpetWashing/Details/5
@@ -63,7 +74,7 @@ namespace CarDetailingStudio.Controllers
             }
             return View(orderCarpetWashingView);
         }
-
+               
         // GET: OrderCarpetWashing/Create
         public async Task<ActionResult> AddOrderCarpetWashing(int? idClient)
         {
@@ -96,21 +107,21 @@ namespace CarDetailingStudio.Controllers
         {
             if (chooseEmployee == true)
             {
-                if (ModelState.IsValid && idBrigade != null && TempData["priseServis"] != null && clientId != null)
-                {
-                    int priceServis = Convert.ToInt32(TempData["priseServis"].ToString());
-                    orderCarpetWashingView.clientId = clientId;
+                //if (ModelState.IsValid && idBrigade != null && TempData["priseServis"] != null && clientId != null)
+                //{
+                //    int priceServis = Convert.ToInt32(TempData["priseServis"].ToString());
+                //    orderCarpetWashingView.clientId = clientId;
 
-                    OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
+                //    OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
 
-                    int resultOrderServicesCarWash = await _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis);
-                    orderCarpetWashing.orderServicesCarWashId = resultOrderServicesCarWash;
+                //    int resultOrderServicesCarWash = await _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis, clientId.Value);
+                //    orderCarpetWashing.orderServicesCarWashId = resultOrderServicesCarWash;
 
-                    await _orderCarpetWashingServices.Insert(orderCarpetWashing);
-                    await _wageModules.Payroll(resultOrderServicesCarWash, idBrigade);
+                //    await _orderCarpetWashingServices.Insert(orderCarpetWashing);
+                //    await _wageModules.Payroll(resultOrderServicesCarWash, idBrigade);
 
-                    return RedirectToAction("OrderCarpetWashing", "OrderCarpetWashing");
-                }
+                //    return RedirectToAction("OrderCarpetWashing", "OrderCarpetWashing");
+                //}
             }
             else
             {
@@ -121,14 +132,14 @@ namespace CarDetailingStudio.Controllers
 
                     OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
 
-                    int resultOrderServicesCarWash = await _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis);
+                    int resultOrderServicesCarWash = await _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis, clientId.Value);
                     orderCarpetWashing.orderServicesCarWashId = resultOrderServicesCarWash;
 
                     await _orderCarpetWashingServices.Insert(orderCarpetWashing);
 
                     return RedirectToAction("OrderCarpetWashing", "OrderCarpetWashing");
                 }
-            }        
+            }
 
             var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForToday.GetDateTimeNow());
             var resultServisesPrice = Mapper.Map<DetailingsView>(await _detailings.GetId(87));
@@ -154,22 +165,24 @@ namespace CarDetailingStudio.Controllers
             OrderCarpetWashingView orderCarpetWashingView = Mapper.Map<OrderCarpetWashingView>(await _orderCarpetWashingServices.SelectId(idOrder));
             ClientInfoView clientInfoView = Mapper.Map<ClientInfoView>(await _clientInfo.ClientInfoGetId(idClient));
 
-            if (idPage == 2) 
-            {              
-                var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForToday.GetDateTimeNow());
-                var orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(orderCarpetWashingView.orderServicesCarWashId));
-                var test = orderServices.OrderCarWashWorkers.FirstOrDefault(x => x.IdOrder == orderCarpetWashingView.orderServicesCarWashId);
-                
-                ViewBag.Adninistrator = brigadeForToday.Where(x => x.StatusId < 3);
-                ViewBag.Brigade = brigadeForToday.Where(x => x.StatusId == 3);
-                ViewBag.Sum = orderServices.DiscountPrice;
-                ViewBag.BrigateOrder = test;
-                ViewBag.ResultPay = orderServices.PaymentState;
-            }
-                        
+            var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForToday.GetDateTimeNow());
+            var orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(orderCarpetWashingView.orderServicesCarWashId));
+            var test = orderServices.OrderCarWashWorkers.FirstOrDefault(x => x.IdOrder == orderCarpetWashingView.orderServicesCarWashId);
+
+            ViewBag.Adninistrator = brigadeForToday.Where(x => x.StatusId < 3);
+            ViewBag.Brigade = brigadeForToday.Where(x => x.StatusId == 3);
+            ViewBag.Sum = orderServices.DiscountPrice;
+            ViewBag.BrigateOrder = test;
+            ViewBag.ResultPay = orderServices.PaymentState;
+
+
             ViewBag.IdPage = idPage;
             ViewBag.ClientInfo = clientInfoView;
-          
+
+            var paymentSate = Mapper.Map<IEnumerable<PaymentStateView>>(await _paymentState.GetTableAll());
+            ViewBag.PaymentState = new SelectList(paymentSate, "Id", "PaymentState1", orderServices.PaymentState);
+            ViewBag.PaymentStateResult = orderServices.PaymentState;
+
             if (orderCarpetWashingView == null)
             {
                 return HttpNotFound();
@@ -183,39 +196,63 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AboutOrder([Bind(Include = "orderCompletionDate")] OrderCarpetWashingView orderCarpetWashingView, int? idPage, int? PaymentState, List<string> idBrigade = null)
+        public async Task<ActionResult> AboutOrder([Bind(Include = "orderCompletionDate")] OrderCarpetWashingView orderCarpetWashingView, int idOrderServis,
+                                                   int idOrder, int? idPage, int? PaymentStateList, List<string> idBrigade = null, int? idAdmin = null)
         {
-            if (ModelState.IsValid)
+            if (idPage == 2)
             {
-                if (idPage == 2)
+                if (PaymentStateList == 3)
                 {
-                    if (PaymentState == 3)
+                    if (idBrigade != null && idAdmin != null)
                     {
-                        int idOrderServices = await EditOrderCarpetWashing(orderCarpetWashingView, idPage.Value);
+                        int idOrderServices = await EditOrderCarpetWashing(idOrder, idPage.Value, PaymentStateList.Value);
                         await _wageModules.Payroll(idOrderServices, idBrigade);
-
                         OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
-                        orderServices.PaymentState = PaymentState;
-                        orderServices.StatusOrder = 2;
+                        orderServices.PaymentState = PaymentStateList;
+                        orderServices.StatusOrder = 4;
 
                         await SaveOrderServices(orderServices);
                     }
-                   
+                    else
+                    {
+                        int idOrderServices = await EditOrderCarpetWashing(idOrder, idPage.Value, PaymentStateList.Value);
+                        OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
+                        orderServices.PaymentState = PaymentStateList;
+                        orderServices.StatusOrder = 4;
+
+                        await SaveOrderServices(orderServices);
+                    }
                 }
-                else if (idPage == 1)
+                else if (PaymentStateList == 1 || PaymentStateList == 2)
                 {
-                    int idOrderServices = await EditOrderCarpetWashing(orderCarpetWashingView, idPage.Value);
+                    // if (idBrigade != null && idAdmin != null)
+                    if (idBrigade != null)
+                    {
+                        int idOrderServices = await EditOrderCarpetWashing(idOrder, idPage.Value, PaymentStateList.Value);
+                        await _wageModules.Payroll(idOrderServices, idBrigade);
+                        OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
+                        orderServices.PaymentState = PaymentStateList;
+                        orderServices.StatusOrder = 2;
+                        orderServices.ClosingData = DateTime.Now;
 
-                    OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
-                    orderServices.PaymentState = PaymentState;
+                        await SaveOrderServices(orderServices);
+                    }
+                    else
+                    {
+                        int idOrderServices = await EditOrderCarpetWashing(idOrder, idPage.Value, PaymentStateList.Value);
+                        OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
+                        orderServices.PaymentState = PaymentStateList;
+                        orderServices.StatusOrder = 2;
+                        orderServices.ClosingData = DateTime.Now;
 
-                    await SaveOrderServices(orderServices);
+                        await SaveOrderServices(orderServices);
+                    }
+
                 }
-         
-                return RedirectToAction("OrderCarpetWashing");
             }
-
-            return View(orderCarpetWashingView);
+          
+            return RedirectToAction("OrderCarpetWashing");
+                        
         }
 
         private async Task SaveOrderServices(OrderServicesCarWashView orderServices)
@@ -224,14 +261,18 @@ namespace CarDetailingStudio.Controllers
             await _orderServicesCarWash.SaveOrder(orderServicesBll);
         }
 
-        private async Task<int> EditOrderCarpetWashing(OrderCarpetWashingView orderCarpetWashingView, int idPage)
+        private async Task<int> EditOrderCarpetWashing(int id, int idPage, int PaymentState)
         {
-            OrderCarpetWashingView orderCarpetWashingGet = Mapper.Map<OrderCarpetWashingView>(await _orderCarpetWashingServices.SelectId(orderCarpetWashingView.idOrderCarpetWashing));
-            orderCarpetWashingGet.orderCompletionDate = orderCarpetWashingView.orderCompletionDate;
+            OrderCarpetWashingView orderCarpetWashingGet = Mapper.Map<OrderCarpetWashingView>(await _orderCarpetWashingServices.SelectId(id));
 
-            if (idPage == 1)
+            if (PaymentState == 3)
             {
-                orderCarpetWashingGet.orderCompletionDate = orderCarpetWashingView.orderCompletionDate;
+                orderCarpetWashingGet.orderCompletionDate = DateTime.Now;
+            }
+            else
+            {
+                orderCarpetWashingGet.orderCompletionDate = DateTime.Now;
+                orderCarpetWashingGet.orderClosingDate = DateTime.Now;
             }
 
             OrderCarpetWashingBll orderCarpet = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingGet);

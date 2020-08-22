@@ -32,7 +32,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                               .Select(y => new WagesForDaysWorkedBll
                               {
                                   carWashWorkersId = y.First().IdCarWashWorkers,
-                                  ClosingData = y.First().OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyy"),
+                                  ClosingData = y.First().OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy"),
                                   DiscountPrice = y.Sum(s => s.OrderServicesCarWash.DiscountPrice),
                                   orderCount = y.Count(),
                                   calculationStatus = y.First().CalculationStatus,
@@ -103,7 +103,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             salaryExpenses.idCarWashWorkers = salaryBalance.CarWashWorkersId;
             salaryExpenses.amount = salaryBalance.payoutAmount;
             salaryExpenses.dateExpenses = salaryBalance.dateOfPayment;
-            salaryExpenses.expenseCategoryId = 21;
+            salaryExpenses.expenseCategoryId = 1;
 
             await _salaryExpenses.Insert(salaryExpenses);
         }

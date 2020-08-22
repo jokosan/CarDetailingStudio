@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses.ExpensesContract
 {
-    public interface IOtherExpenses : IGetFromDatabase<OtherExpensesBll>, IDatabaseOperations<OtherExpensesBll>
+    public interface IOtherExpenses : IGetFromDatabase<OtherExpensesBll>, IDatabaseOperations<OtherExpensesBll>, IReports<OtherExpensesBll>
     {
-        Task<IEnumerable<OtherExpensesBll>> MonthlyReport(DateTime date);
+    
     }
 }

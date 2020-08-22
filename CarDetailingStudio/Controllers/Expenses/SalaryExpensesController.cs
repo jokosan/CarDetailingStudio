@@ -28,7 +28,7 @@ namespace CarDetailingStudio.Controllers.Expenses
         // GET: SalaryExpenses
         public async Task<ActionResult> Index()
         {
-            return View(Mapper.Map<IEnumerable<SalaryExpensesView>>(await _salaryExpenses.GetTableAll()));
+            return View(Mapper.Map<IEnumerable<SalaryExpensesView>>(await _salaryExpenses.GetTableAll()).OrderByDescending(x => x.idSalaryExpenses));
         }
 
         // GET: SalaryExpenses/Details/5

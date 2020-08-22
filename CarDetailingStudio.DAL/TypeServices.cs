@@ -20,7 +20,7 @@ namespace CarDetailingStudio.DAL
             this.costsCarWashAndDeteyling = new HashSet<costsCarWashAndDeteyling>();
         }
     
-        public int idTypeServices { get; set; }
+        public int TypeServices1 { get; set; }
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -20,10 +20,14 @@ namespace CarDetailingStudio.Controllers
         private IOtherExpenses _otherExpenses;
         private ICostsCarWashAndDeteyling _costsCarWashAndDeteyling;
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
-      
+        private IBonusToSalary _bonusToSalary;
+
+
+        double? test { get; set; }
 
         public AnalyticsController(ISalaryExpenses salaryExpenses, IOrderServicesCarWashServices orderServicesCarWash,
-                                   IUtilityCosts utilityCosts, IOtherExpenses otherExpenses, ICostsCarWashAndDeteyling costsCarWashAndDeteyling, IOrderCarWashWorkersServices orderCarWashWorkers)
+                                   IUtilityCosts utilityCosts, IOtherExpenses otherExpenses, ICostsCarWashAndDeteyling costsCarWashAndDeteyling,
+                                   IOrderCarWashWorkersServices orderCarWashWorkers, IBonusToSalary bonusToSalary)
         {
             _salaryExpenses = salaryExpenses;
             _orderServicesCarWash = orderServicesCarWash;
@@ -31,38 +35,96 @@ namespace CarDetailingStudio.Controllers
             _otherExpenses = otherExpenses;
             _costsCarWashAndDeteyling = costsCarWashAndDeteyling;
             _orderCarWashWorkers = orderCarWashWorkers;
+            _bonusToSalary = bonusToSalary;
         }
 
         // GET: Analytics
-        public async Task<ActionResult> MonthlyReport(DateTime? date = null)
-        {           
-            if (date == null)
+        public async Task<ActionResult> Report(DateTime? startDate = null, DateTime? finalDate = null)
+        {
+            if (startDate == null && finalDate == null)
             {
-                 date = DateTime.Now;
-            }         
+                startDate = DateTime.Now;
+            }
 
-            var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _orderServicesCarWash.MonthlyReport(date.Value));
-            var costCarWashToDetailings = Mapper.Map<IEnumerable<CostsCarWashAndDeteylingView>>(await _costsCarWashAndDeteyling.MonthlyReport(date.Value));
-            var utilityCost = Mapper.Map<IEnumerable<UtilityCostsView>>(await _utilityCosts.MonthlyReport(date.Value));
-            var otherExpenses = Mapper.Map<IEnumerable<OtherExpensesView>>(await _otherExpenses.MonthlyReport(date.Value));
+            IEnumerable<OrderServicesCarWashView> order;
+            IEnumerable<CostsCarWashAndDeteylingView> costCarWashToDetailings;
+            IEnumerable<UtilityCostsView> utilityCost;
+            IEnumerable<OtherExpensesView> otherExpenses;
+            IEnumerable<OrderCarWashWorkersView> OrderCarWashWorker;
+            IEnumerable<BonusToSalaryView> BonusToSalary;
+
+            if (finalDate == null)
+            {
+                order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _orderServicesCarWash.Reports(startDate.Value));
+                costCarWashToDetailings = Mapper.Map<IEnumerable<CostsCarWashAndDeteylingView>>(await _costsCarWashAndDeteyling.Reports(startDate.Value));
+                utilityCost = Mapper.Map<IEnumerable<UtilityCostsView>>(await _utilityCosts.Reports(startDate.Value));
+                otherExpenses = Mapper.Map<IEnumerable<OtherExpensesView>>(await _otherExpenses.Reports(startDate.Value));
+                OrderCarWashWorker = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.Reports(startDate.Value));
+                BonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.Reports(startDate.Value));  
+            }
+            else
+            {
+                order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _orderServicesCarWash.Reports(startDate.Value, finalDate.Value));
+                costCarWashToDetailings = Mapper.Map<IEnumerable<CostsCarWashAndDeteylingView>>(await _costsCarWashAndDeteyling.Reports(startDate.Value, finalDate.Value));
+                utilityCost = Mapper.Map<IEnumerable<UtilityCostsView>>(await _utilityCosts.Reports(startDate.Value, finalDate.Value));
+                otherExpenses = Mapper.Map<IEnumerable<OtherExpensesView>>(await _otherExpenses.Reports(startDate.Value, finalDate.Value));
+                OrderCarWashWorker = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.Reports(startDate.Value, finalDate.Value));
+                BonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.Reports(startDate.Value, finalDate.Value));
+            }
+
+            int orderCount = order.Count();
 
             var carWash = order.Where(x => x.ServisesCarWashOrder.Any(y => y.Detailings.IdTypeService == 2));
             var detailings = order.Where(x => x.ServisesCarWashOrder.Any(y => y.Detailings.IdTypeService == 1));
-            var administratorCarWash = order.Where(x => x.OrderCarWashWorkers.Any(q => q.CarWashWorkers.IdPosition == 1));
-            var administratorDetailings = order.Where(x => x.OrderCarWashWorkers.Any(q => q.CarWashWorkers.IdPosition == 2));
-            var staffCarWashWorker = order.Where(x => x.OrderCarWashWorkers.Any(q => q.CarWashWorkers.IdPosition >= 4));
-            var staffDetailing = order.Where(x => x.OrderCarWashWorkers.Any(q => q.CarWashWorkers.IdPosition == 3));
+            var carpetWashing = order.Where(x => x.typeOfOrder == 3 );
+
+            List<double> sumTet = new List<double>();
+
+            foreach (var item in carpetWashing)
+            {
+                if (item.typeOfOrder == 3)
+                {
+                    sumTet.Add(item.OrderCarWashWorkers.Sum(s => s.Payroll).Value);                
+                }
+            }
+
+            ViewBag.Test = sumTet.Sum();
+
+            var administratorCarWash = OrderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition == 1) && (x.OrderServicesCarWash.typeOfOrder == 1));
+            var administratorDetailings = OrderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition == 2) && (x.OrderServicesCarWash.typeOfOrder == 1));
+            var staffCarWashWorker = OrderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition >= 4) && (x.OrderServicesCarWash.typeOfOrder == 1)); 
+            var staffDetailing = OrderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition == 3) && (x.OrderServicesCarWash.typeOfOrder == 1)); 
+
+            var administratorCarpetWashing = OrderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition <= 2) && (x.OrderServicesCarWash.typeOfOrder == 3));
+            var staffCarpetWashing = OrderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition >= 3) && (x.OrderServicesCarWash.typeOfOrder == 3));
+
+            double? AdministratorCarWash = administratorCarWash.Sum(x => x.Payroll);
+            double? AdministratorDetailings = administratorDetailings.Sum(x => x.Payroll);
+            double? StaffCarWashWorker = staffCarWashWorker.Sum(x => x.Payroll);
+            double? StaffDetailing = staffDetailing.Sum(x => x.Payroll);
+
             var costCarWash = costCarWashToDetailings.Where(x => x.typeServicesId == 1);
             var costDetailing = costCarWashToDetailings.Where(x => x.typeServicesId == 2);
-
-            double? AdministratorCarWash = administratorCarWash.Sum(x => x.OrderCarWashWorkers.Sum(t => t.Payroll));
-            double? AdministratorDetailings = administratorDetailings.Sum(x => x.OrderCarWashWorkers.Sum(t => t.Payroll));
-            double? StaffCarWashWorker = staffCarWashWorker.Sum(x => x.OrderCarWashWorkers.Sum(t => t.Payroll));
-            double? StaffDetailing = staffDetailing.Sum(x => x.OrderCarWashWorkers.Sum(t => t.Payroll));
+          
             double? OrderCarWashSum = carWash.Sum(x => x.DiscountPrice);
             double? OrderDetailing = detailings.Sum(x => x.DiscountPrice);
             double? costCarWashSum = costCarWash.Sum(x => x.amount);
             double? costDetailingsSum = costDetailing.Sum(x => x.amount);
+
+            double? carpetOrder = carpetWashing.Sum(x => x.DiscountPrice);
+            double? adminCarpet = administratorCarpetWashing.Sum(x => x.Payroll);
+            double? staffCarpet = staffCarpetWashing.Sum(x => x.Payroll);
+          
+            //  Carpet
+            ViewBag.CarpetOrder = carpetOrder; // Касса ковров
+            ViewBag.AdminCarpet = adminCarpet; // ЗП админ 
+            ViewBag.StaffCarpet = staffCarpet; // ЗП сотрудников 
+            ViewBag.CauntCarpet = carpetWashing.Count();
+            ViewBag.TotalOrderCarpet = carpetOrder - adminCarpet - staffCarpet;
+
+            //  BonusToSalary
+            ViewBag.BonusToSalarySum = BonusToSalary.Sum(x => x.amount);
+            ViewBag.BonusToSalaryCount = BonusToSalary.Count();
 
             // CarWash
             ViewBag.OrderCarWashSum = OrderCarWashSum; // Касса мойки
@@ -75,11 +137,11 @@ namespace CarDetailingStudio.Controllers
             ViewBag.CostDetailings = costDetailingsSum;
            
             // ЗП Администратора мойки и детейлинга
-            ViewBag.AdministratorCarWash = AdministratorCarWash;
+            ViewBag.AdministratorCarWash = AdministratorCarWash + adminCarpet;
             ViewBag.AdministratorDetailings = AdministratorDetailings;
 
             // ЗП Сотрудников мойки и детейлинга
-            ViewBag.StaffCarWashWorker = StaffCarWashWorker;
+            ViewBag.StaffCarWashWorker = StaffCarWashWorker + staffCarpet;
             ViewBag.StaffDetailing = StaffDetailing;
 
             // комунальные услуги
@@ -97,7 +159,7 @@ namespace CarDetailingStudio.Controllers
 
             // Прочие расходы 
             ViewBag.OtherExpenses = otherExpenses.GroupBy(x => x.expenseCategoryId)
-                                                  .Select(y => new OtherExpensesView 
+                                                  .Select(y => new OtherExpensesView
                                                   {
                                                       idOtherExpenses = y.First().idOtherExpenses,
                                                       amount = y.First().amount,
@@ -111,28 +173,31 @@ namespace CarDetailingStudio.Controllers
             ViewBag.TotalCarWash = Math.Round(OrderCarWashSum.Value - costCarWashSum.Value - AdministratorCarWash.Value - StaffCarWashWorker.Value, 2);
             ViewBag.TotalDetailing = Math.Round(OrderDetailing.Value - costDetailingsSum.Value - AdministratorDetailings.Value - StaffDetailing.Value, 2);
 
-            var invoice = new DateTime(date.Value.Year, date.Value.Month, 1);
+            ViewBag.Total = ViewBag.TotalCarWash + ViewBag.TotalDetailing + ViewBag.TotalOrderCarpet - ViewBag.UtilityCostSum - ViewBag.OtherExpensesSum - ViewBag.BonusToSalarySum;
+
+            var invoice = new DateTime(startDate.Value.Year, startDate.Value.Month, 1);
             ViewBag.InvoiceDate = invoice.ToString("D");
 
-            if (date.Value.Month != DateTime.Now.Month)
-            {
-                var due = invoice.AddMonths(1).AddDays(-1);
-                ViewBag.DueDate = due.ToString("D");
+            if (finalDate == null)
+            {             
+                ViewBag.StartDate = startDate.Value.ToString("D");
             }
             else
             {
-                ViewBag.DueDate = DateTime.Now.ToString("D");
+                ViewBag.StartDate = startDate.Value.ToString("D");
+                ViewBag.FinalDate = finalDate.Value.ToString("D");
             }
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult MonthlyReport(DateTime dateViewUser)        
+        public ActionResult MonthlyReport(DateTime? startdateViewUser, DateTime? finaldateViewUser)
         {
-            return RedirectToAction("MonthlyReport", "Analytics", new RouteValueDictionary(new
+            return RedirectToAction("Report", "Analytics", new RouteValueDictionary(new
             {
-                date = dateViewUser
+                startDate = startdateViewUser,
+                finalDate = finaldateViewUser
             }));
         }
     }

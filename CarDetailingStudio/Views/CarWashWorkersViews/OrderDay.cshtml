@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderCarWashWorkersView>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="card-title m-b-0">Архив выполненых заказов сотрудников</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderServicesCarWash.TotalCostOfAllServices)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderServicesCarWash.DiscountPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderServicesCarWash.OrderDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderServicesCarWash.ClosingData)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Payroll)
+                            </th>
+
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderServicesCarWash.TotalCostOfAllServices)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderServicesCarWash.DiscountPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderServicesCarWash.ClosingData)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Payroll)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("О заказе", "../Order/CompletedOrders", new { idOrder = item.IdOrder })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

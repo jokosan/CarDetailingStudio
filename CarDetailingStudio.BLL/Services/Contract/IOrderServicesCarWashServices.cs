@@ -1,16 +1,16 @@
 ﻿using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Contract.GenericContract;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
-    public interface IOrderServicesCarWashServices
+    public interface IOrderServicesCarWashServices : IReports<OrderServicesCarWashBll>
     {
         Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage();
         Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder, int typeOfOrder);
         Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder);
-        Task<IEnumerable<OrderServicesCarWashBll>> MonthlyReport(DateTime date);
         Task<OrderServicesCarWashBll> GetId(int? id);
         Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total);
         Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder);

@@ -34,6 +34,10 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<StatusOrder> StatusOrderUW;
         private DbRepository<salaryBalance> SalaryBalanceUW;
         private DbRepository<orderCarpetWashing> OrderCarpetWashingUW;
+        private DbRepository<bonusToSalary> bonusToSalaryUW;
+        private DbRepository<PaymentState> PaymentStateUW;
+        private DbRepository<Cashier> CashierUW;
+        private DbRepository<utilityCostsCategory> utilityCostsCategoryUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -41,6 +45,30 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
+
+        public DbRepository<utilityCostsCategory> utilityCostsCategoryUnitOfWork
+        {
+            get => utilityCostsCategoryUW ?? (utilityCostsCategoryUW = new DbRepository<utilityCostsCategory>(_entities));
+            set => utilityCostsCategoryUW = value;
+        }
+
+        public DbRepository<Cashier> CashierUtilOfWork
+        {
+            get => CashierUW ?? (CashierUW = new DbRepository<Cashier>(_entities));
+            set => CashierUW = value;
+        }
+
+        public DbRepository<PaymentState> PaymentStateUnitOfWork
+        {
+            get => PaymentStateUW ?? (PaymentStateUW = new DbRepository<PaymentState>(_entities));
+            set => PaymentStateUW = value;
+        }
+
+        public DbRepository<bonusToSalary> BonusToSalaryUnitOfWork
+        {
+            get => bonusToSalaryUW ?? (bonusToSalaryUW = new DbRepository<bonusToSalary>(_entities));
+            set => bonusToSalaryUW = value;
+        }
 
         public DbRepository<salaryBalance> SalaruBalanceUnitOfWork
         {
@@ -76,8 +104,6 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             get { return ClientsGrupsUW ?? (ClientsGrupsUW = new DbRepository<ClientsGroups>(_entities)); }
             set { ClientsGrupsUW = value; }
         }
-
-
 
         public DbRepository<GroupWashServices> GroupWashServicesUnitOfWork
         {

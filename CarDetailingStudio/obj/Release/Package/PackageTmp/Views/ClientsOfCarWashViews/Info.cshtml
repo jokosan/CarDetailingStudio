@@ -35,6 +35,8 @@
             </ul>
             <br />
         </div>
+
+
         @foreach (var item in ViewBag.ClientInfo)
         {
             if (item.arxiv == true)
@@ -80,6 +82,7 @@
                     {
                         using (Html.BeginForm("NewOrder", "ClientsOfCarWashViews", FormMethod.Get))
                         {
+
                             <div id="service">
                                 <input value="false" name="Page" type="hidden" />
 
@@ -90,7 +93,7 @@
 
                                         <label class="customcheckbox">
                                             <label class="label">
-                                                <input class="label__checkbox" type="checkbox" name="Services" value="1" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                                <input class="label__checkbox" type="checkbox" name="Services" value="1" id="checkme" onchange="document.getElementById('@item.id').disabled = !this.checked;" />
                                                 <span class="label__text">
                                                     <span class="label__check">
                                                         <i class="fa fa-check icon"></i>
@@ -104,7 +107,7 @@
                                         <label class="customcheckbox">
                                             <label class="label">
 
-                                                <input class="label__checkbox" type="checkbox" name="Services" value="2" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                                <input class="label__checkbox" type="checkbox" name="Services" value="2" id="checkme" onchange="document.getElementById('@item.id').disabled = !this.checked;" />
                                                 <span class="label__text">
                                                     <span class="label__check">
                                                         <i class="fa fa-check icon"></i>
@@ -119,15 +122,17 @@
                                         @*@Html.ActionLink("Продолжить оформление заказа", "NewOrder", new { id = item.id, body = item.CarBody.Name }, new { @class = "btn btn-outline-secondary",  })*@
                                         <input type="hidden" value=@item.id name="id" />
                                         <input type="hidden" value=@item.CarBody.Name name="body" />
-                                        <input type="submit" name="submit" id="submit" value="Продолжить оформление заказа" class="btn btn-success" disabled="disabled" />
+                                        <input type="submit" name="@item.id" id="@item.id" value="Продолжить оформление заказа" class="btn btn-success" disabled="disabled" />
                                     </div>
                                 </div>
                             </div>
+
                         }
                     }
                 </div>
             }
         }
+
 
         <div class="text-right">
             <div class="card-body">
@@ -146,14 +151,13 @@
 
     </div>
 
-    @foreach (var item in ViewBag.ClientInfo)
-    {
-        if (item.arxiv == false)
+
+    <div class="col-md-6">
+        @foreach (var item in ViewBag.ClientInfo)
         {
-            <div class="col-md-6">
+            if (item.arxiv == false)
+            {
                 <div class="card">
-
-
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -193,20 +197,17 @@
                         </ul>
                         <br />
                     </div>
-
-
-
                 </div>
-            </div>}
-    }
-</div>
-
-
-<script>
-
-    $('#service input:checkbox').click(function () {
-        if ($(this).is(':checked')) {
-            $('#service input:checkbox').not(this).prop('checked', false);
+            }
         }
-    });
-</script>
+
+
+    </div>
+
+    <script>
+        $('input:checkbox').click(function () {
+            if ($(this).is(':checked')) {
+                $('input:checkbox').not(this).prop('checked', false);
+            }
+        });
+    </script>

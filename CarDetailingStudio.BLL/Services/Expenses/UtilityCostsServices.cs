@@ -5,6 +5,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses
@@ -28,6 +29,7 @@ namespace CarDetailingStudio.BLL.Services.Expenses
             return Mapper.Map<UtilityCostsBll>(await _unitOfWork.utilityCostsUnitOfWork.GetById(elementId));
         }
 
+        #region Insert, Update
         public async Task Insert(UtilityCostsBll element)
         {
             utilityCosts utilityCosts = Mapper.Map<UtilityCostsBll, utilityCosts>(element);
@@ -44,9 +46,21 @@ namespace CarDetailingStudio.BLL.Services.Expenses
             await _unitOfWork.Save();
         }
 
-        public async Task<IEnumerable<UtilityCostsBll>> MonthlyReport(DateTime date)
+
+        #endregion
+
+        #region  Отчеты за день и месяц
+        public async Task<IEnumerable<UtilityCostsBll>> Reports(DateTime datepresentDay)
         {
-            return Mapper.Map<IEnumerable<UtilityCostsBll>>(await _unitOfWork.utilityCostsUnitOfWork.GetWhere(x => x.dateExpenses.Value.Month == date.Month, "expenseCategory"));
+            return Mapper.Map<IEnumerable<UtilityCostsBll>>(await _unitOfWork.utilityCostsUnitOfWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.dateExpenses.Value) == datepresentDay.Date), "expenseCategory"));
         }
+
+        public async Task<IEnumerable<UtilityCostsBll>> Reports(DateTime startDate, DateTime finalDate)
+        {
+            return Mapper.Map<IEnumerable<UtilityCostsBll>>(await _unitOfWork.utilityCostsUnitOfWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.dateExpenses.Value) >= startDate.Date
+                                                                                                                      && (DbFunctions.TruncateTime(x.dateExpenses.Value) <= finalDate.Date)), "expenseCategory"));
+        }
+        #endregion
+
     }
 }

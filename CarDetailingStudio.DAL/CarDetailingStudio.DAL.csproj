@@ -107,6 +107,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bonusToSalary.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="brigadeForToday.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -144,6 +147,9 @@
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="car_serie.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cashier.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ClientInfo.cs">
@@ -256,6 +262,9 @@
     <Compile Include="Utilities\UnitOfWorks\TireStorageUnitOfWork.cs" />
     <Compile Include="Utilities\UnitOfWorks\UnitOfWork.cs" />
     <Compile Include="utilityCosts.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="utilityCostsCategory.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
   </ItemGroup>

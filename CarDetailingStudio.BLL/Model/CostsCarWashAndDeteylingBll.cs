@@ -3,7 +3,7 @@
 namespace CarDetailingStudio.BLL.Model
 {
     public class CostsCarWashAndDeteylingBll
-    {
+    {     
         public int idCostsCarWashAndDeteyling { get; set; }
         public string nameExpenses { get; set; }
         public Nullable<double> amount { get; set; }

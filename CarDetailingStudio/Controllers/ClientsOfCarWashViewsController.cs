@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Services.JoinModel.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.BLL.Services.Modules.Clients.Contract;
 using CarDetailingStudio.Filters;
+using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
@@ -28,13 +31,16 @@ namespace CarDetailingStudio.Controllers
         private IGroupWashServices _groupWashServices;
         private IBrigadeForTodayServices _brigade;
         private IServisesCarWashOrderServices _servisesCarWash;
+        private ICarJoinClientServices _carJoinClient;
+        private IRemoveClient _removeClient;
 
 
         public ClientsOfCarWashViewsController(IClientsOfCarWashServices clients, IDetailingsServises detailingsView,
                                                IOrderServices order, IOrderServicesCarWashServices orderServices,
                                                ICarMarkServices carMark, ICarBodyServices carBody, IClientsGroupsServices clientsGroupsServices,
                                                IClientInfoServices clientInfo, IGroupWashServices groupWashServices, IBrigadeForTodayServices brigade,
-                                                IServisesCarWashOrderServices servisesCarWash)
+                                                IServisesCarWashOrderServices servisesCarWash, ICarJoinClientServices carJoinClient,
+                                                IRemoveClient removeClient)
         {
             _services = clients;
             _detailings = detailingsView;
@@ -47,27 +53,22 @@ namespace CarDetailingStudio.Controllers
             _groupWashServices = groupWashServices;
             _brigade = brigade;
             _servisesCarWash = servisesCarWash;
+            _carJoinClient = carJoinClient;
+            _removeClient = removeClient;
         }
 
         IEnumerable<DetailingsView> Price { get; set; }
         private int? ServicesId;
 
-        // GET: ClientsOfCarWashViews
-        //public ActionResult Client(string search, string cansel, int? i)
-        //{
-        //    var RedirectModel = ClientSearch(search, cansel);
-        //    return View(RedirectModel.ToList().ToPagedList(i ?? 1, 15));
-        //}
-
         public async Task<ActionResult> Client(int idPaymentState = 1)
         {
             if (idPaymentState == 1)
             {
-                return View(await ClientSearch());
+                return View(Mapper.Map<IEnumerable<CarJoinClientModel>>(await _carJoinClient.JoinServicesClientCar()));
             }
             else
             {
-                return RedirectToAction("ClientInfo", "ClientsOfCarWashViews", new RouteValueDictionary(new { idPaymentState = 2 }));
+                return RedirectToAction("ClientInfo", "ClientInfo", new RouteValueDictionary(new { idPaymentState = 2 }));
             }
         }
 
@@ -76,19 +77,7 @@ namespace CarDetailingStudio.Controllers
             return View(Mapper.Map<IEnumerable<ClientInfoView>>(await _clientInfo.ClientInfoAll()));
         }
 
-        public async Task<ActionResult> ClientInfo(int idPaymentState)
-        {
-            if (idPaymentState == 2)
-            {
-                var resultBll = Mapper.Map<IEnumerable<ClientInfoView>>(await _clientInfo.ClientInfoAll());
-                return View(resultBll.Where(x => x.DateRegistration != null));
-            }
-            else
-            {
-                return RedirectToAction("Client", "ClientsOfCarWashViews", new RouteValueDictionary(new { idPaymentState = 1 }));
-            }
-        }
-
+      
         public async Task<ActionResult> Checkout(int? services)
         {
 
@@ -97,7 +86,7 @@ namespace CarDetailingStudio.Controllers
                 ServicesId = services;
                 ViewBag.Service = ServicesId;
 
-                return View(await ClientSearch());
+                return View(Mapper.Map<IEnumerable<CarJoinClientModel>>(await _carJoinClient.JoinServicesClientCar()));
             }
 
             return Redirect("/Order/Index");
@@ -119,6 +108,11 @@ namespace CarDetailingStudio.Controllers
             if (idOrderServices != null)
             {
                 TempData["OrderServices"] = idOrderServices;
+            }
+
+            if (Services == null)
+            {
+                return RedirectToRoute(new { controller = "Order", action = "Index" });
             }
 
             _orderServices.ClearListOrder();
@@ -146,11 +140,12 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [WorkShiftFilter]
-        public async Task<ActionResult> NewOrder(FormCollection form, List<int> chkRow, List<int> countService)
+        public async Task<ActionResult> NewOrder(FormCollection form, List<int> chkRow, List<int> key, List<int> values)
         {
-            _orderServices.IdOrderServices(chkRow);
+            _orderServices.IdOrderServices(chkRow, key, values);
 
             await _orderServices.OrderPreview();
+
             return RedirectToRoute(new { controller = "ClientsOfCarWashViews", action = "OrderPreview" });
         }
 
@@ -166,7 +161,6 @@ namespace CarDetailingStudio.Controllers
 
                     ViewBag.OrderServices = orderServisesResult;
                     ViewBag.idOrder = int.Parse(TempData["OrderServices"].ToString());
-
                 }
 
                 var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(OrderServices.idClient));
@@ -210,7 +204,10 @@ namespace CarDetailingStudio.Controllers
             return RedirectToAction("Index", "Order");
         }
 
+        //-----------------------------------------------
+
         public async Task<ActionResult> EditClient(int? id, int? idCar)
+
         {
             if (id == null && idCar == null)
             {
@@ -219,8 +216,9 @@ namespace CarDetailingStudio.Controllers
             }
 
             ClientInfoView clientInfo = Mapper.Map<ClientInfoView>(await _clientInfo.ClientInfoGetId(id));
+            ClientsOfCarWashView clientsOfCar = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(idCar));
 
-            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
+            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name", clientsOfCar.IdClientsGroups );
             ViewBag.IdClient = id;
             ViewBag.IdCar = idCar;
 
@@ -254,6 +252,7 @@ namespace CarDetailingStudio.Controllers
             return View(client);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditClient([Bind(Include = "id,Surname,Name,PatronymicName,Phone,DateRegistration,Email,barcode,note")] ClientInfoView client, int IdClient, int idCar, int? SelectGroupClient)
@@ -286,6 +285,8 @@ namespace CarDetailingStudio.Controllers
             return View(client);
         }
 
+        //-----------------------------------------------
+
         // GET: ClientsOfCarWashViews/Edit/5
         public async Task<ActionResult> EditCarClient(int? id)
         {
@@ -316,7 +317,7 @@ namespace CarDetailingStudio.Controllers
         {
             if (ModelState.IsValid)
             {
-                ClientsOfCarWashView clientsOfCarWash = Mapper.Map<ClientsOfCarWashView>(_services.GetId(idCar));
+                ClientsOfCarWashView clientsOfCarWash = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(idCar));
                 //clientsOfCarWash = clientsOfCarWashView;
 
                 clientsOfCarWashView.id = clientsOfCarWash.id;
@@ -403,22 +404,13 @@ namespace CarDetailingStudio.Controllers
             if (statusPage != null)
                 ViewBag.Page = statusPage;
 
-            //ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(_services.GetId(idClient));
-            var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _services.GetAll(idClientInfo));
-            var singlClien = ClientWhare.FirstOrDefault(x => x.IdInfoClient == idClientInfo);
+            var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _services.GetAll(idClient));
+            var singlClien = ClientWhare.FirstOrDefault(x => x.IdInfoClient == idClient);
 
             ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(singlClien.id));
 
-            if (idClient != null && idClientInfo != null)
-            {
-                ViewBag.ClientInfo = ClientWhare.Where(x => x.arxiv == true);
-            }
-            else if (idClient == null && idClientInfo != null)
-            {
-                ViewBag.ClientInfo = ClientWhare;
-            }
-
-
+           ViewBag.ClientInfo = ClientWhare.Where(x => x.arxiv == true);
+           
             if (clientsOfCarWashView == null)
             {
                 return HttpNotFound();
@@ -444,7 +436,7 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         public async Task<ActionResult> RemoveClient(int ClientId)
         {
-            await _services.RemoveClient(ClientId);
+            await _removeClient.RemoveCarClient(ClientId);
             return RedirectToAction("Info");
         }
     }

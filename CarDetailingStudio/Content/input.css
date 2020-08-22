@@ -135,3 +135,10 @@
 .colorTr {
     background-color: #6e928f17;
 }
+
+
+.newOrderInputText {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid red;
+}

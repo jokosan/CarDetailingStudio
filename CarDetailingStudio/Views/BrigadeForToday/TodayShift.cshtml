@@ -32,8 +32,8 @@
                                 {
                                     @Html.AntiForgeryToken()
 
-                                    @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
-                                    <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+                                    @Html.ActionLink("Просмотреть заказы", "../CarWashWorkersViews/EmployeeWorkDays", new { idEmploye = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
+                                    <input type="submit" value="Удалить" class="btn btn-danger btn-sm" />
                                     <input value=@item.id name="id" type="hidden" />
                                 }
 
@@ -54,8 +54,6 @@
                 }
 
             </div>
-
-
         </div>
     </div>
 
@@ -90,7 +88,7 @@
                                     @Html.AntiForgeryToken()
 
 
-                                    @Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
+                                    @Html.ActionLink("Просмотреть заказы", "../CarWashWorkersViews/EmployeeWorkDays", new { idEmploye = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })
                                     <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
                                     <input value=@item.id name="id" type="hidden" />
                                 }

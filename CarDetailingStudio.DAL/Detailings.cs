@@ -34,6 +34,7 @@ namespace CarDetailingStudio.DAL
         public Nullable<bool> mark { get; set; }
         public Nullable<int> IdGroupWashServices { get; set; }
         public Nullable<int> IdTypeService { get; set; }
+        public Nullable<bool> forUnit { get; set; }
     
         public virtual GroupWashServices GroupWashServices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

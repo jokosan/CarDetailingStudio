@@ -11,11 +11,14 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
     {
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
         private IDayResult _dayResult;
+        private IBonusModules _bonusModules;
 
-        public CloseShiftModule(IOrderCarWashWorkersServices orderCarWashWorkers, IDayResult dayResult)
+        public CloseShiftModule(IOrderCarWashWorkersServices orderCarWashWorkers, IDayResult dayResult,
+             IBonusModules bonusModules)
         {
             _orderCarWashWorkers = orderCarWashWorkers;
             _dayResult = dayResult;
+            _bonusModules = bonusModules;
         }
 
         public async Task CurrentShift()
@@ -40,6 +43,8 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 
                     await _orderCarWashWorkers.UpdateOrderCarWashWorkers(orderCarWashWorkers);
                 }
+
+                await _bonusModules.PremiumAccrual(itemShift.carWashWorkersId, itemShift.payroll.Value);
             }
         }
 

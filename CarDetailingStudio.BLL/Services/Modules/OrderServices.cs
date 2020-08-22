@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL.Services.Checkout;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
@@ -22,8 +23,10 @@ namespace CarDetailingStudio.BLL.Services.Modules
         public static int? idClient { get; set; }
         public static string body { get; set; }
         public static double Price { get; set; }
+        private int TwoCount { get; set; }
 
         public static List<int> IdOrders = new List<int>();
+        public static Dictionary<int, int> CountServic = new Dictionary<int, int>();
         public static List<DetailingsBll> OrderList = new List<DetailingsBll>();
 
         private IEnumerable<DetailingsBll> Atest { get; set; }
@@ -33,23 +36,29 @@ namespace CarDetailingStudio.BLL.Services.Modules
             OrderList.Clear();
         }
 
-        public void IdOrderServices(FormCollection collection)
+        //public void IdOrderServices(FormCollection collection)
+        //{
+        //    IdOrders.Clear();
+
+        //    string IdNewOrder = collection[0];
+
+        //    string[] Id = IdNewOrder.Split(',');
+
+        //    foreach (var item in Id)
+        //    {
+        //        IdOrders.Add(Convert.ToInt32(item));
+        //    }
+        //}
+
+        public void IdOrderServices(List<int> idServises, List<int> listKey, List<int> listValues)
         {
             IdOrders.Clear();
+            CountServic.Clear();
 
-            string IdNewOrder = collection[0];
-
-            string[] Id = IdNewOrder.Split(',');
-
-            foreach (var item in Id)
+            if (listKey != null && listValues != null)
             {
-                IdOrders.Add(Convert.ToInt32(item));
+                CountServic = listKey.Zip(listValues, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
             }
-        }
-
-        public void IdOrderServices(List<int> idServises)
-        {
-            IdOrders.Clear();
 
             foreach (var item in idServises)
             {
@@ -63,6 +72,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
             var AllDetailings = Mapper.Map<IEnumerable<DetailingsBll>>(await _unitOfWork.DetailingsUnitOfWork.Get());
 
             Atest = AllDetailings.Where(a => IdOrders.Contains(a.Id));
+            var whereResultServicecs = CountServic.Where(x => IdOrders.Contains(x.Key));
 
             foreach (var i in Atest)
             {
@@ -70,11 +80,21 @@ namespace CarDetailingStudio.BLL.Services.Modules
                 {
                     Id = i.Id,
                     services_list = i.services_list,
+                    forUnit = i.forUnit,
                     S = i.S,
                     M = i.M,
                     L = i.L,
                     XL = i.XL
                 });
+            }
+
+            foreach (var item in whereResultServicecs)
+            {
+                var orderListSingl = OrderList.Find(x => x.Id == item.Key);
+                OrderList.Find(f => f.Id == item.Key).S = orderListSingl.S * item.Value;
+                OrderList.Find(f => f.Id == item.Key).M = orderListSingl.M * item.Value;
+                OrderList.Find(f => f.Id == item.Key).L = orderListSingl.L * item.Value;
+                OrderList.Find(f => f.Id == item.Key).XL = orderListSingl.XL * item.Value;
             }
         }
 

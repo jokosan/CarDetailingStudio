@@ -93,7 +93,7 @@ namespace CarDetailingStudio.Controllers.TireStorage
                 OrderTireStorageModelBll tireStorageBll = Mapper.Map<OrderTireStorageModelView, OrderTireStorageModelBll>(pageCreateResult);
                 var reviwOrderModules = Mapper.Map<ReviwOrderModelBll, ReviwOrderModelView>(await _reviwOrder.ReviwOrder(tireStorageBll));
 
-                var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(_brigadeForToday.GetDateTimeNow());
+                var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForToday.GetDateTimeNow());
 
                 ViewBag.Adninistrator = brigadeForToday.Where(x => x.StatusId < 3);
                 ViewBag.Brigade = brigadeForToday.Where(x => x.StatusId == 3);

@@ -10,6 +10,7 @@ namespace CarDetailingStudio.BLL.Services.JoinModel.Contract
 {
     public interface IClientJoinOrderCarpetWashing
     {
-        Task<IEnumerable<ClientJoinCarpetWashingModel>> JoinTableClientToCarpetWashing();
+        Task<IEnumerable<ClientJoinCarpetWashingModel>> ActiveOrdersWashingCarpets();
+        Task<IEnumerable<ClientJoinCarpetWashingModel>> ActiveOrdersCarpets();
     }
 }

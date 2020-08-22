@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Хранилище carWashServerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="bonusToSalary">
+    <Key>
+      <PropertyRef Name="idBonusToSalary" />
+    </Key>
+    <Property Name="idBonusToSalary" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="carWashWorkersId" Type="int" />
+    <Property Name="amount" Type="float" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="note" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="brigadeForToday">
     <Key>
       <PropertyRef Name="id" />
@@ -102,6 +112,15 @@
     <Property Name="Photo" Type="nvarchar" MaxLength="500" />
     <Property Name="IdPosition" Type="int" />
   </EntityType>
+  <EntityType Name="Cashier">
+    <Key>
+      <PropertyRef Name="idCashier" />
+    </Key>
+    <Property Name="idCashier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="amountBeginningOfTheDay" Type="float" Nullable="false" />
+    <Property Name="amountEndOfTheDay" Type="float" Nullable="false" />
+  </EntityType>
   <EntityType Name="ClientInfo">
     <Key>
       <PropertyRef Name="Id" />
@@ -189,6 +208,7 @@
     <Property Name="mark" Type="bit" />
     <Property Name="IdGroupWashServices" Type="int" />
     <Property Name="IdTypeService" Type="int" />
+    <Property Name="forUnit" Type="bit" />
   </EntityType>
   <EntityType Name="ExchangeRates">
     <Key>
@@ -383,9 +403,9 @@
   </EntityType>
   <EntityType Name="TypeServices">
     <Key>
-      <PropertyRef Name="idTypeServices" />
+      <PropertyRef Name="TypeServices" />
     </Key>
-    <Property Name="idTypeServices" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeServices" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="utilityCosts">
@@ -397,6 +417,14 @@
     <Property Name="amount" Type="float" />
     <Property Name="dateExpenses" Type="datetime2" Precision="7" />
     <Property Name="expenseCategoryId" Type="int" />
+    <Property Name="utilityCostsCategoryId" Type="int" />
+  </EntityType>
+  <EntityType Name="utilityCostsCategory">
+    <Key>
+      <PropertyRef Name="idUtilityCostsCategory" />
+    </Key>
+    <Property Name="idUtilityCostsCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Named" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "carWashServer.dbo.infoBrigadeForToday" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -429,6 +457,18 @@
     <Property Name="CalculationStatus" Type="bit" />
     <Property Name="Expr1" Type="float" />
   </EntityType>
+  <Association Name="FK_bonusToSalary_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+    <End Role="bonusToSalary" Type="Self.bonusToSalary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="bonusToSalary">
+        <PropertyRef Name="carWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_brigadeForToday_CarWashWorkers">
     <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
     <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="*" />
@@ -592,7 +632,7 @@
     <End Role="costsCarWashAndDeteyling" Type="Self.costsCarWashAndDeteyling" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TypeServices">
-        <PropertyRef Name="idTypeServices" />
+        <PropertyRef Name="TypeServices" />
       </Principal>
       <Dependent Role="costsCarWashAndDeteyling">
         <PropertyRef Name="typeServicesId" />
@@ -813,7 +853,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_utilityCosts_utilityCostsCategory">
+    <End Role="utilityCostsCategory" Type="Self.utilityCostsCategory" Multiplicity="0..1" />
+    <End Role="utilityCosts" Type="Self.utilityCosts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilityCostsCategory">
+        <PropertyRef Name="idUtilityCostsCategory" />
+      </Principal>
+      <Dependent Role="utilityCosts">
+        <PropertyRef Name="utilityCostsCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="Хранилище carWashServerModelContainer">
+    <EntitySet Name="bonusToSalary" EntityType="Self.bonusToSalary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="car_generation" EntityType="Self.car_generation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="car_mark" EntityType="Self.car_mark" Schema="dbo" store:Type="Tables" />
@@ -822,6 +875,7 @@
     <EntitySet Name="car_serie" EntityType="Self.car_serie" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CarBody" EntityType="Self.CarBody" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CarWashWorkers" EntityType="Self.CarWashWorkers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cashier" EntityType="Self.Cashier" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientInfo" EntityType="Self.ClientInfo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" Schema="dbo" store:Type="Tables" />
@@ -849,6 +903,7 @@
     <EntitySet Name="typeOfOrder" EntityType="Self.typeOfOrder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TypeServices" EntityType="Self.TypeServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilityCostsCategory" EntityType="Self.utilityCostsCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [logo_mark_car].[id_car_mark] AS [id_car_mark], 
@@ -880,6 +935,10 @@
     [ItogOrderView].[Expr1] AS [Expr1]
     FROM [dbo].[ItogOrderView] AS [ItogOrderView]</DefiningQuery>
     </EntitySet>
+    <AssociationSet Name="FK_bonusToSalary_CarWashWorkers" Association="Self.FK_bonusToSalary_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="bonusToSalary" EntitySet="bonusToSalary" />
+    </AssociationSet>
     <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
       <End Role="brigadeForToday" EntitySet="brigadeForToday" />
@@ -1002,6 +1061,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_utilityCosts_expenseCategory" Association="Self.FK_utilityCosts_expenseCategory">
       <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="utilityCosts" EntitySet="utilityCosts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_utilityCosts_utilityCostsCategory" Association="Self.FK_utilityCosts_utilityCostsCategory">
+      <End Role="utilityCostsCategory" EntitySet="utilityCostsCategory" />
       <End Role="utilityCosts" EntitySet="utilityCosts" />
     </AssociationSet>
   </EntityContainer>

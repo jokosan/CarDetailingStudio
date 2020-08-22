@@ -31,9 +31,13 @@ namespace CarDetailingStudio.BLL.Services
 
             if (salaryBalanceLast == null)
             {
-                return Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x =>
-                                                                   (x.CarWashWorkersId == idCarWash) &&
-                                                                   (x.dateOfPayment.Value.ToString("MM.yyyy") == date.ToString("MM.yyyy"))));
+                //return Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x =>
+                //                                                   (x.CarWashWorkersId == idCarWash) &&
+                //                                                   (x.dateOfPayment.Value.ToString("MM.yyyy") == date.ToString("MM.yyyy"))));
+
+                var result = Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x => x.CarWashWorkersId == idCarWash));
+
+                return result.Where(x => x.dateOfPayment.Value.ToString("MM.yyyy") == date.ToString("MM.yyyy"));
             }
             else
             {
@@ -73,11 +77,10 @@ namespace CarDetailingStudio.BLL.Services
             {
                 //var balance = Mapper.Map<IEnumerable<SalaryBalanceBll>>(_unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id)));
                 //var getDate = balance.First(x => x.dateOfPayment?.ToString("MM.yyyy") == test);
-
                 //return getDate.accountBalance.Value;
+
                 var balance = Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id)));
                 return balance.Last(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id));
-
             }
             catch
             {

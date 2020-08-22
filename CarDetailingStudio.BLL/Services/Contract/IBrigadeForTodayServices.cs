@@ -8,7 +8,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
     {
         Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow();
         Task<BrigadeForTodayBll> GetId(int id);
-        Task<IEnumerable<BrigadeForTodayBll>> Info(int? id);
         Task RemoveFromBrigade(int id);
     }
 }

@@ -3,6 +3,7 @@ using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -18,7 +19,6 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-
         public async Task<IEnumerable<OrderCarpetWashingBll>> GetTableAll()
         {
             return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.Get());
@@ -26,19 +26,15 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<IEnumerable<OrderCarpetWashingBll>> GetTableAllInclude()
         {
-            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.GetInclude("OrderServicesCarWash"));
+            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => x.OrderServicesCarWash.StatusOrder != 2,
+                                                                                                                                    "OrderServicesCarWash", "OrderServicesCarWash.StatusOrder1"));
         }
 
-        public async Task<IEnumerable<OrderCarpetWashingBll>> GetIncludeWhere()
+        public async Task<IEnumerable<OrderCarpetWashingBll>> GetTableAllIncludeArxiv()
         {
-            // return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(_unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => x.OrderServicesCarWash.typeOfOrder == 3, "OrderServicesCarWash"));
-            List<string> input = new List<string>() { "OrderServicesCarWash", "PaymentState1", "StatusOrder1" };
-            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => x.OrderServicesCarWash.typeOfOrder == 3, input));
-            //return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(_unitOfWork.OrderCarpetWashingUnitOfWork.Item(x => x.OrderServicesCarWash.typeOfOrder == 3,
-            //                                                                                                    y => y.OrderServicesCarWash,
-            //                                                                                                    y => y.OrderServicesCarWash.PaymentState1,
-            //                                                                                                    y => y.OrderServicesCarWash.PaymentState1
-            //                                                                                                    ));
+            return Mapper.Map<IEnumerable<OrderCarpetWashingBll>>(await _unitOfWork.OrderCarpetWashingUnitOfWork.QueryObjectGraph(x => (x.OrderServicesCarWash.StatusOrder >= 2)
+                                                                                                                                    && (x.OrderServicesCarWash.StatusOrder <= 4),
+                                                                                                                                    "OrderServicesCarWash", "OrderServicesCarWash.StatusOrder1"));
         }
 
         public async Task<OrderCarpetWashingBll> SelectId(int? elementId)
@@ -61,5 +57,7 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.OrderCarpetWashingUnitOfWork.Update(ordersCarpetWashing);
             await _unitOfWork.Save();
         }
+
+
     }
 }

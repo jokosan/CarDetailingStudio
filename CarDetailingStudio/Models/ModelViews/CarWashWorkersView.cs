@@ -76,6 +76,7 @@ namespace CarDetailingStudio.Models.ModelViews
 
         // public IEnumerable<SelectListItem> Position { get; set; }
 
+        public virtual ICollection<BonusToSalaryView> bonusToSalary { get; set; }
         public virtual ICollection<BrigadeForTodayView> brigadeForToday { get; set; }
         public virtual JobTitleTableView JobTitleTable { get; set; }
         public virtual ICollection<CreditView> Credit { get; set; }

@@ -56,6 +56,8 @@ namespace CarDetailingStudio.BLL.Services
             if (usdTrue)
             {
                 // var ApiCurrency = ApiPrivatBank.exchangeRatesModel.Where(x => x.ccy == "USD").Single();
+               
+         
 
                 var ApiCurrency = await SourceOfChoice();
 
@@ -95,20 +97,20 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<ExchangeRatesBll> SourceOfChoice()
         {
-
             if (ApiPrivatBank.exchangeRatesModel.Count != 0)
             {
-                return ApiPrivatBank.exchangeRatesModel.Where(x => x.ccy == "USD").Single();
+                return ApiPrivatBank.exchangeRatesModel.Where(x => x.ccy == "USD").First();
             }
             else
             {
+                await _apiPrivatBank.ApiPrivat(); // < --------------- ?????????
                 var Result = Mapper.Map<IEnumerable<ExchangeRatesBll>>(await _unitOfWork.ExchangeRatesUnitOfWork.GetWhere(x => x.ccy == "USD"));
 
                 return Result.SingleOrDefault();
             }
         }
 
-        public double? ConvertCurrency(double? usd, double privat) =>  usd * privat;
+        public double? ConvertCurrency(double? usd, double privat) => usd * privat;
 
     }
 }

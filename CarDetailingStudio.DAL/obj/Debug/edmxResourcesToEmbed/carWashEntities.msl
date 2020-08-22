@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Хранилище carWashServerModelContainer" CdmEntityContainer="carWashEntities">
+    <EntitySetMapping Name="bonusToSalary">
+      <EntityTypeMapping TypeName="carWashServerModel.bonusToSalary">
+        <MappingFragment StoreEntitySet="bonusToSalary">
+          <ScalarProperty Name="idBonusToSalary" ColumnName="idBonusToSalary" />
+          <ScalarProperty Name="carWashWorkersId" ColumnName="carWashWorkersId" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="brigadeForToday">
       <EntityTypeMapping TypeName="carWashServerModel.brigadeForToday">
         <MappingFragment StoreEntitySet="brigadeForToday">
@@ -189,6 +200,7 @@
     <EntitySetMapping Name="Detailings">
       <EntityTypeMapping TypeName="carWashServerModel.Detailings">
         <MappingFragment StoreEntitySet="Detailings">
+          <ScalarProperty Name="forUnit" ColumnName="forUnit" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="services_list" ColumnName="services_list" />
           <ScalarProperty Name="validity" ColumnName="validity" />
@@ -408,7 +420,7 @@
     <EntitySetMapping Name="TypeServices">
       <EntityTypeMapping TypeName="carWashServerModel.TypeServices">
         <MappingFragment StoreEntitySet="TypeServices">
-          <ScalarProperty Name="idTypeServices" ColumnName="idTypeServices" />
+          <ScalarProperty Name="TypeServices1" ColumnName="TypeServices" />
           <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -416,6 +428,7 @@
     <EntitySetMapping Name="utilityCosts">
       <EntityTypeMapping TypeName="carWashServerModel.utilityCosts">
         <MappingFragment StoreEntitySet="utilityCosts">
+          <ScalarProperty Name="utilityCostsCategoryId" ColumnName="utilityCostsCategoryId" />
           <ScalarProperty Name="idUtilityCosts" ColumnName="idUtilityCosts" />
           <ScalarProperty Name="indicationCounter" ColumnName="indicationCounter" />
           <ScalarProperty Name="amount" ColumnName="amount" />
@@ -458,6 +471,24 @@
           <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
           <ScalarProperty Name="CalculationStatus" ColumnName="CalculationStatus" />
           <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cashier">
+      <EntityTypeMapping TypeName="carWashServerModel.Cashier">
+        <MappingFragment StoreEntitySet="Cashier">
+          <ScalarProperty Name="amountEndOfTheDay" ColumnName="amountEndOfTheDay" />
+          <ScalarProperty Name="amountBeginningOfTheDay" ColumnName="amountBeginningOfTheDay" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="idCashier" ColumnName="idCashier" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="utilityCostsCategory">
+      <EntityTypeMapping TypeName="carWashServerModel.utilityCostsCategory">
+        <MappingFragment StoreEntitySet="utilityCostsCategory">
+          <ScalarProperty Name="Named" ColumnName="Named" />
+          <ScalarProperty Name="idUtilityCostsCategory" ColumnName="idUtilityCostsCategory" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

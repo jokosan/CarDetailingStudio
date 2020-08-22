@@ -7,6 +7,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,11 +31,6 @@ namespace CarDetailingStudio.BLL.Services
             _servisesCarWashOrder = servisesCarWashOrder;
         }
 
-        public async Task<IEnumerable<OrderServicesCarWashBll>> MonthlyReport(DateTime date)
-        {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => x.ClosingData.Value.Month == date.Month));
-        }
-
         public async Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage()
         {
             return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == 5));
@@ -44,7 +40,7 @@ namespace CarDetailingStudio.BLL.Services
         {
             if (statusOrder != 2)
             {
-                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == 1) || (x.StatusOrder == 4)));
+                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => ((x.StatusOrder == statusOrder) && (x.typeOfOrder == 1)) || ((x.StatusOrder == 4) && (x.typeOfOrder == 1))));
                 return GetAllResult;
             }
             else
@@ -110,7 +106,7 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder)
         {
-            var OrderServicesCarWashGetId = Mapper.Map<OrderServicesCarWashBll>(_unitOfWork.OrderServicesCarWashUnitOfWork.GetById(idOrder));
+            var OrderServicesCarWashGetId = Mapper.Map<OrderServicesCarWashBll>(await _unitOfWork.OrderServicesCarWashUnitOfWork.GetById(idOrder));
 
             OrderServicesCarWashGetId.TotalCostOfAllServices = OrderServicesCarWashGetId.TotalCostOfAllServices + _orderServices.OrderPrice();
             OrderServicesCarWashGetId.DiscountPrice = Math.Round(total);
@@ -235,5 +231,18 @@ namespace CarDetailingStudio.BLL.Services
 
             return orderCarWashWorkers.Id;
         }
+
+        #region Отчеты
+        public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime datepresentDay)
+        {
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => DbFunctions.TruncateTime(x.ClosingData.Value) == datepresentDay.Date));
+        }
+
+        public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime startDate, DateTime finalDate)
+        {
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => (DbFunctions.TruncateTime(x.ClosingData.Value) >= startDate.Date) 
+                                                                                                                  && (DbFunctions.TruncateTime(x.ClosingData.Value) <= finalDate.Date)));
+        }
+        #endregion
     }
 }

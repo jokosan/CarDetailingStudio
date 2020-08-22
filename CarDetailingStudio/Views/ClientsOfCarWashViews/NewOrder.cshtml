@@ -84,7 +84,7 @@
                                                             <div class="col-md-1">
                                                                 <label class="customcheckbox">
                                                                     <label class="label">
-                                                                        <input class="label__checkbox" type="checkbox" name="chkRow"  value="@item.Id" id="checkme"  onchange="document.getElementById('submit').disabled = !this.checked"/>
+                                                                        <input class="label__checkbox" type="checkbox" name="chkRow" value="@item.Id" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked" />
                                                                         <span class="label__text">
                                                                             <span class="label__check">
                                                                                 <i class="fa fa-check icon"></i>
@@ -94,15 +94,17 @@
                                                                     <span class="checkmark"></span>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-7">
+                                                            <div class="col-md-6">
                                                                 @item.services_list
-                                                                
+
                                                             </div>
-                                                  
+
+
+
                                                             <div class="col-md-3">
                                                                 @item.validity
                                                             </div>
-                                                           
+
                                                             <div class="col-md-1">
                                                                 @switch (Model.CarBody.Id)
                                                                 {
@@ -120,9 +122,14 @@
                                                                         break;
                                                                 }
 
-                                                               
-
                                                             </div>
+                                                            @if (item.forUnit == true)
+                                                            {
+                                                                <div class="col-md-1">
+                                                                    <input type="hidden" value=@item.Id  name="key"/>
+                                                                    <input class="newOrderInputText" name="values" value="1"  maxlength="2" type="number" />
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </th>
                                                 </tr>
@@ -173,7 +180,7 @@
                                                                     <span class="checkmark"></span>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-7">
+                                                            <div class="col-md-6">
                                                                 @item.services_list
                                                             </div>
                                                             <div class="col-md-3">
@@ -196,6 +203,13 @@
                                                                         break;
                                                                 }
                                                             </div>
+                                                            @if (item.forUnit == true)
+                                                            {
+                                                                <div class="col-md-1">
+                                                                    <input type="hidden" value=@item.Id name="key" />
+                                                                    <input class="newOrderInputText" name="values" value="1"  maxlength="2" type="number" />
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </th>
                                                 </tr>
@@ -248,7 +262,7 @@
 
 
 
-        $('#service input:checkbox').click(function () {
+    $('#service input:checkbox').click(function () {
         if ($(this).is(':checked')) {
             $('#service input:checkbox').not(this).prop('checked', false);
         }

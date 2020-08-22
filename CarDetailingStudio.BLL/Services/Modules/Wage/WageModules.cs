@@ -45,6 +45,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             Order.PaymentState = idPaymentState;
             Order.ClosingData = DateTime.Now;
 
+            
             Order.StatusOrder = idStatusOrder;
 
             if (Order.ClientsOfCarWash.discont > 0)

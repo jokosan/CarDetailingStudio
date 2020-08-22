@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
@@ -18,6 +19,7 @@ namespace CarDetailingStudio.Controllers
         private IOrderServicesCarWashServices _orderServices;
         private IOrderCarWashWorkersServices _orderCarWashWorker;
         private ICarWashWorkersServices _carWashWorkers;
+       
 
         public ItogOrderController(IDayResult dayResult, ICloseShiftModule closeShiftModule,
                                     IOrderServicesCarWashServices orderServices, IOrderCarWashWorkersServices orderCarWashWorkers,
@@ -28,6 +30,7 @@ namespace CarDetailingStudio.Controllers
             _orderServices = orderServices;
             _orderCarWashWorker = orderCarWashWorkers;
             _carWashWorkers = carWashWorkers;
+        
         }
 
         // GET: OrderInfoViewModels
@@ -50,6 +53,7 @@ namespace CarDetailingStudio.Controllers
             if (confirmation)
             {
                 await _closeShiftModule.CurrentShift();
+               
                 return RedirectToAction("Index", "Order");
             }
 

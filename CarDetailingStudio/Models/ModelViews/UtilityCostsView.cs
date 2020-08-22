@@ -28,6 +28,9 @@ namespace CarDetailingStudio.Models.ModelViews
         [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         public Nullable<int> expenseCategoryId { get; set; }
 
+        public Nullable<int> utilityCostsCategoryId { get; set; }
+
         public virtual ExpenseCategoryView expenseCategory { get; set; }
+        public virtual UtilityCostsCategoryView utilityCostsCategory { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace CarDetailingStudio.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<bonusToSalary> bonusToSalary { get; set; }
         public virtual DbSet<brigadeForToday> brigadeForToday { get; set; }
         public virtual DbSet<car_generation> car_generation { get; set; }
         public virtual DbSet<car_mark> car_mark { get; set; }
@@ -65,5 +66,7 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<logo_mark_car> logo_mark_car { get; set; }
         public virtual DbSet<infoBrigadeForToday> infoBrigadeForToday { get; set; }
         public virtual DbSet<ItogOrderView> ItogOrderView { get; set; }
+        public virtual DbSet<Cashier> Cashier { get; set; }
+        public virtual DbSet<utilityCostsCategory> utilityCostsCategory { get; set; }
     }
 }

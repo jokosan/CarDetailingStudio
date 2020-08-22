@@ -14,31 +14,54 @@ namespace CarDetailingStudio.BLL.Services.Checkout
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
         private IStorageFee _storageFee;
         private ITireStorage _tireStorage;
+        private IClientsOfCarWashServices _clientsOfCarWashServices;
 
-        public Order(IOrderServicesCarWashServices orderServicesCarWash, IOrderCarWashWorkersServices orderCarWashWorkers, IStorageFee storageFee, ITireStorage tireStorage)
+        public Order(IOrderServicesCarWashServices orderServicesCarWash, IOrderCarWashWorkersServices orderCarWashWorkers, IStorageFee storageFee, ITireStorage tireStorage,
+                                            IClientsOfCarWashServices clientsOfCarWashServices)
         {
             _orderServicesCarWash = orderServicesCarWash;
             _orderCarWashWorkers = orderCarWashWorkers;
             _storageFee = storageFee;
             _tireStorage = tireStorage;
+            _clientsOfCarWashServices = clientsOfCarWashServices;
         }
 
         #region
 
-        public async Task<int> OrderForCarpetCleaning(OrderCarpetWashingBll orderCarpetWashing, int? idPaymentState, int prise)
+        public async Task<int> OrderForCarpetCleaning(OrderCarpetWashingBll orderCarpetWashing, int? idPaymentState, int prise, int clientId)
         {
             double? sumOrder = orderCarpetWashing.area * (double)prise;
+            var resultClients = await _clientsOfCarWashServices.ClientWhereToInfoClient(clientId);
 
-            var orderservices = new OrderServicesCarWashBll
+            OrderServicesCarWashBll orderservices = new OrderServicesCarWashBll();
+
+            if (resultClients != null)
             {
-                StatusOrder = 1,
-                OrderDate = orderCarpetWashing.orderDate,
-                ClosingData = DateTime.Now,
-                TotalCostOfAllServices = sumOrder,
-                DiscountPrice = sumOrder,
-                typeOfOrder = 3,
-                PaymentState = idPaymentState
-            };
+                orderservices = new OrderServicesCarWashBll
+                {
+                    StatusOrder = 1,
+                    OrderDate = orderCarpetWashing.orderDate,
+                    IdClientsOfCarWash = resultClients.id,
+                    TotalCostOfAllServices = sumOrder,
+                    DiscountPrice = sumOrder,
+                    typeOfOrder = 3,
+                    PaymentState = idPaymentState
+                };
+            }
+            else
+            {
+                orderservices = new OrderServicesCarWashBll
+                {
+                    StatusOrder = 1,
+                    OrderDate = orderCarpetWashing.orderDate,
+                    IdClientsOfCarWash = null,
+                    TotalCostOfAllServices = sumOrder,
+                    DiscountPrice = sumOrder,
+                    typeOfOrder = 3,
+                    PaymentState = idPaymentState
+                };
+            }
+
 
             return await _orderServicesCarWash.CreateOrder(orderservices);
         }
@@ -101,7 +124,6 @@ namespace CarDetailingStudio.BLL.Services.Checkout
 
             return await _storageFee.InsertVoidInt(storageFeeAdd);
         }
-
         #endregion
     }
 }

@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Хранилище carWashServerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="bonusToSalary">
+    <Key>
+      <PropertyRef Name="idBonusToSalary" />
+    </Key>
+    <Property Name="idBonusToSalary" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="carWashWorkersId" Type="int" />
+    <Property Name="amount" Type="float" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="note" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="brigadeForToday">
     <Key>
       <PropertyRef Name="id" />
@@ -189,6 +199,7 @@
     <Property Name="mark" Type="bit" />
     <Property Name="IdGroupWashServices" Type="int" />
     <Property Name="IdTypeService" Type="int" />
+    <Property Name="forUnit" Type="bit" />
   </EntityType>
   <EntityType Name="ExchangeRates">
     <Key>
@@ -238,8 +249,7 @@
     </Key>
     <Property Name="idOrderCarpetWashing" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="orderServicesCarWashId" Type="int" Nullable="false" />
-    <Property Name="Customer" Type="nvarchar" MaxLength="500" />
-    <Property Name="telephone" Type="nvarchar" MaxLength="50" />
+    <Property Name="clientId" Type="int" />
     <Property Name="area" Type="float" />
     <Property Name="orderDate" Type="datetime" />
     <Property Name="orderClosingDate" Type="datetime" />
@@ -384,9 +394,9 @@
   </EntityType>
   <EntityType Name="TypeServices">
     <Key>
-      <PropertyRef Name="idTypeServices" />
+      <PropertyRef Name="TypeServices" />
     </Key>
-    <Property Name="idTypeServices" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeServices" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="utilityCosts">
@@ -430,6 +440,18 @@
     <Property Name="CalculationStatus" Type="bit" />
     <Property Name="Expr1" Type="float" />
   </EntityType>
+  <Association Name="FK_bonusToSalary_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
+    <End Role="bonusToSalary" Type="Self.bonusToSalary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="bonusToSalary">
+        <PropertyRef Name="carWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_brigadeForToday_CarWashWorkers">
     <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="0..1" />
     <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="*" />
@@ -593,7 +615,7 @@
     <End Role="costsCarWashAndDeteyling" Type="Self.costsCarWashAndDeteyling" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TypeServices">
-        <PropertyRef Name="idTypeServices" />
+        <PropertyRef Name="TypeServices" />
       </Principal>
       <Dependent Role="costsCarWashAndDeteyling">
         <PropertyRef Name="typeServicesId" />
@@ -815,6 +837,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="Хранилище carWashServerModelContainer">
+    <EntitySet Name="bonusToSalary" EntityType="Self.bonusToSalary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="car_generation" EntityType="Self.car_generation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="car_mark" EntityType="Self.car_mark" Schema="dbo" store:Type="Tables" />
@@ -881,6 +904,10 @@
     [ItogOrderView].[Expr1] AS [Expr1]
     FROM [dbo].[ItogOrderView] AS [ItogOrderView]</DefiningQuery>
     </EntitySet>
+    <AssociationSet Name="FK_bonusToSalary_CarWashWorkers" Association="Self.FK_bonusToSalary_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="bonusToSalary" EntitySet="bonusToSalary" />
+    </AssociationSet>
     <AssociationSet Name="FK_brigadeForToday_CarWashWorkers" Association="Self.FK_brigadeForToday_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
       <End Role="brigadeForToday" EntitySet="brigadeForToday" />

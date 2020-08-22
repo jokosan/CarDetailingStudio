@@ -7,6 +7,8 @@ using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.BLL.Services.JoinModel;
 using CarDetailingStudio.BLL.Services.JoinModel.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
+using CarDetailingStudio.BLL.Services.Modules.Clients;
+using CarDetailingStudio.BLL.Services.Modules.Clients.Contract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using CarDetailingStudio.BLL.Services.Modules.TireStorage;
@@ -46,6 +48,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IStatusOrder>().To<StatusOrderServices>();
             kernel.Bind<IOrderCarpetWashingServices>().To<OrderCarpetWashingServices>();
             kernel.Bind<ISalaryBalanceService>().To<SalaryBalanceService>();
+            kernel.Bind<IPaymentState>().To<PaymentStateServices>();
 
             // Order
 
@@ -73,6 +76,16 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
 
             // Join
             kernel.Bind<IClientJoinOrderCarpetWashing>().To<ClientJoinOrderCarpetWashing>();
+            kernel.Bind<ICarJoinClientServices>().To<CarJoinClientServices>();
+
+            //bonus
+            kernel.Bind<IBonusToSalary>().To<BonusToSalaryServices>();
+            kernel.Bind<IBonusModules>().To<BonusModules>();
+
+            kernel.Bind<IRemoveClient>().To<RemoveClient>();
+            kernel.Bind<IAllExpenses>().To<AllExpensesModulescs>();
+            kernel.Bind<IUtilityCostsCategory>().To<UtilityCostsCategoryServices>();
+            kernel.Bind<ICashier>().To<CashierServices>();
 
             NinjectDependencyResolverDAL.Initialize(kernel);
         }

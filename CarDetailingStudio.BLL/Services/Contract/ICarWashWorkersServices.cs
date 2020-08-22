@@ -6,6 +6,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface ICarWashWorkersServices
     {
+        Task<IEnumerable<CarWashWorkersBll>> EmployeeName();
         Task<IEnumerable<CarWashWorkersBll>> GetTable();
         Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow);
         void Dispose();

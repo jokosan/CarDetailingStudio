@@ -13,7 +13,7 @@ namespace CarDetailingStudio.BLL.Model
             this.costsCarWashAndDeteyling = new HashSet<CostsCarWashAndDeteylingBll>();
         }
 
-        public int idTypeServices { get; set; }
+        public int TypeServices1 { get; set; }
         public string name { get; set; }
         public virtual ICollection<CostsCarWashAndDeteylingBll> costsCarWashAndDeteyling { get; set; }
     }

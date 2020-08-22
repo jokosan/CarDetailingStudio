@@ -3,6 +3,7 @@ using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using DevExpress.Data.Mask;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,6 +103,20 @@ namespace CarDetailingStudio.BLL.Services
 
             _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
             await _unitOfWork.Save();
+        }
+
+        public async Task<IEnumerable<CarWashWorkersBll>> EmployeeName()
+        {
+            var employee = Mapper.Map<IEnumerable<CarWashWorkersBll>>(await GetTable());
+                       
+            var resultEmployee = from e1 in employee
+                                 select new CarWashWorkersBll
+                                 {
+                                     id = e1.id,
+                                     Name = $"{e1.Surname} {e1.Name} {e1.Patronymic}"
+                                 };
+
+            return resultEmployee.AsEnumerable();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView>
+﻿@model IEnumerable<CarDetailingStudio.Models.CarJoinClientModel>
 
 
 @{
@@ -30,6 +30,7 @@
                                     <input type="submit" name="submit" value="Выполнить" class="btn btn-outline-secondary" />
                                     @Html.ActionLink("Добавить клиента", "../Client/NewClient", null, new { @class = "btn btn-outline-secondary" })
                                 </div>
+
                             </div>
                         }
                     </div>
@@ -48,14 +49,15 @@
                {
                    //columns.Add(model => model.ClientInfo.Id).Titled("ClientInfo.Id");
                    //columns.Add(model => model.id).Titled("id");
-                   columns.Add(model => model.ClientInfo.Surname).Titled("Фамилия");
-                   columns.Add(model => model.ClientInfo.Name).Titled("Имя");
-                   columns.Add(model => model.ClientInfo.PatronymicName).Titled("Отчество");
+                   columns.Add(model => model.Surname).Titled("Фамилия");
+                   columns.Add(model => model.Name).Titled("Имя");
+                   columns.Add(model => model.PatronymicName).Titled("Отчество");
+                   columns.Add(model => model.phone).Titled("Тел.");
 
                    //columns.Add(model => model.ClientInfo.DateRegistration).Titled("Дата регистрации");
                    columns.Add(model => model.discont).Titled("% Скидки");
                    columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
-                   columns.Add(model => model.ClientsGroups.Name).Titled("Группа").UsingFilterOptions(new[]
+                   columns.Add(model => model.IdClientsGroups).Titled("Группа").UsingFilterOptions(new[]
                    {
                         new SelectListItem(),
                         new SelectListItem { Value = "Постоянный", Text = "Постоянный" },
@@ -71,9 +73,9 @@
                         new SelectListItem { Value = "Продавец автомобилей", Text = "Продавец автомобилей" },
 
                    });
-                   columns.Add(model => model.car_mark.name).Titled("Марка");
-                   columns.Add(model => model.car_model.name).Titled("Модель");
-                   columns.Add(model => model.CarBody.Name).Titled("Кузов").UsingFilterOptions(new[]
+                   columns.Add(model => model.carMarkName).Titled("Марка");
+                   columns.Add(model => model.carModelName).Titled("Модель");
+                   columns.Add(model => model.carBodyName).Titled("Кузов").UsingFilterOptions(new[]
                     {
                         new SelectListItem(),
                         new SelectListItem { Value = "S", Text = "S" },
@@ -83,7 +85,8 @@
                     });
                    //columns.Add(model => @Html.ActionLink("Редакировать", "EditCarClient", new { id = model.id }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
                    //columns.Add(model => @Html.ActionLink("Создать авто", "AddCar", new { id = model.IdInfoClient }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
-                   columns.Add(model => @Html.ActionLink("Информация", "Info", new { idClientInfo = model.ClientInfo.Id, idClient = model.id }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+                   columns.Add(model => @Html.ActionLink("Информация", "Info", new { idClientInfo = model.idCar, idClient = model.idClien }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+
                })
                .UsingFilterMode(GridFilterMode.Excel)
                .Empty("No data found")

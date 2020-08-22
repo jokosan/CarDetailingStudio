@@ -68,61 +68,61 @@
                         </div>
                     </div>
 
-                  
+
 
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title m-b-0">Cпособ оплаты\Выбор сотрудника для выполнения услуг</h5>
                             <div class="clearfix"></div>
-                            <div class="checkbox">
-                                <input type="checkbox" id="checkbox" name="chooseEmployee" value="true" /> Выбрать исполнителя
-                            </div>
-                            <hr />
+                            @*<div class="checkbox">
+                                    <input type="checkbox" id="checkbox" name="chooseEmployee" value="true" /> Выбрать исполнителя
+                                </div>
+                                <hr />*@
                             <div class="pull-right m-t-30 text-right">
                                 <div class="row">
-                                    <div class="col-6" id="Adninistrator" style="display: none;">
-                                        @foreach (var item in ViewBag.Adninistrator)
-                                        {
-                                            <div class="d-flex flex-row comment-row m-t-0">
+                                    @*<div class="col-6" id="Adninistrator" style="display: none;">
+                                            @foreach (var item in ViewBag.Adninistrator)
+                                            {
+                                                <div class="d-flex flex-row comment-row m-t-0">
 
-                                                <div class="checkbox">
-                                                    <text><input type="checkbox" name="idAdmin" value="@item.CarWashWorkers.id" /></text>
-                                                </div>
+                                                    <div class="checkbox">
+                                                        <text><input type="checkbox" name="idAdmin" value="@item.CarWashWorkers.id" /></text>
+                                                    </div>
 
-                                                <div class="comment-text w-100">
-                                                    <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                                    <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                                    <div class="comment-text w-100">
+                                                        <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                                        <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <hr />
-                                        }
-                                    </div>
-                                    <hr />
-                                    <div class="col-6" id="Brigade" style="display: none;">
-                                        @foreach (var item in ViewBag.Brigade)
-                                        {
-                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <hr />
+                                            }
+                                        </div>
+                                        <hr />
+                                        <div class="col-6" id="Brigade" style="display: none;">
+                                            @foreach (var item in ViewBag.Brigade)
+                                            {
+                                                <div class="d-flex flex-row comment-row m-t-0">
 
-                                                <div class="checkbox">
-                                                    <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
-                                                </div>
+                                                    <div class="checkbox">
+                                                        <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
+                                                    </div>
 
-                                                <div class="comment-text w-100">
-                                                    <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                                    <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                                    <div class="comment-text w-100">
+                                                        <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                                        <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <hr />
-                                        }
-                                    </div>
+                                                <hr />
+                                            }
+                                        </div>*@
                                     <hr />
 
                                     <div class="card-body">
                                         <div class="pull-right m-t-30 text-right">
                                             <hr />
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div  id="pay" style="display: none;">
+                                                @*<div class="col-md-6">
+                                                    <div id="pay" style="display: none;">
                                                         @Html.DropDownList("idPaymentState", new List<SelectListItem>
                                                            {
                                                                new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
@@ -130,7 +130,7 @@
                                                                new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
                                                            }, new { @class = "form-control" })
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 <div class="col-md-6">
                                                     <h3><b>Итого: </b><span name="errmsg" id="errmsg"></span>грн.</h3>
 

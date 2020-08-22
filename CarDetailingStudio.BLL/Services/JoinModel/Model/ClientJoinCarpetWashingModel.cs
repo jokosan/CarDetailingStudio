@@ -29,5 +29,6 @@ namespace CarDetailingStudio.BLL.Services.JoinModel.Model
         public string barcode { get; set; }
         public string note { get; set; }
 
+        public string statusOrder { get; set; }
     }
 }

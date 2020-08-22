@@ -131,7 +131,22 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<ReviwOrderModelView, ReviwOrderModelBll>();
             CreateMap<ReviwOrderModelBll, ReviwOrderModelView>();
 
+            CreateMap<CarJoinClientModel, CarJoinClientModelBll>();
+            CreateMap<CarJoinClientModelBll, CarJoinClientModel>();
+
             CreateMap<ClientJoinCarpetWashingModelView, ClientJoinCarpetWashingModel>();
+
+            CreateMap<SalaryBalanceView, SalaryBalanceBll>();
+            CreateMap<SalaryBalanceBll, SalaryBalanceView>();
+
+            CreateMap<OrderCarWashWorkersDayGroupView, OrderCarWashWorkersDayGroupBll>();
+            CreateMap<OrderCarWashWorkersDayGroupBll, OrderCarWashWorkersDayGroupView>();
+
+            CreateMap<TypeServicesView, TypeServicesBll>();
+            CreateMap<TypeServicesBll, TypeServicesView>();
+
+            CreateMap<UtilityCostsCategoryView, UtilityCostsCategoryBll>();
+            CreateMap<UtilityCostsCategoryBll, UtilityCostsCategoryView>();
         }
     }
 }

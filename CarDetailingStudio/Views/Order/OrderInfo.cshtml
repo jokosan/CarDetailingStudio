@@ -9,7 +9,7 @@
     <div class="col-md-6">
 
         <div class="alert alert-danger" role="alert">
-            <h6>№@Html.DisplayFor(model => model.Id) заказа</h6>
+            <h6>№@Html.DisplayFor(model => model.Id) Заказа</h6>
         </div>
 
         <div class="card">
@@ -114,7 +114,7 @@
                                         <input value=@ViewBag.DiscontClient name="discont" type="hidden" />
                                         <input value=@item.Id name="idServices" type="hidden" />
                                         <input value=@item.IdOrderServicesCarWash name="idOrder" type="hidden" />
-                                        <input type="submit" value="ServicesDelete" class="btn btn-danger btn-sm" />
+                                        <input type="submit" value="Удалить услугу" class="btn btn-danger btn-sm" />
                                     }
                                 </td>
                             </tr>
@@ -130,9 +130,9 @@
             <div class="text-right">
 
                 <input value=@Model.Id name="idOrder" type="hidden" />
-                <input class="btn btn-danger" type="submit" id="btnCreate" value="OrderDelete" @Url.Action("Index", "Order") />
-                @Html.ActionLink("EditOrder", "../ClientsOfCarWashViews/NewOrder", new { id = Model.ClientsOfCarWash.id, body = Model.ClientsOfCarWash.CarBody.Name, Services = ViewBag.ServisesId, idOrderServices = ViewBag.ServersKey }, new { @class = "btn btn-warning" })
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+                <input class="btn btn-danger" type="submit" id="btnCreate" value="Удалить заказ" @Url.Action("Index", "Order") />
+                @Html.ActionLink("Редактировать заказ", "../ClientsOfCarWashViews/NewOrder", new { id = Model.ClientsOfCarWash.id, body = Model.ClientsOfCarWash.CarBody.Name, Services = ViewBag.ServisesId, idOrderServices = ViewBag.ServersKey }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("На главную", "Index", null, new { @class = "btn btn-info" })
             </div>
         }
     </div>

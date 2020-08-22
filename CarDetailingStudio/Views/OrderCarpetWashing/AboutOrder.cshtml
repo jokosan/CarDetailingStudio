@@ -13,7 +13,7 @@
                     {
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title m-b-0">О заказе</h5>
+                                <h5 class="card-title m-b-0">О заказе №@Model.orderServicesCarWashId</h5>
 
                             </div>
                             <div class="card-body">
@@ -39,11 +39,20 @@
                                             <td>@Html.LabelFor(model => model.orderDate)</td>
                                             <td>@Html.DisplayFor(model => model.orderDate)</td>
                                         </tr>
-                                        <tr>
-                                            <td>@Html.LabelFor(model => model.orderCompletionDate)</td>
-                                            <td>@Html.DisplayFor(model => model.orderCompletionDate)</td>
+                                        <tr>                                           
+                                            @if (Model.orderCompletionDate != null)
+                                            {
+                                                <td>@Html.LabelFor(model => model.orderCompletionDate)</td>
+                                                <td>@Html.DisplayFor(model => model.orderCompletionDate)</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Html.LabelFor(model => model.orderCompletionDate)</td>
+                                                <td>
+                                                    дата выполнение будет равна дате закрытия заказа
+                                                </td>
+                                            }
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -55,46 +64,47 @@
                                 <hr />
                                 <div class="pull-right m-t-30 text-right">
                                     <div class="row">
-                                        @if (ViewBag.BrigateOrder == null)
+                                        @if (ViewBag.PaymentStateResult <= 2 || ViewBag.PaymentStateResult == null)
                                         {
-                                            <div class="col-6">
-                                                @foreach (var item in ViewBag.Adninistrator)
-                                                {
-                                                    <div class="d-flex flex-row comment-row m-t-0">
+                                            if (ViewBag.BrigateOrder == null)
+                                            {
+                                                @*<div class="col-6">
+                                                    @foreach (var item in ViewBag.Adninistrator)
+                                                    {
+                                                        <div class="d-flex flex-row comment-row m-t-0">
 
-                                                        <div class="checkbox">
-                                                            <text><input type="checkbox" name="idAdmin" value="@item.CarWashWorkers.id" /></text>
+                                                            <div class="checkbox">
+                                                                <text><input type="checkbox" name="idAdmin" value="@item.CarWashWorkers.id" /></text>
+                                                            </div>
+
+                                                            <div class="comment-text w-100">
+                                                                <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                                                <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                                            </div>
+
                                                         </div>
+                                                        <hr />
+                                                    }
+                                                </div>
+                                                <hr />*@
+                                                <div class="col-6">
+                                                    @foreach (var item in ViewBag.Brigade)
+                                                    {
+                                                        <div class="d-flex flex-row comment-row m-t-0">
 
-                                                        <div class="comment-text w-100">
-                                                            <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                                            <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                                            <div class="checkbox">
+                                                                <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
+                                                            </div>
+
+                                                            <div class="comment-text w-100">
+                                                                <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                                                <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
+                                                            </div>
                                                         </div>
-
-                                                    </div>
-                                                    <hr />
-                                                }
-                                            </div>
-                                            <hr />
-                                            <div class="col-6">
-                                                @foreach (var item in ViewBag.Brigade)
-                                                {
-                                                    <div class="d-flex flex-row comment-row m-t-0">
-
-                                                        <div class="checkbox">
-                                                            <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
-                                                        </div>
-
-                                                        <div class="comment-text w-100">
-                                                            <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                                            <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <hr />
-                                                }
-
-                                            </div>
+                                                        <hr />
+                                                    }
+                                                </div>
+                                            }
                                         }
 
                                         <hr />
@@ -102,22 +112,22 @@
                                         <div class="card-body">
 
                                             <div class="pull-right m-t-30 text-right">
-                                                <hr />
+                                            
                                                 <div class="row">
-                                                    @if (ViewBag.BrigateOrder == null)
-                                                    {
-                                                        <div class="col-md-6">
-                                                            <div>
-                                                                @Html.DropDownList("idPaymentState", new List<SelectListItem>
-                                                                   {
-                                                                       new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
-                                                                       new SelectListItem { Text = "Наличный расчёт", Value = "1"},
-                                                                       new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
-                                                                   }, new { @class = "form-control" })
-                                                            </div>
+
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            @Html.DropDownList("PaymentStateList", (SelectList)ViewBag.PaymentState, "---", new { @class = "form-control" })
+                                                            @*@Html.DropDownListPaymentStateidPaymentState", new List<SelectListItem>
+                            {
+                                new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
+                                new SelectListItem { Text = "Наличный расчёт", Value = "1"},
+                                new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
+                            }, new { @class = "form-control" })*@
                                                         </div>
-                                                    }
-                                                    <div class="col-md-6">
+                                                    </div>
+
+                                                    <div class="col-md-12">
                                                         @if (ViewBag.ResultPay == 1)
                                                         {
                                                             <h3><b>Оплаченно: @ViewBag.Sum </b><span name="errmsg" id="errmsg"></span>грн. (Наличный расчёт)</h3>
@@ -140,10 +150,11 @@
                                             <div class="clearfix"></div>
                                             <hr />
                                             <div class="text-right">
+                                                <input type="hidden" value="@Model.orderServicesCarWashId" name="idOrderServis" />
                                                 <input type="hidden" value="@ViewBag.IdPage" name="idPage" />
                                                 <input type="hidden" value="@ViewBag.ResultPay" name="PaymentState" />
                                                 <input type="submit" value="Закрыть заказ" class="btn btn-default" />
-                                                @Html.ActionLink("Вернуться на главную", "Index", null, new { @class = "btn btn-danger" })
+                                                @Html.ActionLink("Вернуться на главную", "OrderCarpetWashing", null, new { @class = "btn btn-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -153,7 +164,7 @@
                     }
                     else
                     {
-                        <div class="card">
+                        @*<div class="card">
                             <div class="card-body">
                                 <h5 class="card-title m-b-0">Оформление заказа на чистку\мойку ковров</h5>
                             </div>
@@ -208,14 +219,16 @@
                                         <div class="form-group">
                                             <div class="col-md-offset-2 col-md-10">
                                                 <input type="hidden" value="@ViewBag.IdPage" name="idPage" />
-                                                <input type="submit" value="Save" class="btn btn-default" />
+                                                <input type="hidden" value="@Model.idOrderCarpetWashing" name="idOrder" />
+                                                <input type="submit" value="Сохранить" class="btn btn-default" />
+                                                @Html.ActionLink("Вернуться на главную", "OrderCarpetWashing", null, new { @class = "btn btn-danger" })
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     }
 
                 </div>

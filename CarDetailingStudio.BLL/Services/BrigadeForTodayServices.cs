@@ -26,12 +26,7 @@ namespace CarDetailingStudio.BLL.Services
             return brigadeResult.Where(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
         }
 
-        public async Task<IEnumerable<BrigadeForTodayBll>> Info(int? id)
-        {
-            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork
-                .GetWhere(x => x.IdCarWashWorkers == id)).OrderByDescending(x => x.id);
-        }
-
+        
         public async Task RemoveFromBrigade(int id)
         {
             BrigadeForTodayBll brigadeForTodayBll = await GetId(id);

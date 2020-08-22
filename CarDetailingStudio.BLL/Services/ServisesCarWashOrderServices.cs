@@ -57,7 +57,7 @@ namespace CarDetailingStudio.BLL.Services
             }
             else
             {
-                var resultId = Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(_unitOfWork.ServisesUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == id));
+                var resultId = Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(await _unitOfWork.ServisesUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == id));
 
                 foreach (var x in resultId)
                 {

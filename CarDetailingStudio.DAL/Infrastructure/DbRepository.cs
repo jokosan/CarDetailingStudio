@@ -25,7 +25,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
         {
             Lazy<T> lazy = new Lazy<T>();
 
-            var query = await DbSeT.AsEnumerable<T>().AsQueryable().ToListAsync();
+            var query = await DbSeT.AsEnumerable<T>().AsQueryable().AsNoTracking().ToListAsync();
 
             return query;
         }
@@ -83,6 +83,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
             return await DbSeT.Where(predicate).AsQueryable().ToListAsync();
         }
 
+       
         public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate, string children)
         {
              return await DbSeT.Include(children).Where(predicate).AsQueryable().ToListAsync();            
@@ -90,22 +91,22 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
-            return await DbSeT.Include(children).Where(filter).ToListAsync();
+            return await DbSeT.Include(children).Where(filter).AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, List<string> children)
+        public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string childrenOne, string childrenTwo)
         {
-            foreach (var property in children)
-            {
-                DbSeT.Include(property.ToString());
-            }
-
-            return  DbSeT.Where(filter);
+            return await DbSeT.Include(childrenOne).Include(childrenTwo).Where(filter).AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetInclude(string children)
         {
-            return await DbSeT.Include(children).AsEnumerable<T>().AsQueryable().ToListAsync();
+            return await DbSeT.Include(children).AsNoTracking().AsEnumerable<T>().AsQueryable().ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetInclude(string childrenOne, string childrenTwo)
+        {
+            return await DbSeT.Include(childrenOne).Include(childrenTwo).AsNoTracking().AsEnumerable<T>().AsQueryable().ToListAsync();
         }
 
         public async Task<T> IdInclude(int id)

@@ -17,7 +17,7 @@ namespace CarDetailingStudio.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int idTypeServices { get; set; }
+        public int TypeServices1 { get; set; }
 
         [Display(Name = "Группа расходов")]
         public string name { get; set; }

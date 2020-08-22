@@ -23,9 +23,11 @@ namespace CarDetailingStudio.Controllers
         private IOrderServices _orderServices;
         private IStatusOrder _statusOrder;
         private IWageModules _wageModules;
+        private IOrderCarWashWorkersServices _orderCarWashWorkers;
 
-        public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises, IBrigadeForTodayServices brigade,
-                               IOrderServices orderSer, IWageModules wageModules, IStatusOrder statusOrder)
+        public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises,
+                               IBrigadeForTodayServices brigade, IOrderServices orderSer, IWageModules wageModules, 
+                               IStatusOrder statusOrder, IOrderCarWashWorkersServices orderCarWashWorkers)
         {
             _order = orderServices;
             _servisesCarWash = servises;
@@ -33,6 +35,7 @@ namespace CarDetailingStudio.Controllers
             _orderServices = orderSer;
             _wageModules = wageModules;
             _statusOrder = statusOrder;
+            _orderCarWashWorkers = orderCarWashWorkers;
         }
 
         private double? Price;
@@ -49,7 +52,8 @@ namespace CarDetailingStudio.Controllers
 
         public async Task<ActionResult> ArxivOrder()
         {
-            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(2, 1)));
+            var arxivOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(2, 1));
+            return View(arxivOrder.OrderByDescending(x => x.Id));
         }
 
         public async Task<ActionResult> OrderTireStorage()
@@ -114,12 +118,36 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> OrderDelete(int? idOrder)
+        {
+            await _order.DeleteOrder(idOrder.Value);
+            return RedirectToAction("ArxivOrder");
+        }
+
+        public async Task<ActionResult> CompletedOrders(int? idOrder)
+        {
+            if (idOrder == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var order = Mapper.Map<OrderServicesCarWashView>(await _order.GetId(idOrder));
+            var services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(idOrder));
+            var employee = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.GetTableInclud(idOrder));
+
+            ViewBag.ServicesOrder = services;
+            ViewBag.Employee = employee;
+
+            return View(order);            
+        }
+
+        [HttpPost]
         public async Task<ActionResult> StatusOrder([Bind(Include = "StatusOrder")] OrderServicesCarWashView orderServices, int? OrderStatus)
         {
-            if (orderServices.StatusOrder == 4 && OrderStatus != null)
+            if (orderServices.StatusOrder <= 4 && OrderStatus != null)
             {
                 await _order.StatusOrder(OrderStatus, orderServices.StatusOrder.Value);
-                return View();
+                return RedirectToAction("Index");
             }
             else if (orderServices.StatusOrder == 3 && OrderStatus != null)
             {
@@ -183,6 +211,7 @@ namespace CarDetailingStudio.Controllers
             if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2)
             {
                 await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                
                 await _wageModules.Payroll(idOrder, idBrigade);
             }
             else if (idBrigade != null && idPaymentState == 3 && idStatusOrder == 4)
@@ -190,9 +219,10 @@ namespace CarDetailingStudio.Controllers
                 await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
                 await _wageModules.Payroll(idOrder, idBrigade);
             }
-            else if (idStatusOrder == 2 && idPaymentState != 3)
+            else if (idBrigade != null &&  idStatusOrder == 2 && idPaymentState != 3)
             {
                 await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                await _wageModules.Payroll(idOrder, idBrigade);
             }
             else if (idStatusOrder == 3)
             {

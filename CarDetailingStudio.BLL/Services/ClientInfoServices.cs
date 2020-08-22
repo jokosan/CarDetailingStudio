@@ -12,12 +12,10 @@ namespace CarDetailingStudio.BLL.Services
     public class ClientInfoServices : IClientInfoServices
     {
         private IUnitOfWork _unitOfWork;
-        private AutomapperConfig _automapper;
 
-        public ClientInfoServices(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig)
+        public ClientInfoServices(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _automapper = automapperConfig;
         }
 
         public async Task<IEnumerable<ClientInfoBll>> ClientInfoAll()
@@ -44,7 +42,6 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task Delete(ClientInfoBll elementToDelete)
         {
-            // ClientInfo clients = Mapper.Map<ClientInfoBll, ClientInfo>(elementToDelete);
             _unitOfWork.ClientInfoUnitOfWork.Delete(elementToDelete.Id);
             await _unitOfWork.Save();
         }
@@ -55,5 +52,7 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.ClientInfoUnitOfWork.Insert(clientInfoBll);
             await _unitOfWork.Save();
         }
+
+       
     }
 }

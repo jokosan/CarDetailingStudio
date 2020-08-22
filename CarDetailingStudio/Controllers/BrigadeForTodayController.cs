@@ -43,27 +43,6 @@ namespace CarDetailingStudio.Controllers
 
             return RedirectToAction("TodayShift");
         }
-
-        // GET: BrigadeForToday/Details/5
-        public async Task<ActionResult> EmployeeInformation(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var brigadeForTodayView = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _services.Info(id));
-
-            if (brigadeForTodayView == null)
-            {
-                return HttpNotFound();
-            }
-
-            var info = brigadeForTodayView.First(x => x.IdCarWashWorkers == id);
-
-            ViewData["Info"] = $"{info.CarWashWorkers.Surname} {info.CarWashWorkers.Name} {info.CarWashWorkers.Patronymic} ({info.CarWashWorkers.JobTitleTable.Position})";
-
-            return View(brigadeForTodayView);
-        }
+               
     }
 }

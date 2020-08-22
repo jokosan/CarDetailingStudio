@@ -14,6 +14,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task<int> Insert(ClientsOfCarWashBll AddCliens);
         Task ClientCarUpdate(ClientsOfCarWashBll updateClientCar);
         Task ClientCarArxiv(int carId, bool status);
-        Task RemoveClient(int clientId);
+        Task<ClientsOfCarWashBll> ClientWhereToInfoClient(int idInfoClient);
     }
 }

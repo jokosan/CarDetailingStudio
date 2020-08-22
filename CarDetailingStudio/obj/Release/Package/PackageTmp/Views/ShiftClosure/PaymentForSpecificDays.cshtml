@@ -58,6 +58,7 @@
             <div class="card-body">
                 <div class="pull-right m-t-30 text-right">
                     <p>Заработок сотрудника за месяц: @ViewBag.MonthlySalary грн.</p>
+                    <p>Премия за месяц: @ViewBag.BonusToSalary грн. </p>
                     <p>Остаток за прошлый месяц:  @ViewBag.LastMonth грн.</p>
 
                     @*<p>Дополнительно:<input class="text-input inside" type="hidden" id="count_1" name="column_1"></p>*@
@@ -99,7 +100,6 @@
                             }
                             else
                             {
-
                                 <div class="input-group">
                                     <input name="payout" type="text" placeholder="@ViewBag.Message" class="form-control is-invalid" id="validationServer01" />
                                     <input type="hidden" name="id" value=@ViewBag.IdCarWash />

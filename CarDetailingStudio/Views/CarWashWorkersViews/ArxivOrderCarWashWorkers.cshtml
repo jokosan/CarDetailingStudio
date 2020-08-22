@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.OrderCarWashWorkersDayGroupView>
+
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group">
+                        @Html.DropDownList("idEmployee", ViewBag.OrderArxivResult as SelectList, "Select", new { id = "idEmployee", @class = "form-control" })
+                        <input type="date" name="startDate" class="form-control" />
+                        <input type="date" name="finalDate" class="form-control" />
+                        <div class="input-group-append">
+                            <input type="submit" name="submit" class="btn btn-outline-secondary" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="card-title m-b-0">Архив выполненых заказов сотрудников</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    @if (Model != null)
+                    {
+
+                        @(Html
+                           .Grid(Model)
+                           .Build(columns =>
+                           {
+                               columns.Add(model => model.CountOrder);
+                               columns.Add(model => model.Surname);
+                               columns.Add(model => model.Name);
+                               columns.Add(model => model.Patronymic);
+                               columns.Add(model => model.OrderDate);
+
+                               columns.Add(model => model.OrderDate);
+                               columns.Add(model => model.ClosingData);
+                               columns.Add(model => model.Payroll);
+                               columns.Add(model => model.TotalCostOfAllServices);
+                               columns.Add(model => model.DiscountPrice);
+                               columns.Add(model => @Html.ActionLink("Details", "OrderDay", new { idEmployee = model.IdCarWashWorkers, date = model.ClosingData }));
+                           })
+                           .UsingFilterMode(GridFilterMode.Excel)
+                           .Empty("No data found")
+                           .Filterable(GridFilterType.Single)
+                           .Sortable()
+                           .Pageable(pager =>
+                           {
+                               pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" } };
+                               pager.ShowPageSizes = true;
+                               pager.RowsPerPage = 1;
+                           })
+                            )
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

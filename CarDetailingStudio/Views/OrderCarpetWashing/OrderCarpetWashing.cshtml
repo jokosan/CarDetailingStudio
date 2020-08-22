@@ -50,8 +50,9 @@
                    columns.Add(model => model.orderDate);
                    columns.Add(model => model.orderClosingDate);
                    columns.Add(model => model.orderCompletionDate);
+                   columns.Add(model => model.statusOrder);
                    columns.Add(model => Html.ActionLink("Закрыть заказ", "AboutOrder", new { idOrder = model.idOrderCarpetWashing, idClient = model.clientId, idPage = 2 }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
-                   columns.Add(model => Html.ActionLink("О заказе", "AboutOrder", new { idOrder = model.idOrderCarpetWashing, idClient = model.clientId, idPage = 1 }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+                   //columns.Add(model => Html.ActionLink("О заказе", "AboutOrder", new { idOrder = model.idOrderCarpetWashing, idClient = model.clientId, idPage = 1 }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
 
                })
                .UsingFilterMode(GridFilterMode.Excel)

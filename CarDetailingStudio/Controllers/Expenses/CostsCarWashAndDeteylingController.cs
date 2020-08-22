@@ -56,7 +56,7 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
+        public async Task<ActionResult> Create([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId,typeServicesId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace CarDetailingStudio.Controllers.Expenses
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
+        public async Task<ActionResult> Edit([Bind(Include = "idCostsCarWashAndDeteyling,nameExpenses,amount,dateExpenses,expenseCategoryId,typeServicesId")] CostsCarWashAndDeteylingView costsCarWashAndDeteylingView)
         {
             if (ModelState.IsValid)
             {

@@ -1,0 +1,244 @@
+﻿@model CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView
+
+    <link href="~/Content/input.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="alert alert-danger" role="alert">
+            <h6>№@Html.DisplayFor(model => model.Id) Выполненный заказ</h6>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Зказачик</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody class="customtable">
+                            <tr>
+                                <td>
+                                    ФИО
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.PatronymicName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.ClientsOfCarWash.discont)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ClientsOfCarWash.discont)%
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Марка/Модель
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Тип кузова
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.StatusOrder1.StatusOrder1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.StatusOrder1.StatusOrder1)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.PaymentState1.PaymentState1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.PaymentState1.PaymentState1)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.OrderDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.OrderDate)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.ClosingData)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ClosingData)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.TotalCostOfAllServices)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.TotalCostOfAllServices) грн.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.DiscountPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.DiscountPrice) грн.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.typeOfOrder)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.typeOfOrder)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Тип выполненных услуг</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">
+                                    Вид услуги
+                                </th>
+                                <th scope="col">
+                                    О услуги
+                                </th>
+                                <th scope="col">
+                                    Стоимость услуги
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.ServicesOrder)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Detailings.services_list
+                                    </td>
+                                    <td>
+                                        @item.Detailings.note
+                                    </td>
+                                    <td>
+                                        @item.Price
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title m-b-0">Исполнители</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">
+                                    ФИО
+                                </th>
+                                <th scope="col">
+                                    Процентная ставка (Администратор)
+                                </th>
+                                <th scope="col">
+                                    Процентная ставка
+                                </th>
+                                <th>
+                                    Всего на зарплату
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Employee)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.CarWashWorkers.Surname @item.CarWashWorkers.Name
+                                    </td>
+
+                                    <td>
+                                        @item.CarWashWorkers.AdministratorsInterestRate
+                                    </td>
+                                    <td>
+                                        @item.CarWashWorkers.InterestRate
+                                    </td>
+                                    <td>
+                                        @item.Payroll
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Редактировать", "../CarWashWorkersViews/EditingStaffOnOrder", new { idOrder = Model.Id, idEmployee = item.CarWashWorkers.id }, new { @class = "btn btn-secondary" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    @using (Html.BeginForm("OrderDelete", "Order", FormMethod.Post))
+                    {
+                        <label class="myLabel">Подтвердить действия</label>
+                        <label class="customcheckbox">
+                            <label class="label">
+
+                                <input class="label__checkbox" type="checkbox" name="confirmation" value="true" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                <span class="label__text">
+                                    <span class="label__check">
+                                        <i class="fa fa-check icon"></i>
+                                    </span>
+                                </span>
+                            </label>
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <input value="@Model.Id" name="idOrder" type="hidden" />
+                        <input class="btn btn-danger" id="submit" type="submit" disabled="disabled"  value="Удалить заказ" @Url.Action("ArxivOrder", "Order") />
+
+                        @Html.ActionLink("Вернуться к архиву заказов", "ArxivOrder", null, new { @class = "btn btn-info" })
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

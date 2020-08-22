@@ -48,6 +48,7 @@ namespace CarDetailingStudio.Models
         public string barcode { get; set; }
         public string note { get; set; }
 
-        
+        public string statusOrder { get; set; }
+
     }
 }

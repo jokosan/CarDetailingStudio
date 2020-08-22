@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Хранилище carWashServerModelContainer" CdmEntityContainer="carWashEntities">
+    <EntitySetMapping Name="bonusToSalary">
+      <EntityTypeMapping TypeName="carWashServerModel.bonusToSalary">
+        <MappingFragment StoreEntitySet="bonusToSalary">
+          <ScalarProperty Name="idBonusToSalary" ColumnName="idBonusToSalary" />
+          <ScalarProperty Name="carWashWorkersId" ColumnName="carWashWorkersId" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="brigadeForToday">
       <EntityTypeMapping TypeName="carWashServerModel.brigadeForToday">
         <MappingFragment StoreEntitySet="brigadeForToday">
@@ -189,6 +200,7 @@
     <EntitySetMapping Name="Detailings">
       <EntityTypeMapping TypeName="carWashServerModel.Detailings">
         <MappingFragment StoreEntitySet="Detailings">
+          <ScalarProperty Name="forUnit" ColumnName="forUnit" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="services_list" ColumnName="services_list" />
           <ScalarProperty Name="validity" ColumnName="validity" />
@@ -247,8 +259,7 @@
         <MappingFragment StoreEntitySet="orderCarpetWashing">
           <ScalarProperty Name="idOrderCarpetWashing" ColumnName="idOrderCarpetWashing" />
           <ScalarProperty Name="orderServicesCarWashId" ColumnName="orderServicesCarWashId" />
-          <ScalarProperty Name="Customer" ColumnName="Customer" />
-          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="clientId" ColumnName="clientId" />
           <ScalarProperty Name="area" ColumnName="area" />
           <ScalarProperty Name="orderDate" ColumnName="orderDate" />
           <ScalarProperty Name="orderClosingDate" ColumnName="orderClosingDate" />
@@ -409,7 +420,7 @@
     <EntitySetMapping Name="TypeServices">
       <EntityTypeMapping TypeName="carWashServerModel.TypeServices">
         <MappingFragment StoreEntitySet="TypeServices">
-          <ScalarProperty Name="idTypeServices" ColumnName="idTypeServices" />
+          <ScalarProperty Name="TypeServices1" ColumnName="TypeServices" />
           <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>

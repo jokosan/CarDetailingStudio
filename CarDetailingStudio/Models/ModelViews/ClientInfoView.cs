@@ -27,6 +27,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public string PatronymicName { get; set; }
 
         [Display(Name = "Телефон")]
+        [Required(ErrorMessage = "Обязательное заполнение поля")]
         public string Phone { get; set; }
 
         [Display(Name = "Дата регистрации")]

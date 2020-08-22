@@ -32,6 +32,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<StatusOrder> StatusOrderUnitOfWork { get; set; }
         DbRepository<salaryBalance> SalaruBalanceUnitOfWork { get; set; }
         DbRepository<orderCarpetWashing> OrderCarpetWashingUnitOfWork { get; set; }
+        DbRepository<PaymentState> PaymentStateUnitOfWork { get; set; }
 
         // expenses - затраты
 
@@ -41,6 +42,8 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<otherExpenses> otherExpensesUnitOfWork { get; set; }
         DbRepository<costsCarWashAndDeteyling> costsCarWashAndDeteylingUnitOfWork { get; set; }
         DbRepository<consumablesTireFitting> consumablesTireFittingUnitOfWork { get; set; }
+        DbRepository<utilityCostsCategory> utilityCostsCategoryUnitOfWork { get; set; }
+        DbRepository<Cashier> CashierUtilOfWork { get; set; }
 
 
         // TireStorage - хранение шин
@@ -57,6 +60,9 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         BrigadeForTodayRepository BrigadeUnitOfWork { get; set; }
         ServisesCarWashOrderRepository ServisesUnitOfWork { get; set; }
         OrderInfoViewRepository OrderInfoUnitOfWork { get; set; }
+
+        // Премия
+        DbRepository<bonusToSalary> BonusToSalaryUnitOfWork { get; set; }
     }
 
 }

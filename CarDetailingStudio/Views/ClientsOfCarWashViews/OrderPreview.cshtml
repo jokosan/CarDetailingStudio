@@ -18,7 +18,7 @@
 
     <form>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title m-b-0">Customer</h5>
@@ -79,7 +79,7 @@
             </div>
 
 
-            <div class="col-md-6">
+            <div class="col-md-7">
                 @if (ViewBag.OrderServices != null)
                 {
                     <div class="card">
@@ -186,8 +186,17 @@
                                                             break;*@
                                             }
 
-                                            <td class="mat_count"><input class="text-input inside" name="sum" type="number" id=@item.Id /></td>
-                                            <td>грн.</td>
+                                            @if (item.forUnit == true)
+                                            {
+                                                <td class="mat_count"><input class="text-input inside" name="sum" maxlength ="2" type="number" id=@item.Id /></td>
+                                                <td>ед.</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="mat_count"><input class="text-input inside qty1" name="sum" type="number" id=@item.Id /></td>
+                                                <td>грн.</td>
+                                            }
+                                            <td>-----</td>
                                             @*<td><input type="number" /></td>
                                                 <td> <span class="sum"></span></td>*@
                                         </tr>
@@ -201,6 +210,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="pull-right m-t-30 text-right">
+                               @* <input type="text" class="total" value="" />*@
                                 <p>Скидка клиента @Html.DisplayFor(model => model.discont) %</p>
 
                                 @*<p>Дополнительно:<input class="text-input inside" type="hidden" id="count_1" name="column_1"></p>*@
@@ -211,7 +221,7 @@
                             <div class="clearfix"></div>
                             <hr>
                             <div class="text-right">
-                                <input type="hidden" value="@ViewBag.idOrder" name="idOrder"/>
+                                <input type="hidden" value="@ViewBag.idOrder" name="idOrder" />
                                 <input type="hidden" value=@ViewBag.Total name="total" />
                                 <input type="submit" value="Оформить" class="btn btn-success preview" />
                                 @Html.ActionLink("Отменить", "../Order/Index", new { id = Model.id }, new { @class = "btn btn-danger preview" })
@@ -248,33 +258,50 @@
 
 <script>
 
-    var $total = $('.sub_total');
-    $('[class^="total"]').each(function () {
-        $total.val(parseInt($total.val()) + parseInt($(this).val()));
+    //var $total = $('.sub_total');
+    //$('[class^="total"]').each(function () {
+    //    $total.val(parseInt($total.val()) + parseInt($(this).val()));
+    //});
+
+    //function subtractOperands() {
+    //    var result = $('#operand1').val() - $('#operand2').val();
+    //    $('#result').val(result);
+    //}
+
+    //document.getElementById("table-price-box").addEventListener("input", function (e) {
+    //    var inp = e.target;
+    //    if (inp.tagName === "INPUT") {
+    //        var tr = inp.parentElement.parentElement;
+    //        tr.querySelector(".sum").textContent = tr.querySelector(".price").textContent * inp.value;
+    //    }
+    //});
+
+
+    //var table = document.getElementById("tableSum"), sumVal = 0;
+
+    //for (var i = 1; i < table.rows.length; i++) {
+    //    sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
+    //}
+
+    //document.getElementById("val").innerHTML = "Sum Value = " + sumVal;
+    //console.log(sumVal);
+
+
+    $(document).on("change", ".qty1", function () {
+        var sum = 0;
+        $(".qty1").each(function () {
+            sum += +$(this).val();
+        });
+        $(".total").val(sum);
     });
 
-    function subtractOperands() {
-        var result = $('#operand1').val() - $('#operand2').val();
-        $('#result').val(result);
-    }
 
-    document.getElementById("table-price-box").addEventListener("input", function (e) {
-        var inp = e.target;
-        if (inp.tagName === "INPUT") {
-            var tr = inp.parentElement.parentElement;
-            tr.querySelector(".sum").textContent = tr.querySelector(".price").textContent * inp.value;
-        }
+    $(document).on("change", ".qty1", function () {
+        var sum = 0;
+        $(".qty1").each(function () {
+            sum += +$(this).val();
+        });
+        $(".total").val(sum);
     });
-
-
-    var table = document.getElementById("tableSum"), sumVal = 0;
-
-    for (var i = 1; i < table.rows.length; i++) {
-        sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
-    }
-
-    document.getElementById("val").innerHTML = "Sum Value = " + sumVal;
-    console.log(sumVal);
-
 
 </script>

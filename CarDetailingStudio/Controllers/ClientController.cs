@@ -59,6 +59,7 @@ namespace CarDetailingStudio.Controllers
                     if ((TempData.ContainsKey("Checkout")))
                     {
                         string typeService = TempData["Checkout"].ToString();
+                        TempData.Keep("Checkout");
 
                         if (Service != null)
                         {

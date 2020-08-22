@@ -1,0 +1,113 @@
+﻿@model CarDetailingStudio.Models.ModelViews.ClientInfoView
+<link href="~/Content/input.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Клиент</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-right">
+                            @Html.ActionLink("Редакировать", "EditClient", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item">
+                    ФИО:
+                    @Html.DisplayFor(model => model.Surname)
+                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.PatronymicName)
+                </li>
+                <li class="list-group-item">
+                    Телефон:
+                    @Html.DisplayFor(model => model.Phone)
+                </li>
+            </ul>
+            <br />
+        </div>
+
+        @if (ViewBag.ClientCar != null)
+        {
+            foreach (var item in ViewBag.ClientCar)
+            {
+                if (item.arxiv == true)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="card-title m-b-0">Машина клиента</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                @item.car_mark.name @item.car_model.name
+                            </li>
+                            <li class="list-group-item">
+                                Тип Кузова:  @item.CarBody.Name
+                            </li>
+                            <li class="list-group-item">
+                                Номер автомобиля: @item.NumberCar
+                            </li>
+                            <li class="list-group-item">
+                                Процент скидки для авто @item.discont
+                            </li>
+                        </ul>
+                        <br />
+                    </div>
+                }
+                else if (item.arxiv == false)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="card-title m-b-0">Машина клиента Архив</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                @item.car_mark.name @item.car_model.name
+                            </li>
+                            <li class="list-group-item">
+                                Тип Кузова:  @item.CarBody.Name
+                            </li>
+                            <li class="list-group-item">
+                                Номер автомобиля: @item.NumberCar
+                            </li>
+                            <li class="list-group-item">
+                                Процент скидки для авто @item.discont
+                            </li>
+                        </ul>
+                        <br />
+                    </div>
+                }
+            }
+        }
+
+        <div class="text-right">
+            <div class="card-body">
+                @using (Html.BeginForm("Delete", "ClientInfo", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input value=@Model.Id name="id" type="hidden" />
+                    <input type="submit" name="submit" value="Удалить" class="btn btn-outline-danger" />
+
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

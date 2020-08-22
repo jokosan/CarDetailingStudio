@@ -97,6 +97,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AllExpensesBll.cs" />
+    <Compile Include="Model\BonusToSalaryBll.cs" />
+    <Compile Include="Model\BonusToSalaryGroupBll.cs" />
     <Compile Include="Model\BrigadeForTodayBll.cs" />
     <Compile Include="Model\CarBodyBll.cs" />
     <Compile Include="Model\CarGenerationBll.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="Model\CarModificationBll.cs" />
     <Compile Include="Model\CarSerieBll.cs" />
     <Compile Include="Model\CarWashWorkersBll.cs" />
+    <Compile Include="Model\CashierBll.cs" />
     <Compile Include="Model\ClientCarTableBll.cs" />
     <Compile Include="Model\ClientInfoBll.cs" />
     <Compile Include="Model\ClientsGroupsBll.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="Model\ModelViewBll\OrderTireStorageModelBll.cs" />
     <Compile Include="Model\ModelViewBll\ReviwOrderModelBll.cs" />
     <Compile Include="Model\OrderCarpetWashingBll.cs" />
+    <Compile Include="Model\OrderCarWashWorkersDayGroupBll.cs" />
     <Compile Include="Model\SalaryBalanceBll.cs" />
     <Compile Include="Model\StorageFeeBll.cs" />
     <Compile Include="Model\ModelViewBll\WagesForDaysWorkedBll.cs" />
@@ -138,12 +143,15 @@
     <Compile Include="Model\TireStorageServicesBll.cs" />
     <Compile Include="Model\TypeServicesBll.cs" />
     <Compile Include="Model\UtilityCostsBll.cs" />
+    <Compile Include="Model\UtilityCostsCategoryBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BonusToSalaryServices.cs" />
     <Compile Include="Services\BrigadeForTodayServices.cs" />
     <Compile Include="Services\CarBodyServices.cs" />
     <Compile Include="Services\CarMarkServices.cs" />
     <Compile Include="Services\CarModelServices.cs" />
     <Compile Include="Services\CarWashWorkersServices.cs" />
+    <Compile Include="Services\CashierServices.cs" />
     <Compile Include="Services\Checkout\CheckoutContract\IOrder.cs" />
     <Compile Include="Services\Checkout\Order.cs" />
     <Compile Include="Services\ClientInfoServices.cs" />
@@ -152,6 +160,9 @@
     <Compile Include="Services\Contract\GenericContract\IDatabaseOperations.cs" />
     <Compile Include="Services\Contract\GenericContract\IDeleteFromDatabase.cs" />
     <Compile Include="Services\Contract\GenericContract\IGetFromDatabase.cs" />
+    <Compile Include="Services\Contract\GenericContract\IReports.cs" />
+    <Compile Include="Services\Contract\IBonusToSalary .cs" />
+    <Compile Include="Services\Contract\ICashier.cs" />
     <Compile Include="Services\Contract\IClientInfoServices.cs" />
     <Compile Include="Services\Contract\IClientModules.cs" />
     <Compile Include="Services\Contract\IClientsGroupsServices.cs" />
@@ -159,9 +170,11 @@
     <Compile Include="Services\Contract\IGroupWashServices.cs" />
     <Compile Include="Services\Contract\IJobTitleTableServices.cs" />
     <Compile Include="Services\Contract\IOrderCarpetWashingServices.cs" />
+    <Compile Include="Services\Contract\IPaymentState.cs" />
     <Compile Include="Services\Contract\ISalaryBalanceService.cs" />
     <Compile Include="Services\Contract\IStatusOrder.cs" />
     <Compile Include="Services\Contract\IUpdate.cs" />
+    <Compile Include="Services\Contract\IUtilityCostsCategory.cs" />
     <Compile Include="Services\CreditServices.cs" />
     <Compile Include="Services\DetailingsServises.cs" />
     <Compile Include="Services\Contract\IServisesCarWashOrderServices.cs" />
@@ -172,9 +185,11 @@
     <Compile Include="Services\Contract\IClientsOfCarWashServices.cs" />
     <Compile Include="Services\Contract\IOrderCarWashWorkersServices.cs" />
     <Compile Include="Services\ExchangeRatesServices.cs" />
+    <Compile Include="Services\Expenses\AllExpensesModulescs.cs" />
     <Compile Include="Services\Expenses\ConsumablesTireFittingServices.cs" />
     <Compile Include="Services\Expenses\CostsCarWashAndDeteylingServices.cs" />
     <Compile Include="Services\Expenses\ExpenseCategoryServices.cs" />
+    <Compile Include="Services\Expenses\ExpensesContract\IAllExpenses.cs" />
     <Compile Include="Services\Expenses\ExpensesContract\IConsumablesTireFitting.cs" />
     <Compile Include="Services\Expenses\ExpensesContract\ICostsCarWashAndDeteyling.cs" />
     <Compile Include="Services\Expenses\ExpensesContract\IExpenseCategory.cs" />
@@ -193,11 +208,17 @@
     <Compile Include="Services\GroupWash_Services.cs" />
     <Compile Include="Services\InfoBrigadeForTodayServices.cs" />
     <Compile Include="Services\JobTitleTableServices.cs" />
+    <Compile Include="Services\JoinModel\CarJoinClientServices.cs" />
     <Compile Include="Services\JoinModel\ClientJoinOrderCarpetWashing.cs" />
+    <Compile Include="Services\JoinModel\Contract\ICarJoinClientServices.cs" />
     <Compile Include="Services\JoinModel\Contract\IClientJoinOrderCarpetWashing.cs" />
     <Compile Include="Services\JoinModel\Model\ClientJoinCarpetWashingModel.cs" />
+    <Compile Include="Services\JoinModel\Model\CarJoinClientModelBll.cs" />
     <Compile Include="Services\Modules\ApiPrivatBank.cs" />
+    <Compile Include="Services\Modules\BonusModules.cs" />
     <Compile Include="Services\Modules\ClientModules.cs" />
+    <Compile Include="Services\Modules\Clients\Contract\IRemoveClient.cs" />
+    <Compile Include="Services\Modules\Clients\RemoveClient.cs" />
     <Compile Include="Services\Modules\CloseShift\Contract\IWagesForDaysWorkedGroup.cs" />
     <Compile Include="Services\Modules\CloseShift\WagesForDaysWorkedGroup.cs" />
     <Compile Include="Services\Modules\CloseShift\CloseShiftModule.cs" />
@@ -206,6 +227,7 @@
     <Compile Include="Services\Modules\CloseShift\Contract\IDayResult.cs" />
     <Compile Include="Services\Contract\IOrderServices.cs" />
     <Compile Include="Services\Contract\IApiPrivatBank.cs" />
+    <Compile Include="Services\Modules\IBonusModules.cs" />
     <Compile Include="Services\Modules\ModulesModel\OrderPriceModel.cs" />
     <Compile Include="Services\Modules\OrderServices.cs" />
     <Compile Include="Services\Modules\TireStorage\Contract\IReviwOrderModules.cs" />
@@ -216,6 +238,7 @@
     <Compile Include="Services\OrderCarpetWashingServices.cs" />
     <Compile Include="Services\OrderCarWashWorkersServices.cs" />
     <Compile Include="Services\OrderServicesCarWashServices.cs" />
+    <Compile Include="Services\PaymentStateServices.cs" />
     <Compile Include="Services\SalaryBalanceService.cs" />
     <Compile Include="Services\ServisesCarWashOrderServices.cs" />
     <Compile Include="Services\StatusOrderServices.cs" />
@@ -225,6 +248,7 @@
     <Compile Include="Services\TireStorageServices\TireStorageContract\ITireStorageServices.cs" />
     <Compile Include="Services\TireStorageServices\TireStorageSerServices.cs" />
     <Compile Include="Services\TireStorageServices\TireStorageServices.cs" />
+    <Compile Include="Services\UtilityCostsCategoryServices.cs" />
     <Compile Include="Utilities\Map\AutomapperConfig.cs" />
     <Compile Include="Utilities\Ninject\NinjectDependencyResolverBll.cs" />
   </ItemGroup>
@@ -238,8 +262,6 @@
       <Name>CarDetailingStudio.DAL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Modules\Clients\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
