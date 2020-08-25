@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Expenses.ExpensesContract
 {
-    public interface ISalaryExpenses : IGetFromDatabase<SalaryExpensesBll>, IDatabaseOperations<SalaryExpensesBll>
+    public interface ISalaryExpenses : IGetFromDatabase<SalaryExpensesBll>, IDatabaseOperations<SalaryExpensesBll>, IReports<SalaryExpensesBll>
     {
         Task Insert(IEnumerable<SalaryExpensesBll> element);
     }

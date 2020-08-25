@@ -68,5 +68,7 @@ namespace CarDetailingStudio.Models
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ClientJoinCarpetWashingModelView> ClientJoinCarpetWashingModelViews { get; set; }
 
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.AllExpenses> AllExpenses { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CashierView> CashierViews { get; set; }
     }
 }

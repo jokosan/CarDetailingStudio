@@ -462,6 +462,8 @@
     <Property Name="dateExpenses" Type="DateTime" Precision="7" />
     <Property Name="expenseCategoryId" Type="Int32" />
     <NavigationProperty Name="expenseCategory" Relationship="Self.FK_utilityCosts_expenseCategory" FromRole="utilityCosts" ToRole="expenseCategory" />
+    <Property Name="utilityCostsCategoryId" Type="Int32" />
+    <NavigationProperty Name="utilityCostsCategory" Relationship="carWashServerModel.FK_utilityCosts_utilityCostsCategory" FromRole="utilityCosts" ToRole="utilityCostsCategory" />
   </EntityType>
   <EntityType Name="logo_mark_car">
     <Key>
@@ -1050,6 +1052,12 @@
       <End Role="TypeServices" EntitySet="TypeServices" />
       <End Role="costsCarWashAndDeteyling" EntitySet="costsCarWashAndDeteyling" />
     </AssociationSet>
+    <EntitySet Name="Cashier" EntityType="carWashServerModel.Cashier" />
+    <EntitySet Name="utilityCostsCategory" EntityType="carWashServerModel.utilityCostsCategory" />
+    <AssociationSet Name="FK_utilityCosts_utilityCostsCategory" Association="carWashServerModel.FK_utilityCosts_utilityCostsCategory">
+      <End Role="utilityCostsCategory" EntitySet="utilityCostsCategory" />
+      <End Role="utilityCosts" EntitySet="utilityCosts" />
+    </AssociationSet>
   </EntityContainer>
   <Association Name="FK_costsCarWashAndDeteyling_TypeServices">
     <End Type="carWashServerModel.TypeServices" Role="TypeServices" Multiplicity="0..1" />
@@ -1060,6 +1068,35 @@
       </Principal>
       <Dependent Role="costsCarWashAndDeteyling">
         <PropertyRef Name="typeServicesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Cashier">
+    <Key>
+      <PropertyRef Name="idCashier" />
+    </Key>
+    <Property Name="idCashier" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="amountBeginningOfTheDay" Type="Double" Nullable="false" />
+    <Property Name="amountEndOfTheDay" Type="Double" Nullable="false" />
+  </EntityType>
+  <EntityType Name="utilityCostsCategory">
+    <Key>
+      <PropertyRef Name="idUtilityCostsCategory" />
+    </Key>
+    <Property Name="idUtilityCostsCategory" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Named" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="utilityCosts" Relationship="carWashServerModel.FK_utilityCosts_utilityCostsCategory" FromRole="utilityCostsCategory" ToRole="utilityCosts" />
+  </EntityType>
+  <Association Name="FK_utilityCosts_utilityCostsCategory">
+    <End Type="carWashServerModel.utilityCostsCategory" Role="utilityCostsCategory" Multiplicity="0..1" />
+    <End Type="carWashServerModel.utilityCosts" Role="utilityCosts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilityCostsCategory">
+        <PropertyRef Name="idUtilityCostsCategory" />
+      </Principal>
+      <Dependent Role="utilityCosts">
+        <PropertyRef Name="utilityCostsCategoryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

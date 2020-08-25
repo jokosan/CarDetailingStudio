@@ -19,6 +19,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
         {
             _carWashEntitiesContext = entities;
             DbSeT = entities.Set<T>();
+
         }
 
         public virtual async  Task<IEnumerable<T>> Get()

@@ -1,0 +1,33 @@
+﻿@model CarDetailingStudio.Models.ModelViews.CashierView
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<link href="~/Content/car-wash-workers.css" rel="stylesheet" />
+<div class="col-lg-12">
+    <div>
+        <div class="card-body">
+            <h4 class="card-title">Задать наличную кассу</h4>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+             
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group row">
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.amountBeginningOfTheDay, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.amountBeginningOfTheDay, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-2 text-center">
+                    <input type="submit" value="Продолжить" class="btn btn-default" />
+                </div>
+            </div>
+
+            </div>
+        }
+
+    </div>
+</div>

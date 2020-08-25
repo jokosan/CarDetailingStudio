@@ -13,6 +13,8 @@ namespace CarDetailingStudio.Models.ModelViews
         [Key]
         public int idCashier { get; set; }
         public System.DateTime date { get; set; }
+        [Display(Name ="Касса наличных")]
+        [Range(1, 10000, ErrorMessage = "Недоступное значение")]
         public double amountBeginningOfTheDay { get; set; }
         public double amountEndOfTheDay { get; set; }
     }

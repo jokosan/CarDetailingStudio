@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -19,18 +20,19 @@ namespace CarDetailingStudio.Controllers
         private IOrderServicesCarWashServices _orderServices;
         private IOrderCarWashWorkersServices _orderCarWashWorker;
         private ICarWashWorkersServices _carWashWorkers;
+        private ICashier _cashier;
        
 
         public ItogOrderController(IDayResult dayResult, ICloseShiftModule closeShiftModule,
                                     IOrderServicesCarWashServices orderServices, IOrderCarWashWorkersServices orderCarWashWorkers,
-                                    ICarWashWorkersServices carWashWorkers)
+                                    ICarWashWorkersServices carWashWorkers, ICashier cashier)
         {
             _dayResult = dayResult;
             _closeShiftModule = closeShiftModule;
             _orderServices = orderServices;
             _orderCarWashWorker = orderCarWashWorkers;
             _carWashWorkers = carWashWorkers;
-        
+            _cashier = cashier;        
         }
 
         // GET: OrderInfoViewModels
@@ -53,8 +55,12 @@ namespace CarDetailingStudio.Controllers
             if (confirmation)
             {
                 await _closeShiftModule.CurrentShift();
-               
-                return RedirectToAction("Index", "Order");
+                await _cashier.EndDay();
+                               
+                return RedirectToAction("SummaryOfTheDay", "Analytics", new RouteValueDictionary(new
+                {
+                    CloseDay = true
+                }));
             }
 
             return Redirect("DayResult");

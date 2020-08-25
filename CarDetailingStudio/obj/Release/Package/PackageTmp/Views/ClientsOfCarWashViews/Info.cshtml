@@ -126,7 +126,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         }
                     }
                 </div>
@@ -136,15 +135,12 @@
 
         <div class="text-right">
             <div class="card-body">
-
-
                 @using (Html.BeginForm("RemoveClient", "ClientsOfCarWashViews", FormMethod.Post))
                 {
                     <input value=@Model.id name="ClientId" type="hidden" />
                     <input type="submit" name="submit" value="Удалить" class="btn btn-outline-danger" />
 
                     @Html.ActionLink("Создать авто", "AddCar", new { IdInfoClient = Model.IdInfoClient, ClientsGroups = Model.ClientsGroups.Id }, new { @class = "btn btn-outline-secondary" })
-
                 }
             </div>
         </div>
@@ -203,11 +199,12 @@
 
 
     </div>
+</div>
 
-    <script>
-        $('input:checkbox').click(function () {
-            if ($(this).is(':checked')) {
-                $('input:checkbox').not(this).prop('checked', false);
-            }
-        });
-    </script>
+<script>
+    $('input:checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            $('input:checkbox').not(this).prop('checked', false);
+        }
+    });
+</script>

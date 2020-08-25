@@ -254,6 +254,7 @@
     <Compile Include="Controllers\AllExpensesController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\BonusToSalaryController.cs" />
+    <Compile Include="Controllers\CashierController.cs" />
     <Compile Include="Controllers\ClientInfoController.cs" />
     <Compile Include="Controllers\ClientsGroupsController.cs" />
     <Compile Include="Controllers\Expenses\CostsCarWashAndDeteylingController.cs" />
@@ -262,12 +263,14 @@
     <Compile Include="Controllers\Expenses\UtilityCostsController.cs" />
     <Compile Include="Controllers\OrderCarpetWashingController.cs" />
     <Compile Include="Controllers\TireStorage\TireStorageController.cs" />
+    <Compile Include="Filters\InitialAmountFilter.cs" />
     <Compile Include="Filters\PreviousShiftStatusFilter.cs" />
     <Compile Include="Models\AllExpenses.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\CarJoinClientModel.cs" />
     <Compile Include="Models\ClientJoinCarpetWashingModelView.cs" />
     <Compile Include="Models\DayResultModelView.cs" />
+    <Compile Include="Models\EmployeeSalariesView.cs" />
     <Compile Include="Models\ExpenseCategoryGroupView.cs" />
     <Compile Include="Models\ModelViews\BonusToSalaryGroupView.cs" />
     <Compile Include="Models\ModelViews\BonusToSalaryView.cs" />
@@ -284,6 +287,7 @@
     <Compile Include="Models\ModelViews\UtilityCostsCategoryView.cs" />
     <Compile Include="Models\ModelViews\UtilityCostsView.cs" />
     <Compile Include="Models\OrderCarWashWorkersDayGroupView.cs" />
+    <Compile Include="Models\OrderInformationWashingDetailingView.cs" />
     <Compile Include="Models\OrderTireStorageModelView.cs" />
     <Compile Include="Models\ReviwOrderModelView.cs" />
     <Compile Include="Models\TypeServicesView.cs" />
@@ -1343,6 +1347,8 @@
     <Content Include="Views\OrderCarpetWashing\ArxivOrderCarpet.cshtml" />
     <Content Include="Views\AllExpenses\Create.cshtml" />
     <Content Include="Views\Analytics\Report.cshtml" />
+    <Content Include="Views\Analytics\SummaryOfTheDay.cshtml" />
+    <Content Include="Views\Cashier\AmountAtTheBeginningOfTheDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

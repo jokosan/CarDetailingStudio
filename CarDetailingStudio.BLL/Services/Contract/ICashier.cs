@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
-    public interface ICashier : IGetFromDatabase<CashierBll>, IDatabaseOperations<CashierBll>
+    public interface ICashier : IGetFromDatabase<CashierBll>, IDatabaseOperations<CashierBll>, IReports<CashierBll>
     {
+        Task EndDay();
     }
 }

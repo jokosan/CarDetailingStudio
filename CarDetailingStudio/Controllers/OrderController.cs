@@ -26,7 +26,7 @@ namespace CarDetailingStudio.Controllers
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
 
         public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises,
-                               IBrigadeForTodayServices brigade, IOrderServices orderSer, IWageModules wageModules, 
+                               IBrigadeForTodayServices brigade, IOrderServices orderSer, IWageModules wageModules,
                                IStatusOrder statusOrder, IOrderCarWashWorkersServices orderCarWashWorkers)
         {
             _order = orderServices;
@@ -44,6 +44,7 @@ namespace CarDetailingStudio.Controllers
         [WorkShiftFilter]
         [PreviousShiftStatusFilter]
         [MonitoringTheNumberOfEmployeesFilter]
+        [InitialAmountFilter]
         public async Task<ActionResult> Index()
         {
             var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(1));

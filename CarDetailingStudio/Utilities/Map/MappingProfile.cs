@@ -147,6 +147,12 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<UtilityCostsCategoryView, UtilityCostsCategoryBll>();
             CreateMap<UtilityCostsCategoryBll, UtilityCostsCategoryView>();
+
+            CreateMap<EmployeeSalariesView, EmployeeSalariesBll>();
+            CreateMap<EmployeeSalariesBll, EmployeeSalariesView>();
+
+            CreateMap<OrderInformationWashingDetailingView, OrderInformationWashingDetailingBll>();
+            CreateMap<OrderInformationWashingDetailingBll, OrderInformationWashingDetailingView>();
         }
     }
 }

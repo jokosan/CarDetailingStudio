@@ -118,6 +118,7 @@
     <Compile Include="Model\CostsCarWashAndDeteylingBll.cs" />
     <Compile Include="Model\CreditBll.cs" />
     <Compile Include="Model\DetailingsBll.cs" />
+    <Compile Include="Model\EmployeeSalariesBll.cs" />
     <Compile Include="Model\ExchangeRatesBll.cs" />
     <Compile Include="Model\ExpenseCategoryBll.cs" />
     <Compile Include="Model\GroupWashServicesBll.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Model\ModelViewBll\ReviwOrderModelBll.cs" />
     <Compile Include="Model\OrderCarpetWashingBll.cs" />
     <Compile Include="Model\OrderCarWashWorkersDayGroupBll.cs" />
+    <Compile Include="Model\OrderInformationWashingDetailingBll.cs" />
     <Compile Include="Model\SalaryBalanceBll.cs" />
     <Compile Include="Model\StorageFeeBll.cs" />
     <Compile Include="Model\ModelViewBll\WagesForDaysWorkedBll.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Services\Expenses\OtherExpensesServises.cs" />
     <Compile Include="Services\Expenses\SalaryExpensesServices.cs" />
     <Compile Include="Services\Expenses\UtilityCostsServices.cs" />
+    <Compile Include="Services\Filters\InitialAmountFiltersBll.cs" />
     <Compile Include="Services\Filters\ShiftClosingStatus.cs" />
     <Compile Include="Services\Filters\TeamMonitoringFilters.cs" />
     <Compile Include="Services\Contract\ICarModelServices.cs" />
@@ -227,7 +230,9 @@
     <Compile Include="Services\Modules\CloseShift\Contract\IDayResult.cs" />
     <Compile Include="Services\Contract\IOrderServices.cs" />
     <Compile Include="Services\Contract\IApiPrivatBank.cs" />
+    <Compile Include="Services\Modules\Contract\IIncomeForTheCurrentDay.cs" />
     <Compile Include="Services\Modules\IBonusModules.cs" />
+    <Compile Include="Services\Modules\IncomeForTheCurrentDay.cs" />
     <Compile Include="Services\Modules\ModulesModel\OrderPriceModel.cs" />
     <Compile Include="Services\Modules\OrderServices.cs" />
     <Compile Include="Services\Modules\TireStorage\Contract\IReviwOrderModules.cs" />

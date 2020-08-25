@@ -3,7 +3,9 @@ using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,6 +52,17 @@ namespace CarDetailingStudio.BLL.Services.Expenses
 
             _unitOfWork.salaryExpensesUnitOfWork.Update(salaryExpenses);
             await _unitOfWork.Save();
+        }
+
+        public async Task<IEnumerable<SalaryExpensesBll>> Reports(DateTime datepresentDay)
+        {
+            return Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.dateExpenses.Value) == datepresentDay.Date), "expenseCategory"));
+        }
+
+        public async Task<IEnumerable<SalaryExpensesBll>> Reports(DateTime startDate, DateTime finalDate)
+        {
+            return Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.dateExpenses.Value) >= startDate.Date
+                                                                                                                        && (DbFunctions.TruncateTime(x.dateExpenses.Value) <= finalDate.Date)), "expenseCategory"));
         }
     }
 }

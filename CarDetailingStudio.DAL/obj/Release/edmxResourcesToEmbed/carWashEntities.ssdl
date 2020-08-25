@@ -112,6 +112,15 @@
     <Property Name="Photo" Type="nvarchar" MaxLength="500" />
     <Property Name="IdPosition" Type="int" />
   </EntityType>
+  <EntityType Name="Cashier">
+    <Key>
+      <PropertyRef Name="idCashier" />
+    </Key>
+    <Property Name="idCashier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="amountBeginningOfTheDay" Type="float" Nullable="false" />
+    <Property Name="amountEndOfTheDay" Type="float" Nullable="false" />
+  </EntityType>
   <EntityType Name="ClientInfo">
     <Key>
       <PropertyRef Name="Id" />
@@ -408,6 +417,14 @@
     <Property Name="amount" Type="float" />
     <Property Name="dateExpenses" Type="datetime2" Precision="7" />
     <Property Name="expenseCategoryId" Type="int" />
+    <Property Name="utilityCostsCategoryId" Type="int" />
+  </EntityType>
+  <EntityType Name="utilityCostsCategory">
+    <Key>
+      <PropertyRef Name="idUtilityCostsCategory" />
+    </Key>
+    <Property Name="idUtilityCostsCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Named" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "carWashServer.dbo.infoBrigadeForToday" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -836,6 +853,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_utilityCosts_utilityCostsCategory">
+    <End Role="utilityCostsCategory" Type="Self.utilityCostsCategory" Multiplicity="0..1" />
+    <End Role="utilityCosts" Type="Self.utilityCosts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilityCostsCategory">
+        <PropertyRef Name="idUtilityCostsCategory" />
+      </Principal>
+      <Dependent Role="utilityCosts">
+        <PropertyRef Name="utilityCostsCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="Хранилище carWashServerModelContainer">
     <EntitySet Name="bonusToSalary" EntityType="Self.bonusToSalary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="brigadeForToday" EntityType="Self.brigadeForToday" Schema="dbo" store:Type="Tables" />
@@ -846,6 +875,7 @@
     <EntitySet Name="car_serie" EntityType="Self.car_serie" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CarBody" EntityType="Self.CarBody" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CarWashWorkers" EntityType="Self.CarWashWorkers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cashier" EntityType="Self.Cashier" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientInfo" EntityType="Self.ClientInfo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" Schema="dbo" store:Type="Tables" />
@@ -873,6 +903,7 @@
     <EntitySet Name="typeOfOrder" EntityType="Self.typeOfOrder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TypeServices" EntityType="Self.TypeServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilityCostsCategory" EntityType="Self.utilityCostsCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [logo_mark_car].[id_car_mark] AS [id_car_mark], 
@@ -1030,6 +1061,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_utilityCosts_expenseCategory" Association="Self.FK_utilityCosts_expenseCategory">
       <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="utilityCosts" EntitySet="utilityCosts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_utilityCosts_utilityCostsCategory" Association="Self.FK_utilityCosts_utilityCostsCategory">
+      <End Role="utilityCostsCategory" EntitySet="utilityCostsCategory" />
       <End Role="utilityCosts" EntitySet="utilityCosts" />
     </AssociationSet>
   </EntityContainer>

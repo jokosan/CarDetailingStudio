@@ -1,23 +1,4 @@
-﻿@* Форма выбора даты *@
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <div class="card">
-            <div class="card-body">
-                @using (Html.BeginForm("MonthlyReport", "Analytics", FormMethod.Post))
-                {
-                    <div class="input-group">
-                        <input type="date" name="startdateViewUser" class="form-control" />
-                        <input type="date" name="finaldateViewUser" class="form-control" />
-                        <div class="input-group-append">
-                            <input type="submit" name="submit" class="btn btn-outline-secondary" />
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-</div>
-
+﻿
 <div class="row">
     <div class="col-md-8 offset-md-2">
         <div class="card card-body printableArea">
@@ -27,7 +8,7 @@
                     <div class="pull-left">
                         <div class="pull-left">
                             <address>
-                                <h3> &nbsp;<b class="text-danger"></b></h3>
+                                <h3> &nbsp;<b class="text-danger">Отчет за текущий день</b></h3>
                                 <p class="text-muted m-l-5">
                                     Детейлинг студия "Motor Clean"
                                     <br /> вулиця Велика Кільцева, 97
@@ -39,10 +20,6 @@
                         <div class="pull-right text-right">
                             <address>
                                 <p class="m-t-30"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> @ViewBag.StartDate</p>
-                                @if (ViewBag.FinalDate != null)
-                                {
-                                    <p><b>Due Date :</b> <i class="fa fa-calendar"></i> @ViewBag.FinalDate</p>
-                                }
                             </address>
                         </div>
                     </div>
@@ -144,19 +121,30 @@
                                         <td>Сумма всех расходов</td>
                                         <td class="text-right"> @ViewBag.TotalCosts грн. </td>
                                     </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td>Сумма расходов на выдачу заработной платы </td>
+                                        <td class="text-right">  @ViewBag.SalaryExpenses грн. </td>
+                                    </tr>
+
                                     @* ----------------------------------------------------------------------------------- *@
                                     <tr>
-                                        <td colspan="3" class="text-center"><b class="text-danger">Доход по категориям</b></td>
+                                        <td colspan="3" class="text-center"><b class="text-danger">Итог кассы дня </b></td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">1</td>
-                                        <td>Наличный</td>
-                                        <td class="text-right"> @ViewBag.TotalCosts грн. </td>
+                                        <td>Касса наличных начала новой сменны</td>
+                                        <td class="text-right"> @ViewBag.CashStartDay грн. </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">2</td>
-                                        <td>Безналичный</td>
-                                        <td class="text-right"> @ViewBag.TotalCosts грн. </td>
+                                        <td>Касса наличных конец сменны</td>
+                                        <td class="text-right"> @ViewBag.Cash грн. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">3</td>
+                                        <td>Касса безналичных</td>
+                                        <td class="text-right"> @ViewBag.NonCash грн. </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -169,17 +157,24 @@
                         <div class="pull-right m-t-30 text-right">
                             <p>Итог доход:  @ViewBag.TotalIncome грн.</p>
                             <p>Итог расход:  @ViewBag.TotalCosts грн.</p>
-                            <hr>
                             <p>Итого расходы на зарплату: @ViewBag.TotalSalaryExpenses грн.</p>
-                            <p>Итого выплаченно заработной платы: @ViewBag.SalaryExpensesDay грн.</p>
+                            <p>Сумма расходов на выдачу заработной платы: @ViewBag.SalaryExpenses грн.</p>
                             <hr>
-                            <p>Итого выплаченно заработной платы: @ViewBag.TotalSalaryExpenses грн.</p>
-                            <hr>
-                            <h3><b>Остаток с учетом выплаченной ЗП:</b> @ViewBag.TotalCash грн.</h3>
                             <h3><b>Остаток:</b> @ViewBag.Total грн.</h3>
+                            <h3><b>Касса конец дня  (наличные):</b>  @ViewBag.CashEndDay грн.</h3>
+                            <hr>
+                            @using (Html.BeginForm("SummaryOfTheDay", "Analytics", FormMethod.Post))
+                            {
+                                <div class="input-group mb-3">
+                                    <input type="number" name="amountStartDay" class="form-control" placeholder="Касса для начала новой сменны" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <input class="btn btn-outline-secondary" type="submit" value="Закрыть день" id="click" />
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <hr>
+                            }
                         </div>
-                        <div class="clearfix"></div>
-                        <hr>
                     </div>
                 </div>
             </div>
