@@ -121,14 +121,14 @@ namespace CarDetailingStudio.BLL.Services
         public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime datepresentDay)
         {
             return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) == datepresentDay.Date),
-                                                                                                                                         "OrderServicesCarWash", "CarWashWorkers"));
+                                                                                                                                         "OrderServicesCarWash", "CarWashWorkers", "CarWashWorkers.brigadeForToday"));
         }
 
         public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime startDate, DateTime finalDate)
         {
             return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) >= startDate.Date
                                                                                                                                     && (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) <= finalDate.Date)),
-                                                                                                                                   "OrderServicesCarWash", "CarWashWorkers"));
+                                                                                                                                   "OrderServicesCarWash", "CarWashWorkers", "CarWashWorkers.brigadeForToday"));
         }
         #endregion
 

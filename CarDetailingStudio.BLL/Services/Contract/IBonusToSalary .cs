@@ -10,6 +10,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IBonusToSalary : IDatabaseOperations<BonusToSalaryBll>, IGetFromDatabase<BonusToSalaryBll>, IReports<BonusToSalaryBll>
     {
+        Task<IEnumerable<BonusToSalaryBll>> GetTableAll(int? elementId);
         Task<IEnumerable<BonusToSalaryGroupBll>> TableGroup();
         Task<IEnumerable<BonusToSalaryBll>> WhereMontsBonusToSalary();
     }

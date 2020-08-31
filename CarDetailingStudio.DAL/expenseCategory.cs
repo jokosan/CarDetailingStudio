@@ -22,6 +22,7 @@ namespace CarDetailingStudio.DAL
             this.otherExpenses = new HashSet<otherExpenses>();
             this.salaryExpenses = new HashSet<salaryExpenses>();
             this.utilityCosts = new HashSet<utilityCosts>();
+            this.costCategories = new HashSet<costCategories>();
         }
     
         public int idExpenseCategory { get; set; }
@@ -37,5 +38,7 @@ namespace CarDetailingStudio.DAL
         public virtual ICollection<salaryExpenses> salaryExpenses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<utilityCosts> utilityCosts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<costCategories> costCategories { get; set; }
     }
 }

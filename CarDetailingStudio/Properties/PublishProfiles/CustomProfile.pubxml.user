@@ -22,28 +22,28 @@
       <publishTime>11/17/2018 10:14:56</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.BLL.dll">
-      <publishTime>08/24/2020 01:11:51</publishTime>
+      <publishTime>08/31/2020 08:07:02</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.BLL.dll.config">
       <publishTime>09/29/2019 12:41:28</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.BLL.pdb">
-      <publishTime>08/24/2020 01:11:51</publishTime>
+      <publishTime>08/31/2020 08:07:02</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.DAL.dll">
-      <publishTime>08/24/2020 01:11:51</publishTime>
+      <publishTime>08/31/2020 08:07:01</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.DAL.dll.config">
-      <publishTime>08/24/2020 01:11:17</publishTime>
+      <publishTime>08/31/2020 08:37:48</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.DAL.pdb">
-      <publishTime>08/24/2020 01:11:51</publishTime>
+      <publishTime>08/31/2020 08:07:01</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.dll">
-      <publishTime>08/24/2020 01:11:52</publishTime>
+      <publishTime>08/31/2020 08:37:11</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.pdb">
-      <publishTime>08/24/2020 01:11:52</publishTime>
+      <publishTime>08/31/2020 08:37:11</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -3088,7 +3088,13 @@
       <publishTime>09/29/2019 12:18:07</publishTime>
     </File>
     <File Include="Views/AllExpenses/Create.cshtml">
-      <publishTime>08/19/2020 23:04:49</publishTime>
+      <publishTime>08/31/2020 08:03:15</publishTime>
+    </File>
+    <File Include="Views/AllExpenses/GetItems.cshtml">
+      <publishTime>08/31/2020 01:35:30</publishTime>
+    </File>
+    <File Include="Views/Analytics/EmployeeSalaryDetails.cshtml">
+      <publishTime>08/27/2020 16:11:24</publishTime>
     </File>
     <File Include="Views/Analytics/MonthlyReport.cshtml">
       <publishTime>05/29/2020 15:41:14</publishTime>
@@ -3100,7 +3106,7 @@
       <publishTime>08/16/2020 18:04:59</publishTime>
     </File>
     <File Include="Views/Analytics/SummaryOfTheDay.cshtml">
-      <publishTime>08/23/2020 12:59:09</publishTime>
+      <publishTime>08/31/2020 08:36:45</publishTime>
     </File>
     <File Include="Views/BonusToSalary/Create.cshtml">
       <publishTime>07/08/2020 13:21:29</publishTime>
@@ -3109,10 +3115,10 @@
       <publishTime>07/08/2020 13:22:22</publishTime>
     </File>
     <File Include="Views/BonusToSalary/Index.cshtml">
-      <publishTime>07/17/2020 18:04:25</publishTime>
+      <publishTime>08/29/2020 17:42:53</publishTime>
     </File>
     <File Include="Views/BonusToSalary/Info.cshtml">
-      <publishTime>07/08/2020 13:18:18</publishTime>
+      <publishTime>08/29/2020 19:21:32</publishTime>
     </File>
     <File Include="Views/BrigadeForToday/EmployeeInformation.cshtml">
       <publishTime>10/02/2019 11:58:47</publishTime>
@@ -3373,7 +3379,7 @@
       <publishTime>09/29/2019 12:17:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/24/2020 01:11:54</publishTime>
+      <publishTime>08/31/2020 08:38:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

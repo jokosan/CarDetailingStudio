@@ -164,6 +164,9 @@
     <Compile Include="consumablesTireFitting.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="costCategories.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="costsCarWashAndDeteyling.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>

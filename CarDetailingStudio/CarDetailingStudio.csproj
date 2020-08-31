@@ -276,6 +276,7 @@
     <Compile Include="Models\ModelViews\BonusToSalaryView.cs" />
     <Compile Include="Models\ModelViews\CashierView.cs" />
     <Compile Include="Models\ModelViews\ConsumablesTireFittingView.cs" />
+    <Compile Include="Models\ModelViews\CostCategoriesView.cs" />
     <Compile Include="Models\ModelViews\CostsCarWashAndDeteylingView.cs" />
     <Compile Include="Models\ModelViews\ExpenseCategoryView.cs" />
     <Compile Include="Models\ModelViews\OrderCarpetWashingView.cs" />
@@ -1335,7 +1336,6 @@
     <Content Include="Views\Order\CompletedOrders.cshtml" />
     <Content Include="Views\CarWashWorkersViews\EditingStaffOnOrder.cshtml" />
     <Content Include="Views\BonusToSalary\Index.cshtml" />
-    <Content Include="Views\BonusToSalary\Info.cshtml" />
     <Content Include="Views\BonusToSalary\Create.cshtml" />
     <Content Include="Views\BonusToSalary\Edit.cshtml" />
     <Content Include="Views\CarWashWorkersViews\ArxivOrderCarWashWorkers.cshtml" />
@@ -1349,6 +1349,9 @@
     <Content Include="Views\Analytics\Report.cshtml" />
     <Content Include="Views\Analytics\SummaryOfTheDay.cshtml" />
     <Content Include="Views\Cashier\AmountAtTheBeginningOfTheDay.cshtml" />
+    <Content Include="Views\Analytics\EmployeeSalaryDetails.cshtml" />
+    <Content Include="Views\BonusToSalary\Info.cshtml" />
+    <Content Include="Views\AllExpenses\GetItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

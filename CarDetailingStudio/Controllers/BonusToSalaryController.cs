@@ -43,9 +43,7 @@ namespace CarDetailingStudio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            BonusToSalaryView bonusToSalaryView = Mapper.Map<BonusToSalaryView>(await _bonusToSalary.SelectId(id));
-
-            var order = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWash.DailyEmployeeOrders(idEmployee, date));
+            var bonusToSalaryView = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.GetTableAll(idEmployee));
 
             if (bonusToSalaryView == null)
             {

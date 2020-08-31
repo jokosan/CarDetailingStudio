@@ -27,6 +27,11 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetInclude("CarWashWorkers"));
         }
 
+        public async Task<IEnumerable<BonusToSalaryBll>> GetTableAll(int? elementId)
+        {
+            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => x.carWashWorkersId == elementId, "CarWashWorkers"));
+        }
+
         public async Task<BonusToSalaryBll> SelectId(int? elementId)
         {
             return Mapper.Map<BonusToSalaryBll>(await _unitOfWork.BonusToSalaryUnitOfWork.GetById(elementId));

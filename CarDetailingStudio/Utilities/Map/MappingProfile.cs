@@ -153,6 +153,9 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<OrderInformationWashingDetailingView, OrderInformationWashingDetailingBll>();
             CreateMap<OrderInformationWashingDetailingBll, OrderInformationWashingDetailingView>();
+
+            CreateMap<CostCategoriesView, CostCategoriesBll>();
+            CreateMap<CostCategoriesBll, CostCategoriesView>();
         }
     }
 }

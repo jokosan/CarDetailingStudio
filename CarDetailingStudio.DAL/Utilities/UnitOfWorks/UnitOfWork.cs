@@ -38,6 +38,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<PaymentState> PaymentStateUW;
         private DbRepository<Cashier> CashierUW;
         private DbRepository<utilityCostsCategory> utilityCostsCategoryUW;
+        private DbRepository<costCategories> costCategoriesUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -45,6 +46,12 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
+
+        public DbRepository<costCategories> CostCategoriesUnionOfWork
+        {
+            get => costCategoriesUW ?? (costCategoriesUW = new DbRepository<costCategories>(_entities));
+            set => costCategoriesUW = value;
+        }
 
         public DbRepository<utilityCostsCategory> utilityCostsCategoryUnitOfWork
         {

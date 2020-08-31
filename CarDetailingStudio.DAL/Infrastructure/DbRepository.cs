@@ -19,7 +19,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
         {
             _carWashEntitiesContext = entities;
             DbSeT = entities.Set<T>();
-
         }
 
         public virtual async  Task<IEnumerable<T>> Get()
@@ -98,6 +97,11 @@ namespace CarDetailingStudio.DAL.Infrastructure
         public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string childrenOne, string childrenTwo)
         {
             return await DbSeT.Include(childrenOne).Include(childrenTwo).Where(filter).AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string childrenOne, string childrenTwo, string childrenThree)
+        {
+            return await DbSeT.Include(childrenOne).Include(childrenTwo).Include(childrenThree).Where(filter).AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetInclude(string children)

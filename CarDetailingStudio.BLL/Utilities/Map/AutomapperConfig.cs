@@ -124,6 +124,9 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<UtilityCostsCategoryBll, utilityCostsCategory>();
             CreateMap<utilityCostsCategory, UtilityCostsCategoryBll>();
+
+            CreateMap<CostCategoriesBll, costCategories>();
+            CreateMap<costCategories, CostCategoriesBll>();
         }
     }
 }

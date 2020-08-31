@@ -68,5 +68,6 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<ItogOrderView> ItogOrderView { get; set; }
         public virtual DbSet<Cashier> Cashier { get; set; }
         public virtual DbSet<utilityCostsCategory> utilityCostsCategory { get; set; }
+        public virtual DbSet<costCategories> costCategories { get; set; }
     }
 }

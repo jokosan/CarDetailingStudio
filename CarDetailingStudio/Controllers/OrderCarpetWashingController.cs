@@ -211,6 +211,9 @@ namespace CarDetailingStudio.Controllers
                         orderServices.PaymentState = PaymentStateList;
                         orderServices.StatusOrder = 4;
 
+                        if (orderServices.ClosingData == null)
+                            orderServices.ClosingData = DateTime.Now;
+
                         await SaveOrderServices(orderServices);
                     }
                     else
@@ -219,6 +222,9 @@ namespace CarDetailingStudio.Controllers
                         OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
                         orderServices.PaymentState = PaymentStateList;
                         orderServices.StatusOrder = 4;
+
+                        if (orderServices.ClosingData == null)
+                            orderServices.ClosingData = DateTime.Now;
 
                         await SaveOrderServices(orderServices);
                     }
@@ -233,7 +239,9 @@ namespace CarDetailingStudio.Controllers
                         OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
                         orderServices.PaymentState = PaymentStateList;
                         orderServices.StatusOrder = 2;
-                        orderServices.ClosingData = DateTime.Now;
+
+                        if (orderServices.ClosingData == null)
+                            orderServices.ClosingData = DateTime.Now;
 
                         await SaveOrderServices(orderServices);
                     }
@@ -243,7 +251,9 @@ namespace CarDetailingStudio.Controllers
                         OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
                         orderServices.PaymentState = PaymentStateList;
                         orderServices.StatusOrder = 2;
-                        orderServices.ClosingData = DateTime.Now;
+
+                        if (orderServices.ClosingData == null)
+                            orderServices.ClosingData = DateTime.Now;
 
                         await SaveOrderServices(orderServices);
                     }

@@ -1,0 +1,8 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.CostCategoriesView>
+
+<select id="test" name="Test">
+    @foreach (var item in Model)
+    {
+        <option value="@item.idCostCategories">@item.Name</option>
+    }
+</select>

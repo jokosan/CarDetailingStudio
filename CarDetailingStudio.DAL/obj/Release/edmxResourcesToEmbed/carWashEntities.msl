@@ -492,5 +492,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="costCategories">
+      <EntityTypeMapping TypeName="carWashServerModel.costCategories">
+        <MappingFragment StoreEntitySet="costCategories">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="typeOfExpenses" ColumnName="typeOfExpenses" />
+          <ScalarProperty Name="idCostCategories" ColumnName="idCostCategories" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

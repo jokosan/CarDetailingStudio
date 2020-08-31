@@ -20,12 +20,11 @@ namespace CarDetailingStudio.Controllers
         private IOrderServicesCarWashServices _orderServices;
         private IOrderCarWashWorkersServices _orderCarWashWorker;
         private ICarWashWorkersServices _carWashWorkers;
-        private ICashier _cashier;
-       
+        private ICashier _cashier;       
 
         public ItogOrderController(IDayResult dayResult, ICloseShiftModule closeShiftModule,
-                                    IOrderServicesCarWashServices orderServices, IOrderCarWashWorkersServices orderCarWashWorkers,
-                                    ICarWashWorkersServices carWashWorkers, ICashier cashier)
+                                   IOrderServicesCarWashServices orderServices, IOrderCarWashWorkersServices orderCarWashWorkers,
+                                   ICarWashWorkersServices carWashWorkers, ICashier cashier)
         {
             _dayResult = dayResult;
             _closeShiftModule = closeShiftModule;

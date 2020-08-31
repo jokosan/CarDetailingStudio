@@ -22,6 +22,7 @@ namespace CarDetailingStudio.Controllers
         private IBonusToSalary _bonusToSalary;
         private ICashier _cashier;
         private ISalaryExpenses _salary;
+        private IOrderCarWashWorkersServices _orderCarWash;
 
         private double sumOfAllExpenses = 0;
 
@@ -30,12 +31,13 @@ namespace CarDetailingStudio.Controllers
 
         double? test { get; set; }
 
-        public AnalyticsController(IIncomeForTheCurrentDay incomeForTheCurrent, IBonusToSalary bonusToSalary, ICashier cashier, ISalaryExpenses salary)
+        public AnalyticsController(IIncomeForTheCurrentDay incomeForTheCurrent, IBonusToSalary bonusToSalary, ICashier cashier, ISalaryExpenses salary, IOrderCarWashWorkersServices orderCarWash)
         {
             _incomeForTheCurrent = incomeForTheCurrent;
             _bonusToSalary = bonusToSalary;
             _cashier = cashier;
             _salary = salary;
+            _orderCarWash = orderCarWash;
         }
 
         // GET: Analytics
@@ -72,6 +74,9 @@ namespace CarDetailingStudio.Controllers
             //  Carpet
             ViewBag.CarpetOrder = orderInformation.carpetOrder; // Касса ковров  
             ViewBag.CauntCarpet = orderInformation.CauntCarpet; // Количество заказов ковров
+            ViewBag.AdminCarpet = employeeSalaries.adminCarpet;
+            ViewBag.StaffCarpet = employeeSalaries.staffCarpet;
+
 
             //  BonusToSalary
             ViewBag.BonusToSalarySum = BonusToSalary.Sum(x => x.amount);
@@ -138,7 +143,7 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> SummaryOfTheDay(bool CloseDay = false)
+        public async Task<ActionResult> SummaryOfTheDay(bool CloseDay = false, bool message = true)
         {
             var sumOfAllExpenses = await _incomeForTheCurrent.SumOfAllExpenses(DateTime.Now);
             var employeeSalaries = Mapper.Map<EmployeeSalariesView>(await _incomeForTheCurrent.EmployeeSalaries(DateTime.Now));
@@ -162,10 +167,17 @@ namespace CarDetailingStudio.Controllers
             ViewBag.CauntCarpet = orderInformation.CauntCarpet;                                                     // Количество заказов ковров
             ViewBag.TotalCosts = sumOfAllExpenses;                                                                  // Сумма затрат 
 
+            // Количество заказов ожидающих оплату
+            ViewBag.NumberOfUnpaidOrders = orderInformation.numberOfUnpaidOrdersCarpetWashing +
+                                           orderInformation.numberOfUnpaidOrdersCarWash +
+                                           orderInformation.numberOfUnpaidOrdersDetailings;
+
+            ViewBag.SalaryExpenses = salaryExpensesDay;                                                             // Выданно наличных за текущий день 
             ViewBag.CashStartDay = cashierDayStart;                                                                 // Касса начало дня (наличные)
+
             ViewBag.Cash = orderInformation.cash;                                                                   // Приход наличных
             ViewBag.NonCash = orderInformation.nonCash;                                                             // Приход безналичных
-            ViewBag.SalaryExpenses = salaryExpensesDay;                                                             // Выданно наличных за текущий день 
+            
             ViewBag.CashEndDay = orderInformation.nonCash - sumOfAllExpenses + cashierDayStart;                     // Касса конец дня  (наличные)
 
             //итого доходы
@@ -177,24 +189,67 @@ namespace CarDetailingStudio.Controllers
 
             ViewBag.CloseDay = CloseDay;
 
+            ViewBag.Message = message;
+
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> SummaryOfTheDay(int? amountStartDay)
+        public async Task<ActionResult> SummaryOfTheDay(double? amountStartDay, double? amountFinalDay)
         {
             if (amountStartDay != null)
             {
                 CashierView cashierView = new CashierView();
-                cashierView.date = DateTime.Now;
-                cashierView.amountEndOfTheDay = (double)amountStartDay;
+                DateTime date = DateTime.Now;
+
+                var cashiesInfo = Mapper.Map<IEnumerable<CashierView>>(await _cashier.Reports(date));
+                var singlEnd = cashiesInfo.LastOrDefault(x => x.date.Day == date.Day);
+
+                if (singlEnd != null)
+                {                   
+                    singlEnd.amountEndOfTheDay = amountFinalDay.Value - amountStartDay.Value;
+                    CashierBll cashierEnd = Mapper.Map<CashierView, CashierBll>(singlEnd);
+
+                    await _cashier.Update(cashierEnd);
+                }
 
                 CashierBll cashier = Mapper.Map<CashierView, CashierBll>(cashierView);
+                cashier.date = DateTime.Now.AddDays(+1);
+                cashier.amountBeginningOfTheDay = amountStartDay.Value;
+
                 await _cashier.Insert(cashier);
 
                 return Redirect("/Order/Index");
             }
-            return Redirect("SummaryOfTheDay");
+
+            return RedirectToAction("SummaryOfTheDay", "Analytics", new RouteValueDictionary(new
+            {
+                CloseDay = true,
+                message = false
+            }));
+        }
+
+        public async Task<ActionResult> EmployeeSalaryDetails()
+        {
+            var orderCarWashWorker = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWash.Reports(DateTime.Now.AddDays(-1)));
+            var administratorCarWash = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 1) && (x.CarWashWorkers.IdPosition == 1) && (x.OrderServicesCarWash.typeOfOrder == 1)));
+            ViewBag.AdministratorCarWash = administratorCarWash;
+            ViewBag.AdministratorSum = administratorCarWash.Sum(x => x.Payroll);
+           // ViewBag.AdministratorCarWash = orderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition == 1) && (x.OrderServicesCarWash.typeOfOrder == 1)));
+            ViewBag.AdministratorDetailings = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 2) && (x.CarWashWorkers.IdPosition == 2) && (x.OrderServicesCarWash.typeOfOrder == 1)));
+            ViewBag.StaffCarWashWorker = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition >= 4) && (x.OrderServicesCarWash.typeOfOrder == 1)));
+            ViewBag.StaffDetailing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition == 3) && (x.OrderServicesCarWash.typeOfOrder == 1)));
+
+            ViewBag.AdministratorCarpetWashing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 1) && (x.CarWashWorkers.IdPosition == 1)
+                                                                  && (x.OrderServicesCarWash.typeOfOrder == 3)));
+            ViewBag.StaffCarpetWashing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition >= 3)
+                                                                  && (x.OrderServicesCarWash.typeOfOrder == 3)));
+            return View();
+        }
+
+        public async Task<ActionResult> DetailsAboutTheSalaryAdministrator()
+        {
+            return View();
         }
     }
 }

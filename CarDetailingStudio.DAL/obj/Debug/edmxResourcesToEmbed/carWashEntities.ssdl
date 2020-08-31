@@ -117,9 +117,9 @@
       <PropertyRef Name="idCashier" />
     </Key>
     <Property Name="idCashier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="date" Type="datetime" Nullable="false" />
-    <Property Name="amountBeginningOfTheDay" Type="float" Nullable="false" />
-    <Property Name="amountEndOfTheDay" Type="float" Nullable="false" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="amountBeginningOfTheDay" Type="float" />
+    <Property Name="amountEndOfTheDay" Type="float" />
   </EntityType>
   <EntityType Name="ClientInfo">
     <Key>
@@ -165,6 +165,14 @@
     <Property Name="amount" Type="float" />
     <Property Name="dateExpenses" Type="datetime2" Precision="7" />
     <Property Name="expenseCategoryId" Type="int" />
+  </EntityType>
+  <EntityType Name="costCategories">
+    <Key>
+      <PropertyRef Name="idCostCategories" />
+    </Key>
+    <Property Name="idCostCategories" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="typeOfExpenses" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="costsCarWashAndDeteyling">
     <Key>
@@ -424,7 +432,7 @@
       <PropertyRef Name="idUtilityCostsCategory" />
     </Key>
     <Property Name="idUtilityCostsCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Named" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Named" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "carWashServer.dbo.infoBrigadeForToday" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -612,6 +620,18 @@
       </Principal>
       <Dependent Role="consumablesTireFitting">
         <PropertyRef Name="expenseCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_costCategories_expenseCategory">
+    <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
+    <End Role="costCategories" Type="Self.costCategories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="expenseCategory">
+        <PropertyRef Name="idExpenseCategory" />
+      </Principal>
+      <Dependent Role="costCategories">
+        <PropertyRef Name="typeOfExpenses" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -880,6 +900,7 @@
     <EntitySet Name="ClientsGroups" EntityType="Self.ClientsGroups" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClientsOfCarWash" EntityType="Self.ClientsOfCarWash" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="consumablesTireFitting" EntityType="Self.consumablesTireFitting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="costCategories" EntityType="Self.costCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="costsCarWashAndDeteyling" EntityType="Self.costsCarWashAndDeteyling" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Credit" EntityType="Self.Credit" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Detailings" EntityType="Self.Detailings" Schema="dbo" store:Type="Tables" />
@@ -986,6 +1007,10 @@
     <AssociationSet Name="FK_consumablesTireFitting_expenseCategory" Association="Self.FK_consumablesTireFitting_expenseCategory">
       <End Role="expenseCategory" EntitySet="expenseCategory" />
       <End Role="consumablesTireFitting" EntitySet="consumablesTireFitting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_costCategories_expenseCategory" Association="Self.FK_costCategories_expenseCategory">
+      <End Role="expenseCategory" EntitySet="expenseCategory" />
+      <End Role="costCategories" EntitySet="costCategories" />
     </AssociationSet>
     <AssociationSet Name="FK_costsCarWashAndDeteyling_expenseCategory" Association="Self.FK_costsCarWashAndDeteyling_expenseCategory">
       <End Role="expenseCategory" EntitySet="expenseCategory" />

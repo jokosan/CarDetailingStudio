@@ -63,6 +63,8 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         // Премия
         DbRepository<bonusToSalary> BonusToSalaryUnitOfWork { get; set; }
+
+        DbRepository<costCategories> CostCategoriesUnionOfWork { get; set; }
     }
 
 }

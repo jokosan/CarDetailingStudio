@@ -12,11 +12,12 @@ namespace CarDetailingStudio.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Cashier
+    public partial class costCategories
     {
-        public int idCashier { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
-        public Nullable<double> amountBeginningOfTheDay { get; set; }
-        public Nullable<double> amountEndOfTheDay { get; set; }
+        public int idCostCategories { get; set; }
+        public Nullable<int> typeOfExpenses { get; set; }
+        public string Name { get; set; }
+    
+        public virtual expenseCategory expenseCategory { get; set; }
     }
 }

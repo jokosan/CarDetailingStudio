@@ -11,6 +11,7 @@ namespace CarDetailingStudio.BLL.Model
             this.otherExpenses = new HashSet<OtherExpensesBll>();
             this.salaryExpenses = new HashSet<SalaryExpensesBll>();
             this.utilityCosts = new HashSet<UtilityCostsBll>();
+            this.costCategories = new HashSet<CostCategoriesBll>();
         }
 
         public int idExpenseCategory { get; set; }
@@ -21,5 +22,6 @@ namespace CarDetailingStudio.BLL.Model
         public virtual ICollection<OtherExpensesBll> otherExpenses { get; set; }
         public virtual ICollection<SalaryExpensesBll> salaryExpenses { get; set; }
         public virtual ICollection<UtilityCostsBll> utilityCosts { get; set; }
+        public virtual ICollection<CostCategoriesBll> costCategories { get; set; }
     }
 }

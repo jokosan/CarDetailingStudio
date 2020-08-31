@@ -29,8 +29,7 @@ namespace CarDetailingStudio.Controllers
         {
             return View( Mapper.Map<IEnumerable<CashierView>>(await _cashier.GetTableAll()));
         }
-
-       
+               
         // GET: Cashier/Create
         public ActionResult AmountAtTheBeginningOfTheDay()
         {

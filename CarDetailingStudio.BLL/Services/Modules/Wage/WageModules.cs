@@ -168,15 +168,18 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             var category = await _brigadeForToday.GetDateTimeNow();
             var adminSelectionByCategory = category.Single(x => x.StatusId == adminСategory);
 
-            OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
+            if (adminSelectionByCategory.StatusId == 1 || adminSelectionByCategory.StatusId == 2)
+            {
+                OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
-            orderCarWashWorkers.IdOrder = idOrder;
-            orderCarWashWorkers.IdCarWashWorkers = adminSelectionByCategory.CarWashWorkers.id;
-            orderCarWashWorkers.CalculationStatus = false;
-            orderCarWashWorkers.Payroll = await PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice, true);
-            orderCarWashWorkers.closedDayStatus = false;
+                orderCarWashWorkers.IdOrder = idOrder;
+                orderCarWashWorkers.IdCarWashWorkers = adminSelectionByCategory.CarWashWorkers.id;
+                orderCarWashWorkers.CalculationStatus = false;
+                orderCarWashWorkers.Payroll = await PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice, true);
+                orderCarWashWorkers.closedDayStatus = false;
 
-            await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+                await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+            }
         }
     }
 }

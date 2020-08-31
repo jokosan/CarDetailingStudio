@@ -20,22 +20,35 @@ namespace CarDetailingStudio.Controllers
         private IAllExpenses _allExpenses;
         private IExpenseCategory _expenseCategory;
         private IUtilityCostsCategory _utilityCostsCategory;
+        private ICostCategories _costCategories;
 
-        public AllExpensesController(IAllExpenses allExpenses, IExpenseCategory expenseCategory, IUtilityCostsCategory utilityCostsCategory)
+        public AllExpensesController(IAllExpenses allExpenses, IExpenseCategory expenseCategory, IUtilityCostsCategory utilityCostsCategory, ICostCategories costCategories)
         {
             _allExpenses = allExpenses;
             _expenseCategory = expenseCategory;
             _utilityCostsCategory = utilityCostsCategory;
+            _costCategories = costCategories;
         }
 
         // GET: AllExpenses/Create
         public async Task<ActionResult> Create()
         {
             var expenseCategory = await _expenseCategory.GetTableAll();
-            ViewBag.Category = new SelectList(expenseCategory, "idExpenseCategory", "name");
+            int selectedIndex = 2;
+            SelectList selects = new SelectList(expenseCategory, "idExpenseCategory", "name", selectedIndex);
+            ViewBag.Category = selects;
+
+           // var costCategory = await _costCategories.GetTableAll();
+            //ViewBag.CostCategory = new SelectList(costCategory.Where(x => x.typeOfExpenses == selectedIndex), "idCostCategories", "Name");
             ViewBag.UtilityCostsCategory = new SelectList(await _utilityCostsCategory.GetTableAll(), "idUtilityCostsCategory", "Named");
 
             return View();
+        }
+
+        public async Task<ActionResult> GetItems(int id)
+        {
+            var result = await _costCategories.GetTableAll();
+            return PartialView(result.Where(x => x.typeOfExpenses == id).ToList());
         }
 
         // POST: AllExpenses/Create

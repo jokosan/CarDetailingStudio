@@ -70,5 +70,7 @@ namespace CarDetailingStudio.Models
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.AllExpenses> AllExpenses { get; set; }
 
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CashierView> CashierViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CostCategoriesView> CostCategoriesViews { get; set; }
     }
 }

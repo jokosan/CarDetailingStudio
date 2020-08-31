@@ -88,6 +88,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IUtilityCostsCategory>().To<UtilityCostsCategoryServices>();
             kernel.Bind<ICashier>().To<CashierServices>();
             kernel.Bind<IIncomeForTheCurrentDay>().To<IncomeForTheCurrentDay>();
+            kernel.Bind<ICostCategories>().To<CostCategoriesServices>();
 
             NinjectDependencyResolverDAL.Initialize(kernel);
         }

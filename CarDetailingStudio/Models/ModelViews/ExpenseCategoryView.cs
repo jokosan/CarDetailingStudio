@@ -13,6 +13,7 @@ namespace CarDetailingStudio.Models.ModelViews
             this.otherExpenses = new HashSet<OtherExpensesView>();
             this.salaryExpenses = new HashSet<SalaryExpensesView>();
             this.utilityCosts = new HashSet<UtilityCostsView>();
+            this.costCategories = new HashSet<CostCategoriesView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,5 +27,6 @@ namespace CarDetailingStudio.Models.ModelViews
         public virtual ICollection<OtherExpensesView> otherExpenses { get; set; }
         public virtual ICollection<SalaryExpensesView> salaryExpenses { get; set; }
         public virtual ICollection<UtilityCostsView> utilityCosts { get; set; }
+        public virtual ICollection<CostCategoriesView> costCategories { get; set; }
     }
 }

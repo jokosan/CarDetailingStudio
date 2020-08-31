@@ -79,6 +79,8 @@
         <EntityTypeShape EntityType="carWashServerModel.Cashier" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="carWashServerModel.utilityCostsCategory" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="carWashServerModel.FK_utilityCosts_utilityCostsCategory" />
+        <EntityTypeShape EntityType="carWashServerModel.costCategories" Width="1.5" PointX="15" PointY="28" />
+        <AssociationConnector Association="carWashServerModel.FK_costCategories_expenseCategory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
