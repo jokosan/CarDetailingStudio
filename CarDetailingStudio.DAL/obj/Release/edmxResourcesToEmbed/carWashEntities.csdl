@@ -301,6 +301,7 @@
     <Property Name="closedDayStatus" Type="Boolean" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="OrderCarWashWorkers" ToRole="CarWashWorkers" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderCarWashWorkers_OrderServicesCarWash" FromRole="OrderCarWashWorkers" ToRole="OrderServicesCarWash" />
+    <Property Name="typeServicesId" Type="Int32" />
   </EntityType>
   <EntityType Name="OrderServicesCarWash">
     <Key>

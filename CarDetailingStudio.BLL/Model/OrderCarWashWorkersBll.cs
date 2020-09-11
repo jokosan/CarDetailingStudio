@@ -12,6 +12,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<double> Payroll { get; set; }
         public Nullable<System.DateTime> salaryDate { get; set; }
         public Nullable<bool> closedDayStatus { get; set; }
+        public Nullable<int> typeServicesId { get; set; }
 
         public virtual CarWashWorkersBll CarWashWorkers { get; set; }
         public virtual OrderServicesCarWashBll OrderServicesCarWash { get; set; }

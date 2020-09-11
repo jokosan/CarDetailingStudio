@@ -80,7 +80,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate)
         {                  
-            return await DbSeT.Where(predicate).AsQueryable().ToListAsync();
+            return await DbSeT.Where(predicate).AsNoTracking().AsQueryable().ToListAsync();
         }
 
        

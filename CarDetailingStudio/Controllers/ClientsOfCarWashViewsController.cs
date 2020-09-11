@@ -114,6 +114,10 @@ namespace CarDetailingStudio.Controllers
             {
                 return RedirectToRoute(new { controller = "Order", action = "Index" });
             }
+            else if (Services != null)
+            {
+                TempData["typeServices"] = Services;
+            }
 
             _orderServices.ClearListOrder();
 
@@ -154,6 +158,7 @@ namespace CarDetailingStudio.Controllers
             if (OrderServices.OrderList.Count() > 0)
             {
                 double orederSum = 0;
+                
                 if (TempData.ContainsKey("OrderServices"))
                 {
                     var orderServisesResult = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(int.Parse(TempData["OrderServices"].ToString())));
@@ -162,6 +167,8 @@ namespace CarDetailingStudio.Controllers
                     ViewBag.OrderServices = orderServisesResult;
                     ViewBag.idOrder = int.Parse(TempData["OrderServices"].ToString());
                 }
+
+                TempData.Keep("typeServices");
 
                 var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(OrderServices.idClient));
 
@@ -194,7 +201,14 @@ namespace CarDetailingStudio.Controllers
         {
             if (idOrder == null)
             {
-                await _orderServicesInsert.InsertOrders(carBody, id, sum, total);
+                int service = 0;
+                if (TempData.ContainsKey("typeServices"))
+                {
+                    service = Convert.ToInt32(TempData["typeServices"]);
+                }
+
+                await _orderServicesInsert.InsertOrders(service, carBody, id, sum, total);
+
             }
             else
             {

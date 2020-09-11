@@ -5,6 +5,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,6 +44,17 @@ namespace CarDetailingStudio.BLL.Services
         public async Task<BrigadeForTodayBll> GetId(int id)
         {
             return Mapper.Map<BrigadeForTodayBll>(await _unitOfWork.BrigadeUnitOfWork.GetById(id));
+        }
+
+        public async Task<IEnumerable<BrigadeForTodayBll>> Reports(DateTime datepresentDay)
+        {
+            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => DbFunctions.TruncateTime(x.Date.Value) == datepresentDay.Date));
+        }
+
+        public async Task<IEnumerable<BrigadeForTodayBll>> Reports(DateTime startDate, DateTime finalDate)
+        {
+            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) >= startDate.Date)
+                                                                                                                  && (DbFunctions.TruncateTime(x.Date.Value) <= finalDate.Date)));
         }
     }
 }

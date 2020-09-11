@@ -104,6 +104,7 @@ namespace CarDetailingStudio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddOrderCarpetWashing([Bind(Include = "idOrderCarpetWashing,orderServicesCarWashId,clientId,area,orderDate,orderClosingDate,orderCompletionDate")] OrderCarpetWashingView orderCarpetWashingView,
                                                                List<string> idBrigade, int? idPaymentState, int? clientId, bool chooseEmployee = false)
+        
         {
             if (chooseEmployee == true)
             {
@@ -129,6 +130,7 @@ namespace CarDetailingStudio.Controllers
                 {
                     int priceServis = Convert.ToInt32(TempData["priseServis"].ToString());
                     orderCarpetWashingView.clientId = clientId;
+                    orderCarpetWashingView.orderDate = DateTime.Now;
 
                     OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
 
@@ -203,10 +205,10 @@ namespace CarDetailingStudio.Controllers
             {
                 if (PaymentStateList == 3)
                 {
-                    if (idBrigade != null && idAdmin != null)
+                    if (idBrigade != null)
                     {
                         int idOrderServices = await EditOrderCarpetWashing(idOrder, idPage.Value, PaymentStateList.Value);
-                        await _wageModules.Payroll(idOrderServices, idBrigade);
+                        await _wageModules.Payroll(idOrderServices, idBrigade, 3);
                         OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
                         orderServices.PaymentState = PaymentStateList;
                         orderServices.StatusOrder = 4;
@@ -235,7 +237,7 @@ namespace CarDetailingStudio.Controllers
                     if (idBrigade != null)
                     {
                         int idOrderServices = await EditOrderCarpetWashing(idOrder, idPage.Value, PaymentStateList.Value);
-                        await _wageModules.Payroll(idOrderServices, idBrigade);
+                        await _wageModules.Payroll(idOrderServices, idBrigade, 3);
                         OrderServicesCarWashView orderServices = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrderServices));
                         orderServices.PaymentState = PaymentStateList;
                         orderServices.StatusOrder = 2;

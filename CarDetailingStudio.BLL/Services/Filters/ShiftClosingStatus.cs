@@ -54,6 +54,7 @@ namespace CarDetailingStudio.BLL.Services.Filters
                         orderCarWashWorkers.CalculationStatus = false;
                         orderCarWashWorkers.Payroll = itemOrder.Payroll;
                         orderCarWashWorkers.closedDayStatus = true;
+                        orderCarWashWorkers.typeServicesId = itemOrder.typeServicesId;
 
                         OrderCarWashWorkers orderCarWash = Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(orderCarWashWorkers);
                         _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(orderCarWash);

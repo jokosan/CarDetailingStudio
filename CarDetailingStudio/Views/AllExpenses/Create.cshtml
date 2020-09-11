@@ -1,4 +1,9 @@
 ﻿@model CarDetailingStudio.Models.AllExpenses
+<link href="~/Content/input.css" rel="stylesheet" />
+<link href="~/Content/css/select2.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
 <div class="row">
     <div class="col-md-8 offset-md-2">
         <div class="card">
@@ -26,16 +31,47 @@
                     <div class="form-horizontal">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                        @*<div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                    @Html.LabelFor(model => model.expenseCategoryId)
+                                </label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("SelectGroupClient", (SelectList)ViewBag.Category, "Выберите значение", new { @id = "CategoryId", @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                    Test
+                                </label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("Test", new SelectList("."), "-- Выберите значение -- ", new { @id = "CostId", @class = "form-control" })
+                                </div>
+                            </div>*@
+
                         <div class="form-group row">
-                            <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.expenseCategoryId)
+                            <label class="col-sm-3 text-right control-label col-form-label">
+                                Выбирите категорию расходов
                             </label>
-                            <div class="col-md-8">
-                                @Html.DropDownList("SelectGroupClient", (SelectList)ViewBag.Category, "Выберите значение", new { @class = "form-control", @id = "purpose" })
-                               @* @Html.DropDownList("Test", ViewBag.CostCategory as SelectList, new { @id = "test" })*@
+                            <div class="col-sm-9">
+
+                                <input type="hidden" class="CountryId" id="CarMark" />
+                                <select class="MarkCar form-control" id="purpose">
+                                </select>
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-3 text-right control-label col-form-label">
+                                Тип расходов
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="hidden" id="CarModelResult" />
+                                <select class="State form-control" id="mySelect2" border-radius:5px;">
+                                    <option>Тип расходов</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div id="waste">
                             <div style='display:none' class="form-group row" id="indicationCounter">
@@ -88,14 +124,14 @@
                                 </div>
                             </div>
 
-                            <div style='display:none' class="form-group row" id="utilityCostsCategory">
-                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
-                                    @Html.LabelFor(model => model.expenseCategoryId)
-                                </label>
-                                <div class="col-md-8">
-                                    @Html.DropDownList("UtilityCostsCategory", (SelectList)ViewBag.UtilityCostsCategory, "Выберите значение", new { @class = "form-control" })
-                                </div>
-                            </div>
+                            @*<div style='display:none' class="form-group row" id="utilityCostsCategory">
+                                    <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.expenseCategoryId)
+                                    </label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("UtilityCostsCategory", (SelectList)ViewBag.UtilityCostsCategory, "Выберите значение", new { @class = "form-control" })
+                                    </div>
+                                </div>*@
 
 
                             <hr />
@@ -112,6 +148,62 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".MarkCar").select2({
+            placeholder: "Выберите категорию расходов",
+            theme: "classic",
+            ajax: {
+                url: "/AllExpenses/GetCountryList",
+                dataType: "json",
+                data: function (params) {
+                    return {
+                        searchTerm: params.term
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data
+                    };
+                }
+            }
+        });
+    });
+
+    $(".MarkCar").on("change", function () {
+        var CounrtyID = $(this).val();
+        $(".CountryId").val(CounrtyID);
+        var textBoxVal = $(".CountryId").val();
+        $.ajax({
+            url: "/AllExpenses/GetStateList?CountryIDs=" + textBoxVal,
+            dataType: 'json',
+            type: 'post',
+            success: function (data) {
+                $(".State").empty();
+                $.each(data, function (index, row) {
+                    $(".State").append("<option value='" + row.idCostCategories + "'>" + row.Name + "</option>")
+                });
+            }
+        });
+    });
+
+    $(".State").on("change", function () {
+        var catId = $(this).val();
+        $("#CarModelResult").val(catId);
+
+        var textBoxValueData = $("#CarModelResult").val();
+
+        $.ajax({
+            url: '/AllExpenses/Save?data=' + textBoxValueData,
+            dataType: "json",
+            type: 'post',
+
+        });
+    });
+</script>
+
 
 <script>
     $(document).ready(function () {
@@ -145,7 +237,7 @@
         });
     });
 
-      @*$(function () {
+      $(function () {
 
           $('#purpose').change(function()
         {
@@ -158,10 +250,11 @@
 
                     // заменяем содержимое присланным частичным представлением
                     $('#test').replaceWith(data);
+                    $('#test').load('@Url.Action("GetItems")'); // clear up the city drop down list as no state is selected
                 }
             });
         });
-      })*@
+      })
 
 </script>
 

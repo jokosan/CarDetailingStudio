@@ -172,6 +172,7 @@
                                                            new SelectListItem{ Text = "В работе", Value = "1"},
                                                             new SelectListItem{ Text = "Выполнен", Value = "2"},
                                                            new SelectListItem{ Text = "Ожидает оплаты", Value = "4"},
+                                                            new SelectListItem{ Text = "Оплачен", Value = "5"},
                                                            new SelectListItem{ Text = "Отменен", Value = "3"},
                                                        }, new { @class = "form-control" })
                                                 </div>
@@ -198,6 +199,7 @@
                             <div class="clearfix"></div>
                             <hr>
                             <div class="text-right">
+                                <input type="hidden" name="typeServese" value="@ViewBag.TypeService" />
                                 <input type="submit" value="Закрыть заказ" class="btn btn-success preview" id="click" />
                                 @Html.ActionLink("Вернуться на главную", "Index", null, new { @class = "btn btn-danger preview" })
                             </div>

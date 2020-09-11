@@ -12,6 +12,7 @@ using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.BLL.Model;
 using AutoMapper;
 using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.Models.ModelViews;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -31,24 +32,72 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: AllExpenses/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
-            var expenseCategory = await _expenseCategory.GetTableAll();
-            int selectedIndex = 2;
-            SelectList selects = new SelectList(expenseCategory, "idExpenseCategory", "name", selectedIndex);
-            ViewBag.Category = selects;
 
-           // var costCategory = await _costCategories.GetTableAll();
+            //ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name", "Выбирите значения");
+
+
+            //int selectedIndex = 2;            
+            //SelectList selects = new SelectList(expenseCategory, "idExpenseCategory", "name", selectedIndex);
+            //ViewBag.Category = selects;
+
+            //var costCategory = await _costCategories.GetTableAll();
             //ViewBag.CostCategory = new SelectList(costCategory.Where(x => x.typeOfExpenses == selectedIndex), "idCostCategories", "Name");
-            ViewBag.UtilityCostsCategory = new SelectList(await _utilityCostsCategory.GetTableAll(), "idUtilityCostsCategory", "Named");
+            //ViewBag.UtilityCostsCategory = new SelectList(await _utilityCostsCategory.GetTableAll(), "idUtilityCostsCategory", "Named");
 
             return View();
         }
 
-        public async Task<ActionResult> GetItems(int id)
+        // Category
+        public async Task<JsonResult> GetCountryList(string searchTerm)
         {
-            var result = await _costCategories.GetTableAll();
-            return PartialView(result.Where(x => x.typeOfExpenses == id).ToList());
+            var CounrtyList = Mapper.Map<IEnumerable<ExpenseCategoryView>>(await _expenseCategory.GetTableAll()).ToList();
+
+            if (searchTerm != null)
+            {
+                CounrtyList = CounrtyList.Where(x => x.idExpenseCategory == Convert.ToInt32(searchTerm)).ToList();
+            }
+
+            var modifiedData = CounrtyList.Select(x => new
+            {
+                id = x.idExpenseCategory,
+                text = x.name
+            });
+
+            return Json(modifiedData, JsonRequestBehavior.AllowGet);
+        }
+
+        // costCategories
+        public async Task<JsonResult> GetStateList(string CountryIDs)
+        {
+            int modelCar = Int32.Parse(CountryIDs);
+            TempData["ExpenseCategory"] = modelCar;
+
+            List<CostCategoriesView> StateList = new List<CostCategoriesView>();
+
+            var getCategory = Mapper.Map<IEnumerable<CostCategoriesView>>(await _costCategories.GetTableAll());
+            var StateListGetCategory = getCategory.Where(x => x.typeOfExpenses == modelCar).ToList();
+
+            foreach (var item in StateListGetCategory)
+            {
+                StateList.Add(item);
+            }
+
+            if (StateListGetCategory.Count > 0)
+            {
+                var OneItem = StateListGetCategory.First();
+                TempData["CostCategories"] = Convert.ToInt32(OneItem.idCostCategories);
+            }
+
+
+            return Json(StateList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Save(string data)
+        {
+            TempData["CostCategories"] = Int32.Parse(data);
+            return Json("");
         }
 
         // POST: AllExpenses/Create
@@ -56,16 +105,25 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,indicationCounter,amount,dateExpenses,nameExpenses,expenseCategoryId,typeServicesId")] AllExpenses allExpenses, int? SelectGroupClient, int? UtilityCostsCategory)
+        public async Task<ActionResult> Create([Bind(Include = "id,indicationCounter,amount,dateExpenses,nameExpenses,expenseCategoryId,typeServicesId")] AllExpenses allExpenses
+            //,int? SelectGroupClient, int? UtilityCostsCategory
+            )
         {
-            if (ModelState.IsValid && SelectGroupClient != null)
+            if (ModelState.IsValid)
             {
-                AllExpensesBll allExpensesBll = Mapper.Map<AllExpenses, AllExpensesBll>(allExpenses);
-                
-                allExpensesBll.expenseCategoryId = SelectGroupClient;
-                allExpensesBll.utilityCostsCategoryId = UtilityCostsCategory;
-              
-                await _allExpenses.SaveExpenses(allExpensesBll);
+                if (TempData.ContainsKey("ExpenseCategory") && TempData.ContainsKey("CostCategories"))
+                {
+                    int expCategory = Convert.ToInt32(TempData["ExpenseCategory"]);
+                    int costCategorie = Convert.ToInt32(TempData["CostCategories"]);
+
+                    AllExpensesBll allExpensesBll = Mapper.Map<AllExpenses, AllExpensesBll>(allExpenses);
+
+                    allExpensesBll.expenseCategoryId = expCategory;
+                    allExpensesBll.utilityCostsCategoryId = costCategorie;
+
+                    await _allExpenses.SaveExpenses(allExpensesBll);
+
+                }              
 
                 return RedirectToAction("Create");
             }
@@ -76,7 +134,5 @@ namespace CarDetailingStudio.Controllers
 
             return View(allExpenses);
         }
-
     }
 }
- 

@@ -12,7 +12,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder, int typeOfOrder);
         Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder);
         Task<OrderServicesCarWashBll> GetId(int? id);
-        Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total);
+        Task InsertOrders(int service, List<double> carBody, List<int> id, List<int> sum, double total);
         Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total, int? idOrder);
         Task<IEnumerable<OrderServicesCarWashBll>> OrderReport(DateTime start, DateTime final);
         double PriceServices(List<double> carBody, List<int> idList, List<int> sum, int id);

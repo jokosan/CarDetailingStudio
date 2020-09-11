@@ -176,8 +176,10 @@ namespace CarDetailingStudio.Controllers
             var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
 
             Price = Services.Sum(x => x.Price);
+            var typeServese = Services.FirstOrDefault();
 
             ViewBag.Services = Services;
+            ViewBag.TypeService = typeServese.Detailings.IdTypeService;
             ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
             ViewBag.Price = Price;
 
@@ -205,25 +207,38 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState, int idStatusOrder)
+        public async Task<ActionResult> CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState, int idStatusOrder, int? typeServese)
         {
             //var resultServices = TempData["ServicesType"] as IEnumerable<ServisesCarWashOrderView>;
 
-            if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2)
+            if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2) //Выполнен
+            {
+                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);                
+                await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
+            }
+            else if (idBrigade != null  && idStatusOrder == 4) //Ожидает оплаты
             {
                 await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
+            }
+            else if (idStatusOrder == 5 && idPaymentState != 3)
+            {
+                var StatusBrigade = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.GetTableInclud(idOrder));
+
+                if (StatusBrigade.Any(x => x.IdOrder == idOrder))
+                {
+                    idStatusOrder = 2;
+                    await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                }
+                else
+                {
+                    return RedirectToAction("CloseOrder", "Order", new RouteValueDictionary(new
+                    {
+                        id = idOrder,
+                        selectionStatus = false
+                    }));
+                }
                 
-                await _wageModules.Payroll(idOrder, idBrigade);
-            }
-            else if (idBrigade != null && idPaymentState == 3 && idStatusOrder == 4)
-            {
-                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
-                await _wageModules.Payroll(idOrder, idBrigade);
-            }
-            else if (idBrigade != null &&  idStatusOrder == 2 && idPaymentState != 3)
-            {
-                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
-                await _wageModules.Payroll(idOrder, idBrigade);
             }
             else if (idStatusOrder == 3)
             {

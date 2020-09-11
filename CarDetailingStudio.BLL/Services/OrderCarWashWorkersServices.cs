@@ -120,14 +120,14 @@ namespace CarDetailingStudio.BLL.Services
         #region Отчеты за день и месяц
         public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime datepresentDay)
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) == datepresentDay.Date),
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) == datepresentDay.Date),
                                                                                                                                          "OrderServicesCarWash", "CarWashWorkers", "CarWashWorkers.brigadeForToday"));
         }
 
         public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime startDate, DateTime finalDate)
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) >= startDate.Date
-                                                                                                                                    && (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) <= finalDate.Date)),
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) >= startDate.Date
+                                                                                                                                    && (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) <= finalDate.Date)),
                                                                                                                                    "OrderServicesCarWash", "CarWashWorkers", "CarWashWorkers.brigadeForToday"));
         }
         #endregion
@@ -147,15 +147,15 @@ namespace CarDetailingStudio.BLL.Services
                 if (finalDate == null)
                 {
                     var result = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id) &&
-                                                                                                                                        (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) == startDate.Date),
+                                                                                                                                        (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) == startDate.Date),
                                                                                                                                         "OrderServicesCarWash", "CarWashWorkers"));
                     return OrderCarWashWorkersDayGroup(result);
                 }
                 else
                 {
                     var result = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id) &&
-                                                                                                                                      (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) >= startDate.Date) &&
-                                                                                                                                      (DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) <= final.Date),
+                                                                                                                                      (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) >= startDate.Date) &&
+                                                                                                                                      (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) <= final.Date),
                                                                                                                                        "OrderServicesCarWash", "CarWashWorkers"));
                     return OrderCarWashWorkersDayGroup(result);
                 }

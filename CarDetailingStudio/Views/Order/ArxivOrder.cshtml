@@ -21,6 +21,7 @@
                        .Grid(Model)
                        .Build(columns =>
                        {
+                           columns.Add(model => model.Id);
                            columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
                            columns.Add(model => model.OrderDate).Titled("Дата и время заказа");
                            columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа");

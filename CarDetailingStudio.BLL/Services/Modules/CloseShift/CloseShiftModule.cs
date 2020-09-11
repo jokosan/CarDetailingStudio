@@ -40,6 +40,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                     orderCarWashWorkers.CalculationStatus = false;
                     orderCarWashWorkers.Payroll = itemOrder.Payroll;
                     orderCarWashWorkers.closedDayStatus = true;
+                    orderCarWashWorkers.typeServicesId = itemOrder.typeServicesId;
 
                     await _orderCarWashWorkers.UpdateOrderCarWashWorkers(orderCarWashWorkers);
                 }

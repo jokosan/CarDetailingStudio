@@ -236,6 +236,7 @@
     <Compile Include="Services\Modules\Contract\IIncomeForTheCurrentDay.cs" />
     <Compile Include="Services\Modules\IBonusModules.cs" />
     <Compile Include="Services\Modules\IncomeForTheCurrentDay.cs" />
+    <Compile Include="Services\Modules\ModulesModel\EmployeeSalariesListBll.cs" />
     <Compile Include="Services\Modules\ModulesModel\OrderPriceModel.cs" />
     <Compile Include="Services\Modules\OrderServices.cs" />
     <Compile Include="Services\Modules\TireStorage\Contract\IReviwOrderModules.cs" />

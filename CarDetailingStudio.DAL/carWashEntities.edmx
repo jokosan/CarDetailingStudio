@@ -288,6 +288,7 @@
           <Property Name="Payroll" Type="float" />
           <Property Name="salaryDate" Type="datetime2" Precision="7" />
           <Property Name="closedDayStatus" Type="bit" />
+          <Property Name="typeServicesId" Type="int" />
         </EntityType>
         <EntityType Name="OrderServicesCarWash">
           <Key>
@@ -1403,6 +1404,7 @@
           <Property Name="closedDayStatus" Type="Boolean" />
           <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="OrderCarWashWorkers" ToRole="CarWashWorkers" />
           <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_OrderCarWashWorkers_OrderServicesCarWash" FromRole="OrderCarWashWorkers" ToRole="OrderServicesCarWash" />
+          <Property Name="typeServicesId" Type="Int32" />
         </EntityType>
         <EntityType Name="OrderServicesCarWash">
           <Key>
@@ -2504,6 +2506,7 @@
           <EntitySetMapping Name="OrderCarWashWorkers">
             <EntityTypeMapping TypeName="carWashServerModel.OrderCarWashWorkers">
               <MappingFragment StoreEntitySet="OrderCarWashWorkers">
+                <ScalarProperty Name="typeServicesId" ColumnName="typeServicesId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
                 <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />

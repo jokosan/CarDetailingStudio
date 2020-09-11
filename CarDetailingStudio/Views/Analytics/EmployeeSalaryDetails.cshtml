@@ -1,69 +1,228 @@
 ﻿
-<p>AdministratorCarWash</p>
-<table>
-    @foreach (var item in ViewBag.AdministratorCarWash)
-    {
-        <tr>
-            <td>@item.Payroll</td>
-            <td>@item.IdCarWashWorkers</td>
-        </tr>
-    }
-</table>
-@ViewBag.AdministratorSum
-<hr />
-<p>AdministratorDetailings</p>
-<table>
-    @foreach (var item in ViewBag.AdministratorDetailings)
-    {
-        <tr>
-            <td>@item.Payroll</td>
-            <td>@item.IdCarWashWorkers</td>
-        </tr>
-    }
-</table>
-<hr />
-<p>StaffCarWashWorker</p>
-<table>
-    @foreach (var item in ViewBag.StaffCarWashWorker)
-    {
-        <tr>
-            <td>@item.Payroll</td>
-            <td>@item.IdCarWashWorkers</td>
-        </tr>
-    }
-</table>
-<hr />
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>AdministratorCarWash</p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.AdministratorCarWash)
+                    {
+                        <tr>
+                            <td>@item.Payroll</td>
+                            <td>@item.IdCarWashWorkers</td>
+                            <td>@item.IdOrder</td>
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Сумма ЗП админа мойки - <b class="text-center">@ViewBag.AdministratorSum</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>StaffCarWashWorker</p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.StaffCarWashWorker)
+                    {
+                        <tr>
+                            <td>@item.Payroll</td>
+                            <td>@item.IdCarWashWorkers</td>
+                            <td>@item.IdOrder</td>
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Сумма ЗП мойщиков - <b class="text-center">@ViewBag.StaffCarWashWorkerSum</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>AdministratorCarpetWashing</p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.AdministratorCarpetWashing)
+                    {
+                        <tr>
+                            <td>@item.Payroll</td>
+                            <td>@item.IdCarWashWorkers</td>
+                            <td>@item.IdOrder</td>
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Сумма ЗП админа за ковры - <b class="text-center">@ViewBag.AdministratorCarpetWashingSum</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>StaffCarpetWashingSum </p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.StaffCarpetWashing)
+                    {
+                        <tr>
+                            <td>@item.Payroll</td>
+                            <td>@item.IdCarWashWorkers</td>
+                            <td>@item.IdOrder</td>
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Сумма ЗП мойщиков за ковры - <b class="text-center">@ViewBag.StaffCarpetWashingSum</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>AdministratorDetailings</p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.AdministratorDetailings)
+                    {
+                        <tr>
+                            <td>@item.Payroll</td>
+                            <td>@item.IdCarWashWorkers</td>
+                            <td>@item.IdOrder</td>
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Сумма ЗП админ детейлинг - <b class="text-center">@ViewBag.AdministratorDetailingsSum</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>StaffDetailing</p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.StaffDetailing)
+                    {
+                        <tr>
+                            <td>@item.Payroll</td>
+                            <td>@item.IdCarWashWorkers</td>
+                            <td>@item.IdOrder</td>
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Сумма ЗП  детейлинг - <b class="text-center">@ViewBag.StaffDetailingSum</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>OrderCarWash </p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.OrderCarWash)
+                    {
+                        <tr>
+                            <td>@item.DiscountPrice</td>
+                            <td>@item.Id</td>
+                            <td>@item.ClosingData</td>
+                            <td>@item.StatusOrder</td>
+                            <td>@item.PaymentState</td>
+                            <td>@item.typeOfOrder</td>
 
-<p>StaffDetailing</p>
-<table>
-    @foreach (var item in ViewBag.StaffDetailing)
-    {
-        <tr>
-            <td>@item.Payroll</td>
-            <td>@item.IdCarWashWorkers</td>
-        </tr>
-    }
-</table>
-<hr />
-<p>AdministratorCarpetWashing</p>
-<table>
-    @foreach (var item in ViewBag.AdministratorCarpetWashing)
-    {
-        <tr>
-            <td>@item.Payroll</td>
-            <td>@item.IdCarWashWorkers</td>
-        </tr>
-    }
-</table>
-<hr />
-<p>StaffCarpetWashing</p>
-<table>
-    @foreach (var item in ViewBag.StaffCarpetWashing)
-    {
-        <tr>
-            <td>@item.Payroll</td>
-            <td>@item.IdCarWashWorkers</td>
-        </tr>
-    }
-</table>
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Касса мойки - <b class="text-center">@ViewBag.OrderCarWashSum</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <p>CarpetWashing </p>
+                <table class="table table-hover">
+                    @foreach (var item in ViewBag.CarpetWashing)
+                    {
+                        <tr>
+                            <td>@item.DiscountPrice</td>
+                            <td>@item.Id</td>
+                            <td>@item.ClosingData</td>
+                            <td>@item.StatusOrder</td>
+                            <td>@item.PaymentState</td>
+                            <td>@item.typeOfOrder</td>
+
+                        </tr>
+                    }
+                </table>
+                <hr />
+                <h4>Касса мойки - <b class="text-center">@ViewBag.carpetOrder</b></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<p>AdministratorDetailings</p>
+    <table>
+        @foreach (var item in ViewBag.AdministratorDetailings)
+        {
+            <tr>
+                <td>@item.Payroll</td>
+                <td>@item.IdCarWashWorkers</td>
+            </tr>
+        }
+    </table>
+    <hr />
+    <p>StaffCarWashWorker</p>
+    <table>
+        @foreach (var item in ViewBag.StaffCarWashWorker)
+        {
+            <tr>
+                <td>@item.Payroll</td>
+                <td>@item.IdCarWashWorkers</td>
+            </tr>
+        }
+    </table>
+    <hr />
+
+    <p>StaffDetailing</p>
+    <table>
+        @foreach (var item in ViewBag.StaffDetailing)
+        {
+            <tr>
+                <td>@item.Payroll</td>
+                <td>@item.IdCarWashWorkers</td>
+            </tr>
+        }
+    </table>
+    <hr />
+    <p>AdministratorCarpetWashing</p>
+    <table>
+        @foreach (var item in ViewBag.AdministratorCarpetWashing)
+        {
+            <tr>
+                <td>@item.Payroll</td>
+                <td>@item.IdCarWashWorkers</td>
+            </tr>
+        }
+    </table>
+    <hr />
+    <p>StaffCarpetWashing</p>
+    <table>
+        @foreach (var item in ViewBag.StaffCarpetWashing)
+        {
+            <tr>
+                <td>@item.Payroll</td>
+                <td>@item.IdCarWashWorkers</td>
+            </tr>
+        }
+    </table>*@
 

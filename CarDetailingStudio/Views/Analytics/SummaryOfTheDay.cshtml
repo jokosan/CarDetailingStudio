@@ -120,7 +120,7 @@
                                         <tr>
                                             <td class="text-center">5</td>
                                             <td>ЗП детейлинга</td>
-                                            <td class="text-right"> @ViewBag.StaffDetailing грн. </td>
+                                            <td class="text-right"> @ViewBag.StaffDetailing грн. </td>                 
                                         </tr>
 
                                         @* ----------------------------------------------------------------------------------- *@
@@ -197,7 +197,6 @@
                                                     </td>
                                                 </tr>
                                             }
-
                                         }
 
                                     </tbody>
@@ -213,10 +212,10 @@
 
                                 @if (@ViewBag.CloseDay == true)
                                 {
-                                    <h3><b>Отправить на счет фирмы: </b>  <span name="FinalDay" id="FinalDay"> 0</span> грн.</h3>
+                                    <h3><b>Касса завтршнего дня:</b>  <span name="FinalDay" id="FinalDay"> 0</span> грн.</h3>
                                     <input type="hidden" id="amountFinalDay" value="@ViewBag.CashEndDay" name="amountFinalDay" />
 
-                                    <h3><b>Касса завтршнего дня: </b><span name="errmsg" id="errmsg"> 0</span> грн.</h3>
+                                    <h3><b>Отправить на счет фирмы:</b><span name="errmsg" id="errmsg"> 0</span> грн.</h3>
                                     <input type="hidden" id="sumOrder" value="" name="sum" />
 
                                     <hr>

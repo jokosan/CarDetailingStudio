@@ -40,7 +40,7 @@ namespace CarDetailingStudio.BLL.Services
         {
             if (statusOrder != 2)
             {
-                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => ((x.StatusOrder == statusOrder) && (x.typeOfOrder == 1)) || ((x.StatusOrder == 4) && (x.typeOfOrder == 1))));
+                var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => ((x.StatusOrder == statusOrder) && (x.typeOfOrder <= 2)) || ((x.StatusOrder == 4) && (x.typeOfOrder <= 2))));
                 return GetAllResult;
             }
             else
@@ -55,7 +55,7 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder, int typeOfOrder)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == typeOfOrder)));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder <= 2)));
         }
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> AllOrderOneEmployee(List<int> idOrder)
@@ -68,7 +68,7 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<OrderServicesCarWashBll>(await _unitOfWork.orderUnitiOfWork.GetById(id));
         }
 
-        public async Task InsertOrders(List<double> carBody, List<int> id, List<int> sum, double total)
+        public async Task InsertOrders(int service, List<double> carBody, List<int> id, List<int> sum, double total)
         {
             OrderServicesCarWashBll OrderFormation = new OrderServicesCarWashBll();
 
@@ -79,7 +79,7 @@ namespace CarDetailingStudio.BLL.Services
                 OrderDate = DateTime.Now,
                 TotalCostOfAllServices = _orderServices.OrderPrice(),
                 DiscountPrice = Math.Round(total),
-                typeOfOrder = 1
+                typeOfOrder = service
 
             };
 
@@ -235,13 +235,13 @@ namespace CarDetailingStudio.BLL.Services
         #region Отчеты
         public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime datepresentDay)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => DbFunctions.TruncateTime(x.ClosingData.Value) == datepresentDay.Date));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => DbFunctions.TruncateTime(x.OrderDate.Value) == datepresentDay.Date));
         }
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime startDate, DateTime finalDate)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => (DbFunctions.TruncateTime(x.ClosingData.Value) >= startDate.Date) 
-                                                                                                                  && (DbFunctions.TruncateTime(x.ClosingData.Value) <= finalDate.Date)));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => (DbFunctions.TruncateTime(x.OrderDate.Value) >= startDate.Date) 
+                                                                                                                  && (DbFunctions.TruncateTime(x.OrderDate.Value) <= finalDate.Date)));
         }
         #endregion
     }

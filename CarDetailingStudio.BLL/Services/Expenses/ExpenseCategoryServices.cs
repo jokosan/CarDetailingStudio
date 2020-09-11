@@ -21,6 +21,10 @@ namespace CarDetailingStudio.BLL.Services.Expenses
         {
             return Mapper.Map<IEnumerable<ExpenseCategoryBll>>(await _unitOfWork.expenseCategoryUnitOfWork.Get());
         }
+        public async Task<IEnumerable<ExpenseCategoryBll>> GetTableAll(int id)
+        {
+            return Mapper.Map<IEnumerable<ExpenseCategoryBll>>(await _unitOfWork.expenseCategoryUnitOfWork.GetWhere(x => x.idExpenseCategory == id));
+        }
 
         public async Task Insert(ExpenseCategoryBll element)
         {

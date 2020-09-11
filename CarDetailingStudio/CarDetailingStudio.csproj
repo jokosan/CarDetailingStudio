@@ -1351,7 +1351,6 @@
     <Content Include="Views\Cashier\AmountAtTheBeginningOfTheDay.cshtml" />
     <Content Include="Views\Analytics\EmployeeSalaryDetails.cshtml" />
     <Content Include="Views\BonusToSalary\Info.cshtml" />
-    <Content Include="Views\AllExpenses\GetItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

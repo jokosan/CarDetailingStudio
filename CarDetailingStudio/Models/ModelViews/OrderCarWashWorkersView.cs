@@ -17,6 +17,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<double> Payroll { get; set; }
         public Nullable<System.DateTime> salaryDate { get; set; }
         public Nullable<bool> closedDayStatus { get; set; }
+        public Nullable<int> typeServicesId { get; set; }
 
         public virtual CarWashWorkersView CarWashWorkers { get; set; }
         public virtual OrderServicesCarWashView OrderServicesCarWash { get; set; }

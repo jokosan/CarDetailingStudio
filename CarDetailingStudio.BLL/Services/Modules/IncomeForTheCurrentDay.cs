@@ -2,6 +2,7 @@
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
 using CarDetailingStudio.BLL.Services.Modules.Contract;
+using CarDetailingStudio.BLL.Services.Modules.ModulesModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,11 @@ namespace CarDetailingStudio.BLL.Services.Modules
         private ICostsCarWashAndDeteyling _costsCarWashAndDeteyling;
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
         private IBonusToSalary _bonusToSalary;
+        private IBrigadeForTodayServices _brigadeForToday;
 
         public IncomeForTheCurrentDay(ISalaryExpenses salaryExpenses, IOrderServicesCarWashServices orderServicesCarWash,
                                       IUtilityCosts utilityCosts, IOtherExpenses otherExpenses, ICostsCarWashAndDeteyling costsCarWashAndDeteyling,
-                                      IOrderCarWashWorkersServices orderCarWashWorkers, IBonusToSalary bonusToSalary)
+                                      IOrderCarWashWorkersServices orderCarWashWorkers, IBonusToSalary bonusToSalary, IBrigadeForTodayServices brigadeForToday)
         {
             _salaryExpenses = salaryExpenses;
             _orderServicesCarWash = orderServicesCarWash;
@@ -31,6 +33,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
             _costsCarWashAndDeteyling = costsCarWashAndDeteyling;
             _orderCarWashWorkers = orderCarWashWorkers;
             _bonusToSalary = bonusToSalary;
+            _brigadeForToday = brigadeForToday;
         }
 
         #region сумма всех расходов
@@ -57,35 +60,40 @@ namespace CarDetailingStudio.BLL.Services.Modules
         public async Task<EmployeeSalariesBll> EmployeeSalaries(DateTime? startDate)
         {
             var orderCarWashWorker = await _orderCarWashWorkers.Reports(startDate.Value);
-            return AccruedSalaries(orderCarWashWorker);
+            var brigade = await _brigadeForToday.Reports(startDate.Value);
+
+            return AccruedSalaries(orderCarWashWorker, brigade);
         }
 
         public async Task<EmployeeSalariesBll> EmployeeSalaries(DateTime? startDate, DateTime? finalDate)
         {
             var orderCarWashWorker = await _orderCarWashWorkers.Reports(startDate.Value, finalDate.Value);
-            return AccruedSalaries(orderCarWashWorker);
+            var brigade = await _brigadeForToday.Reports(startDate.Value, finalDate.Value);
+
+            return AccruedSalaries(orderCarWashWorker, brigade);
         }
 
-        private EmployeeSalariesBll AccruedSalaries(IEnumerable<OrderCarWashWorkersBll> orderCarWashWorker)
+        private EmployeeSalariesBll AccruedSalaries(IEnumerable<OrderCarWashWorkersBll> orderCarWashWorker, IEnumerable<BrigadeForTodayBll> brigades)
         {
-            var administratorCarWash = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 1) && (x.CarWashWorkers.IdPosition == 1) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-            var administratorDetailings = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 2) && (x.CarWashWorkers.IdPosition == 2) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-            var staffCarWashWorker = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition >= 4) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-            var staffDetailing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition == 3) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-
-            var administratorCarpetWashing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 1) && (x.CarWashWorkers.IdPosition <= 2) 
-                                                                  && (x.OrderServicesCarWash.typeOfOrder == 3)));
-            var staffCarpetWashing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition >= 3)
-                                                                  && (x.OrderServicesCarWash.typeOfOrder == 3)));
-
             EmployeeSalariesBll employee = new EmployeeSalariesBll();
 
-            employee.AdministratorCarWash = administratorCarWash.Sum(x => x.Payroll);         // ЗП админ мойки
-            employee.AdministratorDetailings = administratorDetailings.Sum(x => x.Payroll);   // ЗП админ детейлинг
+            var adminDetailing = orderCarWashWorker.Where(x => x.typeServicesId == 1); // админ детейлинг
+            var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 2); // админ мойка
+            var adminCarpetWashing = orderCarWashWorker.Where(x => x.typeServicesId == 3); // админ ковры
+            var StaffDetailing = orderCarWashWorker.Where(x => x.typeServicesId == 4); // услуги детейлинга
+            var staffCarWashWorker = orderCarWashWorker.Where(x => x.typeServicesId == 5); // услуги мойки
+            var staffCarWashWorkerCarpetWashing = orderCarWashWorker.Where(x => x.typeServicesId == 6); // услуги по стирке ковров
+                                                                                                        // var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 7); // хранение шин админ
+                                                                                                        // var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 8); // хранение шин сортудники 
+
+            employee.AdministratorDetailings = adminDetailing.Sum(x => x.Payroll);   // ЗП админ детейлинг            
+            employee.StaffDetailing = StaffDetailing.Sum(x => x.Payroll);                     // ЗП детейлинг
+
+            employee.AdministratorCarWash = adminCarWash.Sum(x => x.Payroll);                        // ЗП админ мойки
             employee.StaffCarWashWorker = staffCarWashWorker.Sum(x => x.Payroll);             // ЗП мойщик
-            employee.StaffDetailing = staffDetailing.Sum(x => x.Payroll);                     // ЗП детейлинг
-            employee.adminCarpet = administratorCarpetWashing.Sum(x => x.Payroll);            // ЗП админ ковры
-            employee.staffCarpet = staffCarpetWashing.Sum(x => x.Payroll);                    // ЗП сотрудников ковры
+
+            employee.adminCarpet = adminCarpetWashing.Sum(x => x.Payroll);                    // ЗП админ ковры
+            employee.staffCarpet = staffCarWashWorkerCarpetWashing.Sum(x => x.Payroll);       // ЗП сотрудников ковры
 
             return employee;
         }
@@ -105,45 +113,36 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
         public OrderInformationWashingDetailingBll InfoOrder(IEnumerable<OrderServicesCarWashBll> orderServices)
         {
-            var carWash = orderServices.Where(x => x.ServisesCarWashOrder.Any(y => y.Detailings.IdTypeService == 2));
-            var detailings = orderServices.Where(x => x.ServisesCarWashOrder.Any(y => y.Detailings.IdTypeService == 1));
-            var carpetWashing = orderServices.Where(x => (x.typeOfOrder == 3) && (x.StatusOrder == 2) || (x.StatusOrder == 4));
+            var OrderCarWashList = orderServices.Where(x => x.typeOfOrder == 2);
+            var OrderDetelingList = orderServices.Where(x => x.typeOfOrder == 1);
+            var OrderCarpetList = orderServices.Where(x => x.typeOfOrder == 3);
 
             var cashWhere = orderServices.Where(x => x.PaymentState == 1);
             var nonCashWhere = orderServices.Where(x => x.PaymentState == 2);
 
-            var numberOfUnpaidOrdersCarWash = carWash.Where(x => x.StatusOrder == 4);               // Количество заказов ожидающих оплату (мойка)
-            var numberOfUnpaidOrdersDetailings = detailings.Where(x => x.StatusOrder == 4);         // Количество заказов ожидающих оплату (Детейлинг)
-            var numberOfUnpaidOrdersCarpetWashing = carpetWashing.Where(x => x.StatusOrder == 4);   // Количество заказов ожидающих оплату (Ковры)
-
-            List<double> sumTet = new List<double>();
-
-            foreach (var item in carpetWashing)
-            {
-                if (item.typeOfOrder == 3)
-                {
-                    sumTet.Add(item.OrderCarWashWorkers.Sum(s => s.Payroll).Value);
-                }
-            }
-
+            var numberOfUnpaidOrdersCarWash = OrderCarWashList.Where(x => x.StatusOrder == 4);
+            var numberOfUnpaidOrdersDetailings = OrderDetelingList.Where(x => x.StatusOrder == 4);
+            var numberOfUnpaidOrdersCarpetWashing = OrderCarpetList.Where(x => x.StatusOrder == 4);
+          
             OrderInformationWashingDetailingBll orderInformation = new OrderInformationWashingDetailingBll();
 
-            orderInformation.OrderCarWashSum = carWash.Sum(x => x.DiscountPrice);        // Касса мойки
-            orderInformation.OrderDetailing = detailings.Sum(x => x.DiscountPrice);      // Касса детейлинг
-            orderInformation.carpetOrder = carpetWashing.Sum(x => x.DiscountPrice);      // Касса ковров
+            orderInformation.OrderCarWashSum = OrderCarWashList.Sum(x => x.DiscountPrice);        // Касса мойки
+            orderInformation.OrderDetailing = OrderDetelingList.Sum(x => x.DiscountPrice);      // Касса детейлинг
+            orderInformation.carpetOrder = OrderCarpetList.Sum(x => x.DiscountPrice);      // Касса ковров
+
             orderInformation.cash = cashWhere.Sum(s => s.DiscountPrice);                 // Наличный расчет
-            orderInformation.nonCash = nonCashWhere.Sum(s => s.DiscountPrice);           // Безналичный расчет
+            orderInformation.nonCash = nonCashWhere.Sum(s => s.DiscountPrice);           // Безналичный расчет          
 
             // Количество заказов ожидающих оплату
-            orderInformation.numberOfUnpaidOrdersCarWash = numberOfUnpaidOrdersCarWash.Sum(x => x.DiscountPrice); 
-            orderInformation.numberOfUnpaidOrdersDetailings = numberOfUnpaidOrdersDetailings.Sum(x => x.DiscountPrice);
-            orderInformation.numberOfUnpaidOrdersCarpetWashing = numberOfUnpaidOrdersCarpetWashing.Sum(x => x.DiscountPrice);
+            orderInformation.numberOfUnpaidOrdersCarWash = numberOfUnpaidOrdersCarWash.Sum(x => x.DiscountPrice);  // Количество заказов ожидающих оплату (мойка)
+            orderInformation.numberOfUnpaidOrdersDetailings = numberOfUnpaidOrdersDetailings.Sum(x => x.DiscountPrice);   // Количество заказов ожидающих оплату (Детейлинг)
+            orderInformation.numberOfUnpaidOrdersCarpetWashing = numberOfUnpaidOrdersCarpetWashing.Sum(x => x.DiscountPrice);     // Количество заказов ожидающих оплату (Ковры)
 
-            orderInformation.OrderCount = carWash.Count();
-            orderInformation.CarCountDetailings = detailings.Count();
-            orderInformation.CauntCarpet = carpetWashing.Count();
+            orderInformation.OrderCount = OrderCarWashList.Count();
+            orderInformation.CarCountDetailings = OrderDetelingList.Count();
+            orderInformation.CauntCarpet = OrderCarpetList.Count();
 
-            return orderInformation;           
+            return orderInformation;
         }
         #endregion
     }

@@ -283,6 +283,7 @@
     <Property Name="Payroll" Type="float" />
     <Property Name="salaryDate" Type="datetime2" Precision="7" />
     <Property Name="closedDayStatus" Type="bit" />
+    <Property Name="typeServicesId" Type="int" />
   </EntityType>
   <EntityType Name="OrderServicesCarWash">
     <Key>

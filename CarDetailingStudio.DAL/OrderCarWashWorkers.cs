@@ -21,6 +21,7 @@ namespace CarDetailingStudio.DAL
         public Nullable<double> Payroll { get; set; }
         public Nullable<System.DateTime> salaryDate { get; set; }
         public Nullable<bool> closedDayStatus { get; set; }
+        public Nullable<int> typeServicesId { get; set; }
     
         public virtual CarWashWorkers CarWashWorkers { get; set; }
         public virtual OrderServicesCarWash OrderServicesCarWash { get; set; }

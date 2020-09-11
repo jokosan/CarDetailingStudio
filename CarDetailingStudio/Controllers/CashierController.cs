@@ -42,6 +42,7 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AmountAtTheBeginningOfTheDay([Bind(Include = "idCashier,date,amountBeginningOfTheDay,amountEndOfTheDay")] CashierView cashierView)
+        
         {
             if (ModelState.IsValid)
             {

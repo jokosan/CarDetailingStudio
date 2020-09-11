@@ -97,7 +97,7 @@
                                         <td>Количество заказов</td>
                                         <td class="text-right"> @ViewBag.CauntCarpet шт.</td>
                                     </tr>
-                                    <tr>
+                                    @*<tr>
                                         <td class="text-center">3</td>
                                         <td>ЗП администратора</td>
                                         <td class="text-right">@ViewBag.AdminCarpet грн. </td>
@@ -106,7 +106,7 @@
                                         <td class="text-center">4</td>
                                         <td>ЗП Сотрудника</td>
                                         <td class="text-right"> @ViewBag.StaffCarpet грн. </td>
-                                    </tr>
+                                    </tr>*@
 
                                     @* ----------------------------------------------------------------------------------- *@
                                     <tr>
@@ -151,12 +151,12 @@
                                     <tr>
                                         <td class="text-center">1</td>
                                         <td>Наличный</td>
-                                        <td class="text-right"> @ViewBag.TotalCosts грн. </td>
+                                        <td class="text-right"> @ViewBag.Cash грн. </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">2</td>
                                         <td>Безналичный</td>
-                                        <td class="text-right"> @ViewBag.TotalCosts грн. </td>
+                                        <td class="text-right"> @ViewBag.NonCash грн. </td>
                                     </tr>
                                 </tbody>
                             </table>

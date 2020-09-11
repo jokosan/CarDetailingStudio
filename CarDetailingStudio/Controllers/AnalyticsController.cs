@@ -23,6 +23,8 @@ namespace CarDetailingStudio.Controllers
         private ICashier _cashier;
         private ISalaryExpenses _salary;
         private IOrderCarWashWorkersServices _orderCarWash;
+        private IBrigadeForTodayServices _brigadeForTodayServices;
+        private IOrderServicesCarWashServices _orderServices;
 
         private double sumOfAllExpenses = 0;
 
@@ -31,13 +33,16 @@ namespace CarDetailingStudio.Controllers
 
         double? test { get; set; }
 
-        public AnalyticsController(IIncomeForTheCurrentDay incomeForTheCurrent, IBonusToSalary bonusToSalary, ICashier cashier, ISalaryExpenses salary, IOrderCarWashWorkersServices orderCarWash)
+        public AnalyticsController(IIncomeForTheCurrentDay incomeForTheCurrent, IBonusToSalary bonusToSalary, ICashier cashier, IOrderServicesCarWashServices orderServices,
+                                   ISalaryExpenses salary, IOrderCarWashWorkersServices orderCarWash, IBrigadeForTodayServices brigadeForTodayServices)
         {
             _incomeForTheCurrent = incomeForTheCurrent;
             _bonusToSalary = bonusToSalary;
             _cashier = cashier;
             _salary = salary;
             _orderCarWash = orderCarWash;
+            _brigadeForTodayServices = brigadeForTodayServices;
+            _orderServices = orderServices;
         }
 
         // GET: Analytics
@@ -76,7 +81,6 @@ namespace CarDetailingStudio.Controllers
             ViewBag.CauntCarpet = orderInformation.CauntCarpet; // Количество заказов ковров
             ViewBag.AdminCarpet = employeeSalaries.adminCarpet;
             ViewBag.StaffCarpet = employeeSalaries.staffCarpet;
-
 
             //  BonusToSalary
             ViewBag.BonusToSalarySum = BonusToSalary.Sum(x => x.amount);
@@ -159,12 +163,15 @@ namespace CarDetailingStudio.Controllers
             ViewBag.StaffDetailing = employeeSalaries.StaffDetailing;                                               // ЗП администратора детейлинга
             ViewBag.StaffCarWashWorker = employeeSalaries.StaffCarWashWorker + employeeSalaries.staffCarpet;        // ЗП сотрудников мойки
             ViewBag.AdministratorDetailings = employeeSalaries.AdministratorDetailings;                             // ЗП сотрудников детейлинга
+            
             ViewBag.OrderCarWashSum = orderInformation.OrderCarWashSum;                                             // Касса мойки
             ViewBag.OrderCount = orderInformation.OrderCount;                                                       // Количество Авто мойка
             ViewBag.OrderDetailingsSum = orderInformation.OrderDetailing;                                           // Касса детейлинг
-            ViewBag.CarCountDetailings = orderInformation.CarCountDetailings;                                       // Количество авто детейлинг           
+            ViewBag.CarCountDetailings = orderInformation.CarCountDetailings;                                       // Количество авто детейлинг  
+            
             ViewBag.CarpetOrder = orderInformation.carpetOrder;                                                     // Касса ковров
             ViewBag.CauntCarpet = orderInformation.CauntCarpet;                                                     // Количество заказов ковров
+
             ViewBag.TotalCosts = sumOfAllExpenses;                                                                  // Сумма затрат 
 
             // Количество заказов ожидающих оплату
@@ -177,8 +184,8 @@ namespace CarDetailingStudio.Controllers
 
             ViewBag.Cash = orderInformation.cash;                                                                   // Приход наличных
             ViewBag.NonCash = orderInformation.nonCash;                                                             // Приход безналичных
-            
-            ViewBag.CashEndDay = orderInformation.nonCash - sumOfAllExpenses + cashierDayStart;                     // Касса конец дня  (наличные)
+
+            ViewBag.CashEndDay = orderInformation.cash - sumOfAllExpenses + cashierDayStart;                     // Касса конец дня  (наличные)
 
             //итого доходы
             ViewBag.TotalIncome = orderInformation.OrderCarWashSum + orderInformation.OrderDetailing + orderInformation.carpetOrder;
@@ -206,7 +213,7 @@ namespace CarDetailingStudio.Controllers
                 var singlEnd = cashiesInfo.LastOrDefault(x => x.date.Day == date.Day);
 
                 if (singlEnd != null)
-                {                   
+                {
                     singlEnd.amountEndOfTheDay = amountFinalDay.Value - amountStartDay.Value;
                     CashierBll cashierEnd = Mapper.Map<CashierView, CashierBll>(singlEnd);
 
@@ -231,19 +238,55 @@ namespace CarDetailingStudio.Controllers
 
         public async Task<ActionResult> EmployeeSalaryDetails()
         {
-            var orderCarWashWorker = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWash.Reports(DateTime.Now.AddDays(-1)));
-            var administratorCarWash = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 1) && (x.CarWashWorkers.IdPosition == 1) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-            ViewBag.AdministratorCarWash = administratorCarWash;
-            ViewBag.AdministratorSum = administratorCarWash.Sum(x => x.Payroll);
-           // ViewBag.AdministratorCarWash = orderCarWashWorker.Where(x => (x.CarWashWorkers.IdPosition == 1) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-            ViewBag.AdministratorDetailings = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 2) && (x.CarWashWorkers.IdPosition == 2) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-            ViewBag.StaffCarWashWorker = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition >= 4) && (x.OrderServicesCarWash.typeOfOrder == 1)));
-            ViewBag.StaffDetailing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition == 3) && (x.OrderServicesCarWash.typeOfOrder == 1)));
+            var orderCarWashWorker = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWash.Reports(DateTime.Now.AddDays(-7)));
+            var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForTodayServices.Reports(DateTime.Now.AddDays(-7)));
+            var orderServices = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _orderServices.Reports(DateTime.Now.AddDays(-7)));
 
-            ViewBag.AdministratorCarpetWashing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 1) && (x.CarWashWorkers.IdPosition == 1)
-                                                                  && (x.OrderServicesCarWash.typeOfOrder == 3)));
-            ViewBag.StaffCarpetWashing = orderCarWashWorker.Where(x => (x.CarWashWorkers.brigadeForToday.Any(b => b.StatusId == 3) && (x.CarWashWorkers.IdPosition >= 3)
-                                                                  && (x.OrderServicesCarWash.typeOfOrder == 3)));
+            var adminDetailing = orderCarWashWorker.Where(x => x.typeServicesId == 1); // админ детейлинг
+            var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 2); // админ мойка
+
+            var adminCarpetWashing = orderCarWashWorker.Where(x => x.typeServicesId == 3); // админ ковры
+            var StaffDetailing = orderCarWashWorker.Where(x => x.typeServicesId == 4); // услуги детейлинга
+            var staffCarWashWorker = orderCarWashWorker.Where(x => x.typeServicesId == 5); // услуги мойки
+            var staffCarWashWorkerCarpetWashing = orderCarWashWorker.Where(x => x.typeServicesId == 6); // услуги по стирке ковров
+                                                                                                        // var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 7); // хранение шин админ
+                                                                                                        // var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 8); // хранение шин сортудники 
+
+            ViewBag.AdministratorCarWash = adminCarWash;
+            ViewBag.AdministratorSum = adminCarWash.Sum(x => x.Payroll); // ЗП админ мойки
+
+            ViewBag.StaffCarWashWorker = staffCarWashWorker;
+            ViewBag.StaffCarWashWorkerSum = staffCarWashWorker.Sum(x => x.Payroll);             // ЗП мойщик
+
+            ViewBag.AdministratorCarpetWashing = adminCarpetWashing;
+            ViewBag.AdministratorCarpetWashingSum = adminCarpetWashing.Sum(x => x.Payroll);  // ЗА админ коври
+
+            ViewBag.StaffCarpetWashing = staffCarWashWorkerCarpetWashing;
+            ViewBag.StaffCarpetWashingSum = staffCarWashWorkerCarpetWashing.Sum(x => x.Payroll);  // ЗП мойщик ковры
+
+            ViewBag.AdministratorDetailings = adminDetailing;
+            ViewBag.AdministratorDetailingsSum = adminDetailing.Sum(x => x.Payroll);
+
+            ViewBag.StaffDetailing = StaffDetailing;
+            ViewBag.StaffDetailingSum = StaffDetailing.Sum(x => x.Payroll);
+
+            var OrderCarWashList = orderServices.Where(x => x.typeOfOrder == 2);
+            var OrderDetelingList = orderServices.Where(x => x.typeOfOrder == 1);
+            var OrderCarpetList = orderServices.Where(x => x.typeOfOrder == 3);
+
+
+            ViewBag.OrderCarWash = OrderCarWashList;
+            ViewBag.OrderCarWashSum = OrderCarWashList.Sum(x => x.DiscountPrice);        // Касса мойки
+
+            ViewBag.Detailings = OrderDetelingList;
+            ViewBag.OrderDetailing = OrderDetelingList.Sum(x => x.DiscountPrice);      // Касса детейлинг
+
+            ViewBag.CarpetWashing = OrderCarpetList;
+            ViewBag.carpetOrder = OrderCarpetList.Sum(x => x.DiscountPrice);      // Касса ковров
+
+
+           
+
             return View();
         }
 

@@ -45,7 +45,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             Order.PaymentState = idPaymentState;
             Order.ClosingData = DateTime.Now;
 
-            
+
             Order.StatusOrder = idStatusOrder;
 
             if (Order.ClientsOfCarWash.discont > 0)
@@ -62,25 +62,77 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         }
 
         // Начисление заработной платы
-        public async Task Payroll(int idOrder, List<string> idBrigade)
+        public async Task Payroll(int idOrder, List<string> idBrigade, int serveses)
         {
             int numberOfEmployees = idBrigade.Count;
+
             var amountOfCurrentOrder = await _orderServicesCarWash.GetId(idOrder);
 
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
+
+            double discountPercentage = Convert.ToDouble(amountOfCurrentOrder.TotalCostOfAllServices) - Convert.ToDouble(amountOfCurrentOrder.DiscountPrice);
+            double discontResult = ((double)discountPercentage / (double)amountOfCurrentOrder.TotalCostOfAllServices) * 100;
 
             foreach (var item in idBrigade)
             {
                 orderCarWashWorkers.IdCarWashWorkers = ConvertStringToInt(item);
                 orderCarWashWorkers.IdOrder = idOrder;
                 orderCarWashWorkers.CalculationStatus = false;
-                orderCarWashWorkers.Payroll = await PercentOfTheOrder(ConvertStringToInt(item), numberOfEmployees, amountOfCurrentOrder.DiscountPrice, false);
                 orderCarWashWorkers.closedDayStatus = false;
+                orderCarWashWorkers.typeServicesId = StatusTypeServises(serveses, 2); // изменить  
+
+                if (discontResult >= 50)
+                {
+                    orderCarWashWorkers.Payroll = await PercentOfTheOrder(ConvertStringToInt(item), numberOfEmployees, amountOfCurrentOrder.TotalCostOfAllServices, false);
+                }
+                else
+                {
+                    orderCarWashWorkers.Payroll = await PercentOfTheOrder(ConvertStringToInt(item), numberOfEmployees, amountOfCurrentOrder.DiscountPrice, false);
+                }
 
                 await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
             }
 
-            await AdminWage(amountOfCurrentOrder, amountOfCurrentOrder.DiscountPrice);
+            if (discontResult >= 50)
+            {
+                await AdminWage(amountOfCurrentOrder, amountOfCurrentOrder.TotalCostOfAllServices, serveses);
+            }
+            else
+            {
+                await AdminWage(amountOfCurrentOrder, amountOfCurrentOrder.DiscountPrice, serveses);
+            }
+               
+        }
+
+        private int StatusTypeServises(int servises, int brigade)
+        {
+
+            if (brigade == 1 && servises == 1)
+                return 1;
+
+            if (brigade == 2 && servises == 1)
+                return 4;
+
+            if (brigade == 1 && servises == 2)
+                return 2;
+
+            if (brigade == 2 && servises == 2)
+                return 5;
+
+            if (brigade == 1 && servises == 3)
+                return 3;
+
+            if (brigade == 2 && servises == 3)
+                return 6;
+
+            if (brigade == 1 && servises == 4)
+                return 7;
+
+            if (brigade == 2 && servises == 4)
+                return 8;
+
+            return 0;
+
         }
 
         // Начисление ЗП за хранение шин 
@@ -95,11 +147,13 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.CalculationStatus = false;
             orderCarWashWorkers.Payroll = await PercentOfTheOrder(idBrigade, 1, amountOfCurrentOrder, false);
             orderCarWashWorkers.closedDayStatus = false;
+            orderCarWashWorkers.typeServicesId = StatusTypeServises(8, 2); // изменить  
 
             await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 
             orderCarWashWorkers.IdCarWashWorkers = idAdmin;
             orderCarWashWorkers.Payroll = await PercentOfTheOrder(idAdmin, 1, amountOfCurrentOrder, true);
+            orderCarWashWorkers.typeServicesId = StatusTypeServises(7, 1); // изменить  
 
             await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 
@@ -128,22 +182,22 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             }
 
             return employeePercentage * orderPrice / count;
-        
+
         }
 
         // Заработная плата администратора
-        private async Task AdminWage(OrderServicesCarWashBll orderServicesCarWash, double? orderPrice)
+        private async Task AdminWage(OrderServicesCarWashBll orderServicesCarWash, double? orderPrice, int serveses)
         {
             var servicesOrder = await _servisesCarWash.GetAllId(orderServicesCarWash.Id);
             bool serviceСategory = servicesOrder.Any(x => x.Detailings.IdTypeService == 1);
 
             if (serviceСategory)
             {
-                await ChoiceAdministrator(2, orderServicesCarWash.Id, orderPrice);
+                await ChoiceAdministrator(2, orderServicesCarWash.Id, orderPrice, serveses);
             }
             else
             {
-               await ChoiceAdministrator(1, orderServicesCarWash.Id, orderPrice);
+                await ChoiceAdministrator(1, orderServicesCarWash.Id, orderPrice, serveses);
             }
         }
 
@@ -163,23 +217,23 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         }
 
         // Выбор Администратора
-        private async Task ChoiceAdministrator(int adminСategory, int idOrder, double? orderPrice)
+        private async Task ChoiceAdministrator(int adminСategory, int idOrder, double? orderPrice, int serveses)
         {
             var category = await _brigadeForToday.GetDateTimeNow();
             var adminSelectionByCategory = category.Single(x => x.StatusId == adminСategory);
 
-            if (adminSelectionByCategory.StatusId == 1 || adminSelectionByCategory.StatusId == 2)
-            {
-                OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
-                orderCarWashWorkers.IdOrder = idOrder;
-                orderCarWashWorkers.IdCarWashWorkers = adminSelectionByCategory.CarWashWorkers.id;
-                orderCarWashWorkers.CalculationStatus = false;
-                orderCarWashWorkers.Payroll = await PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice, true);
-                orderCarWashWorkers.closedDayStatus = false;
+            OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
-                await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
-            }
+            orderCarWashWorkers.IdOrder = idOrder;
+            orderCarWashWorkers.IdCarWashWorkers = adminSelectionByCategory.CarWashWorkers.id;
+            orderCarWashWorkers.CalculationStatus = false;
+            orderCarWashWorkers.Payroll = await PercentOfTheOrder(adminSelectionByCategory.CarWashWorkers.id, 1, orderPrice, true);
+            orderCarWashWorkers.closedDayStatus = false;
+            orderCarWashWorkers.typeServicesId = StatusTypeServises(serveses, 1); // изменить  
+
+            await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
+
         }
     }
 }

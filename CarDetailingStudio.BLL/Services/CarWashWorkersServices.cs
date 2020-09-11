@@ -6,6 +6,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using DevExpress.Data.Mask;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,15 +51,39 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
+            DateTime date = DateTime.Now;
+            var resultDay = await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true));
+
             if (adminCarWosh != null && adminDetailing != null)
             {
-                await AdninRegistr(adminCarWosh, 1);
-                await AdninRegistr(adminDetailing, 2);
+                if (resultDay.Count() == 0)
+                {
+                    await AdninRegistr(adminCarWosh, 1);
+                    await AdninRegistr(adminDetailing, 2);
+                }
+                else if (resultDay.Any(x => (x.StatusId == 1) && (x.IdCarWashWorkers == adminCarWosh) == false))
+                {
+                    await AdninRegistr(adminCarWosh, 1);
+                }
+                else if (resultDay.Any(x => (x.StatusId == 2) && (x.IdCarWashWorkers == adminDetailing) == false))
+                {
+                    await AdninRegistr(adminDetailing, 2);
+                }
             }
 
             foreach (var item in chkRow)
             {
-                await AdninRegistr(item, 3);
+                if (resultDay.Count() == 0)
+                {
+                    await AdninRegistr(item, 3);
+                }
+                else
+                {
+                    if (resultDay.Any(x => (x.StatusId == 3) && (x.IdCarWashWorkers == item)) == false)
+                    {
+                        await AdninRegistr(item, 3);
+                    }
+                }
             }
         }
 
@@ -108,7 +133,7 @@ namespace CarDetailingStudio.BLL.Services
         public async Task<IEnumerable<CarWashWorkersBll>> EmployeeName()
         {
             var employee = Mapper.Map<IEnumerable<CarWashWorkersBll>>(await GetTable());
-                       
+
             var resultEmployee = from e1 in employee
                                  select new CarWashWorkersBll
                                  {

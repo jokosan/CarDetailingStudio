@@ -270,6 +270,7 @@
     <EntitySetMapping Name="OrderCarWashWorkers">
       <EntityTypeMapping TypeName="carWashServerModel.OrderCarWashWorkers">
         <MappingFragment StoreEntitySet="OrderCarWashWorkers">
+          <ScalarProperty Name="typeServicesId" ColumnName="typeServicesId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
           <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
