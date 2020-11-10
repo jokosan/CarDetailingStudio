@@ -15,5 +15,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Contract
         Task<EmployeeSalariesBll> EmployeeSalaries(DateTime? startDate, DateTime? finalDate);
         Task<OrderInformationWashingDetailingBll> AmountOfCompletedOrders(DateTime? startDate);
         Task<OrderInformationWashingDetailingBll> AmountOfCompletedOrders(DateTime? startDate, DateTime? finalDate);
+        Task<IEnumerable<OrderServicesCarWashBll>> AboutOrders(int typeOrder, DateTime dateStaer, DateTime? dateFinis);
+        Task<IEnumerable<OrderCarWashWorkersBll>> AboutWages(int typeOfEmployees, DateTime dateStaer, DateTime? dateFinis);
     }
 }

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderCarWashWorkersView>
+
+<div class="row">
+    <div class="col-6 col-sm-4 col-lg-2">
+        <div class="card">
+            <div class="card-body p-3 text-center">
+                <div class="text-right text-success">
+                </div>
+                <div class="h1 m-0">@ViewBag.SumOfAllOrdersPayroll</div>
+                <div class="text-muted mb-3">Всего на зарплату</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-sm-4 col-lg-2">
+        <div class="card">
+            <div class="card-body p-3 text-center">
+                <div class="text-right text-danger">
+                </div>
+                <div class="h1 m-0">@ViewBag.SumOfAllOrdersDiscountPrice</div>
+                <div class="text-muted mb-3">Сумма всех заказов</div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.TypeOfEmployees == 2 || ViewBag.TypeOfEmployees == 5)
+    {
+        <div class="col-6 col-sm-4 col-lg-2">
+            <div class="card">
+                <div class="card-body p-3 text-center">
+                    <div class="text-right text-success">
+                    </div>
+                    <div class="h1 m-0">@ViewBag.AmountOfWashingOrdersDiscountPrice</div>
+                    <div class="text-muted mb-3">Сумма заказов мойки</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+            <div class="card">
+                <div class="card-body p-3 text-center">
+                    <div class="text-right text-success">
+                    </div>
+                    <div class="h1 m-0">
+                        @ViewBag.AmountOfWashingOrdersCarpetSumDiscountPrice
+                    </div>
+                    <div class="text-muted mb-3">Сумма заказов ковров</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-sm-4 col-lg-2">
+            <div class="card">
+                <div class="card-body p-3 text-center">
+                    <div class="text-right text-danger">
+                    </div>
+                    <div class="h1 m-0">@ViewBag.AmountOfWashingOrdersPayroll</div>
+                    <div class="text-muted mb-3">Зарплата за мойку </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+            <div class="card">
+                <div class="card-body p-3 text-center">
+                    <div class="text-right text-danger">
+                    </div>
+                    <div class="h1 m-0">@ViewBag.AmountOfWashingOrdersCarpetSumPayroll </div>
+                    <div class="text-muted mb-3">Зарплата за ковры</div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdOrder)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdCarWashWorkers)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CalculationStatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Payroll)
+                    </th>
+                    <td>
+                        @Html.DisplayNameFor(model => model.OrderServicesCarWash.DiscountPrice)
+                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.salaryDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.closedDayStatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.typeServicesId)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdOrder)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdCarWashWorkers)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderServicesCarWash.ClientsOfCarWash.NumberCar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Payroll)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderServicesCarWash.DiscountPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderServicesCarWash.ClosingData)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.typeServicesId)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Просмотреть", "../Order/CompletedOrders", new { idOrder = item.IdOrder }, new { @class = "btn btn-outline-info" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

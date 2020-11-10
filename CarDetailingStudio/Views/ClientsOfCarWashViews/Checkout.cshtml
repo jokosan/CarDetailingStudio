@@ -12,10 +12,24 @@
                     <div class="col-md-6">
                         <h5 class="card-title m-b-0">Оформление заказа</h5>
                     </div>
-
-                    <div class="col-md-6 text-right">
-                        @Html.ActionLink("Создать нового клиента", "../Client/NewClient", new { idPage = "Checkout" }, new { @class = "btn btn-cyan btn-sm" })
-                    </div>
+                    @switch (ViewBag.Service)
+                    {
+                        case 1:
+                            <div class="col-md-6 text-right">
+                                @Html.ActionLink("Создать нового клиента", "../Client/NewClient", new { idPage = "Checkout", ServiceType = 1 }, new { @class = "btn btn-cyan btn-sm" })
+                            </div>
+                            break;
+                        case 2:
+                            <div class="col-md-6 text-right">
+                                @Html.ActionLink("Создать нового клиента", "../Client/NewClient", new { idPage = "Checkout", ServiceType = 2 }, new { @class = "btn btn-cyan btn-sm" })
+                            </div>
+                            break;
+                        case 3:
+                            <div class="col-md-6 text-right">
+                                @Html.ActionLink("Создать нового клиента", "../Client/NewClient", new { idPage = "Checkout", ServiceType = 3 }, new { @class = "btn btn-cyan btn-sm" })
+                            </div>
+                            break;
+                    }
                 </div>
             </div>
         </div>
@@ -118,6 +132,58 @@
                             });
 
                               columns.Add(model => @Html.ActionLink("Оформить заказ", "CreateTireStorageOrder", "TireStorage", new { IdClient = model.idCar }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+                              //columns.Add(model => @Html.ActionLink("Редактировать", "Info", new { idClientInfo = model.ClientInfo.Id, idClient = model.id, statusPage = "false" }, new { @class = "btn btn-danger btn-sm" })).Encoded(false);
+                          })
+                          .UsingFilterMode(GridFilterMode.Excel)
+                          .Empty("No data found")
+                          .Filterable(GridFilterType.Single)
+                          .Sortable()
+                          .Pageable(pager =>
+                          {
+                              pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 300, "300" }, { 500, "500" } };
+                              pager.ShowPageSizes = true;
+                              pager.RowsPerPage = 1;
+                          })
+                            )
+                            break;
+                        case 3:
+                            @(Html
+                          .Grid(Model)
+                          .Build(columns =>
+                          {
+                              columns.Add(model => model.Surname).Titled("Фамилия");
+                              columns.Add(model => model.Name).Titled("Имя");
+                              columns.Add(model => model.PatronymicName).Titled("Отчество");
+                              columns.Add(model => model.discont).Titled("% Скидки");
+                              columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
+                              columns.Add(model => model.Name).Titled("Группа").UsingFilterOptions(new[]
+                                   {
+                                        new SelectListItem(),
+                                        new SelectListItem { Value = "Постоянный", Text = "Постоянный" },
+                                        new SelectListItem { Value = "VIP", Text = "VIP" },
+                                        new SelectListItem { Value = "Владелец", Text = "Владелец" },
+                                        new SelectListItem { Value = "Ненадежный", Text = "Ненадежный" },
+                                        new SelectListItem { Value = "Скандальный", Text = "Скандальный" },
+                                        new SelectListItem { Value = "Без скидки", Text = "Без скидки" },
+                                        new SelectListItem { Value = "Иногда бывает", Text = "Иногда бывает" },
+                                        new SelectListItem { Value = "Потенциальные", Text = "Потенциальные" },
+                                        new SelectListItem { Value = "Один раз заехал", Text = "Один раз заехал" },
+                                        new SelectListItem { Value = "Требует к себе внимания", Text = "Требует к себе внимания" },
+                                        new SelectListItem { Value = "Продавец автомобилей", Text = "Продавец автомобилей" },
+
+                                   });
+                              columns.Add(model => model.carMarkName).Titled("Марка");
+                              columns.Add(model => model.carModelName).Titled("Модель");
+                              columns.Add(model => model.carBodyName).Titled("Кузов").UsingFilterOptions(new[]
+                              {
+                                new SelectListItem(),
+                                new SelectListItem { Value = "S", Text = "S" },
+                                new SelectListItem { Value = "M", Text = "M" },
+                                new SelectListItem { Value = "L", Text = "L" },
+                                new SelectListItem { Value = "XL", Text = "XL" },
+                            });
+
+                              columns.Add(model => @Html.ActionLink("Оформить заказ", "CreateOrder", "TireChangeService", new { IdClient = model.idCar }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
                               //columns.Add(model => @Html.ActionLink("Редактировать", "Info", new { idClientInfo = model.ClientInfo.Id, idClient = model.id, statusPage = "false" }, new { @class = "btn btn-danger btn-sm" })).Encoded(false);
                           })
                           .UsingFilterMode(GridFilterMode.Excel)

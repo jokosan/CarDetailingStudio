@@ -130,23 +130,37 @@
                         <div class="card-body">
                             <table class="table">
                                 <tbody class="customtable">
-                                    @foreach (var item in ViewBag.Services)
+                                    @if (ViewBag.CauntServices != 0)
                                     {
-                                        <tr>
-                                            <td>@item.Detailings.services_list</td>
-                                            <td>
-                                                @if (item.Detailings.IdTypeService == 1)
-                                                {
-                                                    <b>Детейлинг</b>
-                                                }
-                                                else
-                                                {
-                                                    <b>Мойка</b>
-                                                }
+                                        foreach (var item in ViewBag.Services)
+                                        {
+                                            <tr>
+                                                <td>@item.Detailings.services_list</td>
+                                                <td>
+                                                    @if (item.Detailings.IdTypeService == 1)
+                                                    {
+                                                        <b>Детейлинг</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        <b>Мойка</b>
+                                                    }
 
-                                            </td>
-                                            <td>@item.Price </td>
-                                        </tr>
+                                                </td>
+                                                <td>@item.Price </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                    else 
+                                    {
+                                        foreach (var item in ViewBag.TireServices)
+                                        {
+                                            <tr>
+                                                <td>@item.TireStorageServices.ServicesName </td>
+                                                <td>@item.Price</td>
+                                            </tr>
+                                        }
                                     }
 
                                 </tbody>

@@ -251,6 +251,8 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\Administration\AdminController.cs" />
+    <Compile Include="Controllers\Administration\PriceTireFittingAdditionalServices.cs" />
     <Compile Include="Controllers\AllExpensesController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\BonusToSalaryController.cs" />
@@ -262,6 +264,8 @@
     <Compile Include="Controllers\Expenses\SalaryExpensesController.cs" />
     <Compile Include="Controllers\Expenses\UtilityCostsController.cs" />
     <Compile Include="Controllers\OrderCarpetWashingController.cs" />
+    <Compile Include="Controllers\TireChangeServiceController.cs" />
+    <Compile Include="Controllers\TireServiceController.cs" />
     <Compile Include="Controllers\TireStorage\TireStorageController.cs" />
     <Compile Include="Filters\InitialAmountFilter.cs" />
     <Compile Include="Filters\PreviousShiftStatusFilter.cs" />
@@ -269,9 +273,11 @@
     <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\CarJoinClientModel.cs" />
     <Compile Include="Models\ClientJoinCarpetWashingModelView.cs" />
+    <Compile Include="Models\CreateOrderView.cs" />
     <Compile Include="Models\DayResultModelView.cs" />
     <Compile Include="Models\EmployeeSalariesView.cs" />
     <Compile Include="Models\ExpenseCategoryGroupView.cs" />
+    <Compile Include="Models\ModelViews\AdditionalTireStorageServicesView.cs" />
     <Compile Include="Models\ModelViews\BonusToSalaryGroupView.cs" />
     <Compile Include="Models\ModelViews\BonusToSalaryView.cs" />
     <Compile Include="Models\ModelViews\CashierView.cs" />
@@ -281,10 +287,16 @@
     <Compile Include="Models\ModelViews\ExpenseCategoryView.cs" />
     <Compile Include="Models\ModelViews\OrderCarpetWashingView.cs" />
     <Compile Include="Models\ModelViews\OtherExpensesView.cs" />
+    <Compile Include="Models\ModelViews\PriceListTireFittingAdditionalServicesView.cs" />
+    <Compile Include="Models\ModelViews\PriceListTireFittingView.cs" />
     <Compile Include="Models\ModelViews\SalaryBalanceView.cs" />
     <Compile Include="Models\ModelViews\SalaryExpensesView.cs" />
     <Compile Include="Models\ModelViews\ServisesCarWashOrderView.cs" />
     <Compile Include="Models\ModelViews\StorageFeeView.cs" />
+    <Compile Include="Models\ModelViews\TireChangeServiceView.cs" />
+    <Compile Include="Models\ModelViews\TireRadiusView.cs" />
+    <Compile Include="Models\ModelViews\TireServiceView.cs" />
+    <Compile Include="Models\ModelViews\TypeOfCarsView.cs" />
     <Compile Include="Models\ModelViews\UtilityCostsCategoryView.cs" />
     <Compile Include="Models\ModelViews\UtilityCostsView.cs" />
     <Compile Include="Models\OrderCarWashWorkersDayGroupView.cs" />
@@ -359,6 +371,7 @@
     <Content Include="Content\car-wash-workers.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\DifferentStyles.css" />
     <Content Include="Content\form.css" />
     <Content Include="Content\input.css" />
     <Content Include="Content\jquery-ui.css" />
@@ -1351,6 +1364,17 @@
     <Content Include="Views\Cashier\AmountAtTheBeginningOfTheDay.cshtml" />
     <Content Include="Views\Analytics\EmployeeSalaryDetails.cshtml" />
     <Content Include="Views\BonusToSalary\Info.cshtml" />
+    <Content Include="Views\Analytics\AdminReport.cshtml" />
+    <Content Include="Views\Analytics\DetailsAboutOrders.cshtml" />
+    <Content Include="Views\Analytics\DetailsOfSalaries.cshtml" />
+    <Content Include="Views\TireService\Create.cshtml" />
+    <Content Include="Views\TireChangeService\CreateOrder.cshtml" />
+    <Content Include="Views\TireChangeService\OrderPreview.cshtml" />
+    <Content Include="Views\Order\_Menu.cshtml" />
+    <Content Include="Views\TireChangeService\CloseOrder.cshtml" />
+    <Content Include="Views\Admin\IndexPriceListTireFittingAdditionalServices.cshtml" />
+    <Content Include="Views\Admin\EditPriceListTireFittingAdditionalServices.cshtml" />
+    <Content Include="Views\TireStorage\InfoOrderTireStorage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

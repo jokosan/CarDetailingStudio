@@ -69,44 +69,54 @@
                                     </tr>
                                     <tr>
                                         <td class="text-center">2</td>
-                                        <td>Касса мойки</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса мойки</a></td>
                                         <td class="text-right">@ViewBag.OrderCarWashSum  грн. </td>
                                     </tr>
                                     <tr>
+                                        <td class="text-center">3</td>
+                                        <td>Количество ковров</td>
+                                        <td class="text-right"> @ViewBag.CauntCarpet шт.</td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-center">4</td>
-                                        <td>ЗП администратора (+ ковры)</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса ковров</a></td>
+                                        <td class="text-right"> @ViewBag.CarpetOrder грн.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">4</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора (авто + ковры)</a></td>
                                         <td class="text-right"> @ViewBag.AdministratorCarWash грн. </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">5</td>
-                                        <td>ЗП автомойщиков (+ ковры)</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 5, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП автомойщиков (авто + ковры)</a></td>
                                         <td class="text-right"> @ViewBag.StaffCarWashWorker грн. </td>
                                     </tr>
 
                                     @* ----------------------------------------------------------------------------------- *@
-                                    <tr>
-                                        <td colspan="3" class="text-center"><b class="text-danger">Стирка ковров</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Касса за мойку ковров</td>
-                                        <td class="text-right"> @ViewBag.CarpetOrder грн.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">2</td>
-                                        <td>Количество заказов</td>
-                                        <td class="text-right"> @ViewBag.CauntCarpet шт.</td>
-                                    </tr>
                                     @*<tr>
-                                        <td class="text-center">3</td>
-                                        <td>ЗП администратора</td>
-                                        <td class="text-right">@ViewBag.AdminCarpet грн. </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">4</td>
-                                        <td>ЗП Сотрудника</td>
-                                        <td class="text-right"> @ViewBag.StaffCarpet грн. </td>
-                                    </tr>*@
+            <td colspan="3" class="text-center"><b class="text-danger">Стирка ковров</b></td>
+        </tr>
+        <tr>
+            <td class="text-center">1</td>
+            <td>Касса за мойку ковров</td>
+            <td class="text-right"> @ViewBag.CarpetOrder грн.</td>
+        </tr>
+        <tr>
+            <td class="text-center">2</td>
+            <td>Количество заказов</td>
+            <td class="text-right"> @ViewBag.CauntCarpet шт.</td>
+        </tr>*@
+                                    @*<tr>
+            <td class="text-center">3</td>
+            <td>ЗП администратора</td>
+            <td class="text-right">@ViewBag.AdminCarpet грн. </td>
+        </tr>
+        <tr>
+            <td class="text-center">4</td>
+            <td>ЗП Сотрудника</td>
+            <td class="text-right"> @ViewBag.StaffCarpet грн. </td>
+        </tr>*@
 
                                     @* ----------------------------------------------------------------------------------- *@
                                     <tr>
@@ -119,20 +129,60 @@
                                     </tr>
                                     <tr>
                                         <td class="text-center">2</td>
-                                        <td>Касса детейлинга</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса детейлинга</a></td>
                                         <td class="text-right">@ViewBag.OrderDetailingsSum  грн. </td>
                                     </tr>
 
                                     <tr>
                                         <td class="text-center">4</td>
-                                        <td>ЗП администратора детейлинга</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
                                         <td class="text-right"> @ViewBag.AdministratorDetailings грн. </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">5</td>
-                                        <td>ЗП детейлинга</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП детейлинга</a></td>
                                         <td class="text-right"> @ViewBag.StaffDetailing грн. </td>
                                     </tr>
+
+
+                                    @* ----------------------------------------------------------------------------------- *@
+                                    <tr>
+                                        <td colspan="3" class="text-center"><b class="text-danger">Заказы ожидающие оплату</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Сумма заказов ожидающих оплат</td>
+                                        <td class="text-right"> @ViewBag.NumberOfUnpaidOrders грн. </td>
+                                    </tr>
+
+
+                                    @* ----------------------------------------------------------------------------------- *@
+
+                                    <tr>
+                                        <td colspan="3" class="text-center"><b class="text-danger">Внимание!!! Шиномантаж в итог не входит<b /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Количество заказов шиномонтажа</td>
+                                        <td class="text-right">@ViewBag.CauntTire шт.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса шиномантаж</a></td>
+                                        <td class="text-right">@ViewBag.TireOrders  грн. </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-center">4</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 9, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора </a></td>
+                                        <td class="text-right"> @ViewBag.AdministratorTire грн. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">5</td>
+                                        <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 10, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП Сотрудников </a></td>
+                                        <td class="text-right"> @ViewBag.StaffTire грн. </td>
+                                    </tr>
+
 
 
                                     @* ----------------------------------------------------------------------------------- *@
@@ -143,6 +193,11 @@
                                         <td class="text-center">1</td>
                                         <td>Сумма всех расходов</td>
                                         <td class="text-right"> @ViewBag.TotalCosts грн. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td>Выплаченно заработной платы</td>
+                                        <td class="text-right"> @ViewBag.SalaryExpensesDay грн. </td>
                                     </tr>
                                     @* ----------------------------------------------------------------------------------- *@
                                     <tr>
@@ -167,16 +222,17 @@
                         <div class="clearfix"></div>
                         <hr>
                         <div class="pull-right m-t-30 text-right">
-                            <p>Итог доход:  @ViewBag.TotalIncome грн.</p>
+                            @*<p>Итог доход:  @ViewBag.TotalIncome грн.</p>
                             <p>Итог расход:  @ViewBag.TotalCosts грн.</p>
-                            <hr>
-                            <p>Итого расходы на зарплату: @ViewBag.TotalSalaryExpenses грн.</p>
+                            <hr>*@
+                            @*<p>Итого расходы на зарплату: @ViewBag.TotalSalaryExpenses грн.</p>
                             <p>Итого выплаченно заработной платы: @ViewBag.SalaryExpensesDay грн.</p>
                             <hr>
                             <p>Итого выплаченно заработной платы: @ViewBag.TotalSalaryExpenses грн.</p>
-                            <hr>
-                            <h3><b>Остаток с учетом выплаченной ЗП:</b> @ViewBag.TotalCash грн.</h3>
-                            <h3><b>Остаток:</b> @ViewBag.Total грн.</h3>
+                            <hr>*@
+                            @*<h3><b>Остаток с учетом выплаченной ЗП:</b> @ViewBag.TotalCash грн.</h3>*@
+                            <h3><b>Итого:</b> @ViewBag.TotalCash грн.</h3>
+                            @*<h3><b>Остаток:</b> @ViewBag.Total грн.</h3>*@
                         </div>
                         <div class="clearfix"></div>
                         <hr>

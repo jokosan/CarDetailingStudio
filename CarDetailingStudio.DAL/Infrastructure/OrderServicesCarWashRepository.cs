@@ -38,7 +38,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
 
         public async Task<OrderServicesCarWash> GetById(int? id)
         {
-            var result =  await _context.OrderServicesCarWash
+            var result = await _context.OrderServicesCarWash
                                                        .AsNoTracking()
                                                        .Include("ClientsOfCarWash")
                                                        .Include("ClientsOfCarWash.ClientInfo")
@@ -80,6 +80,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                       .Include("ServisesCarWashOrder")
                                                       .Include("ServisesCarWashOrder.Detailings")
                                                       .Include("OrderCarWashWorkers")
+                                                      .Include("ClientsOfCarWash.ClientInfo")
                                                       .Include("OrderCarWashWorkers.CarWashWorkers")
                                                       .Where(predicate).AsQueryable().ToListAsync();
             return result;

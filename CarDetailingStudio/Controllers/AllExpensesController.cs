@@ -122,7 +122,6 @@ namespace CarDetailingStudio.Controllers
                     allExpensesBll.utilityCostsCategoryId = costCategorie;
 
                     await _allExpenses.SaveExpenses(allExpensesBll);
-
                 }              
 
                 return RedirectToAction("Create");

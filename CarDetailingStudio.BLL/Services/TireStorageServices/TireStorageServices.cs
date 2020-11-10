@@ -5,6 +5,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.TireStorageServices
@@ -16,6 +17,12 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
         public TireStorageServices(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<TireStorageBll> GetOrderId(int idOrder)
+        {
+            var result = Mapper.Map<IEnumerable<TireStorageBll>>(await _unitOfWork.tireStorageUnitOfWork.QueryObjectGraph(x => x.IdOrderServicesCarWash == idOrder, "storageFee"));
+            return result.FirstOrDefault();
         }
 
         public async Task<IEnumerable<TireStorageBll>> GetTableAll()

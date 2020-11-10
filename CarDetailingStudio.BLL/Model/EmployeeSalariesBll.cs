@@ -14,5 +14,7 @@ namespace CarDetailingStudio.BLL.Model
         public double? StaffDetailing { get; set; }
         public double? adminCarpet { get; set; }
         public double? staffCarpet { get; set; }
+        public double? AdministratorTire { get; set; }
+        public double? StaffTire { get; set; }
     }
 }

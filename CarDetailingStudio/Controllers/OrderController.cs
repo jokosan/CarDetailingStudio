@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
+using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using CarDetailingStudio.Filters;
 using CarDetailingStudio.Models.ModelViews;
 using System;
@@ -24,10 +25,11 @@ namespace CarDetailingStudio.Controllers
         private IStatusOrder _statusOrder;
         private IWageModules _wageModules;
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
+        private IAdditionalTireStorageServices _additionalTireStorageServices;
 
         public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises,
                                IBrigadeForTodayServices brigade, IOrderServices orderSer, IWageModules wageModules,
-                               IStatusOrder statusOrder, IOrderCarWashWorkersServices orderCarWashWorkers)
+                               IStatusOrder statusOrder, IOrderCarWashWorkersServices orderCarWashWorkers, IAdditionalTireStorageServices additionalTireStorageServices)
         {
             _order = orderServices;
             _servisesCarWash = servises;
@@ -36,6 +38,7 @@ namespace CarDetailingStudio.Controllers
             _wageModules = wageModules;
             _statusOrder = statusOrder;
             _orderCarWashWorkers = orderCarWashWorkers;
+            _additionalTireStorageServices = additionalTireStorageServices;
         }
 
         private double? Price;
@@ -51,15 +54,16 @@ namespace CarDetailingStudio.Controllers
             return View(order.OrderByDescending(x => x.Id));
         }
 
-        public async Task<ActionResult> ArxivOrder()
+        public async Task<ActionResult> ArxivOrder(int typeOfOrder, int statusOrder)
         {
-            var arxivOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(2, 1));
+            var arxivOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.ArxivOrder(typeOfOrder, statusOrder));
             return View(arxivOrder.OrderByDescending(x => x.Id));
         }
 
-        public async Task<ActionResult> OrderTireStorage()
+        public async Task<ActionResult> OrderTireStorage(int typeOfOrder, int statusOrder)
         {
-            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetOrderAllTireStorage()));
+            ViewBag.Services = typeOfOrder;
+            return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetOrderAllTireStorage(typeOfOrder, statusOrder)).OrderByDescending(x => x.Id));
         }
 
         // GET: Order/Details/5
@@ -139,7 +143,7 @@ namespace CarDetailingStudio.Controllers
             ViewBag.ServicesOrder = services;
             ViewBag.Employee = employee;
 
-            return View(order);            
+            return View(order);
         }
 
         [HttpPost]
@@ -179,7 +183,20 @@ namespace CarDetailingStudio.Controllers
             var typeServese = Services.FirstOrDefault();
 
             ViewBag.Services = Services;
-            ViewBag.TypeService = typeServese.Detailings.IdTypeService;
+            ViewBag.CauntServices = Services.Count();
+           
+
+            if (typeServese != null)
+            {
+                ViewBag.TypeService = typeServese.Detailings.IdTypeService;
+            }
+            else
+            {
+                ViewBag.TireServices = Mapper.Map<IEnumerable<AdditionalTireStorageServicesView>>(await _additionalTireStorageServices.GetOrderId(id.Value));
+                
+            }
+               
+
             ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
             ViewBag.Price = Price;
 
@@ -213,10 +230,10 @@ namespace CarDetailingStudio.Controllers
 
             if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2) //Выполнен
             {
-                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);                
+                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
                 await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
             }
-            else if (idBrigade != null  && idStatusOrder == 4) //Ожидает оплаты
+            else if (idBrigade != null && idStatusOrder == 4) //Ожидает оплаты
             {
                 await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
                 await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
@@ -238,7 +255,7 @@ namespace CarDetailingStudio.Controllers
                         selectionStatus = false
                     }));
                 }
-                
+
             }
             else if (idStatusOrder == 3)
             {

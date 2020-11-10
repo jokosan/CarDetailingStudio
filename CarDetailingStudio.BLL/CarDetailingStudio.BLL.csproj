@@ -97,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AdditionalTireStorageServicesBll.cs" />
     <Compile Include="Model\AllExpensesBll.cs" />
     <Compile Include="Model\BonusToSalaryBll.cs" />
     <Compile Include="Model\BonusToSalaryGroupBll.cs" />
@@ -131,6 +132,8 @@
     <Compile Include="Model\OrderCarpetWashingBll.cs" />
     <Compile Include="Model\OrderCarWashWorkersDayGroupBll.cs" />
     <Compile Include="Model\OrderInformationWashingDetailingBll.cs" />
+    <Compile Include="Model\PriceListTireFittingAdditionalServicesBll.cs" />
+    <Compile Include="Model\PriceListTireFittingBll.cs" />
     <Compile Include="Model\SalaryBalanceBll.cs" />
     <Compile Include="Model\StorageFeeBll.cs" />
     <Compile Include="Model\ModelViewBll\WagesForDaysWorkedBll.cs" />
@@ -142,8 +145,12 @@
     <Compile Include="Model\SalaryExpensesBll.cs" />
     <Compile Include="Model\ServisesCarWashOrderBll.cs" />
     <Compile Include="Model\StatusOrderBll.cs" />
+    <Compile Include="Model\TireChangeServiceBll.cs" />
+    <Compile Include="Model\TireRadiusBll.cs" />
+    <Compile Include="Model\TireServiceBll.cs" />
     <Compile Include="Model\TireStorageBll.cs" />
     <Compile Include="Model\TireStorageServicesBll.cs" />
+    <Compile Include="Model\TypeOfCarsBll.cs" />
     <Compile Include="Model\TypeServicesBll.cs" />
     <Compile Include="Model\UtilityCostsBll.cs" />
     <Compile Include="Model\UtilityCostsCategoryBll.cs" />
@@ -251,7 +258,23 @@
     <Compile Include="Services\SalaryBalanceService.cs" />
     <Compile Include="Services\ServisesCarWashOrderServices.cs" />
     <Compile Include="Services\StatusOrderServices.cs" />
+    <Compile Include="Services\TireFitting\PriceListTireFittingServices.cs" />
+    <Compile Include="Services\TireFitting\PriceTireFittingAdditionalServices.cs" />
+    <Compile Include="Services\TireFitting\TireChangeService.cs" />
+    <Compile Include="Services\TireFitting\TireFittingContract\IPriceListTireFitting.cs" />
+    <Compile Include="Services\TireFitting\TireFittingContract\IPriceTireFittingAdditionalServices.cs" />
+    <Compile Include="Services\TireFitting\TireFittingContract\ITireChangeService.cs" />
+    <Compile Include="Services\TireFitting\TireFittingContract\ITireRadius.cs" />
+    <Compile Include="Services\TireFitting\TireFittingContract\ITireService.cs" />
+    <Compile Include="Services\TireFitting\TireFittingContract\ITypeOfCars.cs" />
+    <Compile Include="Services\TireFitting\TireRadiusServices.cs" />
+    <Compile Include="Services\TireFitting\TireService.cs" />
+    <Compile Include="Services\TireFitting\TypeOfCarsServices.cs" />
+    <Compile Include="Services\TireFitting\Module\Contract\ICreateOrderModule.cs" />
+    <Compile Include="Services\TireFitting\Module\CreateOrderModule.cs" />
+    <Compile Include="Services\TireStorageServices\AdditionalTireStorageServices.cs" />
     <Compile Include="Services\TireStorageServices\StorageFeeServices.cs" />
+    <Compile Include="Services\TireStorageServices\TireStorageContract\IAdditionalTireStorageServices.cs" />
     <Compile Include="Services\TireStorageServices\TireStorageContract\IStorageFee.cs" />
     <Compile Include="Services\TireStorageServices\TireStorageContract\ITireStorage.cs" />
     <Compile Include="Services\TireStorageServices\TireStorageContract\ITireStorageServices.cs" />
@@ -260,6 +283,7 @@
     <Compile Include="Services\UtilityCostsCategoryServices.cs" />
     <Compile Include="Utilities\Map\AutomapperConfig.cs" />
     <Compile Include="Utilities\Ninject\NinjectDependencyResolverBll.cs" />
+    <Compile Include="Utilities\Ninject\NinjectOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

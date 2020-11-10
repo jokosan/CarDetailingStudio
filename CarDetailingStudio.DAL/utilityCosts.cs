@@ -22,6 +22,5 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> utilityCostsCategoryId { get; set; }
     
         public virtual expenseCategory expenseCategory { get; set; }
-        public virtual utilityCostsCategory utilityCostsCategory { get; set; }
     }
 }

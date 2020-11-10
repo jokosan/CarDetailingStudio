@@ -9,7 +9,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         void Dispose();
 
         Task Save();
-
+     
         //  GenericRepository
 
         DbRepository<ClientsOfCarWash> ClientsOfCarWashUnitOfWork { get; set; }
@@ -65,6 +65,16 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<bonusToSalary> BonusToSalaryUnitOfWork { get; set; }
 
         DbRepository<costCategories> CostCategoriesUnionOfWork { get; set; }
+
+        // шиномонтаж
+        DbRepository<PriceListTireFittingAdditionalServices> PriceListTireFittingAdditionalServicesUnitOfWork { get; set; }
+        DbRepository<tireService> TireServiceUnitOfWork { get; set; }
+        DbRepository<PriceListTireFitting> PriceListTireFittingUnitOfWork { get; set; }
+        DbRepository<TireRadius> TireRadiusUnitOfWork { get; set; }
+        DbRepository<TypeOfCars> TypeOfCarsUnitOfWork { get; set; }
+        DbRepository<tireChangeService> TireChangeServiceUnitOfWork { get; set; }
+        DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUnitOfWork { get; set; }
+
     }
 
 }

@@ -107,6 +107,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="additionalTireStorageServices.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="bonusToSalary.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -228,6 +231,12 @@
     <Compile Include="PaymentState.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="PriceListTireFitting.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PriceListTireFittingAdditionalServices.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="salaryBalance.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
@@ -247,10 +256,22 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="tireChangeService.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TireRadius.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tireService.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="TireStorage.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="TireStorageServices.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypeOfCars.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="typeOfOrder.cs">

@@ -31,9 +31,9 @@ namespace CarDetailingStudio.BLL.Services
             _servisesCarWashOrder = servisesCarWashOrder;
         }
 
-        public async Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage()
+        public async Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage(int typeOfOrder, int statusOrder)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => x.StatusOrder == 5));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == statusOrder)) || ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == 4))));
         }
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder)
@@ -53,9 +53,9 @@ namespace CarDetailingStudio.BLL.Services
             }
         }
 
-        public async Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder, int typeOfOrder)
+        public async Task<IEnumerable<OrderServicesCarWashBll>> ArxivOrder(int typeOfOrder, int statusOrder)
         {
-            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder <= 2)));
+            return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => (x.StatusOrder == statusOrder) && (x.typeOfOrder == typeOfOrder)));
         }
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> AllOrderOneEmployee(List<int> idOrder)
@@ -216,9 +216,7 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task SaveOrder(OrderServicesCarWashBll orderSave)
         {
-            OrderServicesCarWash orderCarWashWorkers = Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(orderSave);
-
-            _unitOfWork.OrderServicesCarWashUnitOfWork.Update(orderCarWashWorkers);
+            _unitOfWork.OrderServicesCarWashUnitOfWork.Update(EntityTransformation(orderSave));
             await _unitOfWork.Save();
         }
 
@@ -230,6 +228,16 @@ namespace CarDetailingStudio.BLL.Services
             await _unitOfWork.Save();
 
             return orderCarWashWorkers.Id;
+        }
+
+        public async Task CloseOrder(int? idOrder, int? idStatusOrder, int? idPaymentState)
+        {
+            var singlOrder = await GetId(idOrder);
+
+            singlOrder.StatusOrder = idStatusOrder;
+            singlOrder.PaymentState = idPaymentState;
+
+            await SaveOrder(singlOrder);
         }
 
         #region Отчеты
@@ -244,5 +252,7 @@ namespace CarDetailingStudio.BLL.Services
                                                                                                                   && (DbFunctions.TruncateTime(x.OrderDate.Value) <= finalDate.Date)));
         }
         #endregion
+
+        private OrderServicesCarWash EntityTransformation(OrderServicesCarWashBll Entity) => Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(Entity);
     }
 }

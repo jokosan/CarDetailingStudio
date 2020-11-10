@@ -31,11 +31,12 @@ namespace CarDetailingStudio.Controllers
 
 
         // GET: Client/Create
-        public async Task<ActionResult> NewClient(string idPage)
+        public async Task<ActionResult> NewClient(string idPage, int ServiceType = 0)
         {
             ViewBag.OpenPage = idPage;
             ViewBag.Body = new SelectList(await _carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
+            ViewBag.ServiceType = ServiceType;
 
             if ("Checkout" == idPage)
             {
@@ -53,6 +54,7 @@ namespace CarDetailingStudio.Controllers
             {
                 clientView.Idmark = Int32.Parse(TempData["Mark"].ToString());
                 clientView.Idmodel = Int32.Parse(TempData["Model"].ToString());
+                clientView.DateRegistration = DateTime.Now;
 
                 if (ModelState.IsValid)
                 {
@@ -64,10 +66,13 @@ namespace CarDetailingStudio.Controllers
                         if (Service != null)
                         {
                             ClientViewsBll client = Mapper.Map<ClientView, ClientViewsBll>(clientView);
-                            int idNewClient =  await _clientModules.Distribute(client);
+                            int idNewClient = await _clientModules.Distribute(client);
 
                             var carBody = Mapper.Map<CarBodyView>(await _carBody.SelectId(Convert.ToInt32(clientView.IdBody)));
+
+
                             return RedirectToAction("NewOrder", "ClientsOfCarWashViews", new RouteValueDictionary(new { id = idNewClient, body = carBody.Name, Services = Service }));
+
                         }
                         else
                         {
@@ -76,6 +81,8 @@ namespace CarDetailingStudio.Controllers
                     }
                     else
                     {
+
+
                         if (Page)
                         {
                             ClientViewsBll client = Mapper.Map<ClientView, ClientViewsBll>(clientView);
@@ -93,6 +100,12 @@ namespace CarDetailingStudio.Controllers
                 }
             }
 
+            if (Service == 3)
+            {
+                ClientViewsBll client = Mapper.Map<ClientView, ClientViewsBll>(clientView);
+                int idNewClient = await _clientModules.Distribute(client);
+                return RedirectToAction("CreateOrder", "TireChangeService", new RouteValueDictionary(new { IdClient = idNewClient }));
+            }
             ViewBag.Body = new SelectList(await _carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
 

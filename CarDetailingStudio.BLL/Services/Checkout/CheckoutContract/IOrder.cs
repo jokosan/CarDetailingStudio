@@ -6,7 +6,7 @@ namespace CarDetailingStudio.BLL.Services.Checkout.CheckoutContract
 {
     public interface IOrder
     {
-         Task<int> Chekout(OrderTireStorageModelBll orderTireStorage, double? sum, int? idPaymentState);
+         Task<int> CreateStorageFee(int storageTime, double? sum);
          Task<int> OrderForCarpetCleaning(OrderCarpetWashingBll orderCarpetWashing, int? idPaymentState, int prise, int clientId);
     }
 }

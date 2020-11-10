@@ -1,40 +1,34 @@
 ﻿@model CarDetailingStudio.Models.OrderTireStorageModelView
 
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <form class="form-horizontal">
-                <div class="card-body">
-                    <div class="form-group row">
-
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">@Html.DisplayNameFor(model => model.dateOfAdoption)</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.dateOfAdoption)
-                        </label>
-
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">@Html.DisplayNameFor(model => model.firm)</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.firm)
-                        </label>
-
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label"> @Html.DisplayNameFor(model => model.storageTime)</label>
-                        <label for="fname" class="col-sm-2 text-right control-label col-form-label">
-                            @Html.DisplayFor(model => model.storageTime) мес.
-                        </label>
-
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title m-b-0">Заказ</h5>
+            <div class="card-header">
+                <h4 class="card-title">Заказчик</h4>
+            </div>
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Номер машины</td>
+                        <td> @ViewBag.Client.NumberCar</td>
+                    </tr>
+                    <tr>
+                        <td>Марка/Модель</td>
+                        <td> @ViewBag.Client.car_mark.name @ViewBag.Client.car_model.name</td>
+                    </tr>
+                    <tr>
+                        <td>Ф.И.О</td>
+                        <td> @ViewBag.Client.ClientInfo.Surname @ViewBag.Client.ClientInfo.Name  @ViewBag.Client.ClientInfo.Surname</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Заказ</h4>
             </div>
             <table class="table">
                 <thead>
@@ -90,7 +84,7 @@
         </div>
 
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <h5 class="card-title m-b-0">Цены по заказу</h5>
             </div>
             <table class="table">
@@ -121,8 +115,31 @@
 
     <div class="col-md-6">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title m-b-0">Прайс по заказу</h5>
+            <div class="card-header">
+                <h4 class="card-title">Фирма и срок хранения шин</h4>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.dateOfAdoption)</td>
+                        <td>  @Html.DisplayFor(model => model.dateOfAdoption)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.firm)</td>
+                        <td> @Html.DisplayFor(model => model.firm)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.storageTime)</td>
+                        <td>  @Html.DisplayFor(model => model.storageTime) мес.</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Прайс по заказу</h4>
             </div>
             <table class="table">
                 <thead>
@@ -133,7 +150,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Сумма за хранение шин с дисками</td>
+                        <td>Сумма за хранение шин</td>
                         <td>@ViewBag.ReviwOrder.priceOfTire грн.</td>
                     </tr>
 
@@ -172,17 +189,10 @@
             </table>
         </div>
         <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Итог и способ оплаты</h4>
+            </div>
             <div class="card-body">
-
-                @if (ViewBag.ReviwOrder.priceSilicone != 0 || ViewBag.ReviwOrder.priceWheelWash != 0)
-                {
-                    <h5 class="card-title m-b-0">Cпособ оплаты\Выбор сотрудника для выполнения услуг</h5>
-                }
-                else
-                {
-                    <h5 class="card-title m-b-0">Cпособ оплаты</h5>
-                }
-
                 <div class="pull-right m-t-30 text-right">
                     <div class="row">
                         <div class="col-md-6">
@@ -190,45 +200,16 @@
                             {
                                 @Html.AntiForgeryToken()
 
-                                <div class="comment-widgets scrollable" id="admin">
-                                    @foreach (var item in ViewBag.Adninistrator)
-                                    {
-                                        <div class="d-flex flex-row comment-row m-t-0">
-
-                                            <div class="checkbox">
-                                                <text><input type="checkbox" name="idAdmin" value="@item.CarWashWorkers.id" /></text>
-                                            </div>
-
-                                            <div class="comment-text w-100">
-                                                <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                                <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position</span>
-                                            </div>
-                                        </div>
-                                    }
+                                <hr />
+                                <div>
+                                    @Html.DropDownList("idStatusOrder", new List<SelectListItem>
+                                       {
+                                           new SelectListItem{ Text = "Находиться на хранении", Value = "5"},
+                                            new SelectListItem{ Text = "Выполнен", Value = "2"},
+                                           new SelectListItem{ Text = "Отменен", Value = "3"},
+                                       }, new { @class = "form-control" })
                                 </div>
-                                <hr />
-
-                                if (ViewBag.ReviwOrder.priceSilicone != 0 || ViewBag.ReviwOrder.priceWheelWash != 0)
-                                {
-                                    <div class="comment-widgets scrollable" id="brigade">
-                                        @foreach (var item in ViewBag.Brigade)
-                                        {
-                                            <div class="d-flex flex-row comment-row m-t-0">
-
-                                                <div class="checkbox">
-                                                    <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
-                                                </div>
-
-                                                <div class="comment-text w-100">
-                                                    <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                                    <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                                <hr />
-
+                                <hr/>
                                 <div>
                                     @Html.DropDownList("idPaymentState", new List<SelectListItem>
                                        {
@@ -247,13 +228,25 @@
                             }
                         </div>
                         <div class="col-md-6">
+                            <hr />
                             <h3><b>Итого: </b>@ViewBag.Sum  грн.</h3>
-
+                            <hr />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+
+
+    <div class="col-md-6">
+       
+        
     </div>
 </div>
 

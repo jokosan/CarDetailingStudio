@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,6 +7,10 @@ namespace CarDetailingStudio.Models.ModelViews
 {
     public class TireStorageServicesView
     {
+        public TireStorageServicesView()
+        {
+            this.additionalTireStorageServices = new HashSet<AdditionalTireStorageServicesView>();
+        }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -24,5 +29,7 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [Display(Name = "Цена")]
         public Nullable<double> Price { get; set; }
+
+        public virtual ICollection<AdditionalTireStorageServicesView> additionalTireStorageServices { get; set; }
     }
 }

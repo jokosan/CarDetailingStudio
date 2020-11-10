@@ -127,6 +127,25 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<CostCategoriesBll, costCategories>();
             CreateMap<costCategories, CostCategoriesBll>();
+
+            //  шиномонтаж
+            CreateMap<PriceListTireFittingAdditionalServicesBll, PriceListTireFittingAdditionalServices>();
+            CreateMap<PriceListTireFittingAdditionalServices, PriceListTireFittingAdditionalServicesBll>();
+
+            CreateMap<TireServiceBll, tireService>();
+            CreateMap<tireService, TireServiceBll>();
+
+            CreateMap<PriceListTireFittingBll, PriceListTireFitting>();
+            CreateMap<PriceListTireFitting, PriceListTireFittingBll>();
+
+            CreateMap<TireRadiusBll, TireRadius>();
+            CreateMap<TireRadius, TireRadiusBll>();
+
+            CreateMap<TypeOfCarsBll, TypeOfCars>();
+            CreateMap<TypeOfCars, TypeOfCarsBll>();
+
+            CreateMap<TireChangeServiceBll, tireChangeService>();
+            CreateMap<tireChangeService, TireChangeServiceBll>();
         }
     }
 }

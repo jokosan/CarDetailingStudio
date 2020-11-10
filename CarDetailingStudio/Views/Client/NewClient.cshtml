@@ -70,7 +70,7 @@
                                     @Html.LabelFor(model => model.DateRegistration)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.DateRegistration, new { htmlAttributes = new { @class = "form-control" },  value=@Request.Form["DateRegistration"] })
+                                    @Html.EditorFor(model => model.DateRegistration, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" },  value=@Request.Form["DateRegistration"] })
                                     @Html.ValidationMessageFor(model => model.DateRegistration, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -213,33 +213,40 @@
                 <div class="form-group" align="right">
                     <div class="col-md-offset-2 col-md-10">
 
-
-                        <label class="h6">Детейлинг</label>
-                        <label class="customcheckbox">
-                            <label class="label">
-                                <input class="label__checkbox" type="checkbox" name="Service" value="1" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
-                                <span class="label__text">
-                                    <span class="label__check">
-                                        <i class="fa fa-check icon"></i>
+                        @if (ViewBag.ServiceType != 3)
+                        {
+                            <label class="h6">Детейлинг</label>
+                            <label class="customcheckbox">
+                                <label class="label">
+                                    <input class="label__checkbox" type="checkbox" name="Service" value="1" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                    <span class="label__text">
+                                        <span class="label__check">
+                                            <i class="fa fa-check icon"></i>
+                                        </span>
                                     </span>
-                                </span>
+                                </label>
+                                <span class="checkmark"></span>
                             </label>
-                            <span class="checkmark"></span>
-                        </label>
 
-                        <label class="h6">Мойка</label>
-                        <label class="customcheckbox">
-                            <label class="label">
+                            <label class="h6">Мойка</label>
+                            <label class="customcheckbox">
+                                <label class="label">
 
-                                <input class="label__checkbox" type="checkbox" name="Service" value="2" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
-                                <span class="label__text">
-                                    <span class="label__check">
-                                        <i class="fa fa-check icon"></i>
+                                    <input class="label__checkbox" type="checkbox" name="Service" value="2" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                    <span class="label__text">
+                                        <span class="label__check">
+                                            <i class="fa fa-check icon"></i>
+                                        </span>
                                     </span>
-                                </span>
+                                </label>
+                                <span class="checkmark"></span>
                             </label>
-                            <span class="checkmark"></span>
-                        </label>
+                        }
+                        else 
+                        {
+                            <input type="hidden" name="Service" value="3" />
+                        }
+
 
 
                         @Html.ActionLink("Отменить заказ", "../ClientsOfCarWashViews/Checkout", null, new { @class = "btn btn-danger" })

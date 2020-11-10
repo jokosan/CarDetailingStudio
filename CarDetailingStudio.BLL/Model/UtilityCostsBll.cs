@@ -12,6 +12,5 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<int> utilityCostsCategoryId { get; set; }
 
         public virtual ExpenseCategoryBll expenseCategory { get; set; }
-        public virtual UtilityCostsCategoryBll utilityCostsCategory { get; set; }
     }
 }

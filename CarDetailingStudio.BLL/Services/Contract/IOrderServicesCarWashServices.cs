@@ -8,8 +8,8 @@ namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IOrderServicesCarWashServices : IReports<OrderServicesCarWashBll>
     {
-        Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage();
-        Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder, int typeOfOrder);
+        Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage(int typeOfOrder, int statusOrder);
+        Task<IEnumerable<OrderServicesCarWashBll>> ArxivOrder(int typeOfOrder, int statusOrder);
         Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder);
         Task<OrderServicesCarWashBll> GetId(int? id);
         Task InsertOrders(int service, List<double> carBody, List<int> id, List<int> sum, double total);
@@ -23,5 +23,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task<int> CreateOrder(OrderServicesCarWashBll orderSave);
         Task<IEnumerable<OrderServicesCarWashBll>> GetDataClosing();
         Task<IEnumerable<OrderServicesCarWashBll>> AllOrderOneEmployee(List<int> idOrder);
+        Task CloseOrder(int? idOrder, int? idStatusOrder, int? idPaymentState);
     }
 }

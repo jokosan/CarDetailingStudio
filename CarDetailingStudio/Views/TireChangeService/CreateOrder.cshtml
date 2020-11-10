@@ -1,0 +1,416 @@
+﻿@model CarDetailingStudio.Models.ModelViews.TireChangeServiceView
+<link href="~/Content/input.css" rel="stylesheet" />
+@if (ViewBag.Error == true)
+{
+<div class="col-md-12">
+    <div class="alert alert-danger" role="alert">
+        <h5>Внимание!</h5>
+        <ul>
+            <li>
+                Количество шин должно быть выбрано.
+            </li>
+            <li>
+                Радиус шин должно быть выбрано"
+            </li>
+            <li>
+                Дополнительные услуги:
+                <ul>
+                    <li>
+                        Без количества шин и радиуса приведет к ошибке
+                    </li>
+                    <li>
+                        Для выбора дополнительных услуг должна быть поставлена отметка
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Повторите выбор услуг
+            </li>
+        </ul>
+    </div>
+</div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">О заказчике</h4>
+                </div>
+                <input type="hidden" name="Client" value=@ViewBag.Client.id />
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Номер машины</td>
+                            <td> @ViewBag.Client.NumberCar</td>
+                        </tr>
+                        <tr>
+                            <td>Марка/Модель</td>
+                            <td> @ViewBag.Client.car_mark.name @ViewBag.Client.car_model.name</td>
+                        </tr>
+                        <tr>
+                            <td>Тип кузова</td>
+                            <td> @ViewBag.Client.CarBody.Name</td>
+                        </tr>
+                        <tr>
+                            <td>Ф.И.О</td>
+                            <td> @ViewBag.Client.ClientInfo.Surname @ViewBag.Client.ClientInfo.Name @ViewBag.Client.ClientInfo.Surname</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Количество шин</h4>
+                </div>
+                <div class="form-check">
+                    <br />
+                    @for (int i = 1; i <= 8; i++)
+                    {
+                        <label class="form-radio-label ml-3">
+                            <input class="form-radio-input" type="radio" name="NumberOfTires" value="@i">
+                            <span class="form-radio-sign">@i - шт</span>
+                        </label>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Радиус шин (легковые)</h4>
+                </div>
+                @{
+                    string navLink, ariaSelected, tabPaneFadeShow;
+
+                    <div class="card-body">
+
+                        <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+
+                            @foreach (var itemRadius in ViewBag.RadiusOne)
+                            {
+                                navLink = "nav-link";
+                                ariaSelected = "false";
+
+                                <li class="nav-item">
+                                    <a class="@navLink btn btn-outline-dark" id="@itemRadius.radius-tab" data-toggle="pill" href="#pills-@itemRadius.radius" role="tab" aria-controls="pills-home" aria-selected=@ariaSelected>@itemRadius.radius</a>
+                                </li>
+                            }
+                        </ul>
+
+                        <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+
+                            @foreach (var itemRadius in ViewBag.RadiusOne)
+                            {
+                                if (itemRadius.idTireRadius == 1)
+                                {
+                                    tabPaneFadeShow = "tab-pane fade show active";
+                                }
+                                else
+                                {
+                                    tabPaneFadeShow = "tab-pane fade";
+                                }
+
+                                <div class=@tabPaneFadeShow id="pills-@itemRadius.radius" role="tabpanel" aria-labelledby="@itemRadius.radius-tab">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body col-md-6">
+                                                <div class="row">
+
+                                                    <div class="col-md-2">
+                                                        <label class="customcheckbox">
+                                                            <label class="label">
+                                                                <input type="hidden" id="text1" name="Type" value="1" />
+                                                                <input class="label__checkbox" type="checkbox" name="TireRadius" value="@itemRadius.idTireRadius" id="checkbox1" />
+                                                                <span class="label__text">
+                                                                    <span class="label__check">
+                                                                        <i class="fa fa-check icon"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </label>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                    <h3 class="card-title m-b-0">
+                                                        @itemRadius.radius
+                                                    </h3>
+                                                </div>
+
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody class="customtable" id="controls">
+
+                                                        @foreach (var item in ViewBag.PriceListTireFittingOne)
+                                                        {
+                                                            if (item.TireRadiusId == itemRadius.idTireRadius)
+                                                            {
+                                                                <tr>
+                                                                    <th>
+                                                                        <div class="row">
+                                                                            <div class="col-md-1">
+                                                                                <label class="customcheckbox">
+                                                                                    <input type="hidden" name="Type" value="2" />
+                                                                                    <label class="label">
+                                                                                        <input class="label__checkbox" type="checkbox" name="Services" value="@item.idPriceListTireFitting" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked" />
+                                                                                        <span class="label__text">
+                                                                                            <span class="label__check">
+                                                                                                <i class="fa fa-check icon"></i>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </label>
+                                                                                    <span class="checkmark"></span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                @item.JobTitle
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                @item.TheCost
+                                                                            </div>
+                                                                            @*  <div class="col-md-"*@
+                                                                        </div>
+                                                                    </th>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Радиус шин (грузовые)</h4>
+                </div>
+                @{
+                    string navLinkTrucks, ariaSelectedTrucks, tabPaneFadeShowTrucks;
+
+                    <div class="card-body">
+
+                        <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+
+                            @foreach (var itemRadius in ViewBag.RadiusTwo)
+                            {
+                                if (itemRadius.idTireRadius == 1)
+                                {
+                                    navLinkTrucks = "nav-link active";
+                                    ariaSelectedTrucks = "true";
+                                }
+                                else
+                                {
+                                    navLinkTrucks = "nav-link";
+                                    ariaSelectedTrucks = "false";
+                                }
+
+                                <li class="nav-item">
+                                    <a class="@navLinkTrucks btn btn-outline-dark" id="@itemRadius.radius-tabTrucks" data-toggle="pill" href="#pillsTrucks-@itemRadius.radius" role="tab" aria-controls="pills-home" aria-selected=@ariaSelectedTrucks>@itemRadius.radius</a>
+                                </li>
+                            }
+                        </ul>
+
+                        <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+
+                            @foreach (var itemRadius in ViewBag.RadiusTwo)
+                            {
+                                if (itemRadius.idTireRadius == 1)
+                                {
+                                    tabPaneFadeShowTrucks = "tab-pane fade show active";
+                                }
+                                else
+                                {
+                                    tabPaneFadeShowTrucks = "tab-pane fade";
+                                }
+
+                                <div class=@tabPaneFadeShowTrucks id="pillsTrucks-@itemRadius.radius" role="tabpanel" aria-labelledby="@itemRadius.radius-tabTrucks">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body col-md-6">
+                                                    <div class="row">
+
+                                                        <div class="col-md-2">
+                                                            <label class="customcheckbox">
+                                                                <label class="label">
+                                                                    <input type="hidden" name="Type" value="2" />
+                                                                    <input class="label__checkbox" type="checkbox" name="TireRadius" value="@itemRadius.idTireRadius" id="checkbox2" />
+                                                                    <span class="label__text">
+                                                                        <span class="label__check">
+                                                                            <i class="fa fa-check icon"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </label>
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                        <h3 class="card-title m-b-0">
+                                                            @itemRadius.radius
+                                                        </h3>
+                                                    </div>
+
+                                               
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody class="customtable">
+                                                        @foreach (var item in ViewBag.PriceListTireFittingTwo)
+                                                        {
+                                                            if (item.TireRadiusId == itemRadius.idTireRadius)
+                                                            {
+
+                                                                <tr>
+                                                                    <th>
+                                                                        <div class="row">
+                                                                            <div class="col-md-1">
+                                                                                <label class="customcheckbox">
+                                                                                    <label class="label">
+                                                                                        <input type="hidden" name="Type" value="2" />
+
+                                                                                        <input class="label__checkbox" type="checkbox" name="Services" value="@item.idPriceListTireFitting" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked" />
+                                                                                        <span class="label__text">
+                                                                                            <span class="label__check">
+                                                                                                <i class="fa fa-check icon"></i>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </label>
+                                                                                    <span class="checkmark"></span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                @item.JobTitle
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                @item.TheCost
+                                                                            </div>
+                                                                        </div>
+                                                                    </th>
+                                                                </tr>
+
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+
+
+        <div class="col-md-5">
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Дополнительные услуги</h4>
+                </div>
+
+                <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
+
+                <div class="scroll">
+
+                    <table class="table table-striped" id="info-table">
+                        <tbody>
+                            @foreach (var item in ViewBag.PriceTireFittingAdditionalServices)
+                            {
+                                <tr>
+                                    <th>
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="customcheckbox">
+                                                    <label class="label">
+                                                        <input class="label__checkbox" type="checkbox" name="AdditionalServices" value="@item.idPriceListTireFittingAdditionalServices" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked" />
+                                                        <span class="label__text">
+                                                            <span class="label__check">
+                                                                <i class="fa fa-check icon"></i>
+                                                            </span>
+                                                        </span>
+                                                    </label>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @item.JobTitle
+                                            </div>
+                                            <div class="col-md-3">
+                                                @item.TheCost
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input type="hidden" value=@item.idPriceListTireFittingAdditionalServices name="key" />
+                                                <input class="newOrderInputText" name="AdditionalServicesQuantity" value="1" maxlength="2" type="number" />
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-right">
+                <p></p>
+                <input class="btn btn-danger" type="submit" disabled="disabled" id="btnCreate" value="Отмена" />
+                <input class="btn btn-success" type="submit" id="btnCreate" value="Далее" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    function tableSearch() {
+        var phrase = document.getElementById('search-text');
+        var table = document.getElementById('info-table');
+        var regPhrase = new RegExp(phrase.value, 'i');
+        var flag = false;
+        for (var i = 1; i < table.rows.length; i++) {
+            flag = false;
+            for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
+                flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
+                if (flag) break;
+            }
+            if (flag) {
+                table.rows[i].style.display = "";
+            } else {
+                table.rows[i].style.display = "none";
+            }
+
+        }
+    }
+
+    $('#checkbox1').on('click', function () {
+        if ($(this).is(':checked')) {
+            $(document).ready(function () {
+                $("#text1").val("1");
+            });
+        }
+    })
+
+    $('#checkbox2').on('click', function () {
+        if ($(this).is(':checked')) {
+            $(document).ready(function () {
+                $("#text1").val("2");
+            });
+        }
+    })
+</script>

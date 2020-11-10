@@ -22,6 +22,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<double> amount { get; set; }
         [Display(Name = "Количество месяцев хранения")]
         public Nullable<int> storageTime { get; set; }
+        [Display(Name ="Статус заказа")]
         public Nullable<bool> storageStatus { get; set; }
         public virtual ICollection<TireStorageView> TireStorage { get; set; }
     }

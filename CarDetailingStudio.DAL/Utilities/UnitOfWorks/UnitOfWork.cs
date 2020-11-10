@@ -1,6 +1,7 @@
 ﻿using CarDetailingStudio.DAL.Infrastructure;
 using CarDetailingStudio.DAL.Infrastructure.Contract;
 using System;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
@@ -39,6 +40,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<Cashier> CashierUW;
         private DbRepository<utilityCostsCategory> utilityCostsCategoryUW;
         private DbRepository<costCategories> costCategoriesUW;
+        private DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -46,6 +48,12 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
+     
+        public DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUnitOfWork
+        {
+            get => AdditionalTireStorageServicesUW ?? (AdditionalTireStorageServicesUW = new DbRepository<additionalTireStorageServices>(_entities));
+            set => AdditionalTireStorageServicesUW = value;
+        }
 
         public DbRepository<costCategories> CostCategoriesUnionOfWork
         {
@@ -375,8 +383,10 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         public async Task Save()
         {
-           await _entities.SaveChangesAsync();
+            await _entities.SaveChangesAsync();
         }
+
+       
         #endregion
     }
 }

@@ -188,7 +188,7 @@
 
                                             @if (item.forUnit == true)
                                             {
-                                                <td class="mat_count"><input class="text-input inside" name="sum" maxlength ="2" type="number" id=@item.Id /></td>
+                                                <td class="mat_count"><input class="text-input inside" name="sum" maxlength="2" type="number" id=@item.Id /></td>
                                                 <td>ед.</td>
                                             }
                                             else
@@ -210,7 +210,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="pull-right m-t-30 text-right">
-                               @* <input type="text" class="total" value="" />*@
+
+                                <br />
                                 <p>Скидка клиента @Html.DisplayFor(model => model.discont) %</p>
 
                                 @*<p>Дополнительно:<input class="text-input inside" type="hidden" id="count_1" name="column_1"></p>*@

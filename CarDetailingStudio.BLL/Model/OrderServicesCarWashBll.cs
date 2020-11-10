@@ -10,7 +10,10 @@ namespace CarDetailingStudio.BLL.Model
             this.orderCarpetWashing = new HashSet<OrderCarpetWashingBll>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersBll>();
             this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderBll>();
+            this.tireChangeService = new HashSet<TireChangeServiceBll>();
+            this.tireService = new HashSet<TireServiceBll>();
             this.TireStorage = new HashSet<TireStorageBll>();
+            this.additionalTireStorageServices = new HashSet<AdditionalTireStorageServicesBll>();
         }
 
         public int Id { get; set; }
@@ -30,5 +33,8 @@ namespace CarDetailingStudio.BLL.Model
         public virtual ICollection<ServisesCarWashOrderBll> ServisesCarWashOrder { get; set; }
         public virtual ICollection<OrderCarWashWorkersBll> OrderCarWashWorkers { get; set; }
         public virtual ICollection<TireStorageBll> TireStorage { get; set; }
+        public virtual ICollection<TireServiceBll> tireService { get; set; }
+        public virtual ICollection<TireChangeServiceBll> tireChangeService { get; set; }
+        public virtual ICollection<AdditionalTireStorageServicesBll> additionalTireStorageServices { get; set; }
     }
 }

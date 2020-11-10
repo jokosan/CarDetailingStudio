@@ -1,0 +1,219 @@
+﻿@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h4 class="card-title">О заказчике</h4>
+                    </div>
+                    <input type="hidden" name="Client" value=@ViewBag.Client.id />
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Номер машины</td>
+                                <td> @ViewBag.Client.NumberCar</td>
+                            </tr>
+                            <tr>
+                                <td>Марка/Модель</td>
+                                <td> @ViewBag.Client.car_mark.name @ViewBag.Client.car_model.name</td>
+                            </tr>
+                            <tr>
+                                <td>Тип кузова</td>
+                                <td> @ViewBag.Client.CarBody.Name</td>
+                            </tr>
+                            <tr>
+                                <td>Ф.И.О</td>
+                                <td> @ViewBag.Client.ClientInfo.Surname @ViewBag.Client.ClientInfo.Name @ViewBag.Client.ClientInfo.Surname</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h4 class="card-title">Услуги шиномонтажа </h4>
+                    </div>
+                    <div class="form-check">
+                        <br />
+                        <br />
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody class="customtable" id="controls">
+                                    @foreach (var item in ViewBag.PriceListTireFittings)
+                                    {
+                                        <tr>
+                                            <th>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        @item.JobTitle
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @item.TireRadius.radius
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @item.TheCost
+                                                    </div>
+
+
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <br />
+
+                        <div class="pull-right m-t-30 text-right">
+                            <hr>
+                            <h4><b>Итого за @ViewBag.NumberOfTires колеса: @ViewBag.PriceListTireFittingsSum грн.</b></h4>
+                        </div>
+
+                        <hr>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            @if (ViewBag.riceListTireFittingAdditionals != null)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h4 class="card-title">Дополнительные услуги</h4>
+                        </div>
+
+                        <div class="scroll">
+                            <table class="table" id="info-table">
+                                <tbody>
+
+                                    @foreach (var item in ViewBag.riceListTireFittingAdditionals)
+                                    {
+                                        <tr>
+                                            <th>
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        @item.JobTitle
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @item.TheCost
+                                                    </div>
+
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                            <div class="pull-right m-t-30 text-right">
+                                <hr>
+                                <h4><b>Итого: @ViewBag.RiceListTireFittingAdditionalsSum грн.</b></h4>
+                            </div>
+
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h4 class="card-title">Общая стоимость</h4>
+                    </div>
+                    <div class="pull-right m-t-30 text-right">
+
+                        <p>Процентная ставка заказчика: @ViewBag.Client.discont %</p>
+                        <p>Услуги шиномонтажа за @ViewBag.NumberOfTires колеса: @ViewBag.PriceListTireFittingsSum грн.</p>
+                        @if (ViewBag.riceListTireFittingAdditionals != null)
+                        {
+                            <p>Дополнительные услуги: @ViewBag.RiceListTireFittingAdditionalsSum грн.</p>
+                        }
+                        <hr>
+                        <h3><b>Итого: </b>@ViewBag.Total грн.</h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div>
+                                @Html.DropDownList("idStatusOrder", new List<SelectListItem>
+                                   {
+                                       new SelectListItem{ Text = "В работе", Value = "1"},
+                                        new SelectListItem{ Text = "Выполнен", Value = "2"},
+                                       new SelectListItem{ Text = "Ожидает оплаты", Value = "4"},
+                                        new SelectListItem{ Text = "Оплачен", Value = "5"},
+                                       new SelectListItem{ Text = "Отменен", Value = "3"},
+                                   }, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div>
+                                @Html.DropDownList("idPaymentState", new List<SelectListItem>
+                                   {
+                                       new SelectListItem{ Text = "Выберите форму оплаты", Value = "3"},
+                                       new SelectListItem { Text = "Наличный расчёт", Value = "1"},
+                                       new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
+                                   }, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="text-right">
+                        <input type="hidden" value=@ViewBag.Total name="Total" />
+                        <input type="submit" value="Оформить" class="btn btn-success preview" />
+                        @*@Html.ActionLink("Отменить", "../Order/Index", new { id = Model.id }, new { @class = "btn btn-danger preview" })*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h5 class="card-title m-b-0">Смена</h5>
+                    </div>
+
+                    <div class="comment-widgets scrollable">
+                        @foreach (var item in ViewBag.Brigade)
+                        {
+                            <div class="d-flex flex-row comment-row m-t-0">
+
+                                <div class="checkbox">
+                                    <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
+                                </div>
+
+                                <div class="comment-text w-100">
+                                    <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                    <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
+
+                                    <div class="comment-footer">
+                                        <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

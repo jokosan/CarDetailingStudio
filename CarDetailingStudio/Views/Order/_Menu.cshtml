@@ -1,0 +1,94 @@
+﻿<!-- row - 1 -->
+<div class="row">
+
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-cyan text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-car-wash"></i></h1>
+                <h6 class="text-white">@Html.ActionLink(" Заказ мойка/детейлинг", "../ClientsOfCarWashViews/Checkout", new { services = 1 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-success text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-security"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Заказ на хранение шин", "../ClientsOfCarWashViews/Checkout", new { services = 2 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3" ">
+        <div class="card card-hover">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><i class="fas fa-chess-board"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Заказ стирка ковров", "../OrderCarpetWashing/AddOrderCarpetWashing", new { services = 3 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-danger text-center">
+                <h1 class="font-light text-white"><i class="far fa-money-bill-alt"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Расходы", "../ClientsOfCarWashViews/Checkout", null, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-cyan text-center">
+                <h1 class="font-light text-white"><i class="fas fa-stop-circle"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Заказ шиномонтаж", "../ClientsOfCarWashViews/Checkout", new { services = 3 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- row - 2 -->
+<div class="row">
+
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-car-wash"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Мойка/Детейлинг", "../Order/Index", new { services = 1 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-info text-center">
+                <h1 class="font-light text-white"><i class="fas fa-stop-circle"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Шиномонтаж", "../Order/OrderTireStorage", new { typeOfOrder = 4, statusOrder = 1 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-success text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-security"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Хранение шин", "../Order/OrderTireStorage", new { typeOfOrder = 5, statusOrder = 5 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hover">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><i class="fas fa-chess-board"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Стирка ковров", "../OrderCarpetWashing/OrderCarpetWashing", null, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+</div>
+

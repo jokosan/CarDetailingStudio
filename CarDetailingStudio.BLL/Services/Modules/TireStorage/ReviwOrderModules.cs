@@ -71,12 +71,14 @@ namespace CarDetailingStudio.BLL.Services.Modules.TireStorage
                     var wheelWashPrice = servicesTireStorage.Single(x => x.Id == 9);
                     AddTireStoregeService(wheelWashPrice);
                     reviwOrder.priceWheelWash = wheelWashPrice.Price.Value;
+                    reviwOrder.IdWheelWash = wheelWashPrice.Id;
                 }
                 else if (tireStorage.wheelWash < 4)
                 {
                     var wheelWashPrice = servicesTireStorage.Single(x => x.Id == 9);
                     AddTireStoregeService(wheelWashPrice);
                     reviwOrder.priceWheelWash = wheelWashPrice.Price.Value * (double)tireStorage.wheelWash;
+                    reviwOrder.IdWheelWash = wheelWashPrice.Id;
                 }
             }
 
@@ -96,12 +98,14 @@ namespace CarDetailingStudio.BLL.Services.Modules.TireStorage
                     var siliconePrice = servicesTireStorage.Single(x => (x.radius == radius) && (x.amount == 4) && (x.ServicesName.Contains("обработать селиконом")));
                     AddTireStoregeService(siliconePrice);
                     reviwOrder.priceSilicone = siliconePrice.Price.Value;
+                    reviwOrder.IdpriceSilicone = siliconePrice.Id;
                 }
                 else if (tireStorage.silicone < 4)
                 {
                     var siliconePrice = servicesTireStorage.Single(x => (x.radius == radius) && (x.amount == 1) && (x.ServicesName.Contains("обработать селиконом")));
                     AddTireStoregeService(siliconePrice);
                     reviwOrder.priceSilicone = siliconePrice.Price.Value * (double)tireStorage.silicone;
+                    reviwOrder.IdpriceSilicone = siliconePrice.Id;
                 }
             }
 

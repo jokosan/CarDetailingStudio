@@ -23,9 +23,10 @@ namespace CarDetailingStudio.Controllers
         private IOrderCarWashWorkersServices _orderCarWash;
         private IOrderServicesCarWashServices _orderServices;
 
-        public CarWashWorkersViewsController(ICarWashWorkersServices carWashWorkers, IJobTitleTableServices job,
-                                             IBrigadeForTodayServices brigadeForToday, IOrderCarWashWorkersServices orderCarWash,
-                                             IOrderServicesCarWashServices orderServices)
+        public CarWashWorkersViewsController(
+            ICarWashWorkersServices carWashWorkers, IJobTitleTableServices job,
+            IBrigadeForTodayServices brigadeForToday, IOrderCarWashWorkersServices orderCarWash,
+            IOrderServicesCarWashServices orderServices)
         {
             _services = carWashWorkers;
             _job = job;
@@ -199,12 +200,12 @@ namespace CarDetailingStudio.Controllers
                 order.IdCarWashWorkers = idBrigade.Value;
 
                 OrderCarWashWorkersBll carWashWorkersBll = Mapper.Map<OrderCarWashWorkersView, OrderCarWashWorkersBll>(order);
-                await _orderCarWash.UpdateOrderCarWashWorkers(carWashWorkersBll);                
+                await _orderCarWash.UpdateOrderCarWashWorkers(carWashWorkersBll);
             }
 
             return RedirectToAction("CompletedOrders", "Order", new RouteValueDictionary(new
             {
-                idOrder = idOrder               
+                idOrder = idOrder
             }));
         }
 
@@ -224,7 +225,7 @@ namespace CarDetailingStudio.Controllers
             {
                 ViewBag.OrderArxivResult = new SelectList(Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _services.EmployeeName()), "id", "Name");
 
-                return View (Mapper.Map<IEnumerable<OrderCarWashWorkersDayGroupView>>(await _orderCarWash.OrderCarWashWorkers(idEmployee, startDate.Value, finalDate)));
+                return View(Mapper.Map<IEnumerable<OrderCarWashWorkersDayGroupView>>(await _orderCarWash.OrderCarWashWorkers(idEmployee, startDate.Value, finalDate)));
             }
 
             var OrderArxivResult = Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _services.EmployeeName());
@@ -245,7 +246,7 @@ namespace CarDetailingStudio.Controllers
             var emplotee = Mapper.Map<IEnumerable<OrderCarWashWorkersDayGroupView>>(await _orderCarWash.WhereCarWashWorkers(idEmploye)).OrderByDescending(x => x.ClosingData);
             ViewBag.FIO = Mapper.Map<CarWashWorkersView>(await _services.CarWashWorkersId(idEmploye));
 
-           return View(emplotee);
+            return View(emplotee);
         }
     }
 }

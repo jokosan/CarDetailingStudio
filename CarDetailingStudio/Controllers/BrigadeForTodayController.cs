@@ -15,7 +15,8 @@ namespace CarDetailingStudio.Controllers
     {
         private IBrigadeForTodayServices _services;
 
-        public BrigadeForTodayController(IBrigadeForTodayServices brigade)
+        public BrigadeForTodayController(
+            IBrigadeForTodayServices brigade)
         {
             _services = brigade;
         }

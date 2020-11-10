@@ -16,6 +16,10 @@ using CarDetailingStudio.BLL.Services.Modules.TireStorage;
 using CarDetailingStudio.BLL.Services.Modules.TireStorage.Contract;
 using CarDetailingStudio.BLL.Services.Modules.Wage;
 using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
+using CarDetailingStudio.BLL.Services.TireFitting;
+using CarDetailingStudio.BLL.Services.TireFitting.Module;
+using CarDetailingStudio.BLL.Services.TireFitting.Module.Contract;
+using CarDetailingStudio.BLL.Services.TireFitting.TireFittingContract;
 using CarDetailingStudio.BLL.Services.TireStorageServices;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using CarDetailingStudio.DAL.Utilities.Ninject;
@@ -53,11 +57,11 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
 
             // Order
 
-            kernel.Bind<IOrderServicesCarWashServices>().To<OrderServicesCarWashServices>();
-            kernel.Bind<IServisesCarWashOrderServices>().To<ServisesCarWashOrderServices>();
-            kernel.Bind<IOrderCarWashWorkersServices>().To<OrderCarWashWorkersServices>();
-            kernel.Bind<IOrderServices>().To<OrderServices>();
-            kernel.Bind<IOrder>().To<Order>();
+            //kernel.Bind<IOrderServicesCarWashServices>().To<OrderServicesCarWashServices>();
+            //kernel.Bind<IServisesCarWashOrderServices>().To<ServisesCarWashOrderServices>();
+            //kernel.Bind<IOrderCarWashWorkersServices>().To<OrderCarWashWorkersServices>();
+            //kernel.Bind<IOrderServices>().To<OrderServices>();
+            //kernel.Bind<IOrder>().To<Order>();
 
             // expenses - затраты
 
@@ -74,6 +78,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<ITireStorageServices>().To<TireStorageSerServices>();
             kernel.Bind<IStorageFee>().To<StorageFeeServices>();
             kernel.Bind<IReviwOrderModules>().To<ReviwOrderModules>();
+            kernel.Bind<IAdditionalTireStorageServices>().To<AdditionalTireStorageServices>();
 
             // Join
             kernel.Bind<IClientJoinOrderCarpetWashing>().To<ClientJoinOrderCarpetWashing>();
@@ -89,7 +94,16 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<ICashier>().To<CashierServices>();
             kernel.Bind<IIncomeForTheCurrentDay>().To<IncomeForTheCurrentDay>();
             kernel.Bind<ICostCategories>().To<CostCategoriesServices>();
+            kernel.Bind<ITireService>().To<TireService>();
+            kernel.Bind<ITireChangeService>().To<TireChangeService>();
+            kernel.Bind<IPriceListTireFitting>().To<PriceListTireFittingServices>();
+            kernel.Bind<IPriceTireFittingAdditionalServices>().To<PriceTireFittingAdditionalServices>();
+            kernel.Bind<ITireRadius>().To<TireRadiusServices>();
+            kernel.Bind<ITypeOfCars>().To<TypeOfCarsServices>();
 
+            kernel.Bind<ICreateOrderModule>().To<CreateOrderModule>();
+
+            NinjectOrder.Initialize(kernel);
             NinjectDependencyResolverDAL.Initialize(kernel);
         }
     }

@@ -31,6 +31,5 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<int> utilityCostsCategoryId { get; set; }
 
         public virtual ExpenseCategoryView expenseCategory { get; set; }
-        public virtual UtilityCostsCategoryView utilityCostsCategory { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace CarDetailingStudio.DAL.Infrastructure
@@ -89,10 +90,16 @@ namespace CarDetailingStudio.DAL.Infrastructure
              return await DbSeT.Include(children).Where(predicate).AsQueryable().ToListAsync();            
         }
 
+        public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter)
+        {
+            return await DbSeT.Where(filter).AsNoTracking().ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
             return await DbSeT.Include(children).Where(filter).AsNoTracking().ToListAsync();
         }
+            
 
         public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string childrenOne, string childrenTwo)
         {

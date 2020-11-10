@@ -27,6 +27,7 @@ namespace CarDetailingStudio.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<additionalTireStorageServices> additionalTireStorageServices { get; set; }
         public virtual DbSet<bonusToSalary> bonusToSalary { get; set; }
         public virtual DbSet<brigadeForToday> brigadeForToday { get; set; }
         public virtual DbSet<car_generation> car_generation { get; set; }
@@ -36,10 +37,12 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<car_serie> car_serie { get; set; }
         public virtual DbSet<CarBody> CarBody { get; set; }
         public virtual DbSet<CarWashWorkers> CarWashWorkers { get; set; }
+        public virtual DbSet<Cashier> Cashier { get; set; }
         public virtual DbSet<ClientInfo> ClientInfo { get; set; }
         public virtual DbSet<ClientsGroups> ClientsGroups { get; set; }
         public virtual DbSet<ClientsOfCarWash> ClientsOfCarWash { get; set; }
         public virtual DbSet<consumablesTireFitting> consumablesTireFitting { get; set; }
+        public virtual DbSet<costCategories> costCategories { get; set; }
         public virtual DbSet<costsCarWashAndDeteyling> costsCarWashAndDeteyling { get; set; }
         public virtual DbSet<Credit> Credit { get; set; }
         public virtual DbSet<Detailings> Detailings { get; set; }
@@ -52,22 +55,26 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<OrderServicesCarWash> OrderServicesCarWash { get; set; }
         public virtual DbSet<otherExpenses> otherExpenses { get; set; }
         public virtual DbSet<PaymentState> PaymentState { get; set; }
+        public virtual DbSet<PriceListTireFitting> PriceListTireFitting { get; set; }
+        public virtual DbSet<PriceListTireFittingAdditionalServices> PriceListTireFittingAdditionalServices { get; set; }
         public virtual DbSet<salaryBalance> salaryBalance { get; set; }
         public virtual DbSet<salaryExpenses> salaryExpenses { get; set; }
         public virtual DbSet<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
         public virtual DbSet<StatusOrder> StatusOrder { get; set; }
         public virtual DbSet<storageFee> storageFee { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<tireChangeService> tireChangeService { get; set; }
+        public virtual DbSet<TireRadius> TireRadius { get; set; }
+        public virtual DbSet<tireService> tireService { get; set; }
         public virtual DbSet<TireStorage> TireStorage { get; set; }
         public virtual DbSet<TireStorageServices> TireStorageServices { get; set; }
+        public virtual DbSet<TypeOfCars> TypeOfCars { get; set; }
         public virtual DbSet<typeOfOrder> typeOfOrder { get; set; }
         public virtual DbSet<TypeServices> TypeServices { get; set; }
         public virtual DbSet<utilityCosts> utilityCosts { get; set; }
+        public virtual DbSet<utilityCostsCategory> utilityCostsCategory { get; set; }
         public virtual DbSet<logo_mark_car> logo_mark_car { get; set; }
         public virtual DbSet<infoBrigadeForToday> infoBrigadeForToday { get; set; }
         public virtual DbSet<ItogOrderView> ItogOrderView { get; set; }
-        public virtual DbSet<Cashier> Cashier { get; set; }
-        public virtual DbSet<utilityCostsCategory> utilityCostsCategory { get; set; }
-        public virtual DbSet<costCategories> costCategories { get; set; }
     }
 }

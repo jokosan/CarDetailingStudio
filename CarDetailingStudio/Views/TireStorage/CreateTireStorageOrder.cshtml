@@ -3,15 +3,15 @@
 
 <div class="row">
     <div class="col-md-12">
-        
+
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title m-b-0">Заказчик</h5>
+                        <div class="card-header">
+                            <h4 class="card-title">Заказчик</h4>
                         </div>
 
                         <table class="table">
@@ -32,122 +32,207 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-6">
                     <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Количество шин *</h4>
+                        </div>
+                        <div class="form-check">
+                            <br />
+                            @for (int i = 1; i <= 8; i++)
+                            {
+                        <label class="form-radio-label ml-3">
+                            @*<input class="form-radio-input" type="radio" name="quantity" value="@i">
+        <span class="form-radio-sign">@i - шт</span>*@
+
+                            @Html.RadioButtonFor(model => model.quantity, i) @i - шт 
+                        </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Количество дисков * </h4>
+                        </div>
+                        <div class="form-check">
+                            <br />
+                            @for (int i = 1; i <= 8; i++)
+                            {
+                        <label class="form-radio-label ml-3">
+                            @*<input class="form-radio-input" type="radio" name="discAvailability" value="@i">
+        <span class="form-radio-sign">@i - шт</span>*@
+                            @Html.RadioButtonFor(model => model.discAvailability, i) @i - шт
+                        </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Радиус шин *</h4>
+                        </div>
+                        <div class="form-check">
+                            <br />
+                            @for (int i = 13; i <= 30; i ++)
+                            {
+                        <label class="form-radio-label ml-3">
+                            @*<input class="form-radio-input" type="radio" name="radius" value="@item.idTireRadius">
+        <span class="form-radio-sign">@item.radius</span>*@
+                            @Html.RadioButtonFor(model => model.radius, i) R-@i
+                        </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Фирма шин</h4>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title m-b-0">Форма оформления услуги сезонного хранения шин</h5>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.firm)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.firm, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["firm"] } })
+                                        @Html.ValidationMessageFor(model => model.firm, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Срок хранения *</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.storageTime)
+                                    </label>
+                                    <div class="col-md-9">
+                                        <div>
+                                            @Html.DropDownList("storageTime", new List<SelectListItem>
+                                               {
+                                                   new SelectListItem{ Text = "Выберите срок хранения", Value = "0" },
+                                                   new SelectListItem{ Text = "1 - мес.", Value = "1" },
+                                                   new SelectListItem{ Text = "2 - мес.", Value = "2" },
+                                                   new SelectListItem{ Text = "3 - мес.", Value = "3" },
+                                                   new SelectListItem{ Text = "4 - мес.", Value = "4" },
+                                                   new SelectListItem{ Text = "5 - мес.", Value = "5" },
+                                                   new SelectListItem{ Text = "6 - мес.", Value = "6" },
+                                                   new SelectListItem{ Text = "7 - мес.", Value = "7" },
+                                                   new SelectListItem{ Text = "8 - мес.", Value = "8" },
+                                                   new SelectListItem{ Text = "9 - мес.", Value = "9" },
+                                                   new SelectListItem{ Text = "10 - мес.", Value = "10" },
+                                                   new SelectListItem{ Text = "11 - мес.", Value = "11" },
+                                                   new SelectListItem{ Text = "12 - мес.", Value = "12" },
+                                                   new SelectListItem{ Text = "13 - мес.", Value = "13" },
+                                                   new SelectListItem{ Text = "14 - мес.", Value = "14" },
+                                                   new SelectListItem{ Text = "15 - мес.", Value = "15" },
+                                                   new SelectListItem{ Text = "16 - мес.", Value = "16" },
+                                                   new SelectListItem{ Text = "17 - мес.", Value = "17" },
+                                                   new SelectListItem{ Text = "18 - мес.", Value = "18" },
+                                                   new SelectListItem{ Text = "19 - мес.", Value = "19" },
+                                                   new SelectListItem{ Text = "20 - мес.", Value = "20" },
+                                                   new SelectListItem{ Text = "21 - мес.", Value = "21" },
+                                                   new SelectListItem{ Text = "22 - мес.", Value = "22" },
+                                                   new SelectListItem{ Text = "23 - мес.", Value = "23" },
+                                                   new SelectListItem{ Text = "24 - мес.", Value = "24" },
+                                               }, new { @class = "form-control" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Дополнительные услуги</h4>
                         </div>
                         <div class="card-body">
                             <div class="form-horizontal">
 
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.quantity)
+                                <div class="card">
+                                    <h4 class="card-title text-center">Количество пакетов(шт)</h4>
+                                    <hr />
+                                    <div class="form-check">
+                                        <br />
+                                        @for (int i = 1; i <= 8; i++)
+                                        {
+                                    <label class="form-radio-label ml-3">
+                                        @*<input class="form-radio-input" type="radio" name="tireStorageBags" value="@i">
+        <span class="form-radio-sign">@i - шт</span>*@
+                                        @Html.RadioButtonFor(model => model.tireStorageBags, i) @i - шт
                                     </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["quantity"] } })
-                                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                                        }
                                     </div>
                                 </div>
+                                <hr />
+                                <div class="card">
+                                    <h4 class="card-title text-center">Мойка колес(шт)</h4>
+                                    <hr />
+                                    <div class="form-check">
+                                        <br />
+                                        @for (int i = 1; i <= 8; i++)
+                                        {
+                                    <label class="form-radio-label ml-3">
+                                        @*<input class="form-radio-input" type="radio" name="wheelWash" value="@i">
+        <span class="form-radio-sign">@i - шт</span>*@
+                                        @Html.RadioButtonFor(model => model.wheelWash, i) @i - шт
+                                    </label>
+                                        }
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="card">
+                                    <h4 class="card-title text-center">Селикон (шт)</h4>
+                                    <hr />
+                                    <div class="form-check">
+                                        <br />
+                                        @for (int i = 1; i <= 8; i++)
+                                        {
+                                    <label class="form-radio-label ml-3">
+                                        @*<input class="form-radio-input" type="radio" name="silicone" value="@i">
+        <span class="form-radio-sign">@i - шт</span>*@
+                                        @Html.RadioButtonFor(model => model.silicone, i) @i - шт
+                                    </label>
+                                        }
+                                    </div>
+                                </div>
+                                <hr />
 
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.radius)
-                                    </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.radius, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["radius"] } })
-                                        @Html.ValidationMessageFor(model => model.radius, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.firm)
-                                    </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.firm, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["firm"] } })
-                                        @Html.ValidationMessageFor(model => model.firm, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.discAvailability)
-                                    </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.discAvailability, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["discAvailability"]  } })
-                                        @Html.ValidationMessageFor(model => model.discAvailability, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.tireStorageBags)
-                                    </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.tireStorageBags, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["tireStorageBags"]  } })
-                                        @Html.ValidationMessageFor(model => model.tireStorageBags, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.wheelWash)
-                                    </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.wheelWash, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["wheelWash"] } })
-                                        @Html.ValidationMessageFor(model => model.wheelWash, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.silicone)
-                                    </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.silicone, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["silicone"] } })
-                                        @Html.ValidationMessageFor(model => model.silicone, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.storageTime)
-                                    </label>
-                                    <div class="col-md-9">
-                                        @Html.EditorFor(model => model.storageTime, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["storageTime"] } })
-                                        @Html.ValidationMessageFor(model => model.storageTime, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                             
 
                                 <div class="form-group row">
                                     <div class="col-md-offset-2 col-md-12 text-right">
                                         @Html.ActionLink("Вернуться на главную", "Index", "Order", null, new { @class = "btn btn-danger" })
 
                                         <input type="hidden" value=@ViewBag.Client.id name="customer">
+                                        
                                         <input type="submit" value="Далее" class="btn btn-default" />
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card-body">
-                        <img src="~/Images/img/unnamed.png" class="mx-auto d-block">
-                    </div>
-                </div>
+               
             </div>
 
-        }
+    }
     </div>
-</div>
-        </div>
+    </div>
+
 

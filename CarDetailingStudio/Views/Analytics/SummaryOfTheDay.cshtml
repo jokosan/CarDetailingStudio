@@ -43,12 +43,12 @@
                                         </tr>
                                         <tr>
                                             <td class="text-center">1</td>
-                                            <td>Количество авто</td>
+                                            <td>Количество Авто</td>
                                             <td class="text-right">@ViewBag.OrderCount шт.</td>
                                         </tr>
                                         <tr>
                                             <td class="text-center">2</td>
-                                            <td>Касса мойки</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса мойки</a></td>
                                             <td class="text-right">@ViewBag.OrderCarWashSum  грн. </td>
                                         </tr>
                                         <tr>
@@ -58,17 +58,17 @@
                                         </tr>
                                         <tr>
                                             <td class="text-center">4</td>
-                                            <td>Касса ковров</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса ковров</a></td>
                                             <td class="text-right"> @ViewBag.CarpetOrder грн.</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-center">5</td>
-                                            <td>ЗП администратора (авто + ковры)</td>
+                                            <td class="text-center">4</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора (авто + ковры)</a></td>
                                             <td class="text-right"> @ViewBag.AdministratorCarWash грн. </td>
                                         </tr>
                                         <tr>
-                                            <td class="text-center">6</td>
-                                            <td>ЗП автомойщиков (авто + ковры)</td>
+                                            <td class="text-center">5</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 5, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП автомойщиков (авто + ковры)</a></td>
                                             <td class="text-right"> @ViewBag.StaffCarWashWorker грн. </td>
                                         </tr>
 
@@ -108,22 +108,53 @@
                                         </tr>
                                         <tr>
                                             <td class="text-center">2</td>
-                                            <td>Касса детейлинга</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса детейлинга</a></td>
                                             <td class="text-right">@ViewBag.OrderDetailingsSum  грн. </td>
                                         </tr>
 
                                         <tr>
                                             <td class="text-center">4</td>
-                                            <td>ЗП администратора детейлинга</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
                                             <td class="text-right"> @ViewBag.AdministratorDetailings грн. </td>
                                         </tr>
                                         <tr>
                                             <td class="text-center">5</td>
-                                            <td>ЗП детейлинга</td>
-                                            <td class="text-right"> @ViewBag.StaffDetailing грн. </td>                 
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП детейлинга</a></td>
+                                            <td class="text-right"> @ViewBag.StaffDetailing грн. </td>
                                         </tr>
 
                                         @* ----------------------------------------------------------------------------------- *@
+
+                                        <tr>
+                                            <td colspan="3" class="text-center"><b class="text-danger">Внимание!!! Шиномантаж в итог дня не входит<b /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">1</td>
+                                            <td>Количество заказов шиномонтажа</td>
+                                            <td class="text-right">@ViewBag.CauntTire шт.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">2</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса шиномантаж</a></td>
+                                            <td class="text-right">@ViewBag.TireOrders  грн. </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">4</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 9, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора </a></td>
+                                            <td class="text-right"> @ViewBag.AdministratorTire грн. </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">5</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 10, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП Сотрудников </a></td>
+                                            <td class="text-right"> @ViewBag.StaffTire грн. </td>
+                                        </tr>
+                                     
+
+
+                                        @* ----------------------------------------------------------------------------------- *@
+
+
                                         <tr>
                                             <td colspan="3" class="text-center"><b class="text-danger">Заказы ожидающие оплату</b></td>
                                         </tr>
@@ -192,7 +223,7 @@
                                                     <td class="text-center">1</td>
                                                     <td>Отправить на счет фирмы</td>
                                                     <td>
-                                                        <input type="number" name="amountStartDay" id="quantity" class="is-invalid form-control" placeholder="Обязательное поле для заполнения"  aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
+                                                        <input type="number" name="amountStartDay" id="quantity" class="is-invalid form-control" placeholder="Обязательное поле для заполнения" aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
 
                                                     </td>
                                                 </tr>

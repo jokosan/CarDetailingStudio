@@ -11,9 +11,12 @@ namespace CarDetailingStudio.Models.ModelViews
         public OrderServicesCarWashView()
         {
             this.orderCarpetWashing = new HashSet<OrderCarpetWashingView>();
-            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderView>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersView>();
+            this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrderView>();
+            this.tireChangeService = new HashSet<TireChangeServiceView>();
+            this.tireService = new HashSet<TireServiceView>();
             this.TireStorage = new HashSet<TireStorageView>();
+            this.additionalTireStorageServices = new HashSet<AdditionalTireStorageServicesView>();
         }
 
 
@@ -50,5 +53,8 @@ namespace CarDetailingStudio.Models.ModelViews
         public virtual ICollection<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }
         public virtual ICollection<OrderCarWashWorkersView> OrderCarWashWorkers { get; set; }
         public virtual ICollection<TireStorageView> TireStorage { get; set; }
+        public virtual ICollection<TireServiceView> tireService { get; set; }
+        public virtual ICollection<TireChangeServiceView> tireChangeService { get; set; }
+        public virtual ICollection<AdditionalTireStorageServicesView> additionalTireStorageServices { get; set; }
     }
 }

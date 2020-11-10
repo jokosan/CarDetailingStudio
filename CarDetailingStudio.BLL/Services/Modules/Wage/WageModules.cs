@@ -130,6 +130,10 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
             if (brigade == 2 && servises == 4)
                 return 8;
+            if (brigade == 1 && servises == 5)
+                return 9;
+            if (brigade == 2 && servises == 5)
+                return 10;
 
             return 0;
 
@@ -202,15 +206,19 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         }
 
         // Начисление заработной платы за оформление заказа (хранения шин)
-        public async Task AdminWageTireStorage(int idAdmin, int idOrder, int quantityTire)
+        public async Task AdminWageTireStorage(int idOrder, int quantityTire)
         {
+            var category = await _brigadeForToday.GetDateTimeNow();
+            var adminSelectionByCategory = category.Single(x => x.StatusId == 1);
+
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
             orderCarWashWorkers.IdOrder = idOrder;
-            orderCarWashWorkers.IdCarWashWorkers = idAdmin;
+            orderCarWashWorkers.IdCarWashWorkers = adminSelectionByCategory.IdCarWashWorkers.Value;
             orderCarWashWorkers.CalculationStatus = false;
             orderCarWashWorkers.Payroll = 5 * quantityTire;
             orderCarWashWorkers.closedDayStatus = false;
+            orderCarWashWorkers.typeServicesId = 7;
 
             await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
 

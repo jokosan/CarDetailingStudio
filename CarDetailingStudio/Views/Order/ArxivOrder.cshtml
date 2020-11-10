@@ -25,6 +25,7 @@
                            columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
                            columns.Add(model => model.OrderDate).Titled("Дата и время заказа");
                            columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа");
+                           columns.Add(model => model.ClientsOfCarWash.discont);
 
                            columns.Add(model => model.StatusOrder1.StatusOrder1).Titled("Статус заказа").Filterable(false);
                            columns.Add(model => model.ClientsOfCarWash.ClientInfo.Surname).Titled("Фамилия").Filterable(false);

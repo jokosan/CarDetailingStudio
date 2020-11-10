@@ -9,6 +9,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage.Contract
         Task CloseOrder(int idPaymentState, int idOrderint, int idStatusOrder);
         Task Payroll(int idOrder, List<string> idBrigade, int serveses);
         Task Payroll(int idOrder, int idBrigade, int idAdmin, ReviwOrderModelBll reviwOrder);
-        Task AdminWageTireStorage(int idAdmin, int idOrder, int quantityTire);
+        Task AdminWageTireStorage(int idOrder, int quantityTire);
     }
 }

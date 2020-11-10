@@ -69,56 +69,14 @@ namespace CarDetailingStudio.BLL.Services.Checkout
         #endregion
 
         #region оформление заказа "Хранение шин"
-
-        public async Task<int> Chekout(OrderTireStorageModelBll orderTireStorage, double? sum, int? idPaymentState)
-        {
-            var orderservices = new OrderServicesCarWashBll
-            {
-                IdClientsOfCarWash = orderTireStorage.carWashWorkersId,
-                StatusOrder = 5,
-                OrderDate = orderTireStorage.dateOfAdoption,
-                ClosingData = DateTime.Now,
-                TotalCostOfAllServices = sum,
-                DiscountPrice = sum,
-                typeOfOrder = 2,
-                PaymentState = idPaymentState
-            };
-
-            int idOrder = await _orderServicesCarWash.CreateOrder(orderservices);
-            int idStorageFee = await CreateStorageFee(orderTireStorage, sum);
-
-            CreateOrderTireStorage(orderTireStorage, idOrder, idStorageFee);
-
-            return idOrder;
-        }
-
-        private void CreateOrderTireStorage(OrderTireStorageModelBll orderTireStorage, int idOrder, int idStorageFee)
-        {
-            var tireStorage = new TireStorageBll
-            {
-                carWashWorkersId = orderTireStorage.carWashWorkersId,
-                dateOfAdoption = orderTireStorage.dateOfAdoption,
-                quantity = orderTireStorage.quantity,
-                radius = orderTireStorage.radius,
-                firm = orderTireStorage.firm,
-                discAvailability = orderTireStorage.discAvailability,
-                storageFeeId = idStorageFee,
-                tireStorageBags = orderTireStorage.tireStorageBags,
-                wheelWash = orderTireStorage.wheelWash,
-                IdOrderServicesCarWash = idOrder,
-                silicone = orderTireStorage.silicone
-            };
-
-            _tireStorage.Insert(tireStorage);
-        }
-
-        private async Task<int> CreateStorageFee(OrderTireStorageModelBll orderTireStorage, double? sum)
+            
+        public  async Task<int> CreateStorageFee(int storageTime, double? sum)
         {
             var storageFeeAdd = new StorageFeeBll
             {
                 DateOfPayment = DateTime.Now,
                 amount = sum,
-                storageTime = orderTireStorage.storageTime,
+                storageTime = storageTime,
                 storageStatus = false
             };
 

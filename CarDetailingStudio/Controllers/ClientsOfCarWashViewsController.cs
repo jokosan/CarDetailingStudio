@@ -417,9 +417,10 @@ namespace CarDetailingStudio.Controllers
 
             if (statusPage != null)
                 ViewBag.Page = statusPage;
+          
+           var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _services.GetAll(idClientInfo));
 
-            var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _services.GetAll(idClient));
-            var singlClien = ClientWhare.FirstOrDefault(x => x.IdInfoClient == idClient);
+            var singlClien = ClientWhare.FirstOrDefault(x => x.IdInfoClient == idClientInfo);
 
             ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(singlClien.id));
 

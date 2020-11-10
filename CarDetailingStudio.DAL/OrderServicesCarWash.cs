@@ -17,9 +17,12 @@ namespace CarDetailingStudio.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OrderServicesCarWash()
         {
+            this.additionalTireStorageServices = new HashSet<additionalTireStorageServices>();
             this.orderCarpetWashing = new HashSet<orderCarpetWashing>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkers>();
             this.ServisesCarWashOrder = new HashSet<ServisesCarWashOrder>();
+            this.tireChangeService = new HashSet<tireChangeService>();
+            this.tireService = new HashSet<tireService>();
             this.TireStorage = new HashSet<TireStorage>();
         }
     
@@ -33,6 +36,8 @@ namespace CarDetailingStudio.DAL
         public Nullable<double> DiscountPrice { get; set; }
         public Nullable<int> typeOfOrder { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<additionalTireStorageServices> additionalTireStorageServices { get; set; }
         public virtual ClientsOfCarWash ClientsOfCarWash { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<orderCarpetWashing> orderCarpetWashing { get; set; }
@@ -42,6 +47,10 @@ namespace CarDetailingStudio.DAL
         public virtual StatusOrder StatusOrder1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tireChangeService> tireChangeService { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tireService> tireService { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TireStorage> TireStorage { get; set; }
     }

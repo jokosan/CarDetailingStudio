@@ -11,14 +11,14 @@ namespace CarDetailingStudio.Utilities.Map
     {
         public MappingProfile()
         {
-            CreateMap<OrderServicesCarWashView, OrderServicesCarWashBll>();
-            CreateMap<OrderServicesCarWashBll, OrderServicesCarWashView>();
+            CreateMap<OrderServicesCarWashView, OrderServicesCarWashBll>().ReverseMap();
+           // CreateMap<OrderServicesCarWashBll, OrderServicesCarWashView>();
 
-            CreateMap<CarWashWorkersView, CarWashWorkersBll>();
-            CreateMap<CarWashWorkersBll, CarWashWorkersView>();
+            CreateMap<CarWashWorkersView, CarWashWorkersBll>().ReverseMap();
+            //CreateMap<CarWashWorkersBll, CarWashWorkersView>();
 
-            CreateMap<ClientsOfCarWashView, ClientsOfCarWashBll>();
-            CreateMap<ClientsOfCarWashBll, ClientsOfCarWashView>();
+            CreateMap<ClientsOfCarWashView, ClientsOfCarWashBll>().ReverseMap();
+           // CreateMap<ClientsOfCarWashBll, ClientsOfCarWashView>();
 
             CreateMap<JobTitleTableView, JobTitleTableBll>();
             CreateMap<JobTitleTableBll, JobTitleTableView>();
@@ -156,6 +156,25 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<CostCategoriesView, CostCategoriesBll>();
             CreateMap<CostCategoriesBll, CostCategoriesView>();
+
+            //  шиномонтаж
+            CreateMap<PriceListTireFittingAdditionalServicesView, PriceListTireFittingAdditionalServicesBll>();
+            CreateMap<PriceListTireFittingAdditionalServicesBll, PriceListTireFittingAdditionalServicesView>();
+
+            CreateMap<TireServiceView, TireServiceBll>();
+            CreateMap<TireServiceBll, TireServiceView>();
+
+            CreateMap<PriceListTireFittingView, PriceListTireFittingBll>();
+            CreateMap<PriceListTireFittingBll, PriceListTireFittingView>();
+
+            CreateMap<TireRadiusView, TireRadiusBll>();
+            CreateMap<TireRadiusBll, TireRadiusView>();
+
+            CreateMap<TypeOfCarsView, TypeOfCarsBll>();
+            CreateMap<TypeOfCarsBll, TypeOfCarsView>();
+
+            CreateMap<TireChangeServiceView, TireChangeServiceBll>();
+            CreateMap<TireChangeServiceBll, TireChangeServiceView>();
         }
     }
 }

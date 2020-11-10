@@ -1,4 +1,5 @@
 ﻿using CarDetailingStudio.Models.ModelViews;
+using Microsoft.Owin.Security;
 using System.Data.Entity;
 
 namespace CarDetailingStudio.Models
@@ -32,7 +33,10 @@ namespace CarDetailingStudio.Models
         public DbSet<JobTitleTableView> JobTitleTable { get; set; }
         public DbSet<OrderServicesCarWashView> OrderServicesCarWash { get; set; }
         public DbSet<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }
+     
 
+
+      
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.CloseOrderModel> CloseOrderModels { get; set; }
 
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.OrderInfoViewModel> OrderInfoViewModels { get; set; }
@@ -72,5 +76,11 @@ namespace CarDetailingStudio.Models
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CashierView> CashierViews { get; set; }
 
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.CostCategoriesView> CostCategoriesViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.TireServiceView> TireServiceViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.TireChangeServiceView> TireChangeServiceViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.PriceListTireFittingAdditionalServicesView> PriceListTireFittingAdditionalServicesViews { get; set; }
     }
 }

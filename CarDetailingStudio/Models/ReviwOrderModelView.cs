@@ -20,6 +20,8 @@ namespace CarDetailingStudio.Models
 
         [Display(Name = "Стоимость за мойку шин")]
         public double priceWheelWash { get; set; }
+        public int IdWheelWash { get; set; }  // id услуги  за мойку шин
+        public int IdpriceSilicone { get; set; } // id услуги  за мойку шин
 
         public List<TireStorageServicesBll> tireStorageServices { get; set; }
     }

@@ -18,11 +18,11 @@ namespace CarDetailingStudio.DAL
         public expenseCategory()
         {
             this.consumablesTireFitting = new HashSet<consumablesTireFitting>();
+            this.costCategories = new HashSet<costCategories>();
             this.costsCarWashAndDeteyling = new HashSet<costsCarWashAndDeteyling>();
             this.otherExpenses = new HashSet<otherExpenses>();
             this.salaryExpenses = new HashSet<salaryExpenses>();
             this.utilityCosts = new HashSet<utilityCosts>();
-            this.costCategories = new HashSet<costCategories>();
         }
     
         public int idExpenseCategory { get; set; }
@@ -31,6 +31,8 @@ namespace CarDetailingStudio.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<consumablesTireFitting> consumablesTireFitting { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<costCategories> costCategories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<costsCarWashAndDeteyling> costsCarWashAndDeteyling { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<otherExpenses> otherExpenses { get; set; }
@@ -38,7 +40,5 @@ namespace CarDetailingStudio.DAL
         public virtual ICollection<salaryExpenses> salaryExpenses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<utilityCosts> utilityCosts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<costCategories> costCategories { get; set; }
     }
 }

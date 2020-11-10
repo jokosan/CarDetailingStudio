@@ -21,7 +21,9 @@ namespace CarDetailingStudio.Controllers
         private ICarWashWorkersServices _carWashWorkers;
         private IOrderCarWashWorkersServices _orderCarWash;
 
-        public BonusToSalaryController(IBonusToSalary bonusToSalary, ICarWashWorkersServices carWashWorkers,
+        public BonusToSalaryController(
+            IBonusToSalary bonusToSalary,
+            ICarWashWorkersServices carWashWorkers,
             IOrderCarWashWorkersServices orderCarWash)
         {
             _bonusToSalary = bonusToSalary;

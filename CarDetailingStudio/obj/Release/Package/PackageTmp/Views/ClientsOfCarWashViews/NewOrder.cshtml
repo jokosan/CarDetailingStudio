@@ -72,7 +72,6 @@
 
                             <div class="table-responsive">
                                 <table class="table">
-
                                     @foreach (var item in ViewBag.Detailings)
                                     {
                                         if (item.IdGroupWashServices == itemGroup.Id)
@@ -96,15 +95,10 @@
                                                             </div>
                                                             <div class="col-md-6">
                                                                 @item.services_list
-
                                                             </div>
-
-
-
                                                             <div class="col-md-3">
                                                                 @item.validity
                                                             </div>
-
                                                             <div class="col-md-1">
                                                                 @switch (Model.CarBody.Id)
                                                                 {
