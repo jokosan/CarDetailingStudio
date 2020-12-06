@@ -8,7 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CarDetailingStudio.Models;
-using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 using CarDetailingStudio.BLL.Model;
 using AutoMapper;
 using CarDetailingStudio.BLL.Services.Contract;
@@ -34,18 +34,6 @@ namespace CarDetailingStudio.Controllers
         // GET: AllExpenses/Create
         public ActionResult Create()
         {
-
-            //ViewBag.Category = new SelectList(await _expenseCategory.GetTableAll(), "idExpenseCategory", "name", "Выбирите значения");
-
-
-            //int selectedIndex = 2;            
-            //SelectList selects = new SelectList(expenseCategory, "idExpenseCategory", "name", selectedIndex);
-            //ViewBag.Category = selects;
-
-            //var costCategory = await _costCategories.GetTableAll();
-            //ViewBag.CostCategory = new SelectList(costCategory.Where(x => x.typeOfExpenses == selectedIndex), "idCostCategories", "Name");
-            //ViewBag.UtilityCostsCategory = new SelectList(await _utilityCostsCategory.GetTableAll(), "idUtilityCostsCategory", "Named");
-
             return View();
         }
 
@@ -90,7 +78,6 @@ namespace CarDetailingStudio.Controllers
                 TempData["CostCategories"] = Convert.ToInt32(OneItem.idCostCategories);
             }
 
-
             return Json(StateList, JsonRequestBehavior.AllowGet);
         }
 
@@ -105,9 +92,7 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,indicationCounter,amount,dateExpenses,nameExpenses,expenseCategoryId,typeServicesId")] AllExpenses allExpenses
-            //,int? SelectGroupClient, int? UtilityCostsCategory
-            )
+        public async Task<ActionResult> Create([Bind(Include = "id,indicationCounter,amount,dateExpenses,nameExpenses,expenseCategoryId,typeServicesId,paymentType")] AllExpenses allExpenses)
         {
             if (ModelState.IsValid)
             {

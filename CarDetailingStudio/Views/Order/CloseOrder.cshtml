@@ -14,6 +14,14 @@
         <div class="container-fluid">
 
             <div class="row">
+                @if (ViewBag.AdminError == false)
+                {
+                    <div class="col-md-12">
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Внимание! Вы не можете закрыть заказ выберите администратора для текущей смены</h5>
+                        </div>
+                    </div>
+                }
 
                 @if (ViewBag.SelectionStatus == false)
                 {
@@ -152,7 +160,7 @@
                                         }
 
                                     }
-                                    else 
+                                    else
                                     {
                                         foreach (var item in ViewBag.TireServices)
                                         {
@@ -224,4 +232,3 @@
         </div>
     </form>
 }
-

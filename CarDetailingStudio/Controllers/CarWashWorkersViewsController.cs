@@ -41,6 +41,7 @@ namespace CarDetailingStudio.Controllers
             var ReirectModel = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees());
 
             if (TempData.ContainsKey("BrigadeId"))
+
             {
                 var resultBrigade = TempData["BrigadeId"] as IEnumerable<BrigadeForTodayView>;
                 var result = new List<int>();
@@ -54,7 +55,9 @@ namespace CarDetailingStudio.Controllers
                 foreach (var i in resultBrigade)
                     result.Add(i.IdCarWashWorkers.Value);
 
-                return View(ReirectModel.Where(b => !result.Contains(b.id)));
+
+                return View(ReirectModel.Where(b => result.Contains(b.id)));
+                // return View(ReirectModel.Where(b => !result.Contains(b.id)));
             }
             else
             {
@@ -70,14 +73,31 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
+
             if (adminCarWosh != null && adminDetailing != null && chkRow != null)
             {
+                if (chkRow.Any(x => x == adminCarWosh) != true)
+                    chkRow.Add(adminCarWosh.Value);
+
+                if (chkRow.Any(x => x == adminDetailing) != true)
+                    chkRow.Add(adminDetailing.Value);
+
                 await _services.AddToCurrentShift(adminCarWosh, adminDetailing, chkRow);
                 return Redirect("/Order/Index");
             }
-            else if (chkRow != null)
+            else if (chkRow != null && adminCarWosh == null && adminDetailing == null)
             {
-                await _services.AddToCurrentShift(adminCarWosh, adminDetailing, chkRow);
+                await _services.AddToCurrentShift(chkRow);
+                return Redirect("/BrigadeForToday/TodayShift");
+            }
+            else if (adminCarWosh != null && adminDetailing != null)
+            {
+                await _services.AddToCurrentShift(adminCarWosh, adminDetailing);
+                return Redirect("/BrigadeForToday/TodayShift");
+            }
+            else if (adminCarWosh != null || adminDetailing != null)
+            {
+                await _services.AddToCurrentShift(adminCarWosh, adminDetailing);
                 return Redirect("/BrigadeForToday/TodayShift");
             }
 
@@ -90,6 +110,11 @@ namespace CarDetailingStudio.Controllers
         {
             var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees());
             return View(StaffAll);
+        }
+
+        public async Task<ActionResult> StaffArxiv()
+        {
+            return View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees("false")));
         }
 
         // GET: CarWashWorkersViews/Create
@@ -140,6 +165,7 @@ namespace CarDetailingStudio.Controllers
             CarWashWorkersView carWashWorkersView = Mapper.Map<CarWashWorkersView>(await _services.CarWashWorkersId(id));
             ViewBag.Job = new SelectList(await _job.SelectJobTitle(), "Id", "Position");
 
+
             if (carWashWorkersView == null)
             {
                 return HttpNotFound();
@@ -164,6 +190,7 @@ namespace CarDetailingStudio.Controllers
                 }
 
                 CarWashWorkersBll carWashWorkersBll = Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(carWashWorkersView);
+
                 await _services.UpdateEmploee(carWashWorkersBll, command);
                 return RedirectToAction("Staff");
             }

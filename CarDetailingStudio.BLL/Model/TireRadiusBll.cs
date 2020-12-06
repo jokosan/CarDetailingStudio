@@ -13,8 +13,9 @@ namespace CarDetailingStudio.BLL.Model
             this.PriceListTireFitting = new HashSet<PriceListTireFittingBll>();
         }
 
-        public double idTireRadius { get; set; }
+        public int idTireRadius { get; set; }
         public string radius { get; set; }
+        public Nullable<int> number { get; set; }
         public virtual ICollection<PriceListTireFittingBll> PriceListTireFitting { get; set; }
     }
 }

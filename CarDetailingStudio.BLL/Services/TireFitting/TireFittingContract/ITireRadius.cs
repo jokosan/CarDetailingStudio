@@ -10,5 +10,6 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.TireFittingContract
 {
     public interface ITireRadius : IGetFromDatabase<TireRadiusBll>
     {
+        Task<IEnumerable<TireRadiusBll>> SeletTireRadius(List<int> idRadius);
     }
 }

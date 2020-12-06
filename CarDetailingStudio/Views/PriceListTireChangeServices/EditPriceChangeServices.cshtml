@@ -1,0 +1,81 @@
+﻿@model List<CarDetailingStudio.Models.ModelViews.PriceListTireFittingView>
+
+<div class="row">
+    <div class="col-md-12">
+
+        @using (Html.BeginForm())
+        {
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <div class="row">
+
+
+                    @for (int i = 0; i < Model.Count(); i++)
+                    {
+
+                        <div class="col-md-4 pl-md-0">
+                            <div class="card card-pricing">
+                                <div class="card-body">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model[i].idPriceListTireFitting)
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model[i].JobTitle)
+                                        </label>
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model[i].JobTitle, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model[i].JobTitle, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model[i].TheCost)
+                                        </label>
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model[i].TheCost, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model[i].TheCost, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model[i].TireRadiusId)
+                                        </label>
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model[i].TireRadiusId, new { htmlAttributes = new { @class = "form-control" } })
+
+                                           @* @Html.DropDownListFor(model => model[i].TireRadiusId, (SelectList)ViewBag.Radius, new { @class = "form-control" })*@
+                                           @* @Html.EnumDropDownListFor(model => model[i].TireRadiusId, new SelectList(Model[i].TireRadius.radius))*@
+       
+                                            @Html.ValidationMessageFor(model => model[i].TireRadiusId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">
+                                            @Html.LabelFor(model => model[i].TypeOfCarsId)
+                                        </label>
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model[i].TypeOfCarsId, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model[i].TypeOfCarsId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Сохранить услугу" class="btn btn-default" />
+                        @Html.ActionLink("Back to List", "Index", null, new {@class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

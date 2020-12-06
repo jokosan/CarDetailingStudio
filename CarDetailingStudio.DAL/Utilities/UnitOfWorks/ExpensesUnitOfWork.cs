@@ -7,9 +7,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<expenseCategory> expenseCategoryUW;
         private DbRepository<salaryExpenses> salaryExpensesUW;
         private DbRepository<utilityCosts> utilityCostsUW;
-        private DbRepository<otherExpenses> otherExpensesUW;
-        private DbRepository<costsCarWashAndDeteyling> costsCarWashAndDeteylingUW;
-        private DbRepository<consumablesTireFitting> consumablesTireFittingUW;
+        private DbRepository<Expenses> ExpensesUW;
 
 
         public DbRepository<expenseCategory> expenseCategoryUnitOfWork
@@ -30,22 +28,12 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             set => utilityCostsUW = value;
         }
 
-        public DbRepository<otherExpenses> otherExpensesUnitOfWork
+        public DbRepository<Expenses> ExpensesUnitOfWork
         {
-            get => otherExpensesUW ?? (otherExpensesUW = new DbRepository<otherExpenses>(_entities));
-            set => otherExpensesUW = value;
+            get => ExpensesUW ?? (ExpensesUW = new DbRepository<Expenses>(_entities));
+            set => ExpensesUW = value;
         }
 
-        public DbRepository<costsCarWashAndDeteyling> costsCarWashAndDeteylingUnitOfWork
-        {
-            get => costsCarWashAndDeteylingUW ?? (costsCarWashAndDeteylingUW = new DbRepository<costsCarWashAndDeteyling>(_entities));
-            set => costsCarWashAndDeteylingUW = value;
-        }
-
-        public DbRepository<consumablesTireFitting> consumablesTireFittingUnitOfWork
-        {
-            get => consumablesTireFittingUW ?? (consumablesTireFittingUW = new DbRepository<consumablesTireFitting>(_entities));
-            set => consumablesTireFittingUW = value;
-        }
+     
     }
 }

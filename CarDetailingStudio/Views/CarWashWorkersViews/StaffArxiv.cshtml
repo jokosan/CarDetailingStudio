@@ -1,0 +1,117 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.CarWashWorkersView>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Персонал</h5>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        @Html.ActionLink("Добавить нового сотрудника", "AddEmployee", null, new { @class = "btn btn-info" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Surname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Patronymic)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MobilePhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Experience)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AdministratorsInterestRate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.InterestRate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.rate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DataRegistration)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DataDismissal)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.status)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Photo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdPosition)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Patronymic)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MobilePhone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Experience)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AdministratorsInterestRate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InterestRate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.rate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataRegistration)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataDismissal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Photo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdPosition)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Редактировать", "EditEmployee", new { id = item.id }) |
+                                @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

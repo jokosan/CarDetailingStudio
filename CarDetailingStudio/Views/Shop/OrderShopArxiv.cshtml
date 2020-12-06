@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.GoodsSoldView>
+
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="card-title m-b-0">Архив проданых напитков и товаров</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    @(Html
+                       .Grid(Model)
+                       .Build(columns =>
+                       {
+                           columns.Add(model => model.listOfGoods.name);
+                           columns.Add(model => model.listOfGoods.price);
+                           columns.Add(model => model.Date);
+                           columns.Add(model => model.amount);
+                           columns.Add(model => model.orderPrice);
+                           columns.Add(model => model.percentageOfSale);
+                           columns.Add(model => model.PaymentState);
+
+                           columns.Add(model => @Html.ActionLink("О заказе", "OrderInfo", new { id = model.idGoodsSold }, new { @class = "btn btn-outline-info" })).Encoded(false);
+                       })
+                       .UsingFilterMode(GridFilterMode.Excel)
+                       .Empty("No data found")
+                       .Filterable(GridFilterType.Single)
+                       .Sortable()
+                       .Pageable(pager =>
+                       {
+                           pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" } };
+                           pager.ShowPageSizes = true;
+                           pager.RowsPerPage = 1;
+                       })
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+

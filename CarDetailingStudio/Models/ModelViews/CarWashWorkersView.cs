@@ -10,11 +10,12 @@ namespace CarDetailingStudio.Models.ModelViews
     {
         public CarWashWorkersView()
         {
+            this.bonusToSalary = new HashSet<BonusToSalaryView>();
             this.brigadeForToday = new HashSet<BrigadeForTodayView>();
             this.Credit = new HashSet<CreditView>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkersView>();
-            this.salaryExpenses = new HashSet<SalaryExpensesView>();
             this.salaryBalance = new HashSet<SalaryBalanceView>();
+            this.salaryExpenses = new HashSet<SalaryExpensesView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -78,10 +79,10 @@ namespace CarDetailingStudio.Models.ModelViews
 
         public virtual ICollection<BonusToSalaryView> bonusToSalary { get; set; }
         public virtual ICollection<BrigadeForTodayView> brigadeForToday { get; set; }
-        public virtual JobTitleTableView JobTitleTable { get; set; }
         public virtual ICollection<CreditView> Credit { get; set; }
         public virtual ICollection<OrderCarWashWorkersView> OrderCarWashWorkers { get; set; }
-        public virtual ICollection<SalaryExpensesView> salaryExpenses { get; set; }
         public virtual ICollection<SalaryBalanceView> salaryBalance { get; set; }
+        public virtual ICollection<SalaryExpensesView> salaryExpenses { get; set; }
+        public virtual JobTitleTableView JobTitleTable { get; set; }
     }
 }

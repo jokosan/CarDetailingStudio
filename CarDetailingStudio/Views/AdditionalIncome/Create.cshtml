@@ -1,0 +1,79 @@
+﻿@model CarDetailingStudio.Models.ModelViews.AdditionalIncomeView
+
+<div class="modal-body">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                <h4>Создать</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.IncomeCategory)
+                                    </label>
+                                    <div class="col-md-9">
+                                        <div>
+                                            @Html.DropDownListFor(model => model.IncomeCategory, new List<SelectListItem>
+                                               {
+                                                   new SelectListItem{ Text = "Касса автомир", Value = "Касса автомир "},
+                                                    new SelectListItem{ Text = "Касса автодом", Value = "Касса автодом"},
+                                                   new SelectListItem{ Text = "Касса химчистка Колер", Value = "Касса химчистка Колер"}
+                                               }, new { @class = "form-control" })
+                                        </div>
+                                     
+                                        @Html.ValidationMessageFor(model => model.IncomeCategory, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.Date)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.Amount)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.Note)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="pull-right m-t-30 text-right">
+                                    <input type="submit" value="Сохранить" class="btn btn-default" />
+                                    @Html.ActionLink("Отмена", "PriceList", null, new { @class = "btn btn-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+

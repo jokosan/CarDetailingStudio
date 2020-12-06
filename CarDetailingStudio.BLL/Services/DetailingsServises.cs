@@ -21,31 +21,17 @@ namespace CarDetailingStudio.BLL.Services
             _apiPrivatBank = apiPrivatBank;
         }
 
-
         public async Task<IEnumerable<DetailingsBll>> GetAll()
-        {
-            //return Mapper.Map<IEnumerable<DetailingsBll>>(_unitOfWork.DetailingsUnitOfWork.Get());
-            return Mapper.Map<IEnumerable<DetailingsBll>>(await _unitOfWork.DetailingsUnitOfWork.GetInclude("GroupWashServices"));
-        }
+            => Mapper.Map<IEnumerable<DetailingsBll>>(await _unitOfWork.DetailingsUnitOfWork.GetInclude("GroupWashServices"));
 
         public async Task<DetailingsBll> GetId(int? id)
-        {
-            return Mapper.Map<DetailingsBll>(await _unitOfWork.DetailingsUnitOfWork.GetById(id));
-        }
+            => Mapper.Map<DetailingsBll>(await _unitOfWork.DetailingsUnitOfWork.GetById(id));
 
-        public async Task AddNewServices(DetailingsBll prive)
-        {
-            Detailings detailings = Mapper.Map<DetailingsBll, Detailings>(prive);
-            _unitOfWork.DetailingsUnitOfWork.Insert(detailings);
-            await _unitOfWork.Save();
-        }
+        public async Task<IEnumerable<DetailingsBll>> GetPriceGroupWashServices(int idGroup)
+            => Mapper.Map<IEnumerable<DetailingsBll>>(await _unitOfWork.DetailingsUnitOfWork.QueryObjectGraph(x => x.IdGroupWashServices == idGroup));
 
-        public async Task UpdateServices(DetailingsBll updateServices)
-        {
-            Detailings detailings = Mapper.Map<DetailingsBll, Detailings>(updateServices);
-            _unitOfWork.DetailingsUnitOfWork.Update(detailings);
-            await _unitOfWork.Save();
-        }
+        public async Task<IEnumerable<DetailingsBll>> SelectTypeService(int idTypeService)
+            => Mapper.Map<IEnumerable<DetailingsBll>>(await _unitOfWork.DetailingsUnitOfWork.QueryObjectGraph(x => x.IdTypeService == idTypeService, "GroupWashServices"));
 
         public async Task<IEnumerable<DetailingsBll>> Converter()
         {
@@ -56,8 +42,6 @@ namespace CarDetailingStudio.BLL.Services
             if (usdTrue)
             {
                 // var ApiCurrency = ApiPrivatBank.exchangeRatesModel.Where(x => x.ccy == "USD").Single();
-               
-         
 
                 var ApiCurrency = await SourceOfChoice();
 
@@ -110,7 +94,23 @@ namespace CarDetailingStudio.BLL.Services
             }
         }
 
+        #region Detailings Insert Update
+        public async Task AddNewServices(DetailingsBll prive)
+        {
+            _unitOfWork.DetailingsUnitOfWork.Insert(TransformEntity(prive));
+            await _unitOfWork.Save();
+        }
+
+        public async Task UpdateServices(DetailingsBll updateServices)
+        {
+            _unitOfWork.DetailingsUnitOfWork.Update(TransformEntity(updateServices));
+            await _unitOfWork.Save();
+        }
+        #endregion
+
         public double? ConvertCurrency(double? usd, double privat) => usd * privat;
+
+        private Detailings TransformEntity(DetailingsBll entity) => Mapper.Map<DetailingsBll, Detailings>(entity);
 
     }
 }

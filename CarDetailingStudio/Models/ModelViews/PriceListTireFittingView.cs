@@ -13,9 +13,15 @@ namespace CarDetailingStudio.Models.ModelViews
         [Key]
 
         public int idPriceListTireFitting { get; set; }
+        
+        [Display (Name = "Вид услуги")]
         public string JobTitle { get; set; }
-        public Nullable<double> TheCost { get; set; }
-        public Nullable<double> TireRadiusId { get; set; }
+
+        [Display (Name = "Стоимость")]
+        public Nullable<int> TheCost { get; set; }
+
+        public Nullable<int> TireRadiusId { get; set; }
+
         public Nullable<double> TypeOfCarsId { get; set; }
 
         public virtual TireRadiusView TireRadius { get; set; }

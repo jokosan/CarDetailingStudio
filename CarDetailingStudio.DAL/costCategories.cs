@@ -14,10 +14,18 @@ namespace CarDetailingStudio.DAL
     
     public partial class costCategories
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public costCategories()
+        {
+            this.Expenses = new HashSet<Expenses>();
+        }
+    
         public int idCostCategories { get; set; }
         public Nullable<int> typeOfExpenses { get; set; }
         public string Name { get; set; }
     
         public virtual expenseCategory expenseCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Expenses> Expenses { get; set; }
     }
 }

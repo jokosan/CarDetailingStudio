@@ -2,8 +2,8 @@
 using CarDetailingStudio.BLL.Services.Checkout;
 using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
 using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.Expenses;
-using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.BLL.Services.ExpensesServices;
+using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 using CarDetailingStudio.BLL.Services.JoinModel;
 using CarDetailingStudio.BLL.Services.JoinModel.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
@@ -55,25 +55,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<ISalaryBalanceService>().To<SalaryBalanceService>();
             kernel.Bind<IPaymentState>().To<PaymentStateServices>();
 
-            // Order
-
-            //kernel.Bind<IOrderServicesCarWashServices>().To<OrderServicesCarWashServices>();
-            //kernel.Bind<IServisesCarWashOrderServices>().To<ServisesCarWashOrderServices>();
-            //kernel.Bind<IOrderCarWashWorkersServices>().To<OrderCarWashWorkersServices>();
-            //kernel.Bind<IOrderServices>().To<OrderServices>();
-            //kernel.Bind<IOrder>().To<Order>();
-
-            // expenses - затраты
-
-            kernel.Bind<IConsumablesTireFitting>().To<ConsumablesTireFittingServices>();
-            kernel.Bind<ICostsCarWashAndDeteyling>().To<CostsCarWashAndDeteylingServices>();
-            kernel.Bind<IOtherExpenses>().To<OtherExpensesServises>();
-            kernel.Bind<ISalaryExpenses>().To<SalaryExpensesServices>();
-            kernel.Bind<IUtilityCosts>().To<UtilityCostsServices>();
-            kernel.Bind<IExpenseCategory>().To<ExpenseCategoryServices>();
-
             // TireStorage - хранение шин
-
             kernel.Bind<ITireStorage>().To<TireStorageServices>();
             kernel.Bind<ITireStorageServices>().To<TireStorageSerServices>();
             kernel.Bind<IStorageFee>().To<StorageFeeServices>();
@@ -103,8 +85,13 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
 
             kernel.Bind<ICreateOrderModule>().To<CreateOrderModule>();
 
+            // Временное решение 
+            kernel.Bind<IAdditionalIncome>().To<AdditionalIncomeServices>();
+
+            NinjectExpenses.Initialize(kernel);
             NinjectOrder.Initialize(kernel);
             NinjectDependencyResolverDAL.Initialize(kernel);
+            NinjectTrade.Initialize(kernel);
         }
     }
 }

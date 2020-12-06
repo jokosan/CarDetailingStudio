@@ -107,6 +107,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalIncome.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="additionalTireStorageServices.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -164,13 +167,7 @@
     <Compile Include="ClientsOfCarWash.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="consumablesTireFitting.cs">
-      <DependentUpon>carWashEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="costCategories.cs">
-      <DependentUpon>carWashEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="costsCarWashAndDeteyling.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Credit.cs">
@@ -183,6 +180,12 @@
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="expenseCategory.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Expenses.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="goodsSold.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupWashServices.cs">
@@ -213,6 +216,9 @@
     <Compile Include="JobTitleTable.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="listOfGoods.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="logo_mark_car.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -225,9 +231,6 @@
     <Compile Include="OrderServicesCarWash.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="otherExpenses.cs">
-      <DependentUpon>carWashEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="PaymentState.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -235,6 +238,12 @@
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="PriceListTireFittingAdditionalServices.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="procurement.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCategories.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,13 +286,11 @@
     <Compile Include="typeOfOrder.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="TypeServices.cs">
-      <DependentUpon>carWashEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\Ninject\NinjectDependencyResolverDAL.cs" />
     <Compile Include="Utilities\UnitOfWorks\ExpensesUnitOfWork.cs" />
     <Compile Include="Utilities\UnitOfWorks\IUnitOfWork.cs" />
     <Compile Include="Utilities\UnitOfWorks\TireStorageUnitOfWork.cs" />
+    <Compile Include="Utilities\UnitOfWorks\TradeUnitOfWork.cs" />
     <Compile Include="Utilities\UnitOfWorks\UnitOfWork.cs" />
     <Compile Include="utilityCosts.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>

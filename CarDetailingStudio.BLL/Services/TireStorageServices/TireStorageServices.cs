@@ -47,5 +47,7 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
         {
             throw new NotImplementedException();
         }
+
+      
     }
 }

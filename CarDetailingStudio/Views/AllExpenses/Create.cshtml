@@ -114,6 +114,21 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                     @Html.LabelFor(model => model.paymentType)
+                                </label>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.paymentType, new List<SelectListItem>
+                                       {
+                                           new SelectListItem{ Text = "Выберите форму оплаты", Value = "3"},
+                                           new SelectListItem { Text = "Наличный расчёт", Value = "1"},
+                                           new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
+                                       }, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.paymentType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
                             <div style='display:none' class="form-group row" id="typeServicesId">
                                 <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
                                     @Html.LabelFor(model => model.typeServicesId)

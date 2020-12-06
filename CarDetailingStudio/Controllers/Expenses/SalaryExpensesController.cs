@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 using CarDetailingStudio.Models.ModelViews;
 using System.Collections.Generic;
 using System.Data;

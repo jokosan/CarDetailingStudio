@@ -60,7 +60,7 @@
                                     @Html.LabelFor(model => model.phone)
                                 </label>
                                 <div class="col-sm-9">
-                                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" }, value=@Request.Form["phone"] })
+                                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" }, value=@Request.Form["phone"], type = "number" })
                                     @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
                                 </div>
                             </div>

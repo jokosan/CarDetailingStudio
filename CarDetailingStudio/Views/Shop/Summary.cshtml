@@ -1,0 +1,16 @@
+﻿@model CarDetailingStudio.Utilities.Cart
+
+@*<div class="navbar-right">
+        @Html.ActionLink("Checkout", "Basket", "Shop",
+            new { returnUrl = Request.Url.PathAndQuery},
+            new { @class = "btn btn-default navbar-btn"})
+    </div>*@
+
+<div class="navbar-text navbar-right">
+    <a href=@Url.Action("../Shop/Basket", new {  returnUrl = Request.Url.PathAndQuery})>
+        <b>Товары:</b><br />
+        @Model.Lines.Sum(x => x.Quantity) (шт), 
+        @Model.ComputeTotalValu().ToString() грн.
+    </a>
+
+</div>

@@ -4,6 +4,7 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.JoinModel.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Modules.Clients.Contract;
+using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
 using CarDetailingStudio.Filters;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
@@ -33,14 +34,24 @@ namespace CarDetailingStudio.Controllers
         private IServisesCarWashOrderServices _servisesCarWash;
         private ICarJoinClientServices _carJoinClient;
         private IRemoveClient _removeClient;
+        private ITireStorageServices _tireStorageServices;
 
 
-        public ClientsOfCarWashViewsController(IClientsOfCarWashServices clients, IDetailingsServises detailingsView,
-                                               IOrderServices order, IOrderServicesCarWashServices orderServices,
-                                               ICarMarkServices carMark, ICarBodyServices carBody, IClientsGroupsServices clientsGroupsServices,
-                                               IClientInfoServices clientInfo, IGroupWashServices groupWashServices, IBrigadeForTodayServices brigade,
-                                                IServisesCarWashOrderServices servisesCarWash, ICarJoinClientServices carJoinClient,
-                                                IRemoveClient removeClient)
+        public ClientsOfCarWashViewsController(
+            IClientsOfCarWashServices clients,
+            IDetailingsServises detailingsView,
+            IOrderServices order,
+            IOrderServicesCarWashServices orderServices,
+            ICarMarkServices carMark,
+            ICarBodyServices carBody,
+            IClientsGroupsServices clientsGroupsServices,
+            IClientInfoServices clientInfo,
+            IGroupWashServices groupWashServices,
+            IBrigadeForTodayServices brigade,
+            IServisesCarWashOrderServices servisesCarWash,
+            ICarJoinClientServices carJoinClient,
+            IRemoveClient removeClient,
+            ITireStorageServices tireStorageServices)
         {
             _services = clients;
             _detailings = detailingsView;
@@ -55,6 +66,7 @@ namespace CarDetailingStudio.Controllers
             _servisesCarWash = servisesCarWash;
             _carJoinClient = carJoinClient;
             _removeClient = removeClient;
+            _tireStorageServices = tireStorageServices; 
         }
 
         IEnumerable<DetailingsView> Price { get; set; }
@@ -77,7 +89,7 @@ namespace CarDetailingStudio.Controllers
             return View(Mapper.Map<IEnumerable<ClientInfoView>>(await _clientInfo.ClientInfoAll()));
         }
 
-      
+
         public async Task<ActionResult> Checkout(int? services)
         {
 
@@ -129,9 +141,10 @@ namespace CarDetailingStudio.Controllers
             Price = Mapper.Map<IEnumerable<DetailingsView>>(await _detailings.Converter());
 
             var tablePriceResult = Price.Where(x => x.IdTypeService == Services);
+            var detailingsGrup = await _groupWashServices.GetIdAll(Services);
 
             ViewBag.Detailings = tablePriceResult;
-            ViewBag.DetailingsGrup = await _groupWashServices.GetIdAll(Services);
+            ViewBag.DetailingsGrup = detailingsGrup;
             //ViewBag.WashServises = Price.Where(x => x.IdTypeService == 2);
 
             if (CustomerOrders == null)
@@ -158,7 +171,7 @@ namespace CarDetailingStudio.Controllers
             if (OrderServices.OrderList.Count() > 0)
             {
                 double orederSum = 0;
-                
+
                 if (TempData.ContainsKey("OrderServices"))
                 {
                     var orderServisesResult = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(int.Parse(TempData["OrderServices"].ToString())));
@@ -232,7 +245,7 @@ namespace CarDetailingStudio.Controllers
             ClientInfoView clientInfo = Mapper.Map<ClientInfoView>(await _clientInfo.ClientInfoGetId(id));
             ClientsOfCarWashView clientsOfCar = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(idCar));
 
-            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name", clientsOfCar.IdClientsGroups );
+            ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name", clientsOfCar.IdClientsGroups);
             ViewBag.IdClient = id;
             ViewBag.IdCar = idCar;
 
@@ -417,15 +430,15 @@ namespace CarDetailingStudio.Controllers
 
             if (statusPage != null)
                 ViewBag.Page = statusPage;
-          
-           var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _services.GetAll(idClientInfo));
+
+            var ClientWhare = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _services.GetAll(idClientInfo));
 
             var singlClien = ClientWhare.FirstOrDefault(x => x.IdInfoClient == idClientInfo);
 
             ClientsOfCarWashView clientsOfCarWashView = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(singlClien.id));
 
-           ViewBag.ClientInfo = ClientWhare.Where(x => x.arxiv == true);
-           
+            ViewBag.ClientInfo = ClientWhare.Where(x => x.arxiv == true);
+
             if (clientsOfCarWashView == null)
             {
                 return HttpNotFound();

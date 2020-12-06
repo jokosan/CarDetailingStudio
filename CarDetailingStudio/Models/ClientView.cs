@@ -29,6 +29,7 @@ namespace CarDetailingStudio.Models
 
         [Display(Name = "Номер телефона")]
         [DataType(DataType.PhoneNumber)]
+        [StringLength(10, MinimumLength = 7, ErrorMessage = "Количество символов должно быть равно 7")]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public string phone { get; set; }
 

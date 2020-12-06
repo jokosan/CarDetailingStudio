@@ -47,5 +47,6 @@ namespace CarDetailingStudio.BLL.Services.TireFitting
         {
             return Mapper.Map<IEnumerable<TireChangeServiceBll>>(await _unitOfWork.TireChangeServiceUnitOfWork.QueryObjectGraph(x => x.idOrder == OrderId, "PriceListTireFitting", "PriceListTireFitting.TireRadius"));
         }
+
     }
 }

@@ -104,15 +104,8 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<UtilityCostsView, UtilityCostsBll>();
             CreateMap<UtilityCostsBll, UtilityCostsView>();
 
-            CreateMap<OtherExpensesView, OtherExpensesBll>();
-            CreateMap<OtherExpensesBll, OtherExpensesView>();
-
-            CreateMap<CostsCarWashAndDeteylingView, CostsCarWashAndDeteylingBll>();
-            CreateMap<CostsCarWashAndDeteylingBll, CostsCarWashAndDeteylingView>();
-
-            CreateMap<ConsumablesTireFittingView, ConsumablesTireFittingBll>();
-            CreateMap<ConsumablesTireFittingBll, ConsumablesTireFittingView>();
-
+            CreateMap<ExpensesView, ExpensesBll>();
+            CreateMap<ExpensesBll, ExpensesView>();
 
             // Tire Storaage - Хранение шин
 
@@ -142,8 +135,6 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<OrderCarWashWorkersDayGroupView, OrderCarWashWorkersDayGroupBll>();
             CreateMap<OrderCarWashWorkersDayGroupBll, OrderCarWashWorkersDayGroupView>();
 
-            CreateMap<TypeServicesView, TypeServicesBll>();
-            CreateMap<TypeServicesBll, TypeServicesView>();
 
             CreateMap<UtilityCostsCategoryView, UtilityCostsCategoryBll>();
             CreateMap<UtilityCostsCategoryBll, UtilityCostsCategoryView>();
@@ -175,6 +166,12 @@ namespace CarDetailingStudio.Utilities.Map
 
             CreateMap<TireChangeServiceView, TireChangeServiceBll>();
             CreateMap<TireChangeServiceBll, TireChangeServiceView>();
+
+            CreateMap<GoodsSoldView, ListOfGoodsBll>().ReverseMap();
+            CreateMap<ListOfGoodsView, ListOfGoodsBll>().ReverseMap();
+            CreateMap<ProcurementView, ProcurementBll>().ReverseMap();
+            CreateMap<ProductCategoriesView, ProductCategoriesBll>().ReverseMap();
+           
         }
     }
 }

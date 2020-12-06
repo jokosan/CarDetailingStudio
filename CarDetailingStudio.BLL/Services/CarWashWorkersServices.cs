@@ -15,12 +15,11 @@ namespace CarDetailingStudio.BLL.Services
     public class CarWashWorkersServices : ICarWashWorkersServices
     {
         private IUnitOfWork _unitOfWork;
-        private BrigadeForTodayBll _brigade;
+       
 
         public CarWashWorkersServices()
         {
             _unitOfWork = new UnitOfWork();
-            _brigade = new BrigadeForTodayBll();
         }
 
         public void Dispose()
@@ -38,10 +37,11 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.Get());
         }
 
-        public async Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees()
+        public async Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees(string arxiv = "true")
         {
+
             return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork
-                .GetWhere(x => (x.status == "true")));
+                .GetWhere(x => (x.status == arxiv)));
         }
 
         public async Task<CarWashWorkersBll> CarWashWorkersId(int? id)
@@ -51,35 +51,34 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
-            DateTime date = DateTime.Now;
-            var resultDay = await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true));
+            DateTime date = new DateTime();
+            var currentShiftResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true)));
 
-            if (adminCarWosh != null && adminDetailing != null)
+            if (adminCarWosh != null && adminDetailing != null && chkRow.Count() != 0)
             {
-                if (resultDay.Count() == 0)
-                {
-                    await AdninRegistr(adminCarWosh, 1);
-                    await AdninRegistr(adminDetailing, 2);
-                }
-                else if (resultDay.Any(x => (x.StatusId == 1) && (x.IdCarWashWorkers == adminCarWosh) == false))
-                {
-                    await AdninRegistr(adminCarWosh, 1);
-                }
-                else if (resultDay.Any(x => (x.StatusId == 2) && (x.IdCarWashWorkers == adminDetailing) == false))
-                {
-                    await AdninRegistr(adminDetailing, 2);
-                }
+                await AddToCurrentShift(adminCarWosh, adminDetailing, currentShiftResult);
+                await AddToCurrentShift(chkRow, currentShiftResult);
             }
+        }
+
+        public async Task AddToCurrentShift(List<int> chkRow, IEnumerable<BrigadeForTodayBll> currentShiftResult = null)
+        {
+            DateTime date = new DateTime();
+
+            if (currentShiftResult == null)
+                currentShiftResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true)));
+
 
             foreach (var item in chkRow)
             {
-                if (resultDay.Count() == 0)
+                
+                if (currentShiftResult.Count() == 0)
                 {
                     await AdninRegistr(item, 3);
                 }
                 else
                 {
-                    if (resultDay.Any(x => (x.StatusId == 3) && (x.IdCarWashWorkers == item)) == false)
+                    if (currentShiftResult.Any(x => (x.StatusId == 3) && (x.IdCarWashWorkers == item)) == false)
                     {
                         await AdninRegistr(item, 3);
                     }
@@ -87,14 +86,46 @@ namespace CarDetailingStudio.BLL.Services
             }
         }
 
+        public async Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, IEnumerable<BrigadeForTodayBll> currentShiftResult = null)
+        {
+            DateTime date = new DateTime();
+
+            if (currentShiftResult == null)
+                currentShiftResult = currentShiftResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true)));
+
+            if (currentShiftResult.Count() == 0)
+            {
+                await AdninRegistr(adminCarWosh, 1);
+                await AdninRegistr(adminDetailing, 2);             
+            }
+
+            if (adminCarWosh != null && currentShiftResult.Count() != 0)
+            {
+                if (currentShiftResult.Any(x => (x.StatusId == 1)) == false)
+                {
+                    await AdninRegistr(adminCarWosh, 1);
+                }
+            }
+
+            if (adminDetailing != null && currentShiftResult.Count() != 0)
+            {
+                if (currentShiftResult.Any(x => (x.StatusId == 2)) == false)
+                {
+                    await AdninRegistr(adminDetailing, 2);
+                }
+            }
+        }
+
         private async Task AdninRegistr(int? admin, int status)
         {
-            _brigade.Date = DateTime.Now;
-            _brigade.IdCarWashWorkers = admin;
-            _brigade.EarlyTermination = true;
-            _brigade.StatusId = status;
+            BrigadeForTodayBll brigadeForToday = new BrigadeForTodayBll();
 
-            brigadeForToday brigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(_brigade);
+            brigadeForToday.Date = DateTime.Now;
+            brigadeForToday.IdCarWashWorkers = admin;
+            brigadeForToday.EarlyTermination = true;
+            brigadeForToday.StatusId = status;
+
+            brigadeForToday brigade = Mapper.Map<BrigadeForTodayBll, brigadeForToday>(brigadeForToday);
 
             _unitOfWork.BrigadeForTodayUnitOfWork.Insert(brigade);
             await _unitOfWork.Save();
@@ -125,6 +156,8 @@ namespace CarDetailingStudio.BLL.Services
                 carWashWorkers.status = "false";
                 carWashWorkers.DataDismissal = DateTime.Now.ToString("dd.MM.yyyy");   /// Внесни изменения в БД!! изменить  тип домена  DateTime
             }
+
+
 
             _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
             await _unitOfWork.Save();

@@ -1,0 +1,104 @@
+﻿@model CarDetailingStudio.Models.ModelViews.ListOfGoodsView
+
+<div class="modal-body">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                <h4>Редактор товара</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.idListOfGoods)
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.productCategoriesId)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.productCategoriesId, (SelectList)ViewBag.Categories, "---", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.productCategoriesId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.name)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.productDescription)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.productDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.productDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.urlFoto)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.urlFoto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.urlFoto, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.visible)
+                                    </label>
+                                    <div class="col-md-9">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.visible, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.visible, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.price)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">
+                                        @Html.LabelFor(model => model.salaryFromSale)
+                                    </label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.salaryFromSale, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.salaryFromSale, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="pull-right m-t-30 text-right">
+                                    <input type="submit" value="Сохранить" class="btn btn-default" />
+                                    @Html.ActionLink("Отмена", "PriceList", null, new { @class = "btn btn-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+

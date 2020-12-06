@@ -16,5 +16,6 @@ namespace CarDetailingStudio.BLL.Model
         public string nameExpenses { get; set; }
         public Nullable<int> expenseCategoryId { get; set; }
         public Nullable<int> typeServicesId { get; set; }
+        public Nullable<int> paymentType { get; set; }
     }
 }

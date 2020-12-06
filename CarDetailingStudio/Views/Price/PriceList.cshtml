@@ -1,0 +1,92 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ListOfGoodsView>
+
+
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+
+            <div class="card-body">
+                <h5 class="card-title">Категории товара</h5>
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <a href=@Url.Action("../Price/PriceList", new {  idCategories = item.idProductСategories}) class="btn btn-light btn-sm">@item.Name</a>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h5 class="card-title m-b-0">Каталог товаров</h5>
+                    </div>
+
+                    <div class="col-md-6 text-right">
+                        @Html.ActionLink("Добавить новый товар", "PriceListCreate", null, new { @class = "btn btn-outline-secondary" })
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        @(Html
+                       .Grid(Model)
+                       .Build(columns =>
+                       {
+                           columns.Add(model => model.productCategoriesId);
+                           columns.Add(model => model.name);
+                           columns.Add(model => model.productDescription);
+
+                           columns.Add(model => model.urlFoto);
+                           columns.Add(model => model.visible);
+                           columns.Add(model => model.price);
+                           columns.Add(model => model.salaryFromSale);
+                           columns.Add(model => @Html.ActionLink("Редактировать", "PriceListEdit", new { id = model.idListOfGoods }, new { @class = "btn btn-outline-info" })).Encoded(false);
+                       })
+                       .UsingFilterMode(GridFilterMode.Excel)
+                       .Empty("No data found")
+                       .Filterable(GridFilterType.Single)
+                       .Sortable()
+                       .Pageable(pager =>
+                       {
+                           pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" } };
+                           pager.ShowPageSizes = true;
+                           pager.RowsPerPage = 1;
+                       })
+                    )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+

@@ -6,6 +6,7 @@ using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.TireStorageServices
@@ -38,5 +39,7 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
         {
             throw new NotImplementedException();
         }
+
+     
     }
 }

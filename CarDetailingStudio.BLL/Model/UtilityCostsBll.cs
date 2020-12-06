@@ -2,15 +2,14 @@
 
 namespace CarDetailingStudio.BLL.Model
 {
-    public class UtilityCostsBll
+    public class UtilityCostsBll 
     {
         public int idUtilityCosts { get; set; }
         public Nullable<int> indicationCounter { get; set; }
-        public Nullable<double> amount { get; set; }
-        public Nullable<System.DateTime> dateExpenses { get; set; }
-        public Nullable<int> expenseCategoryId { get; set; }
         public Nullable<int> utilityCostsCategoryId { get; set; }
+        public Nullable<int> expenseId { get; set; }
 
-        public virtual ExpenseCategoryBll expenseCategory { get; set; }
+        public virtual ExpensesBll Expenses { get; set; }
+        public virtual UtilityCostsCategoryBll utilityCostsCategory { get; set; }
     }
 }

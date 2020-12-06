@@ -22,7 +22,7 @@
     </div>
 
     <!-- Column -->
-    <div class="col-md-6 col-lg-2 col-xlg-3" ">
+    <div class="col-md-6 col-lg-2 col-xlg-3">
         <div class="card card-hover">
             <div class="box bg-warning text-center">
                 <h1 class="font-light text-white"><i class="fas fa-chess-board"></i></h1>
@@ -63,16 +63,26 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3">
+    <div class="col-md-6 col-lg-2 col-xlg-3">
         <div class="card card-hover">
-            <div class="box bg-info text-center">
+            <div class="box bg-danger text-center">
                 <h1 class="font-light text-white"><i class="fas fa-stop-circle"></i></h1>
                 <h6 class="text-white">@Html.ActionLink("Шиномонтаж", "../Order/OrderTireStorage", new { typeOfOrder = 4, statusOrder = 1 }, new { @class = "Order-link" })</h6>
             </div>
         </div>
     </div>
+
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-cyan text-center">
+                <h1 class="font-light text-white"><i class="fas fa-shopping-cart"></i></h1>
+                <h6 class="text-white">@Html.ActionLink("Товары", "../Shop/Сatalog", new { typeOfOrder = 4, statusOrder = 1 }, new { @class = "Order-link" })</h6>
+            </div>
+        </div>
+    </div>
+
     <!-- Column -->
-    <div class="col-md-6 col-lg-3">
+    <div class="col-md-6 col-lg-2 col-xlg-3">
         <div class="card card-hover">
             <div class="box bg-success text-center">
                 <h1 class="font-light text-white"><i class="mdi mdi-security"></i></h1>

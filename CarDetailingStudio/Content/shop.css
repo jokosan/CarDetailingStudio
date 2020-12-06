@@ -1,0 +1,113 @@
+.background-div {
+    background-image: url('../Images/shop/25100.png');
+   /* -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;*/
+   /* background-size: cover;*/
+    background-size: 100% 100%;
+
+}
+
+.img-ligo{
+    display: block;
+    width: 50%;
+}
+
+.logo-shop{
+    font-weight: 700;
+    display: block;
+    font-size: 4rem;
+    font-family: Lora;
+    margin-left: 0em;
+}
+
+.card{
+    background-color: #fff0;
+    border: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.text-center{
+    margin-left: auto;
+    margin-right: 10%;
+}
+
+.img-car{
+    width: 90%;
+    margin-top: 2em;
+}
+
+.img-cart-filter {
+    filter: blur(4px);
+}
+
+@media (min-width: 768px) {
+    .modal-dialog-centered {
+        width: 90%;
+        max-width: 900px;
+    }
+}
+
+.fieldCount {
+    width: 45px;
+    padding-left: 20px;
+    border: 1px solid #eee;
+}
+
+.counterBut {
+    border: skyblue;
+}
+
+.btn-catalig {
+    line-height: 0.5;
+    font-family: Lora;
+    width: 75%;
+}
+
+.modal-dialog {
+    font-family: Lora;
+    font-size: large;
+    font-weight: 700;
+}
+
+.background-img {
+    background-image: url('../Images/shop/unnamed (1).png');
+    background-size: 100% 100%;
+   
+}
+
+.modal-content {
+    font-family: Lora;
+    font-size: large;
+    font-weight: 700;
+}
+
+.table {
+    font-family: Lora;
+    font-size: large;
+    font-weight: 700;
+}
+
+.modal-header{
+    border-bottom: 0px solid #e9ecef;
+}
+
+.modal-footer {
+    border-top: 0px solid #e9ecef;
+}
+
+.modal-title {
+    text-align: center;
+    font-weight: 700;
+}
+
+.blur img {
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+    .blur img:hover {
+        -webkit-filter: blur(5px);
+    }

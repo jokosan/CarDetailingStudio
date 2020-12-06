@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.TireStorageServicesView>
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-right">
+            @Html.ActionLink("Добавить услугу", "../Demo/Index", null, new { @class = "btn btn-outline-secondary" })
+            <hr />
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Хранение шин</div>
+            </div>
+            <div class="card-body">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ServicesName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.radius)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.amount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.storageTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ServicesName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.radius)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.storageTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -16,8 +16,13 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public double idTireRadius { get; set; }
+        public int idTireRadius { get; set; }
+
+        [Display(Name = "Радиус")]
         public string radius { get; set; }
+
+        [Display(Name = "Радиус")]
+        public Nullable<int> number { get; set; }
 
         public virtual ICollection<PriceListTireFittingView> PriceListTireFitting { get; set; }
     }

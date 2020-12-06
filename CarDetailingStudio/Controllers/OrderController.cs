@@ -168,12 +168,13 @@ namespace CarDetailingStudio.Controllers
         [HttpGet]
         [WorkShiftFilter]
         [MonitoringTheNumberOfEmployeesFilter]
-        public async Task<ActionResult> CloseOrder(int? id, bool selectionStatus = true)
+        public async Task<ActionResult> CloseOrder(int? id, bool selectionStatus = true, bool AdminError = true)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
 
             var Order = Mapper.Map<OrderServicesCarWashView>(await _order.GetId(id));
             var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(id));
@@ -184,7 +185,11 @@ namespace CarDetailingStudio.Controllers
 
             ViewBag.Services = Services;
             ViewBag.CauntServices = Services.Count();
-           
+
+            if (AdminError == false)
+            {
+                ViewBag.AdminError = AdminError;
+            }
 
             if (typeServese != null)
             {
@@ -193,7 +198,7 @@ namespace CarDetailingStudio.Controllers
             else
             {
                 ViewBag.TireServices = Mapper.Map<IEnumerable<AdditionalTireStorageServicesView>>(await _additionalTireStorageServices.GetOrderId(id.Value));
-                
+                ViewBag.TypeService = 2;
             }
                
 
@@ -228,48 +233,64 @@ namespace CarDetailingStudio.Controllers
         {
             //var resultServices = TempData["ServicesType"] as IEnumerable<ServisesCarWashOrderView>;
 
-            if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2) //Выполнен
-            {
-                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
-                await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
-            }
-            else if (idBrigade != null && idStatusOrder == 4) //Ожидает оплаты
-            {
-                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
-                await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
-            }
-            else if (idStatusOrder == 5 && idPaymentState != 3)
-            {
-                var StatusBrigade = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.GetTableInclud(idOrder));
 
-                if (StatusBrigade.Any(x => x.IdOrder == idOrder))
+            var brigadeAdmin = await _brigade.AdminTrue(DateTime.Now, 2);
+
+            if (brigadeAdmin)
+            {
+                if (idBrigade != null && idPaymentState != 3 && idStatusOrder == 2) //Выполнен
                 {
-                    idStatusOrder = 2;
+                    await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                    await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
+                }
+                else if (idBrigade != null && idStatusOrder == 4) //Ожидает оплаты
+                {
+                    await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                    await _wageModules.Payroll(idOrder, idBrigade, typeServese.Value);
+                }
+                else if (idStatusOrder == 5 && idPaymentState != 3)
+                {
+                    var StatusBrigade = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.GetTableInclud(idOrder));
+
+                    if (StatusBrigade.Any(x => x.IdOrder == idOrder))
+                    {
+                        idStatusOrder = 2;
+                        await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
+                    }
+                    else
+                    {
+                        return RedirectToAction("CloseOrder", "Order", new RouteValueDictionary(new
+                        {
+                            id = idOrder,
+                            selectionStatus = false
+                        }));
+                    }
+
+                }
+                else if (idStatusOrder == 3)
+                {
                     await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
                 }
                 else
                 {
+                    // return RedirectToAction("Index");
                     return RedirectToAction("CloseOrder", "Order", new RouteValueDictionary(new
                     {
                         id = idOrder,
                         selectionStatus = false
                     }));
                 }
-
-            }
-            else if (idStatusOrder == 3)
-            {
-                await _wageModules.CloseOrder(idPaymentState, idOrder, idStatusOrder);
             }
             else
             {
-                // return RedirectToAction("Index");
                 return RedirectToAction("CloseOrder", "Order", new RouteValueDictionary(new
                 {
                     id = idOrder,
-                    selectionStatus = false
+                    AdminError = false
                 }));
             }
+
+            
 
             return RedirectToAction("Index");
         }

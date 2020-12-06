@@ -5,7 +5,7 @@ using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using System.Linq;
 namespace CarDetailingStudio.BLL.Services
 {
     public class GroupWash_Services : IGroupWashServices
@@ -38,7 +38,12 @@ namespace CarDetailingStudio.BLL.Services
             {
                 return await GetAllTable();
             }
+        }
 
+        public async Task<IEnumerable<GroupWashServicesBll>> SelectGroupWashServices(List<int> idServices)
+        {
+            var resultGroup = await GetAllTable();
+            return resultGroup.Where(x => idServices.Contains(x.Id));
         }
     }
 }

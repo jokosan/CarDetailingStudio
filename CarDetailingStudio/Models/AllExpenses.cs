@@ -38,5 +38,8 @@ namespace CarDetailingStudio.Models
 
         [Display(Name = "Группа расходов")]
         public Nullable<int> typeServicesId { get; set; } // поле только для таблицы CostsCarWashAndDeteylingView
+        
+        [Display(Name = "Вид оплаты")]
+        public Nullable<int> paymentType { get; set; }
     }
 }

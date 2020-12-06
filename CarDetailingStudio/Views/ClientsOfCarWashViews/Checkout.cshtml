@@ -51,7 +51,7 @@
 
                                columns.Add(model => model.discont).Titled("% Скидки");
                                columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
-                               columns.Add(model => model.Name).Titled("Группа").UsingFilterOptions(new[]
+                               columns.Add(model => model.IdClientsGroups).Titled("Группа").UsingFilterOptions(new[]
                                    {
                                         new SelectListItem(),
                                         new SelectListItem { Value = "Постоянный", Text = "Постоянный" },
@@ -104,7 +104,7 @@
                               columns.Add(model => model.PatronymicName).Titled("Отчество");
                               columns.Add(model => model.discont).Titled("% Скидки");
                               columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
-                              columns.Add(model => model.Name).Titled("Группа").UsingFilterOptions(new[]
+                              columns.Add(model => model.IdClientsGroups).Titled("Группа").UsingFilterOptions(new[]
                                    {
                                         new SelectListItem(),
                                         new SelectListItem { Value = "Постоянный", Text = "Постоянный" },
@@ -156,7 +156,7 @@
                               columns.Add(model => model.PatronymicName).Titled("Отчество");
                               columns.Add(model => model.discont).Titled("% Скидки");
                               columns.Add(model => model.NumberCar).Titled("Номер машины").Sortable(false);
-                              columns.Add(model => model.Name).Titled("Группа").UsingFilterOptions(new[]
+                              columns.Add(model => model.IdClientsGroups).Titled("Группа").UsingFilterOptions(new[]
                                    {
                                         new SelectListItem(),
                                         new SelectListItem { Value = "Постоянный", Text = "Постоянный" },

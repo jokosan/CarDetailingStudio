@@ -24,10 +24,18 @@ namespace CarDetailingStudio.Controllers
         // GET: Detailings
         public async Task<ActionResult> PriceList(int page = 1)
         {
-            return View(Mapper.Map<IEnumerable<DetailingsView>>(await _detailings.GetAll()));
+            var selectPrice = Mapper.Map<IEnumerable<DetailingsView>>(await _detailings.SelectTypeService(page));
+
+            List<int> selectGroup = new List<int>();
+
+            foreach (var item in selectPrice.GroupBy(x => x.IdGroupWashServices))
+                selectGroup.Add(item.Key.Value);
+            
+            ViewBag.Grup = await _groupWashServices.SelectGroupWashServices(selectGroup);
+
+            return View(selectPrice);
         }
-
-
+         
         public async Task<ActionResult> AddServises()
         {
             ViewBag.GroupServises = new SelectList(await _groupWashServices.GetAllTable(), "Id", "group");

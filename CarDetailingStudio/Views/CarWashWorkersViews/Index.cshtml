@@ -105,9 +105,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h4 class="card-title">Администратор автомойки</h4>
+                                        <h4 class="card-title">Администратор детейлинга</h4>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -121,11 +120,10 @@
                                         <div class="comment-text w-100">
                                             <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
                                             <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
-
                                         </div>
 
                                         <label class="label">
-                                            <input class="label__checkbox" type="checkbox" name="adminCarWosh" value="@item.id" />
+                                            <input class="label__checkbox" type="checkbox" name="adminDetailing"  value="@item.id" />
                                             <span class="label__text">
                                                 <span class="label__check">
                                                     <i class="fa fa-check icon"></i>
@@ -148,12 +146,11 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h4 class="card-title">Администратор детейлинга</h4>
+                                        <h4 class="card-title">Администратор автомойки</h4>
                                     </div>
 
                                 </div>
                             </div>
-
 
                             <div class="comment-widgets scrollable" id="groupTwo">
                                 <!-- Comment Row -->
@@ -169,7 +166,7 @@
                                         </div>
 
                                         <label class="label">
-                                            <input class="label__checkbox" type="checkbox" name="adminDetailing" value="@item.id" />
+                                            <input class="label__checkbox" type="checkbox" name="adminCarWosh" value="@item.id" />
                                             <span class="label__text">
                                                 <span class="label__check">
                                                     <i class="fa fa-check icon"></i>

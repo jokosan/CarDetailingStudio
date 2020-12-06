@@ -14,8 +14,8 @@ namespace CarDetailingStudio.BLL.Model
         }
         public int idPriceListTireFitting { get; set; }
         public string JobTitle { get; set; }
-        public Nullable<double> TheCost { get; set; }
-        public Nullable<double> TireRadiusId { get; set; }
+        public Nullable<int> TheCost { get; set; }
+        public Nullable<int> TireRadiusId { get; set; }
         public Nullable<double> TypeOfCarsId { get; set; }
 
         public virtual TireRadiusBll TireRadius { get; set; }

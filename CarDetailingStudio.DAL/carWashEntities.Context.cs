@@ -41,19 +41,17 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<ClientInfo> ClientInfo { get; set; }
         public virtual DbSet<ClientsGroups> ClientsGroups { get; set; }
         public virtual DbSet<ClientsOfCarWash> ClientsOfCarWash { get; set; }
-        public virtual DbSet<consumablesTireFitting> consumablesTireFitting { get; set; }
         public virtual DbSet<costCategories> costCategories { get; set; }
-        public virtual DbSet<costsCarWashAndDeteyling> costsCarWashAndDeteyling { get; set; }
         public virtual DbSet<Credit> Credit { get; set; }
         public virtual DbSet<Detailings> Detailings { get; set; }
         public virtual DbSet<ExchangeRates> ExchangeRates { get; set; }
         public virtual DbSet<expenseCategory> expenseCategory { get; set; }
+        public virtual DbSet<Expenses> Expenses { get; set; }
         public virtual DbSet<GroupWashServices> GroupWashServices { get; set; }
         public virtual DbSet<JobTitleTable> JobTitleTable { get; set; }
         public virtual DbSet<orderCarpetWashing> orderCarpetWashing { get; set; }
         public virtual DbSet<OrderCarWashWorkers> OrderCarWashWorkers { get; set; }
         public virtual DbSet<OrderServicesCarWash> OrderServicesCarWash { get; set; }
-        public virtual DbSet<otherExpenses> otherExpenses { get; set; }
         public virtual DbSet<PaymentState> PaymentState { get; set; }
         public virtual DbSet<PriceListTireFitting> PriceListTireFitting { get; set; }
         public virtual DbSet<PriceListTireFittingAdditionalServices> PriceListTireFittingAdditionalServices { get; set; }
@@ -70,11 +68,15 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<TireStorageServices> TireStorageServices { get; set; }
         public virtual DbSet<TypeOfCars> TypeOfCars { get; set; }
         public virtual DbSet<typeOfOrder> typeOfOrder { get; set; }
-        public virtual DbSet<TypeServices> TypeServices { get; set; }
         public virtual DbSet<utilityCosts> utilityCosts { get; set; }
         public virtual DbSet<utilityCostsCategory> utilityCostsCategory { get; set; }
         public virtual DbSet<logo_mark_car> logo_mark_car { get; set; }
         public virtual DbSet<infoBrigadeForToday> infoBrigadeForToday { get; set; }
         public virtual DbSet<ItogOrderView> ItogOrderView { get; set; }
+        public virtual DbSet<AdditionalIncome> AdditionalIncome { get; set; }
+        public virtual DbSet<goodsSold> goodsSold { get; set; }
+        public virtual DbSet<listOfGoods> listOfGoods { get; set; }
+        public virtual DbSet<procurement> procurement { get; set; }
+        public virtual DbSet<ProductCategories> ProductCategories { get; set; }
     }
 }

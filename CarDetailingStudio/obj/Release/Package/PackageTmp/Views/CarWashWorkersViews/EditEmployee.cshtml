@@ -130,12 +130,31 @@
                             </div>
                         </div>
 
+
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
                                 @Html.LabelFor(model => model.status)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control"} })
+                                @if (Model.status == "true")
+                                {
+                                    @Html.DropDownListFor(x => x.status, new List<SelectListItem>
+                                {
+                                     new SelectListItem() { Text = "В штате", Value = "true"},
+                                     new SelectListItem() { Text = "Уволить", Value = "false"}
+
+                                }, new { @class = "form-control" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(x => x.status, new List<SelectListItem>
+                                   {
+                                        new SelectListItem() { Text = "Вернуть в штат сотрудников", Value = "true"},
+                                        new SelectListItem() { Text = "Уволенный", Value = "false"}
+
+                                   }, new { @class = "form-control" })
+                                }
+
                                 @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -176,7 +195,7 @@
                         </label>
                         <span class="checkmark"></span>
                     </label>
-                                                          
+                                      
                     <input type="submit" value="Delete" name="command" disabled="disabled" class="btn btn-danger" id="submit" />
 
                     <input type="submit" value="Save" name="command" class="btn btn-success" />

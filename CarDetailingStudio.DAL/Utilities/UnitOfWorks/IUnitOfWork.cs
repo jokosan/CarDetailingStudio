@@ -9,7 +9,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         void Dispose();
 
         Task Save();
-     
+
         //  GenericRepository
 
         DbRepository<ClientsOfCarWash> ClientsOfCarWashUnitOfWork { get; set; }
@@ -39,9 +39,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<expenseCategory> expenseCategoryUnitOfWork { get; set; }
         DbRepository<salaryExpenses> salaryExpensesUnitOfWork { get; set; }
         DbRepository<utilityCosts> utilityCostsUnitOfWork { get; set; }
-        DbRepository<otherExpenses> otherExpensesUnitOfWork { get; set; }
-        DbRepository<costsCarWashAndDeteyling> costsCarWashAndDeteylingUnitOfWork { get; set; }
-        DbRepository<consumablesTireFitting> consumablesTireFittingUnitOfWork { get; set; }
+        DbRepository<Expenses> ExpensesUnitOfWork { get; set; }
         DbRepository<utilityCostsCategory> utilityCostsCategoryUnitOfWork { get; set; }
         DbRepository<Cashier> CashierUtilOfWork { get; set; }
 
@@ -75,6 +73,15 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<tireChangeService> TireChangeServiceUnitOfWork { get; set; }
         DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUnitOfWork { get; set; }
 
-    }
+        // торговля
+        DbRepository<ProductCategories> ProductCategoriesUnitOfWork { get; set; }
+        DbRepository<listOfGoods> ListOfGoodsUnitOfWork { get; set; }
+        DbRepository<goodsSold> GoodsSoldUnitOfWork { get; set; }
+        DbRepository<procurement> ProcurementUnitOfWork { get; set; }
 
+        // Вреенное решение
+        DbRepository<AdditionalIncome> AdditionalIncomeUnitOfWork { get; set; }
+    }
 }
+
+

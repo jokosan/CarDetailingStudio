@@ -120,8 +120,8 @@
                                                             @if (item.forUnit == true)
                                                             {
                                                                 <div class="col-md-1">
-                                                                    <input type="hidden" value=@item.Id  name="key"/>
-                                                                    <input class="newOrderInputText" name="values" value="1"  maxlength="2" type="number" />
+                                                                    <input type="hidden" value=@item.Id name="key" />
+                                                                    <input class="newOrderInputText" name="values" value="1" maxlength="2" type="number" />
                                                                 </div>
                                                             }
                                                         </div>
@@ -201,7 +201,7 @@
                                                             {
                                                                 <div class="col-md-1">
                                                                     <input type="hidden" value=@item.Id name="key" />
-                                                                    <input class="newOrderInputText" name="values" value="1"  maxlength="2" type="number" />
+                                                                    <input class="newOrderInputText" name="values" value="1" maxlength="2" type="number" />
                                                                 </div>
                                                             }
                                                         </div>
@@ -223,6 +223,7 @@
         <input class="btn btn-success" type="submit" id="btnCreate" value="Далее" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
     </div>
 }
+
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>

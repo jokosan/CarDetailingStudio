@@ -48,7 +48,17 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
-     
+
+        // Вреенное решение
+        private DbRepository<AdditionalIncome> AdditionalIncomeUW;
+
+        public DbRepository<AdditionalIncome> AdditionalIncomeUnitOfWork
+        {
+            get => AdditionalIncomeUW ?? (AdditionalIncomeUW = new DbRepository<AdditionalIncome>(_entities));
+            set => AdditionalIncomeUW = value;
+
+        }
+
         public DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUnitOfWork
         {
             get => AdditionalTireStorageServicesUW ?? (AdditionalTireStorageServicesUW = new DbRepository<additionalTireStorageServices>(_entities));

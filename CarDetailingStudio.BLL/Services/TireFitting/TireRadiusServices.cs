@@ -28,5 +28,11 @@ namespace CarDetailingStudio.BLL.Services.TireFitting
         {
             return Mapper.Map<TireRadiusBll>(await _unitOfWork.TireRadiusUnitOfWork.GetById(elementId));
         }
+
+        public async Task<IEnumerable<TireRadiusBll>> SeletTireRadius(List<int> idRadius)
+        {
+            var resultRadius = await GetTableAll();
+            return resultRadius.Where(x => idRadius.Contains(x.idTireRadius));
+        }
     }
 }

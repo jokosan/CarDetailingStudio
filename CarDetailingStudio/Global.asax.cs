@@ -1,4 +1,5 @@
 using AutoMapper;
+using CarDetailingStudio.Utilities;
 using CarDetailingStudio.Utilities.Map;
 using CarDetailingStudio.Utilities.Quartz;
 using System.Web.Mvc;
@@ -16,6 +17,7 @@ namespace CarDetailingStudio
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
 
             // запуск выполнения работы
             SetingShiftClose.Start();

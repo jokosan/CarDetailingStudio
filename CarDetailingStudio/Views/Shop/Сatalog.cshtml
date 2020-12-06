@@ -1,0 +1,277 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ListOfGoodsView>
+<link href="~/Content/shop.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-12 ">
+        <div class="card-body background-div">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a><img class="rounded float-right img-ligo" src="~/Images/shop/logo.png" /></a>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="logo-shop">Оформить <br /> заказ</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-center">
+                                <a href=@Url.Action("../Shop/Basket", new {  returnUrl = Request.Url.PathAndQuery })>
+                                    @if (ViewBag.Cart == true)
+                                    {
+                                        <div class="blur pic ">
+                                            <img src="~/Images/shop/kisspng_car.png" class="rounded img-car" alt="...">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="img-cart-filter">
+                                            <img src="~/Images/shop/kisspng_car.png" class="rounded img-car" alt="...">
+                                        </div>
+                                    }
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        if ((item.idProductСategories % 2) != 0)
+                        {
+                            <div class="card-body">
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="@item.img" alt="Card image cap">
+                                    <div class="card-body">
+                                        <button class="btn btn-outline-dark btn-lg btn-block" data-toggle="modal" data-target="#@item.idProductСategories">Выбрать</button>
+
+                                        <div class="modal fade" id="@item.idProductСategories" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="background-img">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <h1 class="modal-title" id="exampleModalLongTitle">Выбрать товар</h1>
+                                                            <table class="table">
+                                                                <tr>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.name)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.price)
+                                                                    </th>
+                                                                    <th>
+                                                                        Количество
+                                                                    </th>
+                                                                    <th></th>
+                                                                </tr>
+                                                                @foreach (var modelItem in Model)
+                                                                {
+                                                                    if (item.idProductСategories == modelItem.productCategoriesId)
+                                                                    {
+                                                                        using (Html.BeginForm("AddToCart", "Shop"))
+                                                                        {
+                                                                            <tr>
+                                                                                <td>
+                                                                                    @Html.DisplayFor(model => modelItem.name)
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.DisplayFor(model => modelItem.price)
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="counter">
+                                                                                        @Html.Hidden("productId", modelItem.idListOfGoods)
+                                                                                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                                                                                        <button type="button" class="but counterBut dec"><</button>
+                                                                                        <input type="text" class="field fieldCount" name="quantity" value="1" data-min="0" data-max="20">
+                                                                                        <button type="button" class="but counterBut inc">></button>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="submit" class="btn btn-outline-dark" value="Выбрать" />
+                                                                                    @*@Html.ActionLink("Выбрать", "AddToCart", new { id = modelItem.idListOfGoods }, new { @class = "btn btn-outline-dark btn-lg btn-block btn-catalig" })*@
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </table>
+                                                        </div>
+
+
+                                                        <div class="modal-footer">
+                                                            @* <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-primary">Save changes</button>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="col-md-3">
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        if ((item.idProductСategories % 2) == 0)
+                        {
+                            <div class="card-body">
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="@item.img" alt="Card image cap">
+                                    <div class="card-body">
+                                        <button class="btn btn-outline-dark btn-lg btn-block" data-toggle="modal" data-target="#@item.idProductСategories">Выбрать</button>
+
+                                        <div class="modal fade" id="@item.idProductСategories" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="background-img">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <h1 class="modal-title" id="exampleModalLongTitle">Выбрать товар</h1>
+                                                            <table class="table">
+                                                                <tr>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.name)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.price)
+                                                                    </th>
+                                                                    <th>
+                                                                        Количество
+                                                                    </th>
+                                                                    <th></th>
+                                                                </tr>
+                                                                @foreach (var modelItem in Model)
+                                                                {
+                                                                    if (item.idProductСategories == modelItem.productCategoriesId)
+                                                                    {
+                                                                        using (Html.BeginForm("AddToCart", "Shop"))
+                                                                        {
+                                                                            <tr>
+                                                                                <td>
+                                                                                    @Html.DisplayFor(model => modelItem.name)
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.DisplayFor(model => modelItem.price)
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="counter">
+                                                                                        @Html.Hidden("productId", modelItem.idListOfGoods)
+                                                                                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                                                                                        <button type="button" class="but counterBut dec"><</button>
+                                                                                        <input type="text" class="field fieldCount" name="quantity" value="1" data-min="0" data-max="20">
+                                                                                        <button type="button" class="but counterBut inc">></button>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="submit" class="btn btn-outline-dark" value="Выбрать" />
+                                                                                    @*@Html.ActionLink("Выбрать", "AddToCart", new { id = modelItem.idListOfGoods }, new { @class = "btn btn-outline-dark btn-lg btn-block btn-catalig" })*@
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </table>
+                                                        </div>
+
+
+                                                        <div class="modal-footer">
+                                                            @* <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function catalogItemCounter(field) {
+
+        var fieldCount = function (el) {
+
+            var
+                // Мин. значение
+                min = el.data('min') || false,
+
+                // Макс. значение
+                max = el.data('max') || false,
+
+                // Кнопка уменьшения кол-ва
+                dec = el.prev('.dec'),
+
+                // Кнопка увеличения кол-ва
+                inc = el.next('.inc');
+
+            function init(el) {
+                if (!el.attr('disabled')) {
+                    dec.on('click', decrement);
+                    inc.on('click', increment);
+                }
+
+                // Уменьшим значение
+                function decrement() {
+                    var value = parseInt(el[0].value);
+                    value--;
+
+                    if (!min || value >= min) {
+                        el[0].value = value;
+                    }
+                };
+
+                // Увеличим значение
+                function increment() {
+                    var value = parseInt(el[0].value);
+
+                    value++;
+
+                    if (!max || value <= max) {
+                        el[0].value = value++;
+                    }
+                };
+
+            }
+
+            el.each(function () {
+                init($(this));
+            });
+        };
+
+        $(field).each(function () {
+            fieldCount($(this));
+        });
+    }
+
+    catalogItemCounter('.fieldCount');
+</script>

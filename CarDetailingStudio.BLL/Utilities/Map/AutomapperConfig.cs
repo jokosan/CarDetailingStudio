@@ -95,15 +95,8 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<UtilityCostsBll, utilityCosts>();
             CreateMap<utilityCosts, UtilityCostsBll>();
 
-            CreateMap<OtherExpensesBll, otherExpenses>();
-            CreateMap<otherExpenses, OtherExpensesBll>();
-
-            CreateMap<CostsCarWashAndDeteylingBll, costsCarWashAndDeteyling>();
-            CreateMap<costsCarWashAndDeteyling, CostsCarWashAndDeteylingBll>();
-
-            CreateMap<ConsumablesTireFittingBll, consumablesTireFitting>();
-            CreateMap<consumablesTireFitting, ConsumablesTireFittingBll>();
-
+            CreateMap<ExpensesBll, Expenses>();
+            CreateMap<Expenses, ExpensesBll>();
 
             // TireStorage - хранение шин
 
@@ -119,8 +112,6 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<SalaryBalanceBll, salaryBalance>();
             CreateMap<salaryBalance, SalaryBalanceBll>();
 
-            CreateMap<TypeServicesBll, TypeServices>();
-            CreateMap<TypeServices, TypeServicesBll>();
 
             CreateMap<UtilityCostsCategoryBll, utilityCostsCategory>();
             CreateMap<utilityCostsCategory, UtilityCostsCategoryBll>();
@@ -146,6 +137,11 @@ namespace CarDetailingStudio.BLL.Utilities.Map
 
             CreateMap<TireChangeServiceBll, tireChangeService>();
             CreateMap<tireChangeService, TireChangeServiceBll>();
+
+            CreateMap<GoodsSoldBll, goodsSold>().ReverseMap();
+            CreateMap<ListOfGoodsBll, listOfGoods>().ReverseMap();
+            CreateMap<ProductCategoriesBll, ProductCategories>().ReverseMap();
+            CreateMap<ProcurementBll, procurement>().ReverseMap();            
         }
     }
 }

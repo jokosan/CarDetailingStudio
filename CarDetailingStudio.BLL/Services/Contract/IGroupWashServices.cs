@@ -8,5 +8,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
     {
         Task<IEnumerable<GroupWashServicesBll>> GetAllTable();
         Task<IEnumerable<GroupWashServicesBll>> GetIdAll(int? id);
+        Task<IEnumerable<GroupWashServicesBll>> SelectGroupWashServices(List<int> idServices);
     }
 }

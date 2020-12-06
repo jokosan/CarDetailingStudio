@@ -207,7 +207,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center">1</td>
-                                                    <td>Отправить на счет фирмы</td>
+                                                    <td>Сформировать кассу наличных на @ViewBag.Date </td>
                                                     <td>
                                                         <input type="number" name="amountStartDay" id="quantity" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
 
@@ -221,7 +221,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center">1</td>
-                                                    <td>Отправить на счет фирмы</td>
+                                                    <td>Сформировать кассу наличных на @ViewBag.Date </td>
                                                     <td>
                                                         <input type="number" name="amountStartDay" id="quantity" class="is-invalid form-control" placeholder="Обязательное поле для заполнения" aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
 
@@ -243,10 +243,10 @@
 
                                 @if (@ViewBag.CloseDay == true)
                                 {
-                                    <h3><b>Касса завтршнего дня:</b>  <span name="FinalDay" id="FinalDay"> 0</span> грн.</h3>
+                                    <h3><b>Отправить на счет фирмы:</b>  <span name="FinalDay" id="FinalDay"> 0</span> грн.</h3>
                                     <input type="hidden" id="amountFinalDay" value="@ViewBag.CashEndDay" name="amountFinalDay" />
 
-                                    <h3><b>Отправить на счет фирмы:</b><span name="errmsg" id="errmsg"> 0</span> грн.</h3>
+                                    <h3><b>Касса наличных на @ViewBag.Date:</b><span name="errmsg" id="errmsg"> 0</span> грн.</h3>
                                     <input type="hidden" id="sumOrder" value="" name="sum" />
 
                                     <hr>

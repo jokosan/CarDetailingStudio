@@ -1,6 +1,6 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 using CarDetailingStudio.BLL.Services.Modules.Contract;
 using CarDetailingStudio.BLL.Services.Modules.ModulesModel;
 using System;
@@ -17,43 +17,50 @@ namespace CarDetailingStudio.BLL.Services.Modules
         private ISalaryExpenses _salaryExpenses;
         private IOrderServicesCarWashServices _orderServicesCarWash;
         private IUtilityCosts _utilityCosts;
-        private IOtherExpenses _otherExpenses;
-        private ICostsCarWashAndDeteyling _costsCarWashAndDeteyling;
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
         private IBonusToSalary _bonusToSalary;
         private IBrigadeForTodayServices _brigadeForToday;
+        private IExpenses _expenses;
 
-        public IncomeForTheCurrentDay(ISalaryExpenses salaryExpenses, IOrderServicesCarWashServices orderServicesCarWash,
-                                      IUtilityCosts utilityCosts, IOtherExpenses otherExpenses, ICostsCarWashAndDeteyling costsCarWashAndDeteyling,
-                                      IOrderCarWashWorkersServices orderCarWashWorkers, IBonusToSalary bonusToSalary, IBrigadeForTodayServices brigadeForToday)
+        public IncomeForTheCurrentDay(
+            ISalaryExpenses salaryExpenses, 
+            IOrderServicesCarWashServices orderServicesCarWash,
+            IUtilityCosts utilityCosts, 
+            IOrderCarWashWorkersServices orderCarWashWorkers,
+            IBonusToSalary bonusToSalary,
+            IBrigadeForTodayServices brigadeForToday,
+            IExpenses expenses)
         {
             _salaryExpenses = salaryExpenses;
             _orderServicesCarWash = orderServicesCarWash;
             _utilityCosts = utilityCosts;
-            _otherExpenses = otherExpenses;
-            _costsCarWashAndDeteyling = costsCarWashAndDeteyling;
             _orderCarWashWorkers = orderCarWashWorkers;
             _bonusToSalary = bonusToSalary;
             _brigadeForToday = brigadeForToday;
+            _expenses = expenses;
         }
 
         #region сумма всех расходов
         public async Task<double> SumOfAllExpenses(DateTime? startDate)
         {
-            var costCarWashToDetailings = await _costsCarWashAndDeteyling.Reports(startDate.Value);
-            var utilityCost = await _utilityCosts.Reports(startDate.Value);
-            var otherExpenses = await _otherExpenses.Reports(startDate.Value);
+            //var costCarWashToDetailings = await _costsCarWashAndDeteyling.Reports(startDate.Value);
+            //var utilityCost = await _utilityCosts.Reports(startDate.Value);
+            //var otherExpenses = await _otherExpenses.Reports(startDate.Value);
+            //return costCarWashToDetailings.Sum(s => s.amount).Value + utilityCost.Sum(s => s.amount).Value + otherExpenses.Sum(s => s.amount).Value;
 
-            return costCarWashToDetailings.Sum(s => s.amount).Value + utilityCost.Sum(s => s.amount).Value + otherExpenses.Sum(s => s.amount).Value;
+            var expensesResult = await _expenses.Reports(startDate.Value);
+            return expensesResult.Sum(x => x.Amount.Value);
         }
 
         public async Task<double> SumOfAllExpenses(DateTime? startDate, DateTime? finalDate)
         {
-            var costCarWashToDetailings = await _costsCarWashAndDeteyling.Reports(startDate.Value, finalDate.Value);
-            var utilityCost = await _utilityCosts.Reports(startDate.Value, finalDate.Value);
-            var otherExpenses = await _otherExpenses.Reports(startDate.Value, finalDate.Value);
+            //var costCarWashToDetailings = await _costsCarWashAndDeteyling.Reports(startDate.Value, finalDate.Value);
+            //var utilityCost = await _utilityCosts.Reports(startDate.Value, finalDate.Value);
+            //var otherExpenses = await _otherExpenses.Reports(startDate.Value, finalDate.Value);
+            //return costCarWashToDetailings.Sum(s => s.amount).Value + utilityCost.Sum(s => s.amount).Value + otherExpenses.Sum(s => s.amount).Value;
 
-            return costCarWashToDetailings.Sum(s => s.amount).Value + utilityCost.Sum(s => s.amount).Value + otherExpenses.Sum(s => s.amount).Value;
+            var expensesResult = await _expenses.Reports(startDate.Value, finalDate.Value);
+            return expensesResult.Sum(x => x.Amount.Value);
         }
         #endregion
 

@@ -20,6 +20,14 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<BrigadeForTodayBll> CurrentShift(DateTime date, int id)
+        {
+            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
+                                                              (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && 
+                                                              (x.EarlyTermination == true) &&
+                                                              x.StatusId == id)).LastOrDefault();
+        }
+
         public async Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow()
         {
             var brigadeResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork.GetWhere(x => x.EarlyTermination == true));
@@ -27,6 +35,11 @@ namespace CarDetailingStudio.BLL.Services
             return brigadeResult.Where(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
         }
 
+        public async Task<bool> AdminTrue(DateTime date, int ststus)
+        {
+            var resultBrigade = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => DbFunctions.TruncateTime(x.Date.Value) == date.Date && x.StatusId >= ststus));
+            return resultBrigade.Any(x => x.StatusId == ststus && x.EarlyTermination == true);
+        }
         
         public async Task RemoveFromBrigade(int id)
         {

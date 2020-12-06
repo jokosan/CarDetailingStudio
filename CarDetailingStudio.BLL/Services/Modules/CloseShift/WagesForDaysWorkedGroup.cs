@@ -1,7 +1,7 @@
 ﻿using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.Expenses.ExpensesContract;
+using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using System;
 using System.Collections.Generic;
@@ -15,13 +15,18 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
         private IOrderCarWashWorkersServices _orderCarWash;
         private ISalaryExpenses _salaryExpenses;
         private ISalaryBalanceService _salaryBalance;
+        private IExpenses _expenses;
 
-        public WagesForDaysWorkedGroup(IOrderCarWashWorkersServices orderCarWash, ISalaryExpenses salaryExpenses,
-                                       ISalaryBalanceService salaryBalance)
+        public WagesForDaysWorkedGroup(
+            IOrderCarWashWorkersServices orderCarWash,
+            ISalaryExpenses salaryExpenses,
+            ISalaryBalanceService salaryBalance,
+            IExpenses expenses)
         {
             _orderCarWash = orderCarWash;
             _salaryExpenses = salaryExpenses;
             _salaryBalance = salaryBalance;
+            _expenses = expenses;
         }
 
         public async Task<IEnumerable<WagesForDaysWorkedBll>> DayOrderResult(int? Id)
@@ -96,16 +101,24 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             }
         }
 
+        // ВНИМАНИЕЕ !!!!!!!!!
+        // Изменить в соответствии с новой логикой Расходов
         private async Task PayrollExpenses(SalaryBalanceBll salaryBalance)
         {
+            ExpensesBll expenses = new ExpensesBll();
+            expenses.Amount = salaryBalance.payoutAmount;
+            expenses.dateExpenses = salaryBalance.dateOfPayment;
+            expenses.expenseCategoryId = 1;
+
+            int id = await _expenses.InsertId(expenses);
+
             SalaryExpensesBll salaryExpenses = new SalaryExpensesBll();
 
             salaryExpenses.idCarWashWorkers = salaryBalance.CarWashWorkersId;
-            salaryExpenses.amount = salaryBalance.payoutAmount;
-            salaryExpenses.dateExpenses = salaryBalance.dateOfPayment;
-            salaryExpenses.expenseCategoryId = 1;
+            salaryExpenses.expenseId = id;
 
             await _salaryExpenses.Insert(salaryExpenses);
+
         }
     }
 }

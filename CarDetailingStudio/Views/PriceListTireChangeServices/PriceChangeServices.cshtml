@@ -1,0 +1,104 @@
+﻿@Styles.Render("~/Content/Atlantis/css")
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-right">
+            @Html.ActionLink("Добавить услугу", "../Client/NewClient", null, new { @class = "btn btn-outline-secondary" })
+            <hr />
+        </div>
+        <div class="row">
+            @foreach (var itemRadius in ViewBag.RadiusCar)
+            {
+                <div class="col-md-3 pl-md-0">
+                    <div class="card card-pricing">
+                        <div class="card-header">
+                            <h4 class="card-title">@itemRadius.radius</h4>
+                            <div class="card-price">
+                                <span class="text">Легковые</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped mt-3">
+                                <thead>
+                                    <tr>
+                                        <td class=" text-muted">№</td>
+                                        <td class="name-specification">Услуга</td>
+                                        <td class="name-specification">Стоимость</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.PriceTireFitting)
+                                    {
+                                        if (item.TireRadiusId == itemRadius.idTireRadius)
+                                        {
+                                            if (item.TypeOfCarsId == 1)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(item.idPriceListTireFitting)</td>
+                                                    <td> @item.JobTitle</td>
+                                                    <td> @item.TheCost</td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            @Html.ActionLink("Edit", "EditPriceChangeServices", new { idRadius = itemRadius.idTireRadius, typeCar = 1 }, new { @class = "btn btn-primary btn-block" })
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @foreach (var itemRadius in ViewBag.RadiusFreightCar)
+            {
+                <div class="col-md-3 pl-md-0">
+                    <div class="card card-pricing">
+                        <div class="card-header">
+                            <h4 class="card-title">@itemRadius.radius</h4>
+                            <div class="card-price">
+                                <span  class="text">Грузовые</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped mt-3">
+                                <thead>
+                                    <tr>
+                                        <td class=" text-muted">№</td>
+                                        <td class="name-specification">Услуга</td>
+                                        <td class="name-specification">Стоимость</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.PriceTireFitting)
+                                    {
+                                        if (item.TireRadiusId == itemRadius.idTireRadius)
+                                        {
+                                            if (item.TypeOfCarsId == 2)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(item.idPriceListTireFitting)</td>
+                                                    <td> @item.JobTitle</td>
+                                                    <td> @item.TheCost</td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            
+                            @Html.ActionLink("Edit", "EditPriceChangeServices", new { idRadius = itemRadius.idTireRadius, typeCar = 2 }, new { @class="btn btn-primary btn-block"})
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+

@@ -44,7 +44,6 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.Module
 
             // var services = keyValues.Where(x => AdditionalServices.Contains(x.Key));
 
-
             foreach (var item in finalResult)
             {
                 var test = priceListTires.ToList().Find(x => x.idPriceListTireFittingAdditionalServices == item.Key);
@@ -103,7 +102,6 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.Module
                 tireChangeServiceBll.price = item.TheCost;
 
                 await _tireChangeService.Insert(tireChangeServiceBll);
-
             }
         }
     }

@@ -25,6 +25,10 @@ namespace CarDetailingStudio
             bundles.Add(new ScriptBundle("~/bundles/modalform").Include(
                       "~/Scripts/modalform.js"));
 
+
+            bundles.Add(new StyleBundle("~/Content/Atlantis/css").Include(
+                      "~/Content/css/atlantis.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

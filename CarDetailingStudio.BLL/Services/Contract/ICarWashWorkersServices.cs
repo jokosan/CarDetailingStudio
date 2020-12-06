@@ -8,9 +8,11 @@ namespace CarDetailingStudio.BLL.Services.Contract
     {
         Task<IEnumerable<CarWashWorkersBll>> EmployeeName();
         Task<IEnumerable<CarWashWorkersBll>> GetTable();
+        Task AddToCurrentShift(List<int> chkRow, IEnumerable<BrigadeForTodayBll> currentShiftResult = null);
+        Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, IEnumerable<BrigadeForTodayBll> currentShiftResult = null);
         Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow);
         void Dispose();
-        Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees();
+        Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees(string arxiv = "true");
         Task<IEnumerable<CarWashWorkersBll>> GetStaffAll();
         Task<bool> HomeEntryCondition();
         Task InsertEmployee(CarWashWorkersBll carWashWorkersBll);

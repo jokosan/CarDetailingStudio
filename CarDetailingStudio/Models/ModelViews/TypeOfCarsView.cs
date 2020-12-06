@@ -17,6 +17,8 @@ namespace CarDetailingStudio.Models.ModelViews
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public double idTypeOfCars { get; set; }
+
+        [Display(Name = "Тип авто")]
         public string Type { get; set; }
 
         public virtual ICollection<PriceListTireFittingView> PriceListTireFitting { get; set; }

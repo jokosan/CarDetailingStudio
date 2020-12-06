@@ -14,7 +14,16 @@ namespace CarDetailingStudio.DAL
     
     public partial class utilityCostsCategory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public utilityCostsCategory()
+        {
+            this.utilityCosts = new HashSet<utilityCosts>();
+        }
+    
         public int idUtilityCostsCategory { get; set; }
         public string Named { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<utilityCosts> utilityCosts { get; set; }
     }
 }
