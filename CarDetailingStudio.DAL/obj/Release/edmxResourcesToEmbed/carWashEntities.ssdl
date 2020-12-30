@@ -216,6 +216,17 @@
     <Property Name="IdGroupWashServices" Type="int" />
     <Property Name="IdTypeService" Type="int" />
     <Property Name="forUnit" Type="bit" />
+    <Property Name="sorting" Type="int" />
+  </EntityType>
+  <EntityType Name="EmployeeRate">
+    <Key>
+      <PropertyRef Name="idEmployeeRate" />
+    </Key>
+    <Property Name="idEmployeeRate" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="brigadeForTodayId" Type="int" />
+    <Property Name="numberHoursWorked" Type="int" />
+    <Property Name="hourlyRate" Type="float" />
+    <Property Name="wage" Type="float" />
   </EntityType>
   <EntityType Name="ExchangeRates">
     <Key>
@@ -380,6 +391,19 @@
     <Property Name="idProductСategories" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="200" />
     <Property Name="img" Type="nvarchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="salaryArchive">
+    <Key>
+      <PropertyRef Name="idSalaryArchive" />
+    </Key>
+    <Property Name="idSalaryArchive" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="carWashWorkersId" Type="int" Nullable="false" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="amountOfCompletedOrders" Type="int" />
+    <Property Name="monthlySalaryAmountEarned" Type="float" />
+    <Property Name="monthlySalaryAmountReceived" Type="float" />
+    <Property Name="balanceAtTheEndOfTheMonth" Type="float" />
+    <Property Name="salaryStatus" Type="bit" />
   </EntityType>
   <EntityType Name="salaryBalance">
     <Key>
@@ -726,7 +750,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_costCategories_expenseCategory">
+  <Association Name="FK_costCategories_expenseCategory1">
     <End Role="expenseCategory" Type="Self.expenseCategory" Multiplicity="0..1" />
     <End Role="costCategories" Type="Self.costCategories" Multiplicity="*" />
     <ReferentialConstraint>
@@ -759,6 +783,18 @@
       </Principal>
       <Dependent Role="Detailings">
         <PropertyRef Name="IdGroupWashServices" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeRate_brigadeForToday">
+    <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="0..1" />
+    <End Role="EmployeeRate" Type="Self.EmployeeRate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="brigadeForToday">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="EmployeeRate">
+        <PropertyRef Name="brigadeForTodayId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -933,6 +969,18 @@
       </Principal>
       <Dependent Role="procurement">
         <PropertyRef Name="ListOfGoodsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_salaryArchive_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
+    <End Role="salaryArchive" Type="Self.salaryArchive" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="salaryArchive">
+        <PropertyRef Name="carWashWorkersId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1119,6 +1167,7 @@
     <EntitySet Name="costCategories" EntityType="Self.costCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Credit" EntityType="Self.Credit" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Detailings" EntityType="Self.Detailings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeRate" EntityType="Self.EmployeeRate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ExchangeRates" EntityType="Self.ExchangeRates" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="expenseCategory" EntityType="Self.expenseCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Expenses" EntityType="Self.Expenses" Schema="dbo" store:Type="Tables" />
@@ -1134,6 +1183,7 @@
     <EntitySet Name="PriceListTireFittingAdditionalServices" EntityType="Self.PriceListTireFittingAdditionalServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="procurement" EntityType="Self.procurement" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductCategories" EntityType="Self.ProductCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="salaryArchive" EntityType="Self.salaryArchive" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="salaryBalance" EntityType="Self.salaryBalance" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="salaryExpenses" EntityType="Self.salaryExpenses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServisesCarWashOrder" EntityType="Self.ServisesCarWashOrder" Schema="dbo" store:Type="Tables" />
@@ -1236,7 +1286,7 @@
       <End Role="ClientsGroups" EntitySet="ClientsGroups" />
       <End Role="ClientsOfCarWash" EntitySet="ClientsOfCarWash" />
     </AssociationSet>
-    <AssociationSet Name="FK_costCategories_expenseCategory" Association="Self.FK_costCategories_expenseCategory">
+    <AssociationSet Name="FK_costCategories_expenseCategory1" Association="Self.FK_costCategories_expenseCategory1">
       <End Role="expenseCategory" EntitySet="expenseCategory" />
       <End Role="costCategories" EntitySet="costCategories" />
     </AssociationSet>
@@ -1247,6 +1297,10 @@
     <AssociationSet Name="FK_Detailings_GroupWashServices" Association="Self.FK_Detailings_GroupWashServices">
       <End Role="GroupWashServices" EntitySet="GroupWashServices" />
       <End Role="Detailings" EntitySet="Detailings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeRate_brigadeForToday" Association="Self.FK_EmployeeRate_brigadeForToday">
+      <End Role="brigadeForToday" EntitySet="brigadeForToday" />
+      <End Role="EmployeeRate" EntitySet="EmployeeRate" />
     </AssociationSet>
     <AssociationSet Name="FK_Expenses_costCategories" Association="Self.FK_Expenses_costCategories">
       <End Role="costCategories" EntitySet="costCategories" />
@@ -1303,6 +1357,10 @@
     <AssociationSet Name="FK_procurement_listOfGoods" Association="Self.FK_procurement_listOfGoods">
       <End Role="listOfGoods" EntitySet="listOfGoods" />
       <End Role="procurement" EntitySet="procurement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_salaryArchive_CarWashWorkers" Association="Self.FK_salaryArchive_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="salaryArchive" EntitySet="salaryArchive" />
     </AssociationSet>
     <AssociationSet Name="FK_salaryBalance_CarWashWorkers" Association="Self.FK_salaryBalance_CarWashWorkers">
       <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />

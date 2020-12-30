@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Trade.TradeContract
 {
-    public interface IGoodsSold : IGetFromDatabase<GoodsSoldBll>, IDatabaseOperations<GoodsSoldBll>
+    public interface IGoodsSold : IGetFromDatabase<GoodsSoldBll>, IDatabaseOperations<GoodsSoldBll>, IReports<GoodsSoldBll>
     {
         Task InsertList(List<GoodsSoldBll> goodsSoldsList);
     }

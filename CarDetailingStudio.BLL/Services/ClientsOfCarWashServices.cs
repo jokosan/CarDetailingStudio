@@ -14,20 +14,16 @@ namespace CarDetailingStudio.BLL.Services
     {
         private IUnitOfWork _unitOfWork;
 
-        public ClientsOfCarWashServices(IUnitOfWork unitOfWork)
+        public ClientsOfCarWashServices(
+            IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll(string search)
-        {
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsOfCarWashUnitOfWork.GetWhere(x => x.NumberCar.Contains(search)));
-        }
+        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll(string search) =>
+            Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsOfCarWashUnitOfWork.GetWhere(x => x.NumberCar.Contains(search)));       
 
-        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll(int? id)
-        {
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.GetId(id));
-        }
+        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll(int? id) => Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.GetId(id));        
 
         public async Task<ClientsOfCarWashBll> ClientWhereToInfoClient(int idInfoClient)
         {
@@ -35,14 +31,11 @@ namespace CarDetailingStudio.BLL.Services
             return clientWhere.FirstOrDefault(x => x.IdInfoClient == idInfoClient);
         }
 
-        public async Task<ClientsOfCarWashBll> GetId(int? id)
-        {
-            return Mapper.Map<ClientsOfCarWashBll>(await _unitOfWork.ClientsUnitOfWork.GetById(id));
-        }
+        public async Task<ClientsOfCarWashBll> GetId(int? id) => Mapper.Map<ClientsOfCarWashBll>(await _unitOfWork.ClientsUnitOfWork.GetById(id));
 
         public async Task<int> Insert(ClientsOfCarWashBll AddCliens)
         {
-            ClientsOfCarWash clientsOfCarWash = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(AddCliens);
+            ClientsOfCarWash clientsOfCarWash = TransformAnEntity(AddCliens);
             _unitOfWork.ClientsOfCarWashUnitOfWork.Insert(clientsOfCarWash);
 
             await _unitOfWork.Save();
@@ -58,16 +51,14 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task ClientCarUpdate(ClientsOfCarWashBll updateClientCar)
         {
-            ClientsOfCarWash clients = Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(updateClientCar);
-            _unitOfWork.ClientsOfCarWashUnitOfWork.Update(clients);
+            _unitOfWork.ClientsOfCarWashUnitOfWork.Update(TransformAnEntity(updateClientCar));
 
             await _unitOfWork.Save();
         }
 
-        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll()
-        {
-            return Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll() => Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.Get());
+        
+        private ClientsOfCarWash TransformAnEntity(ClientsOfCarWashBll entity) => Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(entity);
 
         public async Task ClientCarArxiv(int carId, bool status)
         {
@@ -76,7 +67,5 @@ namespace CarDetailingStudio.BLL.Services
 
             await ClientCarUpdate(clientCar);
         }
-
-      
     }
 }

@@ -29,6 +29,7 @@
                            .Grid(Model)
                            .Build(columns =>
                            {
+                               
                                columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
                                columns.Add(model => model.OrderDate).Titled("Дата и время заказа").Filterable(false);
                                columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа").Filterable(false);
@@ -63,6 +64,7 @@
                            .Grid(Model)
                            .Build(columns =>
                            {
+                               columns.Add(model => model.Id).Titled("Номер заказа");
                                columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
                                columns.Add(model => model.OrderDate).Titled("Дата и время заказа").Filterable(false);
                                columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа").Filterable(false);

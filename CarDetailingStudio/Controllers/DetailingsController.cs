@@ -36,8 +36,9 @@ namespace CarDetailingStudio.Controllers
             return View(selectPrice);
         }
          
-        public async Task<ActionResult> AddServises()
+        public async Task<ActionResult> AddServises(int? idGroup = null)
         {
+           
             ViewBag.GroupServises = new SelectList(await _groupWashServices.GetAllTable(), "Id", "group");
 
             return View();
@@ -45,7 +46,7 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddServises([Bind(Include = "Id,services_list,validity,note,S,M,L,XL,group,status,currency,mark,IdGroupWashServices,IdTypeService")] DetailingsView price)
+        public async Task<ActionResult> AddServises([Bind(Include = "Id,services_list,validity,note,S,M,L,XL,group,status,currency,mark,IdGroupWashServices,IdTypeService,forUnit,sorting")] DetailingsView price)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +80,7 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditServises([Bind(Include = "Id,services_list,validity,note,S,M,L,XL,group,status,currency,mark,IdGroupWashServices,IdTypeService")] DetailingsView price)
+        public async Task<ActionResult> EditServises([Bind(Include = "Id,services_list,validity,note,S,M,L,XL,group,status,currency,mark,IdGroupWashServices,IdTypeService,forUnit,sorting")] DetailingsView price)
         {
             if (ModelState.IsValid)
             {

@@ -2,33 +2,33 @@
 <link href="~/Content/input.css" rel="stylesheet" />
 @if (ViewBag.Error == true)
 {
-<div class="col-md-12">
-    <div class="alert alert-danger" role="alert">
-        <h5>Внимание!</h5>
-        <ul>
-            <li>
-                Количество шин должно быть выбрано.
-            </li>
-            <li>
-                Радиус шин должно быть выбрано"
-            </li>
-            <li>
-                Дополнительные услуги:
-                <ul>
-                    <li>
-                        Без количества шин и радиуса приведет к ошибке
-                    </li>
-                    <li>
-                        Для выбора дополнительных услуг должна быть поставлена отметка
-                    </li>
-                </ul>
-            </li>
-            <li>
-                Повторите выбор услуг
-            </li>
-        </ul>
+    <div class="col-md-12">
+        <div class="alert alert-danger" role="alert">
+            <h5>Внимание!</h5>
+            <ul>
+                <li>
+                    Количество шин должно быть выбрано.
+                </li>
+                <li>
+                    Радиус шин должно быть выбрано"
+                </li>
+                <li>
+                    Дополнительные услуги:
+                    <ul>
+                        <li>
+                            Без количества шин и радиуса приведет к ошибке
+                        </li>
+                        <li>
+                            Для выбора дополнительных услуг должна быть поставлена отметка
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Повторите выбор услуг
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 }
 
 @using (Html.BeginForm())
@@ -93,7 +93,6 @@
                     <div class="card-body">
 
                         <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
-
                             @foreach (var itemRadius in ViewBag.RadiusOne)
                             {
                                 navLink = "nav-link";
@@ -123,12 +122,11 @@
                                         <div class="card">
                                             <div class="card-body col-md-6">
                                                 <div class="row">
-
                                                     <div class="col-md-2">
                                                         <label class="customcheckbox">
                                                             <label class="label">
                                                                 <input type="hidden" id="text1" name="Type" value="1" />
-                                                                <input class="label__checkbox" type="checkbox" name="TireRadius" value="@itemRadius.idTireRadius" id="checkbox1" />
+                                                                <input class="label__checkbox" type="checkbox" name="TireRadius" value="@itemRadius.id" id="checkbox1" />
                                                                 <span class="label__text">
                                                                     <span class="label__check">
                                                                         <i class="fa fa-check icon"></i>
@@ -142,7 +140,6 @@
                                                         @itemRadius.radius
                                                     </h3>
                                                 </div>
-
                                             </div>
                                             <div class="table-responsive">
                                                 <table class="table">
@@ -200,7 +197,6 @@
                     string navLinkTrucks, ariaSelectedTrucks, tabPaneFadeShowTrucks;
 
                     <div class="card-body">
-
                         <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
 
                             @foreach (var itemRadius in ViewBag.RadiusTwo)
@@ -239,28 +235,25 @@
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-body col-md-6">
-                                                    <div class="row">
-
-                                                        <div class="col-md-2">
-                                                            <label class="customcheckbox">
-                                                                <label class="label">
-                                                                    <input type="hidden" name="Type" value="2" />
-                                                                    <input class="label__checkbox" type="checkbox" name="TireRadius" value="@itemRadius.idTireRadius" id="checkbox2" />
-                                                                    <span class="label__text">
-                                                                        <span class="label__check">
-                                                                            <i class="fa fa-check icon"></i>
-                                                                        </span>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label class="customcheckbox">
+                                                            <label class="label">
+                                                                <input type="hidden" name="TypeTwo" value="2" />
+                                                                <input class="label__checkbox" type="checkbox" name="TireRadius" value="@itemRadius.id" id="checkbox2" />
+                                                                <span class="label__text">
+                                                                    <span class="label__check">
+                                                                        <i class="fa fa-check icon"></i>
                                                                     </span>
-                                                                </label>
-                                                                <span class="checkmark"></span>
+                                                                </span>
                                                             </label>
-                                                        </div>
-                                                        <h3 class="card-title m-b-0">
-                                                            @itemRadius.radius
-                                                        </h3>
+                                                            <span class="checkmark"></span>
+                                                        </label>
                                                     </div>
-
-                                               
+                                                    <h3 class="card-title m-b-0">
+                                                        @itemRadius.radius
+                                                    </h3>
+                                                </div>
                                             </div>
                                             <div class="table-responsive">
                                                 <table class="table">
@@ -269,7 +262,6 @@
                                                         {
                                                             if (item.TireRadiusId == itemRadius.idTireRadius)
                                                             {
-
                                                                 <tr>
                                                                     <th>
                                                                         <div class="row">
@@ -297,7 +289,6 @@
                                                                         </div>
                                                                     </th>
                                                                 </tr>
-
                                                             }
                                                         }
                                                     </tbody>
@@ -307,13 +298,9 @@
                                     </div>
                                 </div>
                             }
-
                         </div>
                     </div>
-
                 }
-
-
             </div>
         </div>
 

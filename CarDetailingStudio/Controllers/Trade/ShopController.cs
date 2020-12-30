@@ -73,7 +73,7 @@ namespace CarDetailingStudio.Controllers.Trade
         {
             if (cart.Lines.Count() == 0)
             {
-                ModelState.AddModelError("", "Извините, недобавдено не одного товара в карзину заказов");
+                ModelState.AddModelError("", "Извините, не добавлено ни одного товара в карзину заказов");
             }
 
             if (ModelState.IsValid)
@@ -137,7 +137,7 @@ namespace CarDetailingStudio.Controllers.Trade
             return RedirectToAction("Basket", new { returnUrl });
         }
 
-        public async Task<ActionResult> OrderShopArxiv() => View(Mapper.Map<IEnumerable<GoodsSoldView>>(await _goodsSold.GetTableAll()));
+        public async Task<ActionResult> OrderShopArxiv() => View(Mapper.Map<IEnumerable<GoodsSoldView>>(await _goodsSold.GetTableAll()).OrderByDescending(x => x.idGoodsSold));
 
     }
 }

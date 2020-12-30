@@ -43,7 +43,6 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<CashierBll>(await _unitOfWork.CashierUtilOfWork.GetById(elementId));
         }
 
-
         public async Task Update(CashierBll elementToUpdate)
         {
             Cashier cashier = Mapper.Map<CashierBll, Cashier>(elementToUpdate);

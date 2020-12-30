@@ -5,6 +5,7 @@ using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,26 +30,49 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             _expenses = expenses;
         }
 
-        public async Task<IEnumerable<WagesForDaysWorkedBll>> DayOrderResult(int? Id)
-        {
-            var getResult = await _orderCarWash.SampleForPayroll(Id);
+        public async Task<IEnumerable<WagesForDaysWorkedBll>> MonthOrderResult(int? id, int month, int year) =>
+            GroupOrderCarWashWorkers(await _orderCarWash.SelectMonth(id, month, year));
 
-            return getResult.GroupBy(x => x.OrderServicesCarWash.OrderDate?.ToString("dd.MM.yyyy"))
-                              .Select(y => new WagesForDaysWorkedBll
-                              {
-                                  carWashWorkersId = y.First().IdCarWashWorkers,
-                                  ClosingData = y.First().OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy"),
-                                  DiscountPrice = y.Sum(s => s.OrderServicesCarWash.DiscountPrice),
-                                  orderCount = y.Count(),
-                                  calculationStatus = y.First().CalculationStatus,
-                                  payroll = y.Sum(s => s.Payroll)
-                              });
+        public async Task<IEnumerable<WagesForDaysWorkedBll>> DayOrderResult(int? Id) =>
+             GroupOrderCarWashWorkers(await _orderCarWash.SampleForPayroll(Id));
+
+        private IEnumerable<WagesForDaysWorkedBll> GroupOrderCarWashWorkers(IEnumerable<OrderCarWashWorkersBll> orderCarWashes) =>
+             orderCarWashes.GroupBy(x => x.OrderServicesCarWash.OrderDate?.ToString("dd.MM.yyyy"))
+                                  .Select(y => new WagesForDaysWorkedBll
+                                  {
+                                      carWashWorkersId = y.First().IdCarWashWorkers,
+                                      ClosingData = y.First().OrderServicesCarWash.ClosingData,
+                                      DiscountPrice = y.Sum(s => s.OrderServicesCarWash.DiscountPrice),
+                                      orderCount = y.Count(),
+                                      calculationStatus = y.First().CalculationStatus,
+                                      payroll = y.Sum(s => s.Payroll)
+                                  });
+
+        public async Task<IEnumerable<SalaryBalanceBll>> SalaryBalanceGroup(int? Id)
+        {
+            var salaryExpenses = await _salaryBalance.GetTableAll();
+
+            return salaryExpenses.GroupBy(x => x.dateOfPayment?.ToString("dd.MM.yyyy"))
+                                                   .Select(y => new SalaryBalanceBll
+                                                   {
+                                                       idSalaryBalance = y.First().idSalaryBalance,
+                                                       CarWashWorkersId = y.First().CarWashWorkersId,
+                                                       dateOfPayment = y.First().dateOfPayment,
+                                                       payoutAmount = y.Sum(s => s.payoutAmount),
+                                                       currentMonthStatus = y.First().currentMonthStatus
+                                                   });
         }
 
-        public async Task PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, bool closeMonth, bool NegativeBalance = false)
+        public async Task PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, double SalaryCurrentMonth, double Prize, double BalancLastMonth, double PaidMonth  )
         {
             var lostMonthBalance = await _salaryBalance.LastMonthBalance(employeeId);
             SalaryBalanceBll salaryBalanceBll = new SalaryBalanceBll();
+
+            if (BalancLastMonth != 0)
+            { 
+                
+            }
+
 
             double balance = 0;
 
@@ -67,12 +91,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                     {
                         balance = balance * -1;
                     }
-
-                    if (NegativeBalance && payoutAmount <= balance)
-                    {
-                        lostMonthBalance.accountBalance = lostMonthBalance.accountBalance + payoutAmount;
-                        await _salaryBalance.Update(lostMonthBalance);
-                    }
                 }
             }
 
@@ -80,25 +98,9 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             salaryBalanceBll.dateOfPayment = DateTime.Now;
             salaryBalanceBll.payoutAmount = payoutAmount;
             salaryBalanceBll.accountBalance = totalPayable;
-            salaryBalanceBll.currentMonthStatus = closeMonth;
 
             await _salaryBalance.Insert(salaryBalanceBll);
             await PayrollExpenses(salaryBalanceBll);
-
-            if (closeMonth == true)
-            {
-                OrderCarWashWorkersBll orderCarWash = new OrderCarWashWorkersBll();
-                var getResult = await _orderCarWash.SampleForPayroll(employeeId);
-
-                foreach (var item in getResult)
-                {
-                    orderCarWash = item;
-                    orderCarWash.CalculationStatus = true;
-                    orderCarWash.salaryDate = salaryBalanceBll.dateOfPayment;
-
-                   await _orderCarWash.UpdateOrderCarWashWorkers(orderCarWash);
-                }
-            }
         }
 
         // ВНИМАНИЕЕ !!!!!!!!!
@@ -118,7 +120,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             salaryExpenses.expenseId = id;
 
             await _salaryExpenses.Insert(salaryExpenses);
-
         }
     }
 }

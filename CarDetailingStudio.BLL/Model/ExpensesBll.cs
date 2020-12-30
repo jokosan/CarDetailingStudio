@@ -12,6 +12,7 @@ namespace CarDetailingStudio.BLL.Model
         {
             this.salaryExpenses = new HashSet<SalaryExpensesBll>();
             this.utilityCosts = new HashSet<UtilityCostsBll>();
+            this.procurement = new HashSet<ProcurementBll>();
         }
 
         public int idExpenses { get; set; }
@@ -22,9 +23,11 @@ namespace CarDetailingStudio.BLL.Model
         public string note { get; set; }
         public Nullable<int> idCostCategories { get; set; }
 
+
         public virtual ExpenseCategoryBll expenseCategory { get; set; }
         public virtual ICollection<SalaryExpensesBll> salaryExpenses { get; set; }
         public virtual ICollection<UtilityCostsBll> utilityCosts { get; set; }
         public virtual CostCategoriesBll costCategories { get; set; }
+        public virtual ICollection<ProcurementBll> procurement { get; set; }
     }
 }

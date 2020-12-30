@@ -20,9 +20,20 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<SalaryBalanceBll>> GetTableAll()
+        public async Task<IEnumerable<SalaryBalanceBll>> GetTableAll() => 
+            Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetInclude("CarWashWorkers"));
+
+        public async Task<SalaryBalanceBll> SelectId(int? elementId) => 
+            Mapper.Map<SalaryBalanceBll>(await _unitOfWork.SalaruBalanceUnitOfWork.GetById(elementId));
+
+        public async Task<IEnumerable<SalaryBalanceBll>> EmployeeBenefits(int idEmployee) => 
+            Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.QueryObjectGraph(x => x.CarWashWorkersId == idEmployee));
+
+        public async Task<IEnumerable<SalaryBalanceBll>> SelectIdToDate(int? idCarWash, int month, int year)
         {
-            return Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetInclude("CarWashWorkers"));
+             return Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.QueryObjectGraph(x => x.CarWashWorkersId == idCarWash
+                                                                        && x.dateOfPayment.Value.Month == month
+                                                                        && x.dateOfPayment.Value.Year == year));
         }
 
         public async Task<IEnumerable<SalaryBalanceBll>> SelectIdToDate(int? idCarWash, DateTime date)
@@ -31,10 +42,6 @@ namespace CarDetailingStudio.BLL.Services
 
             if (salaryBalanceLast == null)
             {
-                //return Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x =>
-                //                                                   (x.CarWashWorkersId == idCarWash) &&
-                //                                                   (x.dateOfPayment.Value.ToString("MM.yyyy") == date.ToString("MM.yyyy"))));
-
                 var result = Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x => x.CarWashWorkersId == idCarWash));
 
                 return result.Where(x => x.dateOfPayment.Value.ToString("MM.yyyy") == date.ToString("MM.yyyy"));
@@ -45,11 +52,6 @@ namespace CarDetailingStudio.BLL.Services
                                                                  (x.CarWashWorkersId == idCarWash) &&
                                                                  (x.dateOfPayment > salaryBalanceLast.dateOfPayment)));
             }
-        }
-
-        public async Task<SalaryBalanceBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<SalaryBalanceBll>(await _unitOfWork.salaryExpensesUnitOfWork.GetById(elementId));
         }
 
         public async Task Insert(SalaryBalanceBll element)
@@ -70,15 +72,8 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<SalaryBalanceBll> LastMonthBalance(int? id)
         {
-            //DateTime date = DateTime.Today.AddMonths(-1);
-            //string test = date.ToString("MM.yyyy");
-
             try
             {
-                //var balance = Mapper.Map<IEnumerable<SalaryBalanceBll>>(_unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id)));
-                //var getDate = balance.First(x => x.dateOfPayment?.ToString("MM.yyyy") == test);
-                //return getDate.accountBalance.Value;
-
                 var balance = Mapper.Map<IEnumerable<SalaryBalanceBll>>(await _unitOfWork.SalaruBalanceUnitOfWork.GetWhere(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id)));
                 return balance.Last(x => (x.currentMonthStatus == true) && (x.CarWashWorkersId == id));
             }

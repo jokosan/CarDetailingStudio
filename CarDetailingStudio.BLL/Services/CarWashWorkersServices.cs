@@ -27,27 +27,14 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.Dispose();
         }
 
-        public async Task<IEnumerable<CarWashWorkersBll>> GetTable()
-        {
-            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.CarWashWorkersUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<CarWashWorkersBll>> GetTable() => Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.CarWashWorkersUnitOfWork.Get());        
 
-        public async Task<IEnumerable<CarWashWorkersBll>> GetStaffAll()
-        {
-            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<CarWashWorkersBll>> GetStaffAll() => Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.Get());        
 
-        public async Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees(string arxiv = "true")
-        {
+        public async Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees(string arxiv = "true") =>
+                         Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.GetWhere(x => (x.status == arxiv)));        
 
-            return Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork
-                .GetWhere(x => (x.status == arxiv)));
-        }
-
-        public async Task<CarWashWorkersBll> CarWashWorkersId(int? id)
-        {
-            return Mapper.Map<CarWashWorkersBll>(await _unitOfWork.WorkersUnitOfWork.GetById(id));
-        }
+        public async Task<CarWashWorkersBll> CarWashWorkersId(int? id) => Mapper.Map<CarWashWorkersBll>(await _unitOfWork.WorkersUnitOfWork.GetById(id));        
 
         public async Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
@@ -68,10 +55,8 @@ namespace CarDetailingStudio.BLL.Services
             if (currentShiftResult == null)
                 currentShiftResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true)));
 
-
             foreach (var item in chkRow)
-            {
-                
+            {                
                 if (currentShiftResult.Count() == 0)
                 {
                     await AdninRegistr(item, 3);
@@ -88,16 +73,18 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, IEnumerable<BrigadeForTodayBll> currentShiftResult = null)
         {
-            DateTime date = new DateTime();
+            DateTime date = DateTime.Now.Date;
 
             if (currentShiftResult == null)
-                currentShiftResult = currentShiftResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true)));
+                currentShiftResult = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) == date) && (x.EarlyTermination == true)));
 
-            if (currentShiftResult.Count() == 0)
+            // ---- ----- ----- Переделать ---- ----- -----
+            if (currentShiftResult.Count() == 0) 
             {
                 await AdninRegistr(adminCarWosh, 1);
                 await AdninRegistr(adminDetailing, 2);             
             }
+            // ---- ----- ----- || || || || || ---- ----- -----
 
             if (adminCarWosh != null && currentShiftResult.Count() != 0)
             {
@@ -156,8 +143,6 @@ namespace CarDetailingStudio.BLL.Services
                 carWashWorkers.status = "false";
                 carWashWorkers.DataDismissal = DateTime.Now.ToString("dd.MM.yyyy");   /// Внесни изменения в БД!! изменить  тип домена  DateTime
             }
-
-
 
             _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
             await _unitOfWork.Save();

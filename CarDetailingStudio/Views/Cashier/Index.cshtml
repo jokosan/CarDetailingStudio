@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.CashierView>
+<link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
+<link href="~/Content/form.css" rel="stylesheet" />
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive">
+
+                @(Html
+               .Grid(Model)
+               .Build(columns =>
+               {
+                   columns.Add(model => model.date);
+                   columns.Add(model => model.amountBeginningOfTheDay);
+                   columns.Add(model => model.amountEndOfTheDay);
+
+
+                   //columns.Add(model => @Html.ActionLink("Информация", "ClientDetails", new { id = model.Id }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
+               })
+               .UsingFilterMode(GridFilterMode.Excel)
+               .Empty("No data found")
+               .Filterable(GridFilterType.Single)
+               .Sortable()
+               .Pageable(pager =>
+               {
+                   pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 300, "300" }, { 500, "500" } };
+                   pager.ShowPageSizes = true;
+                   pager.RowsPerPage = 1;
+               })
+            )
+            </div>
+        </div>
+      
+        </div>
+    </div>
+</div>
+
+@*Сделать как частичное представление*@
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>
+<script src="~/Scripts/MvcGrid/mvc-grid-localizing.js"></script>

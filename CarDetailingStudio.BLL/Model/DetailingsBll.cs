@@ -25,6 +25,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<int> IdGroupWashServices { get; set; }
         public Nullable<int> IdTypeService { get; set; }
         public Nullable<bool> forUnit { get; set; }
+        public Nullable<int> sorting { get; set; }
 
         public virtual GroupWashServicesBll GroupWashServices { get; set; }
         public virtual ICollection<ServisesCarWashOrderBll> ServisesCarWashOrder { get; set; }

@@ -215,9 +215,9 @@
                                 <p>Скидка клиента @Html.DisplayFor(model => model.discont) %</p>
 
                                 @*<p>Дополнительно:<input class="text-input inside" type="hidden" id="count_1" name="column_1"></p>*@
-                                <p>Общая сумма: @ViewBag.SumOrder грн</p>
+                                <p>Общая сумма:@Math.Round(Convert.ToDecimal(ViewBag.SumOrder), 2)  грн</p>
                                 <hr>
-                                <h3><b>Итого: </b>@ViewBag.Total грн.</h3>
+                                <h3><b>Итого: </b>@Math.Round(Convert.ToDecimal(ViewBag.Total), 2) грн.</h3>
                             </div>
                             <div class="clearfix"></div>
                             <hr>

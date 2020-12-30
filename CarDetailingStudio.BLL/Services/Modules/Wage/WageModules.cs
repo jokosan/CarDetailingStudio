@@ -22,9 +22,15 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         private IBrigadeForTodayServices _brigadeForToday;
         private AutomapperConfig _automapper;
 
-        public WageModules(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig, IOrderServices orderServices,
-                            IOrderServicesCarWashServices orderServicesCarWash, IOrderCarWashWorkersServices orderCarWashWorkers,
-                            ICarWashWorkersServices carWashWorkers, IServisesCarWashOrderServices servisesCarWash, IBrigadeForTodayServices brigadeForToday)
+        public WageModules(
+            IUnitOfWork unitOfWork,
+            AutomapperConfig automapperConfig,
+            IOrderServices orderServices,
+            IOrderServicesCarWashServices orderServicesCarWash,
+            IOrderCarWashWorkersServices orderCarWashWorkers,
+            ICarWashWorkersServices carWashWorkers,
+            IServisesCarWashOrderServices servisesCarWash,
+            IBrigadeForTodayServices brigadeForToday)
         {
             _unitOfWork = unitOfWork;
             _orderServices = orderServices;
@@ -44,7 +50,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
             Order.PaymentState = idPaymentState;
             Order.ClosingData = DateTime.Now;
-
 
             Order.StatusOrder = idStatusOrder;
 
@@ -100,8 +105,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             else
             {
                 await AdminWage(amountOfCurrentOrder, amountOfCurrentOrder.DiscountPrice, serveses);
-            }
-               
+            }               
         }
 
         private int StatusTypeServises(int servises, int brigade)
@@ -130,8 +134,10 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
             if (brigade == 2 && servises == 4)
                 return 8;
+
             if (brigade == 1 && servises == 5)
                 return 9;
+
             if (brigade == 2 && servises == 5)
                 return 10;
 

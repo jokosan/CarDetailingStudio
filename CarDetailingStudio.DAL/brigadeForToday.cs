@@ -14,6 +14,12 @@ namespace CarDetailingStudio.DAL
     
     public partial class brigadeForToday
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public brigadeForToday()
+        {
+            this.EmployeeRate = new HashSet<EmployeeRate>();
+        }
+    
         public int id { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
@@ -22,5 +28,7 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> StatusId { get; set; }
     
         public virtual CarWashWorkers CarWashWorkers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeRate> EmployeeRate { get; set; }
     }
 }

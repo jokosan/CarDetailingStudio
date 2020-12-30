@@ -66,7 +66,12 @@ namespace CarDetailingStudio.Models.ModelViews
         [Required]
         [Display(Name = "Категория услуги")]
         public Nullable<int> IdTypeService { get; set; }
+
+        [Display (Name = "Продажа поштучно")]
         public Nullable<bool> forUnit { get; set; }
+
+        [Display (Name = "Сортировка")]
+        public Nullable<int> sorting { get; set; }
 
         public virtual GroupWashServicesView GroupWashServices { get; set; }
         public virtual ICollection<ServisesCarWashOrderView> ServisesCarWashOrder { get; set; }

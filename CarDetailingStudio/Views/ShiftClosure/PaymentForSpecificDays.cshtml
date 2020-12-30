@@ -84,17 +84,22 @@
                 <div class="clearfix"></div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         @using (Html.BeginForm("PartialPayout", "ShiftClosure", FormMethod.Post))
                         {
                             if (ViewBag.Message == null)
                             {
                                 <div class="input-group">
-                                    <input name="payout" type="text" class="form-control" />
-                                    <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                    <input name="payout" type="text" placeholder="@ViewBag.Message" class="form-control is-invalid" id="validationServer01" />
+                                    <input type="hidden" name="idEmployee" value=@ViewBag.IdCarWash />
                                     <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+
+                                    <input type="hidden" name="SalaryCurrentMonth" value=@ViewBag.MonthlySalary />
+                                    <input type="hidden" name="Prize" value=@ViewBag.BonusToSalary />
+                                    <input type="hidden" name="BalancLastMonth" value=@ViewBag.LastMonth />
+                                    <input type="hidden" name="PaidMonth" value=@ViewBag.PaidPerMonth />
                                     <div class="input-group-append">
-                                        <input type="submit" name="submit" value="Частичная выплата" id="basic-addon2" class="btn btn-outline-danger" />
+                                        <input type="submit" name="submit" value="Выплата заработной платы" id="basic-addon2" class="btn btn-outline-danger" />
                                     </div>
                                 </div>
                             }
@@ -102,10 +107,15 @@
                             {
                                 <div class="input-group">
                                     <input name="payout" type="text" placeholder="@ViewBag.Message" class="form-control is-invalid" id="validationServer01" />
-                                    <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                    <input type="hidden" name="idEmployee" value=@ViewBag.IdCarWash />
                                     <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+
+                                    <input type="hidden" name="SalaryCurrentMonth" value=@ViewBag.MonthlySalary />
+                                    <input type="hidden" name="Prize" value=@ViewBag.BonusToSalary />
+                                    <input type="hidden" name="BalancLastMonth" value=@ViewBag.LastMonth />
+                                    <input type="hidden" name="PaidMonth" value=@ViewBag.PaidPerMonth />
                                     <div class="input-group-append">
-                                        <input type="submit" name="submit" value="Частичная выплата" id="basic-addon2" class="btn btn-outline-danger" />
+                                        <input type="submit" name="submit" value="Выплата заработной платы" id="basic-addon2" class="btn btn-outline-danger" />
                                     </div>
                                 </div>
                             }
@@ -117,7 +127,7 @@
                                         <div class="col-md-1">
                                             <label class="customcheckbox">
                                                 <label class="label">
-                                                    <input class="label__checkbox" type="checkbox" name="NegativeBalance" value="true"/>
+                                                    <input class="label__checkbox" type="checkbox" name="NegativeBalance" value="true" />
                                                     <span class="label__text">
                                                         <span class="label__check">
                                                             <i class="fa fa-check icon"></i>
@@ -133,37 +143,37 @@
 
                         }
                     </div>
-                    <div class="col-md-6">
-                        @using (Html.BeginForm())
-                        {
-                            if (ViewBag.MessageClose == null)
+                    @*<div class="col-md-6">
+                            @using (Html.BeginForm())
                             {
-                                <div class="text-right">
-                                    <div class="input-group">
-                                        <input name="payout" type="text" class="form-control" />
-                                        <input type="hidden" name="id" value=@ViewBag.IdCarWash />
-                                        <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
-                                        <div class="input-group-append">
-                                            <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
+                                if (ViewBag.MessageClose == null)
+                                {
+                                    <div class="text-right">
+                                        <div class="input-group">
+                                            <input name="payout" type="text" class="form-control" />
+                                            <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                            <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+                                            <div class="input-group-append">
+                                                <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="text-right">
-                                    <div class="input-group">
-                                        <input name="payout" type="text" class="form-control is-invalid" id="validationServer01" placeholder="@ViewBag.MessageClose" />
-                                        <input type="hidden" name="id" value=@ViewBag.IdCarWash />
-                                        <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
-                                        <div class="input-group-append">
-                                            <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
+                                }
+                                else
+                                {
+                                    <div class="text-right">
+                                        <div class="input-group">
+                                            <input name="payout" type="text" class="form-control is-invalid" id="validationServer01" placeholder="@ViewBag.MessageClose" />
+                                            <input type="hidden" name="id" value=@ViewBag.IdCarWash />
+                                            <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
+                                            <div class="input-group-append">
+                                                <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             }
-                        }
-                    </div>
+                        </div>*@
 
                 </div>
 
@@ -188,9 +198,9 @@
                         </th>
                         <th>
                             Сумма выплаты
-                        <th>
+                        @*<th>
                             Cостояние счета на момент выплаты
-                        </th>
+                        </th>*@
                         <th>
                             Остаток
                         </th>
@@ -209,9 +219,9 @@
                                 <td>
                                     <span class="text-danger">@item.payoutAmount</span>
                                 </td>
-                                <td>
+                                @*<td>
                                     <span class="text-danger">@item.accountBalance</span>
-                                </td>
+                                </td>*@
 
                                 <td>
                                     <span class="text-danger">@resultSum</span>
@@ -225,9 +235,9 @@
                                 <td>
                                     @item.payoutAmount
                                 </td>
-                                <td>
+                                @*<td>
                                     @item.accountBalance
-                                </td>
+                                </td>*@
                                 <td>
                                     @resultSum
                                 </td>

@@ -3,6 +3,7 @@ using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 using CarDetailingStudio.BLL.Services.Modules.Contract;
+using CarDetailingStudio.BLL.Services.Trade.TradeContract;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using System;
@@ -26,6 +27,8 @@ namespace CarDetailingStudio.Controllers
         private IBrigadeForTodayServices _brigadeForTodayServices;
         private IOrderServicesCarWashServices _orderServices;
         private IExpenses _expenses;
+        private IGoodsSold _goodsSold;
+
 
         private double sumOfAllExpenses = 0;
 
@@ -41,7 +44,8 @@ namespace CarDetailingStudio.Controllers
             IOrderServicesCarWashServices orderServices,
             IOrderCarWashWorkersServices orderCarWash,
             IBrigadeForTodayServices brigadeForTodayServices,
-            IExpenses expenses)
+            IExpenses expenses,
+            IGoodsSold goodsSold)
         {
             _incomeForTheCurrent = incomeForTheCurrent;
             _bonusToSalary = bonusToSalary;
@@ -50,6 +54,7 @@ namespace CarDetailingStudio.Controllers
             _brigadeForTodayServices = brigadeForTodayServices;
             _orderServices = orderServices;
             _expenses = expenses;
+            _goodsSold = goodsSold;
         }
 
         // GET: Analytics
@@ -208,7 +213,7 @@ namespace CarDetailingStudio.Controllers
             var orderInformation = Mapper.Map<OrderInformationWashingDetailingView>(await _incomeForTheCurrent.AmountOfCompletedOrders(DateTime.Now));
             var BonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.Reports(DateTime.Now));
             var Cashier = Mapper.Map<IEnumerable<CashierView>>(await _cashier.Reports(DateTime.Now));
-            var salaryExpenses = Mapper.Map<IEnumerable<ExpensesView>>(await _expenses.Reports(DateTime.Now));
+            var salaryExpenses = Mapper.Map<IEnumerable<ExpensesView>>(await _expenses.Reports(DateTime.Now));            
 
             double salaryExpensesDay = salaryExpenses.Sum(s => s.Amount).Value;
             double cashierDayStart = Cashier.Sum(x => x.amountBeginningOfTheDay);
@@ -251,10 +256,11 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Cash = orderInformation.cash;                                                                   // Приход наличных
             ViewBag.NonCash = orderInformation.nonCash;                                                             // Приход безналичных
 
-            ViewBag.CashEndDay = orderInformation.cash - sumOfAllExpenses + cashierDayStart;                     // Касса конец дня  (наличные)
+            ViewBag.CashEndDay = orderInformation.cash - sumOfAllExpenses + cashierDayStart + orderInformation.tireCeash;                     // Касса конец дня  (наличные)
 
             //итого доходы
-            ViewBag.TotalIncome = orderInformation.OrderCarWashSum + orderInformation.OrderDetailing + orderInformation.carpetOrder;
+            double goodsSoldResult = await GoodsSoldAnalytics();
+            ViewBag.TotalIncome = orderInformation.OrderCarWashSum + orderInformation.OrderDetailing + orderInformation.carpetOrder + goodsSoldResult;
 
             ViewBag.StartDate = DateTime.Now.ToString("D");
 
@@ -452,6 +458,19 @@ namespace CarDetailingStudio.Controllers
             ViewBag.TireCeash = orderInformation.tireCeash;                     // шиномонта наличные
         }
 
+        public async Task<double> GoodsSoldAnalytics()
+        {
+            var goodsSold = Mapper.Map<IEnumerable<GoodsSoldView>>(await _goodsSold.Reports(DateTime.Now));
+
+            double resultReturn = goodsSold.Sum(s => s.orderPrice).Value;
+
+            ViewBag.CauntGoodsSold = goodsSold.Sum(x => x.amount); // Количество проданных товаров
+            ViewBag.SumGoodsSold = resultReturn; // Касса проданных товаров
+            ViewBag.SumAdminstrator = goodsSold.Sum(admin => admin.percentageOfSale); // Зп админа
+
+            return resultReturn;
+        }
+            
         public void CarpetViewBag(EmployeeSalariesView employeeSalaries,
                                OrderInformationWashingDetailingView orderInformation)
         {
@@ -467,8 +486,6 @@ namespace CarDetailingStudio.Controllers
         {
             ViewBag.OrderCarWashSum = orderInformation.OrderCarWashSum; // Касса мойки
             ViewBag.OrderCount = orderInformation.OrderCount; // Количество Авто мойка
-
-
         }
 
         public void Detailings(EmployeeSalariesView employeeSalaries,

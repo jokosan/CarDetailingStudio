@@ -1,5 +1,7 @@
 ﻿using CarDetailingStudio.BLL.Services.ExpensesServices;
 using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
+using CarDetailingStudio.BLL.Services.Modules.Wage;
+using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<ISalaryExpenses>().To<SalaryExpensesServices>();
             kernel.Bind<IUtilityCosts>().To<UtilityCostsServices>();
             kernel.Bind<IExpenseCategory>().To<ExpenseCategoryServices>();
+            kernel.Bind<ITotalMonthlySalaryModules>().To<TotalMonthlySalaryModules>();
         }
     }
 }

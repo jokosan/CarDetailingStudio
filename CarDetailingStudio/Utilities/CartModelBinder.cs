@@ -20,7 +20,6 @@ namespace CarDetailingStudio.Utilities
             }
 
             // Создать экземрляр Cart если он не обноружен в данных сеанса
-
             if (cart == null)
             {
                 cart = new Cart();

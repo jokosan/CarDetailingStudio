@@ -14,6 +14,7 @@ namespace CarDetailingStudio.Models.ModelViews
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+        [Display (Name ="Название группы")]
         public string group { get; set; }
 
         public virtual ICollection<DetailingsView> Detailings { get; set; }

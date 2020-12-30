@@ -12,18 +12,27 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 {
     public class DayResult : IDayResult
     {
-        private IOrderCarWashWorkersServices _orderCarWashWorkersServices;
-        private IWagesForDaysWorkedGroup _wagesForDays;
-        private ISalaryBalanceService _salaryBalance;
-        private IBonusToSalary _bonusToSalary;
+        private readonly IOrderCarWashWorkersServices _orderCarWashWorkersServices;
+        private readonly IWagesForDaysWorkedGroup _wagesForDays;
+        private readonly ISalaryBalanceService _salaryBalance;
+        private readonly IBonusToSalary _bonusToSalary;
+        private readonly ISalaryArchive _salaryArchive;
+        private readonly IEmployeeRate _employeeRate;
 
-        public DayResult(IOrderCarWashWorkersServices orderCarWashWorkersServices, IWagesForDaysWorkedGroup wagesForDays,
-                         ISalaryBalanceService salaryBalance, IBonusToSalary bonusToSalary)
+        public DayResult(
+            IOrderCarWashWorkersServices orderCarWashWorkersServices,
+            IWagesForDaysWorkedGroup wagesForDays,
+            ISalaryBalanceService salaryBalance,
+            IBonusToSalary bonusToSalary,
+            ISalaryArchive salaryArchive,
+            IEmployeeRate employeeRate)
         {
             _orderCarWashWorkersServices = orderCarWashWorkersServices;
             _wagesForDays = wagesForDays;
             _salaryBalance = salaryBalance;
             _bonusToSalary = bonusToSalary;
+            _salaryArchive = salaryArchive;
+            _employeeRate = employeeRate;
         }
 
         public async Task<IEnumerable<DayResultModelBll>> DayResultViewInfo()
@@ -40,13 +49,12 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                                       calculationStatus = y.First().CalculationStatus,
                                       payroll = y.Sum(s => s.Payroll),
                                       salaryDate = test(y.First().salaryDate)
-
                                   });
         }
 
         public async Task<IEnumerable<DayResultModelBll>> TotalForEachEmployee()
         {
-            var result = await _orderCarWashWorkersServices.GetTableInclud();
+            var result = await _orderCarWashWorkersServices.GetTableInclud(DateTime.Now.Month, DateTime.Now.Year);
             return GrupDayResult(result);
         }
 
@@ -71,23 +79,33 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 
         public double? TotalPayroll(int idCarWash)
         {
-            var viewResult = Task.Run(() => _wagesForDays.DayOrderResult(idCarWash)).Result;
+            var viewResult = Task.Run(() => _wagesForDays.MonthOrderResult(idCarWash, DateTime.Now.Month, DateTime.Now.Year)).Result;
             var payouts = Task.Run(() => _salaryBalance.SelectIdToDate(idCarWash, DateTime.Now)).Result;
             var salaryBalance = Task.Run(() => _salaryBalance.LastMonthBalance(idCarWash)).Result;
-            var bonusSalary = Task.Run(() => _bonusToSalary.WhereMontsBonusToSalary()).Result;
+            var bonusSalary = Task.Run(() => _bonusToSalary.WhereMontsBonusToSalary(idCarWash)).Result;
+            var salaryArchive = Task.Run(() => _salaryArchive.LastMonth(idCarWash)).Result;
+            var employeeRate = Task.Run(() => _employeeRate.WherySumRate(idCarWash)).Result;
 
             double monthlySalary = viewResult.Sum(s => s.payroll).Value;
             double paidPerMonth = payouts.Sum(s => s.payoutAmount).Value;
             double bonus = bonusSalary.Sum(s => s.amount).Value;
+            double rate = employeeRate.Sum(s => s.wage).Value;
 
             double lastMonthBalance = 0;
+            double resultSalaryArchive = 0;
+         
+            if (salaryArchive != null)
+            {
+                resultSalaryArchive = salaryArchive.balanceAtTheEndOfTheMonth.Value;
+            }
 
             if (salaryBalance != null)
             {
                 lastMonthBalance = salaryBalance.accountBalance.Value - salaryBalance.payoutAmount.Value;
             }
 
-            return Math.Round(monthlySalary - paidPerMonth + lastMonthBalance + bonus, 3);
+            return Math.Round(monthlySalary - paidPerMonth + lastMonthBalance + resultSalaryArchive + bonus + rate, 3);
         }
     }
 }
+

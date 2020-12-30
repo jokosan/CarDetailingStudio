@@ -51,7 +51,8 @@ namespace CarDetailingStudio.Controllers
             {
                 return HttpNotFound();
             }
-            return View(bonusToSalaryView);
+
+            return View(bonusToSalaryView.OrderByDescending(x => x.idBonusToSalary));
         }
 
         // GET: BonusToSalary/Create
@@ -91,7 +92,6 @@ namespace CarDetailingStudio.Controllers
             {
                 return HttpNotFound();
             }
-
             
             ViewBag.carWashWorkersId = new SelectList(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _carWashWorkers.GetTable()), "id", "Name", bonusToSalaryView.carWashWorkersId);
             return View(bonusToSalaryView);

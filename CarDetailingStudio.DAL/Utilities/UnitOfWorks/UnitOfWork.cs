@@ -41,6 +41,8 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<utilityCostsCategory> utilityCostsCategoryUW;
         private DbRepository<costCategories> costCategoriesUW;
         private DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUW;
+        private DbRepository<salaryArchive> salaryArchiveUW;
+        private DbRepository<EmployeeRate> EmployeeRateUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -48,15 +50,27 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private BrigadeForTodayRepository BrigadeUW;
         private ServisesCarWashOrderRepository ServisesUW;
         private OrderInfoViewRepository OrderInfoUW;
+        
 
-        // Вреенное решение
+        // Временное решение
         private DbRepository<AdditionalIncome> AdditionalIncomeUW;
+
+        public DbRepository<EmployeeRate> EmployeeRateUnitOfWork
+        {
+            get => EmployeeRateUW ?? (EmployeeRateUW = new DbRepository<EmployeeRate>(_entities));
+            set => EmployeeRateUW = value;
+        }
 
         public DbRepository<AdditionalIncome> AdditionalIncomeUnitOfWork
         {
             get => AdditionalIncomeUW ?? (AdditionalIncomeUW = new DbRepository<AdditionalIncome>(_entities));
             set => AdditionalIncomeUW = value;
+        }
 
+        public DbRepository<salaryArchive> salaryArchiveUnitOfWork
+        {
+            get => salaryArchiveUW ?? (salaryArchiveUW = new DbRepository<salaryArchive>(_entities));
+            set => salaryArchiveUW = value;
         }
 
         public DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUnitOfWork
@@ -396,7 +410,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
             await _entities.SaveChangesAsync();
         }
 
-       
+
         #endregion
     }
 }

@@ -6,6 +6,8 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using CarDetailingStudio.DAL;
+
 namespace CarDetailingStudio.BLL.Services
 {
     public class GroupWash_Services : IGroupWashServices
@@ -45,5 +47,19 @@ namespace CarDetailingStudio.BLL.Services
             var resultGroup = await GetAllTable();
             return resultGroup.Where(x => idServices.Contains(x.Id));
         }
+
+        public async Task Insert(GroupWashServicesBll element)
+        {
+            _unitOfWork.GroupWashServicesUnitOfWork.Insert(TransformAnEntity(element));
+            await _unitOfWork.Save();
+        }
+
+        public async Task Update(GroupWashServicesBll elementToUpdate)
+        {
+            _unitOfWork.GroupWashServicesUnitOfWork.Update(TransformAnEntity(elementToUpdate));
+            await _unitOfWork.Save();
+        }
+
+        private GroupWashServices TransformAnEntity(GroupWashServicesBll entity) => Mapper.Map<GroupWashServicesBll, GroupWashServices>(entity);
     }
 }

@@ -68,6 +68,7 @@ namespace CarDetailingStudio.Controllers.TireStorage
             return View(Mapper.Map<IEnumerable<TireStorageView>>(await _tireStorage.GetTableAll()));
         }
 
+        IEnumerable<AdditionalTireStorageServicesView> getAdditionalTireStorageServices;
         [HttpGet]
         public async Task<ActionResult> InfoOrderTireStorage(int? idOrder)
         {
@@ -78,7 +79,10 @@ namespace CarDetailingStudio.Controllers.TireStorage
 
             var order = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrder));
             var tireStorage = Mapper.Map<TireStorageView>(await _tireStorage.GetOrderId(idOrder.Value));
-            var getAdditionalTireStorageServices = Mapper.Map<IEnumerable<AdditionalTireStorageServicesView>>(await _additionalTireStorageServices.GetOrderId(tireStorage.RelatedOrders.Value));
+
+           
+            if (tireStorage != null)            
+                getAdditionalTireStorageServices = Mapper.Map<IEnumerable<AdditionalTireStorageServicesView>>(await _additionalTireStorageServices.GetOrderId(tireStorage.RelatedOrders.Value));
             var client = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(order.IdClientsOfCarWash));
 
             ViewBag.Order = order;
@@ -129,7 +133,7 @@ namespace CarDetailingStudio.Controllers.TireStorage
         [ValidateAntiForgeryToken]
         public ActionResult CreateTireStorageOrder([Bind(Include = "Id,ClientId,carWashWorkersId,dateOfAdoption,quantity,radius,firm,discAvailability,storageFeeId,tireStorageBags,wheelWash,IdOrderServicesCarWash,silicone,storageTime")] OrderTireStorageModelView tireStorageView,
                                                     int customer)
-   
+
         {
             if (ModelState.IsValid)
             {

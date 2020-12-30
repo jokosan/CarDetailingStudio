@@ -175,7 +175,6 @@ namespace CarDetailingStudio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-
             var Order = Mapper.Map<OrderServicesCarWashView>(await _order.GetId(id));
             var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(id));
             var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());

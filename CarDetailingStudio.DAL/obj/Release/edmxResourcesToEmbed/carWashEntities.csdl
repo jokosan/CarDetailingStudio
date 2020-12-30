@@ -34,6 +34,7 @@
     <Property Name="IdCarWashWorkers" Type="Int32" />
     <Property Name="StatusId" Type="Int32" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_brigadeForToday_CarWashWorkers" FromRole="brigadeForToday" ToRole="CarWashWorkers" />
+    <NavigationProperty Name="EmployeeRate" Relationship="carWashServerModel.FK_EmployeeRate_brigadeForToday" FromRole="brigadeForToday" ToRole="EmployeeRate" />
   </EntityType>
   <EntityType Name="car_generation">
     <Key>
@@ -143,6 +144,7 @@
     <NavigationProperty Name="OrderCarWashWorkers" Relationship="Self.FK_OrderCarWashWorkers_CarWashWorkers" FromRole="CarWashWorkers" ToRole="OrderCarWashWorkers" />
     <NavigationProperty Name="salaryBalance" Relationship="Self.FK_salaryBalance_CarWashWorkers" FromRole="CarWashWorkers" ToRole="salaryBalance" />
     <NavigationProperty Name="salaryExpenses" Relationship="Self.FK_salaryExpenses_CarWashWorkers" FromRole="CarWashWorkers" ToRole="salaryExpenses" />
+    <NavigationProperty Name="salaryArchive" Relationship="carWashServerModel.FK_salaryArchive_CarWashWorkers" FromRole="CarWashWorkers" ToRole="salaryArchive" />
   </EntityType>
   <EntityType Name="Cashier">
     <Key>
@@ -241,6 +243,7 @@
     <Property Name="forUnit" Type="Boolean" />
     <NavigationProperty Name="GroupWashServices" Relationship="Self.FK_Detailings_GroupWashServices" FromRole="Detailings" ToRole="GroupWashServices" />
     <NavigationProperty Name="ServisesCarWashOrder" Relationship="Self.FK_ServisesCarWashOrder_Detailings" FromRole="Detailings" ToRole="ServisesCarWashOrder" />
+    <Property Name="sorting" Type="Int32" />
   </EntityType>
   <EntityType Name="ExchangeRates">
     <Key>
@@ -1288,6 +1291,16 @@
       <End Role="listOfGoods" EntitySet="listOfGoods" />
       <End Role="procurement" EntitySet="procurement" />
     </AssociationSet>
+    <EntitySet Name="salaryArchive" EntityType="carWashServerModel.salaryArchive" />
+    <AssociationSet Name="FK_salaryArchive_CarWashWorkers" Association="carWashServerModel.FK_salaryArchive_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="salaryArchive" EntitySet="salaryArchive" />
+    </AssociationSet>
+    <EntitySet Name="EmployeeRate" EntityType="carWashServerModel.EmployeeRate" />
+    <AssociationSet Name="FK_EmployeeRate_brigadeForToday" Association="carWashServerModel.FK_EmployeeRate_brigadeForToday">
+      <End Role="brigadeForToday" EntitySet="brigadeForToday" />
+      <End Role="EmployeeRate" EntitySet="EmployeeRate" />
+    </AssociationSet>
   </EntityContainer>
   <Association Name="FK_Expenses_costCategories">
     <End Type="carWashServerModel.costCategories" Role="costCategories" Multiplicity="0..1" />
@@ -1408,6 +1421,55 @@
       </Principal>
       <Dependent Role="procurement">
         <PropertyRef Name="ListOfGoodsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="salaryArchive">
+    <Key>
+      <PropertyRef Name="idSalaryArchive" />
+    </Key>
+    <Property Name="idSalaryArchive" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="carWashWorkersId" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+    <Property Name="amountOfCompletedOrders" Type="Int32" />
+    <Property Name="monthlySalaryAmountEarned" Type="Double" />
+    <Property Name="monthlySalaryAmountReceived" Type="Double" />
+    <Property Name="balanceAtTheEndOfTheMonth" Type="Double" />
+    <Property Name="salaryStatus" Type="Boolean" />
+    <NavigationProperty Name="CarWashWorkers" Relationship="carWashServerModel.FK_salaryArchive_CarWashWorkers" FromRole="salaryArchive" ToRole="CarWashWorkers" />
+  </EntityType>
+  <Association Name="FK_salaryArchive_CarWashWorkers">
+    <End Type="carWashServerModel.CarWashWorkers" Role="CarWashWorkers" Multiplicity="1" />
+    <End Type="carWashServerModel.salaryArchive" Role="salaryArchive" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="salaryArchive">
+        <PropertyRef Name="carWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="EmployeeRate">
+    <Key>
+      <PropertyRef Name="idEmployeeRate" />
+    </Key>
+    <Property Name="idEmployeeRate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="brigadeForTodayId" Type="Int32" />
+    <Property Name="numberHoursWorked" Type="Int32" />
+    <Property Name="hourlyRate" Type="Double" />
+    <Property Name="wage" Type="Double" />
+    <NavigationProperty Name="brigadeForToday" Relationship="carWashServerModel.FK_EmployeeRate_brigadeForToday" FromRole="EmployeeRate" ToRole="brigadeForToday" />
+  </EntityType>
+  <Association Name="FK_EmployeeRate_brigadeForToday">
+    <End Type="carWashServerModel.brigadeForToday" Role="brigadeForToday" Multiplicity="0..1" />
+    <End Type="carWashServerModel.EmployeeRate" Role="EmployeeRate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="brigadeForToday">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="EmployeeRate">
+        <PropertyRef Name="brigadeForTodayId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

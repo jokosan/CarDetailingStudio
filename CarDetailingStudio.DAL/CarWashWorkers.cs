@@ -23,6 +23,7 @@ namespace CarDetailingStudio.DAL
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkers>();
             this.salaryBalance = new HashSet<salaryBalance>();
             this.salaryExpenses = new HashSet<salaryExpenses>();
+            this.salaryArchive = new HashSet<salaryArchive>();
         }
     
         public int id { get; set; }
@@ -53,5 +54,7 @@ namespace CarDetailingStudio.DAL
         public virtual ICollection<salaryBalance> salaryBalance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<salaryExpenses> salaryExpenses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<salaryArchive> salaryArchive { get; set; }
     }
 }

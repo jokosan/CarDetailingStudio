@@ -2,6 +2,7 @@
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
+using CarDetailingStudio.BLL.Services.Modules.EmployeeRate;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
 using System;
@@ -20,18 +21,28 @@ namespace CarDetailingStudio.Controllers
         private IOrderServicesCarWashServices _orderServices;
         private IOrderCarWashWorkersServices _orderCarWashWorker;
         private ICarWashWorkersServices _carWashWorkers;
-        private ICashier _cashier;       
+        private ICashier _cashier;
+        private IBrigadeForTodayServices _brigadeForToday;
+        private IEmployeeRateModules _employeeRate;
 
-        public ItogOrderController(IDayResult dayResult, ICloseShiftModule closeShiftModule,
-                                   IOrderServicesCarWashServices orderServices, IOrderCarWashWorkersServices orderCarWashWorkers,
-                                   ICarWashWorkersServices carWashWorkers, ICashier cashier)
+        public ItogOrderController(
+            IDayResult dayResult,
+            ICloseShiftModule closeShiftModule,
+            IOrderServicesCarWashServices orderServices,
+            IOrderCarWashWorkersServices orderCarWashWorkers,
+            ICarWashWorkersServices carWashWorkers,
+            ICashier cashier,
+            IBrigadeForTodayServices brigadeForToday,
+            IEmployeeRateModules employeeRate)
         {
             _dayResult = dayResult;
             _closeShiftModule = closeShiftModule;
             _orderServices = orderServices;
             _orderCarWashWorker = orderCarWashWorkers;
             _carWashWorkers = carWashWorkers;
-            _cashier = cashier;        
+            _cashier = cashier;
+            _brigadeForToday = brigadeForToday;
+            _employeeRate = employeeRate;
         }
 
         // GET: OrderInfoViewModels
@@ -55,6 +66,7 @@ namespace CarDetailingStudio.Controllers
             {
                 await _closeShiftModule.CurrentShift();
                 await _cashier.EndDay();
+                await _employeeRate.ClosingShift(await _brigadeForToday.GetDateTimeNow(DateTime.Now));
                                
                 return RedirectToAction("SummaryOfTheDay", "Analytics", new RouteValueDictionary(new
                 {

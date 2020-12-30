@@ -14,10 +14,14 @@ namespace CarDetailingStudio.BLL.Services.Modules
     public class OrderServices : IOrderServices
     {
         private IUnitOfWork _unitOfWork;
+        private IDetailingsServises _detailingsServises;
 
-        public OrderServices(UnitOfWork unitOfWork)
+        public OrderServices(
+            IUnitOfWork unitOfWork,
+            IDetailingsServises detailingsServises)
         {
             _unitOfWork = unitOfWork;
+            _detailingsServises = detailingsServises;
         }
 
         public static int? idClient { get; set; }
@@ -66,7 +70,6 @@ namespace CarDetailingStudio.BLL.Services.Modules
             }
         }
 
-
         public async Task OrderPreview()
         {
             var AllDetailings = Mapper.Map<IEnumerable<DetailingsBll>>(await _unitOfWork.DetailingsUnitOfWork.Get());
@@ -76,16 +79,35 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
             foreach (var i in Atest)
             {
-                OrderList.Add(new DetailingsBll
+                if (i.currency == "us")
                 {
-                    Id = i.Id,
-                    services_list = i.services_list,
-                    forUnit = i.forUnit,
-                    S = i.S,
-                    M = i.M,
-                    L = i.L,
-                    XL = i.XL
-                });
+                    var ApiPrivat = await _detailingsServises.SourceOfChoice();
+
+                    OrderList.Add(new DetailingsBll
+                    {
+                        Id = i.Id,
+                        services_list = i.services_list,
+                        forUnit = i.forUnit,
+                        S = _detailingsServises.ConvertCurrency(i.S, ApiPrivat.buy.Value),
+                        M = _detailingsServises.ConvertCurrency(i.M, ApiPrivat.buy.Value),
+                        L = _detailingsServises.ConvertCurrency(i.L, ApiPrivat.buy.Value),
+                        XL = _detailingsServises.ConvertCurrency(i.XL, ApiPrivat.buy.Value),
+                    });
+                }
+                else
+                {
+                    OrderList.Add(new DetailingsBll
+                    {
+                        Id = i.Id,
+                        services_list = i.services_list,
+                        forUnit = i.forUnit,
+                        S = i.S,
+                        M = i.M,
+                        L = i.L,
+                        XL = i.XL
+                    });
+                }
+               
             }
 
             foreach (var item in whereResultServicecs)
@@ -97,7 +119,7 @@ namespace CarDetailingStudio.BLL.Services.Modules
                 OrderList.Find(f => f.Id == item.Key).XL = orderListSingl.XL * item.Value;
             }
         }
-
+        
         public double? OrderPrice()
         {
             var result = OrderList;

@@ -83,7 +83,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
         {                  
             return await DbSeT.Where(predicate).AsNoTracking().AsQueryable().ToListAsync();
         }
-
        
         public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate, string children)
         {
@@ -98,8 +97,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
         public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string children)
         {
             return await DbSeT.Include(children).Where(filter).AsNoTracking().ToListAsync();
-        }
-            
+        }            
 
         public async Task<IEnumerable<T>> QueryObjectGraph(Expression<Func<T, bool>> filter, string childrenOne, string childrenTwo)
         {

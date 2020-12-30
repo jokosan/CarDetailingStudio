@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                 
+
                     <table class="table">
                         <tr>
                             <th>
@@ -37,11 +37,10 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.amount)
                                 </td>
-                         
                                 <td>
                                     @Html.DisplayFor(modelItem => item.note)
                                 </td>
-                                <td>                    
+                                <td>
                                     @Html.ActionLink("Details", "Info", new { id = item.idBonusToSalary, idEmployee = item.carWashWorkersId, date = item.date })
                                 </td>
                             </tr>

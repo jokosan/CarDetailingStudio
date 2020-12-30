@@ -78,5 +78,7 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<listOfGoods> listOfGoods { get; set; }
         public virtual DbSet<procurement> procurement { get; set; }
         public virtual DbSet<ProductCategories> ProductCategories { get; set; }
+        public virtual DbSet<salaryArchive> salaryArchive { get; set; }
+        public virtual DbSet<EmployeeRate> EmployeeRate { get; set; }
     }
 }

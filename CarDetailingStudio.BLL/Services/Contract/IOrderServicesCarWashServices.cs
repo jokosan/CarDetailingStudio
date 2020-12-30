@@ -8,6 +8,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IOrderServicesCarWashServices : IReports<OrderServicesCarWashBll>
     {
+   
         Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage(int typeOfOrder, int statusOrder);
         Task<IEnumerable<OrderServicesCarWashBll>> ArxivOrder(int typeOfOrder, int statusOrder);
         Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder);

@@ -57,9 +57,9 @@ namespace CarDetailingStudio.BLL.Services
                         note = currencyUsd.note,
 
                         S = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
-                        M = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
-                        L = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
-                        XL = ConvertCurrency(currencyUsd.S, ApiCurrency.buy.Value),
+                        M = ConvertCurrency(currencyUsd.M, ApiCurrency.buy.Value),
+                        L = ConvertCurrency(currencyUsd.L, ApiCurrency.buy.Value),
+                        XL = ConvertCurrency(currencyUsd.XL, ApiCurrency.buy.Value),
                         group = currencyUsd.group,
                         status = currencyUsd.status,
                         currency = currencyUsd.currency,

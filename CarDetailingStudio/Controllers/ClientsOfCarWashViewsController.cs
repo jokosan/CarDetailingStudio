@@ -92,7 +92,6 @@ namespace CarDetailingStudio.Controllers
 
         public async Task<ActionResult> Checkout(int? services)
         {
-
             if (services != null)
             {
                 ServicesId = services;
@@ -139,8 +138,9 @@ namespace CarDetailingStudio.Controllers
             var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(id));
 
             Price = Mapper.Map<IEnumerable<DetailingsView>>(await _detailings.Converter());
+            Price = Price.Where(x => x.mark == false);
 
-            var tablePriceResult = Price.Where(x => x.IdTypeService == Services);
+            var tablePriceResult = Price.Where(x => x.IdTypeService == Services).OrderByDescending(x => x.sorting);
             var detailingsGrup = await _groupWashServices.GetIdAll(Services);
 
             ViewBag.Detailings = tablePriceResult;
@@ -185,7 +185,7 @@ namespace CarDetailingStudio.Controllers
 
                 var CustomerOrders = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(OrderServices.idClient));
 
-                var sum = _orderServices.OrderPrice();
+                var sum = Math.Ceiling(_orderServices.OrderPrice().Value);
                 var sumResult = sum + orederSum;
                 var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
 
@@ -221,7 +221,6 @@ namespace CarDetailingStudio.Controllers
                 }
 
                 await _orderServicesInsert.InsertOrders(service, carBody, id, sum, total);
-
             }
             else
             {
@@ -278,7 +277,6 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
             return View(client);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

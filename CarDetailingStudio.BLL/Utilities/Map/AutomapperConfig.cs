@@ -141,7 +141,9 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<GoodsSoldBll, goodsSold>().ReverseMap();
             CreateMap<ListOfGoodsBll, listOfGoods>().ReverseMap();
             CreateMap<ProductCategoriesBll, ProductCategories>().ReverseMap();
-            CreateMap<ProcurementBll, procurement>().ReverseMap();            
+            CreateMap<ProcurementBll, procurement>().ReverseMap();
+
+            CreateMap<EmployeeRateBll, EmployeeRate>().ReverseMap();
         }
     }
 }

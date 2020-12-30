@@ -43,7 +43,6 @@ namespace CarDetailingStudio.Controllers
             }
 
             return RedirectToAction("TodayShift");
-        }
-               
+        }               
     }
 }

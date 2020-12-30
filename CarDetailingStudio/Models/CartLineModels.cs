@@ -10,6 +10,5 @@ namespace CarDetailingStudio.Models
     {
         public ListOfGoodsView listOfGoodsView { get; set; }
         public int Quantity { get; set; }
-
     }
 }

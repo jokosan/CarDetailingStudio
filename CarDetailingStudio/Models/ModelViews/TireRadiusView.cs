@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CarDetailingStudio.Models.ModelViews
 {
-    public class TireRadiusView
+    public class TireRadiusView 
     {
         public TireRadiusView()
         {
@@ -23,6 +23,8 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [Display(Name = "Радиус")]
         public Nullable<int> number { get; set; }
+
+        public Nullable<int> id { get;set; }
 
         public virtual ICollection<PriceListTireFittingView> PriceListTireFitting { get; set; }
     }

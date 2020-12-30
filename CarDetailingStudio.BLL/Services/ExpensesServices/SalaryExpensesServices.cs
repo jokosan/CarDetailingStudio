@@ -20,6 +20,13 @@ namespace CarDetailingStudio.BLL.Services.ExpensesServices
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<IEnumerable<SalaryExpensesBll>> PayrollExpensesPerMonth(int? id, int month, int year) =>
+            Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.QueryObjectGraph(x => 
+                                                        x.idCarWashWorkers == id.Value 
+                                                        && x.Expenses.dateExpenses.Value.Month == month
+                                                        && x.Expenses.dateExpenses.Value.Year == year
+                                                        , "Expenses"));
+
         public async Task<IEnumerable<SalaryExpensesBll>> GetTableAll()
         {
             return Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.GetInclude("CarWashWorkers"));

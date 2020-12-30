@@ -241,6 +241,8 @@ namespace CarDetailingStudio.BLL.Services
         }
 
         #region Отчеты
+       
+
         public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime datepresentDay)
         {
             return Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x => DbFunctions.TruncateTime(x.OrderDate.Value) == datepresentDay.Date));

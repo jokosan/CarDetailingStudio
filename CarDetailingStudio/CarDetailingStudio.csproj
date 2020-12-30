@@ -253,6 +253,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AdditionalIncomeController.cs" />
     <Compile Include="Controllers\Administration\AdminController.cs" />
+    <Compile Include="Controllers\Administration\GroupWashServices.cs" />
     <Compile Include="Controllers\Administration\PriceTireFittingAdditionalServices.cs" />
     <Compile Include="Controllers\AllExpensesController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
@@ -260,11 +261,13 @@
     <Compile Include="Controllers\CashierController.cs" />
     <Compile Include="Controllers\ClientInfoController.cs" />
     <Compile Include="Controllers\ClientsGroupsController.cs" />
+    <Compile Include="Controllers\EmployeeRateController.cs" />
     <Compile Include="Controllers\Expenses\ExpensesController.cs" />
     <Compile Include="Controllers\Expenses\SalaryExpensesController.cs" />
     <Compile Include="Controllers\Expenses\UtilityCostsController.cs" />
     <Compile Include="Controllers\OrderCarpetWashingController.cs" />
     <Compile Include="Controllers\PriceListTireChangeServicesController.cs" />
+    <Compile Include="Controllers\SalaryArchiveController.cs" />
     <Compile Include="Controllers\TireChangeServiceController.cs" />
     <Compile Include="Controllers\TireServiceController.cs" />
     <Compile Include="Controllers\TireStorage\TireStorageController.cs" />
@@ -273,6 +276,7 @@
     <Compile Include="Controllers\Trade\ShopController.cs" />
     <Compile Include="Filters\InitialAmountFilter.cs" />
     <Compile Include="Filters\PreviousShiftStatusFilter.cs" />
+    <Compile Include="Filters\TotalMonthlySalary.cs" />
     <Compile Include="Models\AllExpenses.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\CarJoinClientModel.cs" />
@@ -284,12 +288,14 @@
     <Compile Include="Models\EmployeeSalariesView.cs" />
     <Compile Include="Models\ExpenseCategoryGroupView.cs" />
     <Compile Include="Models\GeneralExpensesModels.cs" />
+    <Compile Include="Models\IdModels.cs" />
     <Compile Include="Models\ModelViews\AdditionalIncomeView.cs" />
     <Compile Include="Models\ModelViews\AdditionalTireStorageServicesView.cs" />
     <Compile Include="Models\ModelViews\BonusToSalaryGroupView.cs" />
     <Compile Include="Models\ModelViews\BonusToSalaryView.cs" />
     <Compile Include="Models\ModelViews\CashierView.cs" />
     <Compile Include="Models\ModelViews\CostCategoriesView.cs" />
+    <Compile Include="Models\ModelViews\EmployeeRateView.cs" />
     <Compile Include="Models\ModelViews\ExpenseCategoryView.cs" />
     <Compile Include="Models\ModelViews\ExpensesView.cs" />
     <Compile Include="Models\ModelViews\GoodsSoldView.cs" />
@@ -299,6 +305,7 @@
     <Compile Include="Models\ModelViews\PriceListTireFittingView.cs" />
     <Compile Include="Models\ModelViews\ProcurementView.cs" />
     <Compile Include="Models\ModelViews\ProductCategoriesView.cs" />
+    <Compile Include="Models\ModelViews\SalaryArchiveView.cs" />
     <Compile Include="Models\ModelViews\SalaryBalanceView.cs" />
     <Compile Include="Models\ModelViews\SalaryExpensesView.cs" />
     <Compile Include="Models\ModelViews\ServisesCarWashOrderView.cs" />
@@ -1416,6 +1423,11 @@
     <Content Include="Views\AdditionalIncome\Index.cshtml" />
     <Content Include="Views\AdditionalIncome\Create.cshtml" />
     <Content Include="Views\AdditionalIncome\Edit.cshtml" />
+    <Content Include="Views\Admin\GroupWashTable.cshtml" />
+    <Content Include="Views\Admin\GroupWashAdd.cshtml" />
+    <Content Include="Views\SalaryArchive\SalaryArchive.cshtml" />
+    <Content Include="Views\Cashier\Index.cshtml" />
+    <Content Include="Views\EmployeeRate\ArxivRate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

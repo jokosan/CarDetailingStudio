@@ -12,13 +12,18 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
         private IDayResult _dayResult;
         private IBonusModules _bonusModules;
+        private ICarWashWorkersServices _carWashWorkers;
 
-        public CloseShiftModule(IOrderCarWashWorkersServices orderCarWashWorkers, IDayResult dayResult,
-             IBonusModules bonusModules)
+        public CloseShiftModule(
+            IOrderCarWashWorkersServices orderCarWashWorkers,
+            IDayResult dayResult,
+            IBonusModules bonusModules,
+            ICarWashWorkersServices carWashWorkers)
         {
             _orderCarWashWorkers = orderCarWashWorkers;
             _dayResult = dayResult;
             _bonusModules = bonusModules;
+            _carWashWorkers = carWashWorkers;
         }
 
         public async Task CurrentShift()
@@ -45,25 +50,29 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                     await _orderCarWashWorkers.UpdateOrderCarWashWorkers(orderCarWashWorkers);
                 }
 
-                await _bonusModules.PremiumAccrual(itemShift.carWashWorkersId, itemShift.payroll.Value);
+                var resultCarWashWorkers = await _carWashWorkers.CarWashWorkersId(itemShift.carWashWorkersId);
+                var InterestRate = (double)resultCarWashWorkers.InterestRate.Value / 100;
+
+                if (resultCarWashWorkers.IdPosition >= 3)
+                {
+                    await _bonusModules.PremiumAccrual(itemShift.carWashWorkersId, itemShift.payroll.Value / InterestRate);
+                }
+                else
+                {
+                    var bonusAdmin = await _orderCarWashWorkers.SampleForPayroll(itemShift.carWashWorkersId, DateTime.Now);
+                   
+                    var test1 = bonusAdmin.Where(x => x.typeServicesId == 4).Sum(s => s.Payroll);
+                    var test2 = bonusAdmin.Where(x => x.typeServicesId == 6).Sum(s => s.Payroll);
+                    var test3 = bonusAdmin.Where(x => x.typeServicesId == 8).Sum(s => s.Payroll);
+                    var test4 = bonusAdmin.Where(x => x.typeServicesId == 10).Sum(s => s.Payroll);
+
+                    var result = test1 + test2 + test3 + test4;
+
+                    await _bonusModules.PremiumAccrual(itemShift.carWashWorkersId, itemShift.payroll.Value / InterestRate);
+                }
             }
         }
 
-        //  выбираем количество дней за которые будет производиться расчет ЗП
-        //public void PartPayroll(List<string> idCureentShift)
-        //{
-        //    foreach (var idShift in idCureentShift)
-        //    {
-        //        var pay = _orderCarWashWorkers.СontractorAllId(Convert.ToInt32(idShift));
-
-        //        foreach (var idDey in pay)
-        //        {
-        //            idDey.salaryDate = DateTime.Now;
-        //            idDey.CalculationStatus = true;
-
-        //            _orderCarWashWorkers.UpdateOrderCarWashWorkers(idDey);
-        //        }
-        //    }
-        //}
+        private async Task BonusAdd(int carWashWorkers, double payroll) => await _bonusModules.PremiumAccrual(carWashWorkers, payroll);
     }
 }

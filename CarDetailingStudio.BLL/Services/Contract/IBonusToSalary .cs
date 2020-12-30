@@ -12,6 +12,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
     {
         Task<IEnumerable<BonusToSalaryBll>> GetTableAll(int? elementId);
         Task<IEnumerable<BonusToSalaryGroupBll>> TableGroup();
-        Task<IEnumerable<BonusToSalaryBll>> WhereMontsBonusToSalary();
+        Task<IEnumerable<BonusToSalaryBll>> WhereMontsBonusToSalary(int idCarWash);
     }
 }

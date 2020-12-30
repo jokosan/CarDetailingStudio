@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -278,7 +279,7 @@
                             <ul aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href=@Url.Action("../ItogOrder/DayResult") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Зарплата за текущий день </span></a></li>
                                 <li class="sidebar-item"><a href=@Url.Action("../ShiftClosure/ShiftInformation") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Выплата заработной платы </span></a></li>
-                                <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Кредит </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../BonusToSalary/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Премии </span></a></li>
                             </ul>
                         </li>
 
@@ -296,6 +297,10 @@
                                 <li class="sidebar-item"><a href=@Url.Action("../CarWashWorkersViews/StaffArxiv") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Уволенные сотрудники </span></a></li>
                                 <li class="sidebar-item"><a href=@Url.Action("../Expenses/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Расходы </span></a></li>
                                 <li class="sidebar-item"><a href=@Url.Action("../Shop/OrderShopArxiv") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Товары </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../SalaryArchive/SalaryArchive") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Заработная плата </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../Cashier/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Итоги дня </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../EmployeeRate/ArxivRate") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Ставка за день </span></a></li>
+
                             </ul>
                         </li>
 
@@ -315,6 +320,7 @@
                                 <li class="sidebar-item"><a href=@Url.Action("../ClientsGroups/Index") class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Группы клиентов</span></a></li>
                                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-multiplication-box"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
                                 <li class="sidebar-item"><a href=@Url.Action("../Admin/IndexPriceListTireFittingAdditionalServices") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">  Шиномонтаж услуги</span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../Admin/GroupWashTable") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">  Категории прайса</span></a></li>
                                 @*<li class="sidebar-item"><a href=@Url.Action("../ClientsGroups/Index") class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span class="hide-menu"> Услуги </span></a></li>*@
                                 @*<li class="sidebar-item"><a href="pages-chat.html" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span class="hide-menu"> Chat Option </span></a></li>*@
                             </ul>

@@ -89,8 +89,9 @@ namespace CarDetailingStudio.Controllers.Trade
             if (ModelState.IsValid)
             {
                 await _listOfGoods.Update(TransformEntity(listOfGoodsView));
-                return RedirectToAction("Index");
+                return RedirectToAction("PriceList");
             }
+
             ViewBag.Categories = new SelectList(await _productCategories.GetTableAll(), "idProductСategories", "Name", listOfGoodsView.productCategoriesId);
             return View(listOfGoodsView);
         }

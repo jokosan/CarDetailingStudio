@@ -40,9 +40,10 @@ namespace CarDetailingStudio.BLL.Services.TireFitting
             return Mapper.Map<IEnumerable<PriceListTireFittingBll>>(await _unitOfWork.PriceListTireFittingUnitOfWork.QueryObjectGraph(x => id.Contains(x.idPriceListTireFitting), "TireRadius"));
         }
 
-        public async Task<IEnumerable<PriceListTireFittingBll>> SelectRadius(List<int> idRadius, int typyCar)
+        public async Task<IEnumerable<PriceListTireFittingBll>> SelectRadius(int idRadius)
         {
-            return Mapper.Map<IEnumerable<PriceListTireFittingBll>>(await _unitOfWork.PriceListTireFittingUnitOfWork.QueryObjectGraph(x => idRadius.Contains(x.TireRadiusId.Value) && x.TypeOfCarsId == typyCar, "TireRadius"));
+            var radius = await _unitOfWork.PriceListTireFittingUnitOfWork.GetById(idRadius);
+            return Mapper.Map<IEnumerable<PriceListTireFittingBll>>(await _unitOfWork.PriceListTireFittingUnitOfWork.QueryObjectGraph(x => x.TireRadiusId == radius.TireRadiusId && x.TypeOfCarsId == radius.TypeOfCarsId, "TireRadius"));
         }
 
         private PriceListTireFitting TransformEntity(PriceListTireFittingBll entity) => Mapper.Map<PriceListTireFittingBll, PriceListTireFitting>(entity);

@@ -176,6 +176,9 @@
     <Compile Include="Detailings.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmployeeRate.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="ExchangeRates.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -247,6 +250,9 @@
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="salaryArchive.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="salaryBalance.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>

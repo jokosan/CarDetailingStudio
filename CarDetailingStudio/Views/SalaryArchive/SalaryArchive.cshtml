@@ -1,0 +1,76 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.SalaryArchiveView>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Фильтр по месяцу</h5>
+                @foreach (var item in ViewBag.MonthName)
+                {
+                    <a href=@Url.Action("../SalaryArchive/SalaryArchive", new {  dateView = DateTime.Now.AddMonths(-(DateTime.Now.Month - item.Key))}) class="btn btn-light btn-sm">@item.Value</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.CarWashWorkers.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.amountOfCompletedOrders)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.monthlySalaryAmountEarned)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.monthlySalaryAmountReceived)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.balanceAtTheEndOfTheMonth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.salaryStatus)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarWashWorkers.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.amountOfCompletedOrders)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.monthlySalaryAmountEarned)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.monthlySalaryAmountReceived)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.balanceAtTheEndOfTheMonth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.salaryStatus)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idSalaryArchive }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idSalaryArchive }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idSalaryArchive })
+        </td>
+    </tr>
+}
+
+</table>

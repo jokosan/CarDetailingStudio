@@ -13,6 +13,7 @@ namespace CarDetailingStudio.Models.ModelViews
         {
             this.salaryExpenses = new HashSet<SalaryExpensesView>();
             this.utilityCosts = new HashSet<UtilityCostsView>();
+            this.procurement = new HashSet<ProcurementView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,9 +29,10 @@ namespace CarDetailingStudio.Models.ModelViews
         public string note { get; set; }
         public Nullable<int> idCostCategories { get; set; }
 
-        public virtual CostCategoriesView costCategories { get; set; }
         public virtual ExpenseCategoryView expenseCategory { get; set; }
         public virtual ICollection<SalaryExpensesView> salaryExpenses { get; set; }
         public virtual ICollection<UtilityCostsView> utilityCosts { get; set; }
+        public virtual CostCategoriesView costCategories { get; set; }
+        public virtual ICollection<ProcurementView> procurement { get; set; }
     }
 }

@@ -82,10 +82,11 @@ namespace CarDetailingStudio.BLL.Services
                                                                                                                 && (DbFunctions.TruncateTime(x.date.Value) <= finalDate.Date)));
         }
 
-        public async Task<IEnumerable<BonusToSalaryBll>> WhereMontsBonusToSalary()
+        public async Task<IEnumerable<BonusToSalaryBll>> WhereMontsBonusToSalary(int idCarWash)
         {
-            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => (x.date.Value.Month == DateTime.Now.Month)
-                                                                                                                  && (x.date.Value.Year == DateTime.Now.Year)));
+            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => (x.date.Value.Month == DateTime.Now.Month
+                                                                                                                  && x.date.Value.Year == DateTime.Now.Year) 
+                                                                                                                  && x.carWashWorkersId == idCarWash));
         }
     }
 }

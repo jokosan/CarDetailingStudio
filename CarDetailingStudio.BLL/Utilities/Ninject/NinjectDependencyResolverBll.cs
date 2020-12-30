@@ -12,6 +12,7 @@ using CarDetailingStudio.BLL.Services.Modules.Clients.Contract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
 using CarDetailingStudio.BLL.Services.Modules.Contract;
+using CarDetailingStudio.BLL.Services.Modules.EmployeeRate;
 using CarDetailingStudio.BLL.Services.Modules.TireStorage;
 using CarDetailingStudio.BLL.Services.Modules.TireStorage.Contract;
 using CarDetailingStudio.BLL.Services.Modules.Wage;
@@ -84,10 +85,12 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<ITypeOfCars>().To<TypeOfCarsServices>();
 
             kernel.Bind<ICreateOrderModule>().To<CreateOrderModule>();
+            kernel.Bind<ISalaryArchive>().To<SalaryArchiveServices>();
 
             // Временное решение 
             kernel.Bind<IAdditionalIncome>().To<AdditionalIncomeServices>();
 
+            NinjectEmployeeRate.Initialize(kernel);
             NinjectExpenses.Initialize(kernel);
             NinjectOrder.Initialize(kernel);
             NinjectDependencyResolverDAL.Initialize(kernel);

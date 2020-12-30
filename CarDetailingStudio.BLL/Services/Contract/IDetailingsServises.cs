@@ -14,5 +14,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task UpdateServices(DetailingsBll updateServices);
         Task<DetailingsBll> GetId(int? id);
         Task<IEnumerable<DetailingsBll>> GetPriceGroupWashServices(int idGroup);
+        Task<ExchangeRatesBll> SourceOfChoice();
     }
 }

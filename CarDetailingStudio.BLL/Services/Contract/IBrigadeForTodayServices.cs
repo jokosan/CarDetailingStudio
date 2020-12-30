@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
-    public interface IBrigadeForTodayServices : IReports<BrigadeForTodayBll>
+    public interface IBrigadeForTodayServices : IReports<BrigadeForTodayBll>, IDatabaseOperations<BrigadeForTodayBll>
     {
         Task<BrigadeForTodayBll> CurrentShift(DateTime date, int id);
         Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow();
+        Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow(DateTime date);
         Task<bool> AdminTrue(DateTime date, int ststus);
         Task<BrigadeForTodayBll> GetId(int id);
         Task RemoveFromBrigade(int id);

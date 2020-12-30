@@ -27,7 +27,7 @@ namespace CarDetailingStudio.Controllers
         // GET: Cashier
         public async Task<ActionResult> Index()
         {
-            return View( Mapper.Map<IEnumerable<CashierView>>(await _cashier.GetTableAll()));
+            return View( Mapper.Map<IEnumerable<CashierView>>(await _cashier.GetTableAll()).OrderByDescending(x=> x.idCashier));
         }
                
         // GET: Cashier/Create

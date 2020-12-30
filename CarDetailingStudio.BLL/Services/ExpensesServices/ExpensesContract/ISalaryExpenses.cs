@@ -7,6 +7,7 @@ namespace CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract
 {
     public interface ISalaryExpenses : IGetFromDatabase<SalaryExpensesBll>, IDatabaseOperations<SalaryExpensesBll>
     {
+        Task<IEnumerable<SalaryExpensesBll>> PayrollExpensesPerMonth(int? id, int month, int year);
         Task Insert(IEnumerable<SalaryExpensesBll> element);
         Task<int> InsertId(SalaryExpensesBll element);
     }

@@ -10,7 +10,7 @@ namespace CarDetailingStudio.Models
         [Key]
         public int carWashWorkersId { get; set; }
         [Display(Name = "Дата Выполнения заказа")]
-        public string ClosingData { get; set; }
+        public Nullable<DateTime> ClosingData { get; set; }
         [Display(Name = "Стоимость заказа")]
         public Nullable<double> DiscountPrice { get; set; }
         [Display(Name = "Количество заказов")]

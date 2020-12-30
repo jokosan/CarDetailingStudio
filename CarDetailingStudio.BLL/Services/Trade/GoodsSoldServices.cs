@@ -9,6 +9,7 @@ using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.BLL.Services.Contract;
+using System.Data.Entity;
 
 namespace CarDetailingStudio.BLL.Services.Trade
 {
@@ -55,5 +56,15 @@ namespace CarDetailingStudio.BLL.Services.Trade
         }
 
         private goodsSold EntityTransformation(GoodsSoldBll entity) => Mapper.Map<GoodsSoldBll, goodsSold>(entity);
+
+        public async Task<IEnumerable<GoodsSoldBll>> Reports(DateTime datepresentDay) =>
+           Mapper.Map<IEnumerable<GoodsSoldBll>>(await _unitOfWork.GoodsSoldUnitOfWork.QueryObjectGraph(x => 
+                (DbFunctions.TruncateTime(x.Date.Value) >= datepresentDay.Date)));
+
+        public async Task<IEnumerable<GoodsSoldBll>> Reports(DateTime startDate, DateTime finalDate) =>
+            Mapper.Map<IEnumerable<GoodsSoldBll>>(await _unitOfWork.GoodsSoldUnitOfWork.QueryObjectGraph(x => 
+                (DbFunctions.TruncateTime(x.Date.Value) >= startDate.Date && (DbFunctions.TruncateTime(x.Date.Value) <= finalDate.Date))));
+
+        
     }
 }

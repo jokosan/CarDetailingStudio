@@ -41,7 +41,6 @@ namespace CarDetailingStudio.Controllers
             var ReirectModel = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees());
 
             if (TempData.ContainsKey("BrigadeId"))
-
             {
                 var resultBrigade = TempData["BrigadeId"] as IEnumerable<BrigadeForTodayView>;
                 var result = new List<int>();
@@ -54,7 +53,6 @@ namespace CarDetailingStudio.Controllers
 
                 foreach (var i in resultBrigade)
                     result.Add(i.IdCarWashWorkers.Value);
-
 
                 return View(ReirectModel.Where(b => result.Contains(b.id)));
                 // return View(ReirectModel.Where(b => !result.Contains(b.id)));
@@ -73,7 +71,6 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
-
             if (adminCarWosh != null && adminDetailing != null && chkRow != null)
             {
                 if (chkRow.Any(x => x == adminCarWosh) != true)
@@ -164,7 +161,6 @@ namespace CarDetailingStudio.Controllers
 
             CarWashWorkersView carWashWorkersView = Mapper.Map<CarWashWorkersView>(await _services.CarWashWorkersId(id));
             ViewBag.Job = new SelectList(await _job.SelectJobTitle(), "Id", "Position");
-
 
             if (carWashWorkersView == null)
             {

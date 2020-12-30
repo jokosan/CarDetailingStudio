@@ -75,7 +75,6 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.Error = Error;
             }
 
-
             var priceListTireFitting = Mapper.Map<IEnumerable<PriceListTireFittingView>>(await _priceListTireFitting.GetTableAll());
             ClientsOfCarWashView clientList = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(IdClient));
 
@@ -88,17 +87,20 @@ namespace CarDetailingStudio.Controllers
             ViewBag.PriceTireFittingAdditionalServices = Mapper.Map<IEnumerable<PriceListTireFittingAdditionalServicesView>>(await _priceTireFittingAdditionalServices.GetTableAll());
 
             ViewBag.RadiusOne = priceListTireFitting.Where(r => r.TypeOfCarsId == 1).GroupBy(x => x.TireRadiusId)
-                                                 .Select(y => new TireRadiusView
+                                                 .Select(y => new IdModels
                                                  {
                                                      idTireRadius = y.First().TireRadius.idTireRadius,
-                                                     radius = y.First().TireRadius.radius
+                                                     radius = y.First().TireRadius.radius,
+                                                     id = y.First().idPriceListTireFitting
+
                                                  });
 
             ViewBag.RadiusTwo = priceListTireFitting.Where(r => r.TypeOfCarsId == 2).GroupBy(x => x.TireRadiusId)
-                                               .Select(y => new TireRadiusView
+                                               .Select(y => new IdModels
                                                {
                                                    idTireRadius = y.First().TireRadius.idTireRadius,
-                                                   radius = y.First().TireRadius.radius
+                                                   radius = y.First().TireRadius.radius,
+                                                   id = y.First().idPriceListTireFitting
                                                });
 
             TempData.Keep("CreateOrder");
@@ -107,9 +109,10 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateOrder(int? Client, int? NumberOfTires, List<int> TireRadius, List<int> Services,
-                                        List<int> AdditionalServices, List<int> key, List<int> AdditionalServicesQuantity, int Type)
+        public async Task<ActionResult> CreateOrder(int? Client, int? NumberOfTires, int? TireRadius, List<int> Services,
+                                        List<int> AdditionalServices, List<int> key, List<int> AdditionalServicesQuantity, int? Type)
         {
+          
             CreateOrderView createOrderView = new CreateOrderView();
                         
             if (Client != null && NumberOfTires != null && (TireRadius != null || Services != null))
@@ -121,7 +124,7 @@ namespace CarDetailingStudio.Controllers
 
                 if (TireRadius != null)
                 {
-                    var resultRadius = Mapper.Map<IEnumerable<PriceListTireFittingView>>(await _priceListTireFitting.SelectRadius(TireRadius, Type)).ToList();
+                    var resultRadius = Mapper.Map<IEnumerable<PriceListTireFittingView>>(await _priceListTireFitting.SelectRadius(TireRadius.Value)).ToList();
 
                     if (Services != null)
                         createOrderView.priceListTireFittings = (List<PriceListTireFittingView>)createOrderView.priceListTireFittings.Concat(resultRadius);
@@ -200,7 +203,6 @@ namespace CarDetailingStudio.Controllers
 
         public double SumTireChangeService(List<PriceListTireFittingView> x, int y) => x.Sum(s => s.TheCost).Value * y;
 
-
         public double TireServices(List<PriceListTireFittingAdditionalServicesView> priceList)
         {
             if (priceList != null)
@@ -214,7 +216,6 @@ namespace CarDetailingStudio.Controllers
 
             return 0;
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -325,8 +326,6 @@ namespace CarDetailingStudio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CloseOrder(List<string> idBrigade, int BrigadeOrder, int? idPaymentState, int? idStatusOrder, int? idOrder)
         {
-
-
             if (BrigadeOrder == 0 && idBrigade != null)
             {
                 if (idStatusOrder != 1 && idPaymentState != 3 || idStatusOrder == 4 && idPaymentState == 3)
@@ -358,7 +357,5 @@ namespace CarDetailingStudio.Controllers
 
             return View();
         }
-
-
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="daea79c0b777410d896d2bd1d8eacc0f" Name="Diagram1" ZoomLevel="77">
+      <Diagram DiagramId="daea79c0b777410d896d2bd1d8eacc0f" Name="Diagram1" ZoomLevel="20">
         <EntityTypeShape EntityType="carWashServerModel.additionalTireStorageServices" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashServerModel.bonusToSalary" Width="1.5" PointX="12.75" PointY="21" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashServerModel.brigadeForToday" Width="1.5" PointX="12.75" PointY="23.875" IsExpanded="true" />
@@ -100,6 +100,10 @@
         <AssociationConnector Association="carWashServerModel.FK_goodsSold_listOfGoods" />
         <AssociationConnector Association="carWashServerModel.FK_listOfGoods_ProductCategories" />
         <AssociationConnector Association="carWashServerModel.FK_procurement_listOfGoods" />
+        <EntityTypeShape EntityType="carWashServerModel.salaryArchive" Width="1.5" PointX="12.75" PointY="33.625" />
+        <AssociationConnector Association="carWashServerModel.FK_salaryArchive_CarWashWorkers" />
+        <EntityTypeShape EntityType="carWashServerModel.EmployeeRate" Width="1.5" PointX="15" PointY="24.125" />
+        <AssociationConnector Association="carWashServerModel.FK_EmployeeRate_brigadeForToday" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
