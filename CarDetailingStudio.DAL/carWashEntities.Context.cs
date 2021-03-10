@@ -27,6 +27,7 @@ namespace CarDetailingStudio.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AdditionalIncome> AdditionalIncome { get; set; }
         public virtual DbSet<additionalTireStorageServices> additionalTireStorageServices { get; set; }
         public virtual DbSet<bonusToSalary> bonusToSalary { get; set; }
         public virtual DbSet<brigadeForToday> brigadeForToday { get; set; }
@@ -44,17 +45,25 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<costCategories> costCategories { get; set; }
         public virtual DbSet<Credit> Credit { get; set; }
         public virtual DbSet<Detailings> Detailings { get; set; }
+        public virtual DbSet<EmployeeRate> EmployeeRate { get; set; }
         public virtual DbSet<ExchangeRates> ExchangeRates { get; set; }
         public virtual DbSet<expenseCategory> expenseCategory { get; set; }
         public virtual DbSet<Expenses> Expenses { get; set; }
+        public virtual DbSet<goodsSold> goodsSold { get; set; }
         public virtual DbSet<GroupWashServices> GroupWashServices { get; set; }
         public virtual DbSet<JobTitleTable> JobTitleTable { get; set; }
+        public virtual DbSet<listOfGoods> listOfGoods { get; set; }
         public virtual DbSet<orderCarpetWashing> orderCarpetWashing { get; set; }
         public virtual DbSet<OrderCarWashWorkers> OrderCarWashWorkers { get; set; }
         public virtual DbSet<OrderServicesCarWash> OrderServicesCarWash { get; set; }
         public virtual DbSet<PaymentState> PaymentState { get; set; }
+        public virtual DbSet<Position> Position { get; set; }
+        public virtual DbSet<premiumAndRate> premiumAndRate { get; set; }
         public virtual DbSet<PriceListTireFitting> PriceListTireFitting { get; set; }
         public virtual DbSet<PriceListTireFittingAdditionalServices> PriceListTireFittingAdditionalServices { get; set; }
+        public virtual DbSet<procurement> procurement { get; set; }
+        public virtual DbSet<ProductCategories> ProductCategories { get; set; }
+        public virtual DbSet<salaryArchive> salaryArchive { get; set; }
         public virtual DbSet<salaryBalance> salaryBalance { get; set; }
         public virtual DbSet<salaryExpenses> salaryExpenses { get; set; }
         public virtual DbSet<ServisesCarWashOrder> ServisesCarWashOrder { get; set; }
@@ -73,12 +82,5 @@ namespace CarDetailingStudio.DAL
         public virtual DbSet<logo_mark_car> logo_mark_car { get; set; }
         public virtual DbSet<infoBrigadeForToday> infoBrigadeForToday { get; set; }
         public virtual DbSet<ItogOrderView> ItogOrderView { get; set; }
-        public virtual DbSet<AdditionalIncome> AdditionalIncome { get; set; }
-        public virtual DbSet<goodsSold> goodsSold { get; set; }
-        public virtual DbSet<listOfGoods> listOfGoods { get; set; }
-        public virtual DbSet<procurement> procurement { get; set; }
-        public virtual DbSet<ProductCategories> ProductCategories { get; set; }
-        public virtual DbSet<salaryArchive> salaryArchive { get; set; }
-        public virtual DbSet<EmployeeRate> EmployeeRate { get; set; }
     }
 }

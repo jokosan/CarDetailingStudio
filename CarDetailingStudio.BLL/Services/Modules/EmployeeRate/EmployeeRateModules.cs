@@ -13,7 +13,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.EmployeeRate
     public class EmployeeRateModules : IEmployeeRateModules
     {       
         private readonly IUnitOfWork _unitOfWork;
-
+  
         public EmployeeRateModules(
             IUnitOfWork unitOfWork)
         {           
@@ -51,13 +51,13 @@ namespace CarDetailingStudio.BLL.Services.Modules.EmployeeRate
 
             int dateStart = brigadeForToday.Date.Value.Hour;
             int workingHours = brigadeForToday.EndTime.Value.Hour - dateStart;
-            double hourlyRate = brigadeForToday.StatusId.Value / 12;
+            double hourlyRate = (double)brigadeForToday.StatusId.Value / 12;
 
             employeeRate.brigadeForTodayId = brigadeForToday.id;
             employeeRate.numberHoursWorked = workingHours;
             employeeRate.hourlyRate = hourlyRate;
             employeeRate.wage = OpeningHours(workingHours, hourlyRate);
-
+          
             _unitOfWork.EmployeeRateUnitOfWork.Insert(employeeRate);
             await _unitOfWork.Save();
         }
@@ -70,7 +70,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.EmployeeRate
             }
             else
             {
-                return WorkingHours * rate;
+                return (double)WorkingHours * rate;
             }
         }
     }

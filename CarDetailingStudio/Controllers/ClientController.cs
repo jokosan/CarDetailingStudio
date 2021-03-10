@@ -81,8 +81,6 @@ namespace CarDetailingStudio.Controllers
                     }
                     else
                     {
-
-
                         if (Page)
                         {
                             ClientViewsBll client = Mapper.Map<ClientView, ClientViewsBll>(clientView);

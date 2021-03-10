@@ -14,6 +14,7 @@ namespace CarDetailingStudio.BLL.Model
             this.salaryBalance = new HashSet<SalaryBalanceBll>();
             this.salaryExpenses = new HashSet<SalaryExpensesBll>();
             this.salaryArchive = new HashSet<SalaryArchiveBll>();
+            this.premiumAndRate = new HashSet<PremiumAndRateBll>();
         }
 
         public int id { get; set; }
@@ -40,5 +41,6 @@ namespace CarDetailingStudio.BLL.Model
         public virtual ICollection<SalaryExpensesBll> salaryExpenses { get; set; }
         public virtual JobTitleTableBll JobTitleTable { get; set; }
         public virtual ICollection<SalaryArchiveBll> salaryArchive { get; set; }
+        public virtual ICollection<PremiumAndRateBll> premiumAndRate { get; set; }
     }
 }

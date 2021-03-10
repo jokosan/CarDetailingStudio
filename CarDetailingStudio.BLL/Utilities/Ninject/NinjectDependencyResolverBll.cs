@@ -11,7 +11,6 @@ using CarDetailingStudio.BLL.Services.Modules.Clients;
 using CarDetailingStudio.BLL.Services.Modules.Clients.Contract;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
-using CarDetailingStudio.BLL.Services.Modules.Contract;
 using CarDetailingStudio.BLL.Services.Modules.EmployeeRate;
 using CarDetailingStudio.BLL.Services.Modules.TireStorage;
 using CarDetailingStudio.BLL.Services.Modules.TireStorage.Contract;
@@ -55,6 +54,8 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IOrderCarpetWashingServices>().To<OrderCarpetWashingServices>();
             kernel.Bind<ISalaryBalanceService>().To<SalaryBalanceService>();
             kernel.Bind<IPaymentState>().To<PaymentStateServices>();
+            kernel.Bind<IPosition>().To<PositionServices>();
+            kernel.Bind<IPremiumAndRateServices>().To<PremiumAndRateServices>();
 
             // TireStorage - хранение шин
             kernel.Bind<ITireStorage>().To<TireStorageServices>();
@@ -75,7 +76,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IAllExpenses>().To<AllExpensesModulescs>();
             kernel.Bind<IUtilityCostsCategory>().To<UtilityCostsCategoryServices>();
             kernel.Bind<ICashier>().To<CashierServices>();
-            kernel.Bind<IIncomeForTheCurrentDay>().To<IncomeForTheCurrentDay>();
+
             kernel.Bind<ICostCategories>().To<CostCategoriesServices>();
             kernel.Bind<ITireService>().To<TireService>();
             kernel.Bind<ITireChangeService>().To<TireChangeService>();
@@ -95,6 +96,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             NinjectOrder.Initialize(kernel);
             NinjectDependencyResolverDAL.Initialize(kernel);
             NinjectTrade.Initialize(kernel);
+            NinjectAnalytics.Initialize(kernel);
         }
     }
 }

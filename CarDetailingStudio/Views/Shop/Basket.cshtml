@@ -30,27 +30,28 @@
                             @{
                                 int number = 0;
 
-                                foreach (var line in Model.Cart.Lines)
-                                {
-                                    number += 1;
-                                    <tr>
+                               foreach (var line in Model.Cart.Lines)
+                                    {
+                                        number += 1;
+                                        <tr>
 
-                                        <td class="text-center">@number</td>
-                                        <td>
-                                            @using (Html.BeginForm("RemoveFromCart", "Shop"))
-                                            {
-                                                @Html.Hidden("ProductId", line.listOfGoodsView.idListOfGoods)
-                                                @Html.HiddenFor(x => x.ReturnUrl)
-                                                <input class="btn btn-sm btn-warning" type="submit" value="Удалить товар" />
-                                            }
-                                        </td>
-                                        <td>@line.listOfGoodsView.name</td>
-                                        <td class="text-right">@line.Quantity </td>
-                                        <td class="text-right"> @line.listOfGoodsView.price грн. </td>
-                                        <td class="text-right"> @((line.Quantity * line.listOfGoodsView.price).ToString()) грн. </td>
+                                            <td class="text-center">@number</td>
+                                            <td>
+                                                @using (Html.BeginForm("RemoveFromCart", "Shop"))
+                                                {
+                                                    @Html.Hidden("ProductId", line.listOfGoodsView.idListOfGoods)
+                                                    @Html.HiddenFor(x => x.ReturnUrl)
+                                                    <input class="btn btn-sm btn-warning" type="submit" value="Удалить товар" />
+                                                }
+                                            </td>
+                                            <td>@line.listOfGoodsView.name</td>
+                                            <td class="text-right">@line.Quantity </td>
+                                            <td class="text-right"> @line.listOfGoodsView.price грн. </td>
+                                            <td class="text-right"> @((line.Quantity * line.listOfGoodsView.price).ToString()) грн. </td>
 
-                                    </tr>
-                                }
+                                        </tr>
+                                    }
+                               
                             }
 
                         </tbody>

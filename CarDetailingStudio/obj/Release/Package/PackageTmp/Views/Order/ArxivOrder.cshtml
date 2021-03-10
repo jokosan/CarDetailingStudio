@@ -2,6 +2,7 @@
 
 <link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
 <link href="~/Content/form.css" rel="stylesheet" />
+<link href="~/Content/MyStyleSheet.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-12">
@@ -25,7 +26,8 @@
                            columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
                            columns.Add(model => model.OrderDate).Titled("Дата и время заказа");
                            columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа");
-                           columns.Add(model => model.ClientsOfCarWash.discont);
+                           columns.Add(model => model.ClientsOfCarWash.discont).Encoded(false)
+                             .RenderedAs(model => model.ClientsOfCarWash.discont == 50 ? "<span style='color: #CC4444; font-weight: 800'>" + model.ClientsOfCarWash.discont + "%" + "</span>" : "<span style='color: #04cc1b; font-weight: 600'>" + model.ClientsOfCarWash.discont + "%" + "</span>");
 
                            columns.Add(model => model.StatusOrder1.StatusOrder1).Titled("Статус заказа").Filterable(false);
                            columns.Add(model => model.ClientsOfCarWash.ClientInfo.Surname).Titled("Фамилия").Filterable(false);
@@ -40,12 +42,14 @@
                        .Empty("No data found")
                        .Filterable(GridFilterType.Single)
                        .Sortable()
+                       // .Css("table")
                        .Pageable(pager =>
                        {
                            pager.PageSizes = new Dictionary<int, string> { { 20, "20" }, { 25, "25" }, { 50, "50" } };
                            pager.ShowPageSizes = true;
                            pager.RowsPerPage = 1;
                        })
+                    //  .RowAttributed(model => new { @class = model.ClientsOfCarWash.discont < 50 ? "bolded" : "colorRow", id = model.ClientsOfCarWash.discont != null })
                     )
                 </div>
             </div>

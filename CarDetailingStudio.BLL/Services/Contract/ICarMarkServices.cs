@@ -8,6 +8,5 @@ namespace CarDetailingStudio.BLL.Services.Contract
     {
         Task<IEnumerable<CarMarkBll>> Get();
         Task<IEnumerable<CarMarkBll>> GetWhere(string id);
-        Task<IEnumerable<CarMarkBll>> GetInclude();
     }
 }

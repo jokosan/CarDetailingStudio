@@ -21,21 +21,18 @@ namespace CarDetailingStudio.BLL.Services.ExpensesServices
         }
 
         public async Task<IEnumerable<SalaryExpensesBll>> PayrollExpensesPerMonth(int? id, int month, int year) =>
-            Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.QueryObjectGraph(x => 
-                                                        x.idCarWashWorkers == id.Value 
+            Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.QueryObjectGraph(x =>
+                                                        x.idCarWashWorkers == id.Value
                                                         && x.Expenses.dateExpenses.Value.Month == month
                                                         && x.Expenses.dateExpenses.Value.Year == year
                                                         , "Expenses"));
 
-        public async Task<IEnumerable<SalaryExpensesBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.GetInclude("CarWashWorkers"));
-        }
+        public async Task<IEnumerable<SalaryExpensesBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.GetInclude("CarWashWorkers"));
 
-        public async Task<SalaryExpensesBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<SalaryExpensesBll>(await _unitOfWork.salaryExpensesUnitOfWork.GetById(elementId));
-        }
+        public async Task<SalaryExpensesBll> SelectId(int? elementId) =>
+            Mapper.Map<SalaryExpensesBll>(await _unitOfWork.salaryExpensesUnitOfWork.GetById(elementId));
+
 
         public async Task Insert(IEnumerable<SalaryExpensesBll> element)
         {
@@ -45,30 +42,27 @@ namespace CarDetailingStudio.BLL.Services.ExpensesServices
             await _unitOfWork.Save();
         }
 
-        public async Task<int> InsertId(SalaryExpensesBll element)
-        {
-            salaryExpenses salaryExpenses = Mapper.Map<SalaryExpensesBll, salaryExpenses>(element);
-
-            _unitOfWork.salaryExpensesUnitOfWork.Insert(salaryExpenses);
-            await _unitOfWork.Save();
-
-            return salaryExpenses.idSalaryExpenses;
-        }
-
         public async Task Update(SalaryExpensesBll elementToUpdate)
         {
-            salaryExpenses salaryExpenses = Mapper.Map<SalaryExpensesBll, salaryExpenses>(elementToUpdate);
-
-            _unitOfWork.salaryExpensesUnitOfWork.Update(salaryExpenses);
+            _unitOfWork.salaryExpensesUnitOfWork.Update(TransformAnEntity(elementToUpdate));
             await _unitOfWork.Save();
         }
 
         public async Task Insert(SalaryExpensesBll element)
         {
-            salaryExpenses salaryExpenses = Mapper.Map<SalaryExpensesBll, salaryExpenses>(element);
-
-            _unitOfWork.salaryExpensesUnitOfWork.Insert(salaryExpenses);
+            _unitOfWork.salaryExpensesUnitOfWork.Insert(TransformAnEntity(element));
             await _unitOfWork.Save();
         }
+
+        public salaryExpenses TransformAnEntity(SalaryExpensesBll entity) => Mapper.Map<SalaryExpensesBll, salaryExpenses>(entity);
+
+        public async Task<IEnumerable<SalaryExpensesBll>> Reports(DateTime datepresentDay) =>
+                         Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.QueryObjectGraph(x =>
+                                 (DbFunctions.TruncateTime(x.Expenses.dateExpenses.Value) == datepresentDay.Date), "CarWashWorkers", "Expenses", "Expenses.costCategories"));
+
+        public async Task<IEnumerable<SalaryExpensesBll>> Reports(DateTime startDate, DateTime finalDate) =>
+                             Mapper.Map<IEnumerable<SalaryExpensesBll>>(await _unitOfWork.salaryExpensesUnitOfWork.QueryObjectGraph(x =>
+                                   (DbFunctions.TruncateTime(x.Expenses.dateExpenses.Value) >= startDate.Date)
+                                    && (DbFunctions.TruncateTime(x.Expenses.dateExpenses.Value) >= finalDate.Date), "CarWashWorkers", "Expenses", "Expenses.costCategories"));
     }
 }

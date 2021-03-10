@@ -48,6 +48,8 @@ namespace CarDetailingStudio.BLL.Services
             }
         }
 
+
+
         public async Task AddToCurrentShift(List<int> chkRow, IEnumerable<BrigadeForTodayBll> currentShiftResult = null)
         {
             DateTime date = new DateTime();
@@ -127,11 +129,13 @@ namespace CarDetailingStudio.BLL.Services
             return result;
         }
 
-        public async Task InsertEmployee(CarWashWorkersBll carWashWorkersBll)
+        public async Task<int> InsertEmployee(CarWashWorkersBll carWashWorkersBll)
         {
             CarWashWorkers carWashWorkers = Mapper.Map<CarWashWorkersBll, CarWashWorkers>(carWashWorkersBll);
-            _unitOfWork.CarWashWorkersUnitOfWork.Insert(carWashWorkers);
-            await _unitOfWork.Save();
+             _unitOfWork.CarWashWorkersUnitOfWork.Insert(carWashWorkers);
+             await _unitOfWork.Save();
+
+            return carWashWorkers.id;
         }
 
         public async Task UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action)

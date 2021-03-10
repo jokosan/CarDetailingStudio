@@ -97,6 +97,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalyticsModules\AbstractCompletedOrders\CompletedOrders.cs" />
+    <Compile Include="AnalyticsModules\AbstractCompletedOrders\ICompletedOrders.cs" />
+    <Compile Include="AnalyticsModules\AbstractExpenses\Expenses.cs" />
+    <Compile Include="AnalyticsModules\AbstractExpenses\IAbstractExpenses.cs" />
+    <Compile Include="AnalyticsModules\AbstractFactory\AnalyticsFactory.cs" />
+    <Compile Include="AnalyticsModules\AbstractFactory\IAbstractFactory.cs" />
+    <Compile Include="AnalyticsModules\AbstractPaymentForThePreviousPeriod\IPaymentForThePreviousPeriod.cs" />
+    <Compile Include="AnalyticsModules\AbstractPaymentForThePreviousPeriod\PaymentForThePreviousPeriod.cs" />
+    <Compile Include="AnalyticsModules\AbstractSalaryExpenses\IAbstractSalaryExpenses.cs" />
+    <Compile Include="AnalyticsModules\AbstractSalaryExpenses\SalaryExpenses.cs" />
+    <Compile Include="AnalyticsModules\AbstractSaleOfGoods\SaleOfGoods.cs" />
+    <Compile Include="AnalyticsModules\AbstractWagesForCompletedOrders\IWagesForCompletedOrders.cs" />
+    <Compile Include="AnalyticsModules\AbstractWagesForCompletedOrders\WagesForCompletedOrders.cs" />
+    <Compile Include="AnalyticsModules\AdditionalIncome\AdditionalIncome.cs" />
+    <Compile Include="AnalyticsModules\AdditionalIncome\IAdditionalIncome.cs" />
+    <Compile Include="AnalyticsModules\Models\AdditionalIncomeModels.cs" />
+    <Compile Include="AnalyticsModules\Models\AnalyticsModels.cs" />
+    <Compile Include="AnalyticsModules\Models\CompletedOrders\CompletedOrdersModels.cs" />
+    <Compile Include="AnalyticsModules\Models\CompletedOrders\InformationCompletedOrders.cs" />
+    <Compile Include="AnalyticsModules\Models\ExpensesModels.cs" />
+    <Compile Include="AnalyticsModules\Models\GroupingEmployeesWages.cs" />
+    <Compile Include="AnalyticsModules\Models\InformationPreviousPeriod.cs" />
+    <Compile Include="AnalyticsModules\Models\OrdersForThePreviousPeriod.cs" />
+    <Compile Include="AnalyticsModules\Models\SaleOfGoodsModels.cs" />
+    <Compile Include="AnalyticsModules\Models\WagesForCompletedOrders\SalaryInformation.cs" />
+    <Compile Include="AnalyticsModules\Models\WagesForCompletedOrders\WagesForCompletedOrdersModels.cs" />
+    <Compile Include="AnalyticsModules\AbstractSaleOfGoods\ISaleOfGoods.cs" />
     <Compile Include="Model\AdditionalIncomeBll.cs" />
     <Compile Include="Model\AdditionalTireStorageServicesBll.cs" />
     <Compile Include="Model\AllExpensesBll.cs" />
@@ -120,7 +147,6 @@
     <Compile Include="Model\CreditBll.cs" />
     <Compile Include="Model\DetailingsBll.cs" />
     <Compile Include="Model\EmployeeRateBll.cs" />
-    <Compile Include="Model\EmployeeSalariesBll.cs" />
     <Compile Include="Model\ExchangeRatesBll.cs" />
     <Compile Include="Model\ExpenseCategoryBll.cs" />
     <Compile Include="Model\ExpensesBll.cs" />
@@ -134,7 +160,8 @@
     <Compile Include="Model\ModelViewBll\ReviwOrderModelBll.cs" />
     <Compile Include="Model\OrderCarpetWashingBll.cs" />
     <Compile Include="Model\OrderCarWashWorkersDayGroupBll.cs" />
-    <Compile Include="Model\OrderInformationWashingDetailingBll.cs" />
+    <Compile Include="Model\PositionBll.cs" />
+    <Compile Include="Model\PremiumAndRateBll.cs" />
     <Compile Include="Model\PriceListTireFittingAdditionalServicesBll.cs" />
     <Compile Include="Model\PriceListTireFittingBll.cs" />
     <Compile Include="Model\ProcurementBll.cs" />
@@ -191,6 +218,8 @@
     <Compile Include="Services\Contract\IJobTitleTableServices.cs" />
     <Compile Include="Services\Contract\IOrderCarpetWashingServices.cs" />
     <Compile Include="Services\Contract\IPaymentState.cs" />
+    <Compile Include="Services\Contract\IPosition.cs" />
+    <Compile Include="Services\Contract\IPremiumAndRateServices.cs" />
     <Compile Include="Services\Contract\ISalaryArchive.cs" />
     <Compile Include="Services\Contract\ISalaryBalanceService.cs" />
     <Compile Include="Services\Contract\IStatusOrder.cs" />
@@ -247,11 +276,9 @@
     <Compile Include="Services\Modules\CloseShift\Contract\IDayResult.cs" />
     <Compile Include="Services\Contract\IOrderServices.cs" />
     <Compile Include="Services\Contract\IApiPrivatBank.cs" />
-    <Compile Include="Services\Modules\Contract\IIncomeForTheCurrentDay.cs" />
     <Compile Include="Services\Modules\EmployeeRate\EmployeeRateModules.cs" />
     <Compile Include="Services\Modules\EmployeeRate\IEmployeeRateModules.cs" />
     <Compile Include="Services\Modules\IBonusModules.cs" />
-    <Compile Include="Services\Modules\IncomeForTheCurrentDay.cs" />
     <Compile Include="Services\Modules\ModulesModel\BrigadeForTodayModel.cs" />
     <Compile Include="Services\Modules\ModulesModel\EmployeeSalariesListBll.cs" />
     <Compile Include="Services\Modules\ModulesModel\OrderPriceModel.cs" />
@@ -267,6 +294,8 @@
     <Compile Include="Services\OrderCarWashWorkersServices.cs" />
     <Compile Include="Services\OrderServicesCarWashServices.cs" />
     <Compile Include="Services\PaymentStateServices.cs" />
+    <Compile Include="Services\PositionServices.cs" />
+    <Compile Include="Services\PremiumAndRateServices.cs" />
     <Compile Include="Services\SalaryArchiveServices.cs" />
     <Compile Include="Services\SalaryBalanceService.cs" />
     <Compile Include="Services\ServisesCarWashOrderServices.cs" />
@@ -303,6 +332,7 @@
     <Compile Include="Services\Trade\TradeContract\IProductCategories.cs" />
     <Compile Include="Services\UtilityCostsCategoryServices.cs" />
     <Compile Include="Utilities\Map\AutomapperConfig.cs" />
+    <Compile Include="Utilities\Ninject\NinjectAnalytics.cs" />
     <Compile Include="Utilities\Ninject\NinjectDependencyResolverBll.cs" />
     <Compile Include="Utilities\Ninject\NinjectEmployeeRate.cs" />
     <Compile Include="Utilities\Ninject\NinjectExpenses.cs" />
@@ -319,5 +349,6 @@
       <Name>CarDetailingStudio.DAL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

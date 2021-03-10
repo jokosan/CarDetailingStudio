@@ -49,6 +49,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.OrderServicesCarWash.Id)
                         </th>
+                        <td>
+                            @Html.DisplayNameFor(model => model.OrderServicesCarWash.ClientsOfCarWash.NumberCar)
+                        </td>
                         <th>
                             @Html.DisplayNameFor(model => model.OrderServicesCarWash.OrderDate)
                         </th>
@@ -70,27 +73,30 @@
 
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                               № @Html.DisplayFor(modelItem => item.OrderServicesCarWash.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderServicesCarWash.ClosingData)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderServicesCarWash.TotalCostOfAllServices) грн.
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderServicesCarWash.DiscountPrice) грн.
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Payroll) грн.
-                            </td>
+                <tr>
+                    <td>
+                        № @Html.DisplayFor(modelItem => item.OrderServicesCarWash.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.ClientsOfCarWash.NumberCar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.ClosingData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.TotalCostOfAllServices) грн.
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderServicesCarWash.DiscountPrice) грн.
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Payroll) грн.
+                    </td>
 
-                        </tr>
+                </tr>
                     }
 
                 </table>

@@ -19,35 +19,9 @@ namespace CarDetailingStudio.BLL.Services
             _automapper = automapper;
         }
 
-        public async Task<IEnumerable<ServisesCarWashOrderBll>> GetAll()
-        {
-            return Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(await _unitOfWork.ServisesUnitOfWork.Get());
-        }
-
-        public async Task<IEnumerable<ServisesCarWashOrderBll>> GetAllId(int? id)
-        {
-            var servises = Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(await _unitOfWork.ServisesUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == id));
-
-            return servises;
-        }
-
-       
-        public void ServisesInsert(List<ServisesCarWashOrderBll> idServeces, int idOrder, int idClient)
-        {
-            List<ServisesCarWashOrderBll> AddOrder = new List<ServisesCarWashOrderBll>();
-
-            foreach (var item in idServeces)
-            {
-                AddOrder.Add(new ServisesCarWashOrderBll
-                {
-                    IdClientsOfCarWash = idClient,
-                    IdOrderServicesCarWash = idOrder,
-                    IdWashServices = item.IdWashServices,
-                    Price = item.Price
-                });
-            }
-        }
-
+        public async Task<IEnumerable<ServisesCarWashOrderBll>> GetAllId(int? id) => 
+            Mapper.Map<IEnumerable<ServisesCarWashOrderBll>>(await _unitOfWork.ServisesUnitOfWork.GetWhere(x => x.IdOrderServicesCarWash == id));       
+      
         public async Task ServicesDelete(int id, string NameClass)
         {
             if (NameClass == "OrderController")

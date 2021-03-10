@@ -25,6 +25,11 @@ namespace CarDetailingStudio.Controllers
         }
 
         // GET: EmployeeRate
-        public async Task<ActionResult> ArxivRate() => View(Mapper.Map<IEnumerable<EmployeeRateView>>(await _employeeRate.GetTableAll()).OrderByDescending(x => x.idEmployeeRate));
+        public async Task<ActionResult> ArxivRate()
+        {
+            var resultArxiv = Mapper.Map<IEnumerable<EmployeeRateView>>(await _employeeRate.GetTableAll()).OrderByDescending(x => x.idEmployeeRate);
+
+            return View(resultArxiv);
+        }
     }
 }

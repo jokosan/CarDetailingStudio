@@ -37,7 +37,8 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 
         public async Task<IEnumerable<DayResultModelBll>> DayResultViewInfo()
         {
-            var resultGetInclud = await _orderCarWashWorkersServices.GetClosedDay();
+            //  var resultGetInclud = await _orderCarWashWorkersServices.GetClosedDay();
+            var resultGetInclud = await _orderCarWashWorkersServices.Reports(DateTime.Now);
             return resultGetInclud.GroupBy(x => x.IdCarWashWorkers)
                                   .Select(y => new DayResultModelBll
                                   {
@@ -71,7 +72,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                                       calculationStatus = y.First().CalculationStatus,
                                       payroll = TotalPayroll(y.First().CarWashWorkers.id),
                                       salaryDate = test(y.First().salaryDate)
-
                                   });
         }
 

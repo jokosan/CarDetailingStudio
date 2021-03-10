@@ -5,7 +5,6 @@
 {
     @Html.AntiForgeryToken()
 
-
     <div class="container-fluid">
         <div class="row">
 
@@ -87,22 +86,12 @@
                             </div>
                         </div>
 
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-
-                        <h4 class="card-title"></h4>
-                        <hr>
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
                                 @Html.LabelFor(model => model.rate)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.rate, new { htmlAttributes = new { @class = "form-control", value=@Request.Form["rate"] } })
+                                @Html.EditorFor(model => model.rate, new { htmlAttributes = new { @class = "form-control", value = @Request.Form["rate"] } })
                                 @Html.ValidationMessageFor(model => model.rate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -112,18 +101,8 @@
                                 @Html.LabelFor(model => model.DataRegistration)
                             </label>
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.DataRegistration, new { htmlAttributes = new { @class = "form-control", @type = "date", value=@Request.Form["DataRegistration"]  } })
+                                @Html.EditorFor(model => model.DataRegistration, new { htmlAttributes = new { @class = "form-control", @type = "date", value = @Request.Form["DataRegistration"] } })
                                 @Html.ValidationMessageFor(model => model.DataRegistration, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 text-right control-label col-form-label">
-                                @Html.LabelFor(model => model.Photo)
-                            </label>
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -132,21 +111,19 @@
                                 * @Html.LabelFor(model => model.IdPosition)
                             </label>
                             <div class="col-md-9">
-                                @Html.DropDownListFor(model => model.IdPosition, this.ViewBag.Job as SelectList, new { id ="IdPosition", @class = "form-control" })
+                                @Html.DropDownListFor(model => model.IdPosition, this.ViewBag.Job as SelectList, new { id = "IdPosition", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.IdPosition, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
+                        <hr />
+                        <div class="text-right">
+                            <input type="submit" value="Добавить" class="btn btn-success preview" />
+                            @Html.ActionLink("Отменить", "Staff", null, new { @class = "btn btn-danger preview" })
+                        </div>
                     </div>
                 </div>
-                <div class="text-right">
-                    <input type="submit" value="Добавить" class="btn btn-success preview" />
-
-                    @Html.ActionLink("Отменить", "Staff", null, new { @class = "btn btn-danger preview" })
-
-                </div>
             </div>
-
         </div>
     </div>
 }

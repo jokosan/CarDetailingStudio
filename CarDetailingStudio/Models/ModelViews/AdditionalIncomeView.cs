@@ -12,7 +12,7 @@ namespace CarDetailingStudio.Models.ModelViews
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int idAdditionalIncome { get; set; }
-        [Display (Name = "Категория доходов")]
+        [Display(Name = "Категория доходов")]
         public string IncomeCategory { get; set; }
         [Display(Name = "Дата")]
         [DataType(DataType.Date)]
@@ -22,5 +22,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public Nullable<double> Amount { get; set; }
         [Display(Name = "Заметка")]
         public string Note { get; set; }
+        [Display(Name = "Тип оплаты")]
+        public Nullable<int> PaymentState { get; set; }
     }
 }

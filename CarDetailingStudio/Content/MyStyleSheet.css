@@ -1,0 +1,25 @@
+﻿.top-cover {
+    margin-top: 15px;
+}
+
+.top-name {
+    display: block;
+    width: 100px;
+    max-height: 40px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.top-cover,
+.top-name {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.colorRow {
+    background: rgba(218, 122, 122, 0.10) /* Цвет фона ячеек */
+}
+
+.colorText {
+    color: #CC4444;
+}

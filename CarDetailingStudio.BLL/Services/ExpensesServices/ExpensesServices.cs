@@ -22,21 +22,15 @@ namespace CarDetailingStudio.BLL.Services.ExpensesServices
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<ExpensesBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.GetInclude("expenseCategory", "costCategories"));
-        }
+        public async Task<IEnumerable<ExpensesBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.GetInclude("expenseCategory", "costCategories"));
 
-        public async Task<IEnumerable<ExpensesBll>> GetTableAll(int idTypeExpenses)
-        {
-            return Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.QueryObjectGraph(x => x.expenseCategoryId == idTypeExpenses,
-                                                        "expenseCategory", "costCategories"));
-        }
+        public async Task<IEnumerable<ExpensesBll>> GetTableAll(int idTypeExpenses) =>
+                Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.QueryObjectGraph(x =>
+                    x.expenseCategoryId == idTypeExpenses, "expenseCategory", "costCategories"));
 
-        public async Task<ExpensesBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<ExpensesBll>(await _unitOfWork.ExpensesUnitOfWork.GetById(elementId));
-        }
+        public async Task<ExpensesBll> SelectId(int? elementId) =>
+            Mapper.Map<ExpensesBll>(await _unitOfWork.ExpensesUnitOfWork.GetById(elementId));
 
         public async Task Update(ExpensesBll elementToUpdate)
         {
@@ -61,15 +55,12 @@ namespace CarDetailingStudio.BLL.Services.ExpensesServices
 
         private Expenses TransformEntity(ExpensesBll entity) => Mapper.Map<ExpensesBll, Expenses>(entity);
 
-        public async Task<IEnumerable<ExpensesBll>> Reports(DateTime datepresentDay)
-        {
-            return Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.dateExpenses.Value) == datepresentDay.Date), "expenseCategory"));
-        }
+        public async Task<IEnumerable<ExpensesBll>> Reports(DateTime datepresentDay) =>
+            Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.QueryObjectGraph(x => 
+                (DbFunctions.TruncateTime(x.dateExpenses.Value) == datepresentDay.Date), "expenseCategory", "costCategories"));        
 
-        public async Task<IEnumerable<ExpensesBll>> Reports(DateTime startDate, DateTime finalDate)
-        {
-            return Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.dateExpenses.Value) >= startDate.Date
-                                                                                                                       && (DbFunctions.TruncateTime(x.dateExpenses.Value) <= finalDate.Date)), "expenseCategory"));
-        }
+        public async Task<IEnumerable<ExpensesBll>> Reports(DateTime startDate, DateTime finalDate) =>
+            Mapper.Map<IEnumerable<ExpensesBll>>(await _unitOfWork.ExpensesUnitOfWork.QueryObjectGraph(x =>
+                 (DbFunctions.TruncateTime(x.dateExpenses.Value) >= startDate.Date && (DbFunctions.TruncateTime(x.dateExpenses.Value) <= finalDate.Date)), "expenseCategory", "costCategories"));
     }
 }

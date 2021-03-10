@@ -125,5 +125,3 @@ namespace CarDetailingStudio.DAL.Infrastructure
         }
     }
 }
-
-

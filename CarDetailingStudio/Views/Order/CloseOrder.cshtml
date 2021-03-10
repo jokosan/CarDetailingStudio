@@ -54,74 +54,77 @@
                     </div>
                 }
 
-                <div class="col-md-6">
+            <div class="col-md-6">
 
-                    <div class="alert alert-warning" role="alert">
-                        <h6>№@Html.DisplayFor(model => model.Id) заказа</h6>
+                <div class="alert alert-warning" role="alert">
+                    <h6>№@Html.DisplayFor(model => model.Id) заказа</h6>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title m-b-0">Заказчик</h5>
                     </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Номер машины</td>
+                                    <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumberCar)</td>
+                                </tr>
+                                <tr>
+                                    <td>Марка/Модель</td>
+                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)</td>
+                                </tr>
+                                <tr>
+                                    <td>Тип кузова</td>
+                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)</td>
+                                </tr>
+                                <tr>
+                                    <td>Ф.И.О</td>
+                                    <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+              
 
+                @if (Model.StatusOrder != 4)
+                {
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title m-b-0">Заказчик</h5>
+                            <h5 class="card-title m-b-0">Смена</h5>
+
                         </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Номер машины</td>
-                                        <td>@Html.DisplayFor(model => model.ClientsOfCarWash.NumberCar)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Марка/Модель</td>
-                                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.car_mark.name) @Html.DisplayFor(model => model.ClientsOfCarWash.car_model.name)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Тип кузова</td>
-                                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.CarBody.Name)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ф.И.О</td>
-                                        <td> @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname) @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Name)  @Html.DisplayFor(model => model.ClientsOfCarWash.ClientInfo.Surname)</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        <div class="comment-widgets scrollable">
 
-                    @if (Model.StatusOrder != 4)
-                    {
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title m-b-0">Смена</h5>
+                            @foreach (var item in ViewBag.Brigade)
+                            {
+                                <div class="d-flex flex-row comment-row m-t-0">
 
-                            </div>
-                            <div class="comment-widgets scrollable">
-                                @foreach (var item in ViewBag.Brigade)
-                                {
-                                    <div class="d-flex flex-row comment-row m-t-0">
+                                    <div class="checkbox">
 
-                                        <div class="checkbox">
-
-                                            <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
-                                        </div>
-
-                                        <div class="comment-text w-100">
-                                            <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
-                                            <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
-
-                                            <div class="comment-footer">
-                                                <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
-                                                @*@Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })*@
-                                            </div>
-
-                                        </div>
+                                        <text><input type="checkbox" name="idBrigade" value="@item.CarWashWorkers.id" /></text>
                                     </div>
-                                }
-                            </div>
 
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium"> @item.CarWashWorkers.Surname @item.CarWashWorkers.Name </h6>
+                                        <span class="m-b-15 d-block">@item.CarWashWorkers.JobTitleTable.Position | Тел. +38 @item.CarWashWorkers.MobilePhone</span>
+
+                                        <div class="comment-footer">
+                                            <span class="text-muted float-right">@DateTime.Now.ToString("dd MMMM")</span>
+                                            @*@Html.ActionLink("Details", "EmployeeInformation", new { id = item.IdCarWashWorkers }, new { @class = "btn btn-success btn-sm" })*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
                         </div>
-                    }
-                </div>
+
+                    </div>
+                }
+            </div>
 
                 <div class="col-md-6">
 
@@ -222,7 +225,7 @@
                             <hr>
                             <div class="text-right">
                                 <input type="hidden" name="typeServese" value="@ViewBag.TypeService" />
-                                <input type="submit" value="Закрыть заказ" class="btn btn-success preview" id="click" />
+                                <input type="submit" value="Закрыть заказ" class="btn btn-success preview"   id="basic-addon2" />
                                 @Html.ActionLink("Вернуться на главную", "Index", null, new { @class = "btn btn-danger preview" })
                             </div>
                         </div>
@@ -232,3 +235,12 @@
         </div>
     </form>
 }
+
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function () {
+            $(this).find('input[type=submit], button[type=submit]').prop('disabled', true);
+        });
+    });
+</script>

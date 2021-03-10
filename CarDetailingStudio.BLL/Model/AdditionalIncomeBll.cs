@@ -13,5 +13,6 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<double> Amount { get; set; }
         public string Note { get; set; }
+        public Nullable<int> PaymentState { get; set; }
     }
 }

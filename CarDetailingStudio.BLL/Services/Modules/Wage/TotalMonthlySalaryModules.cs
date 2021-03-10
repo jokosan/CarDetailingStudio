@@ -32,11 +32,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             _salaryExpenses = salaryExpenses;
         }
 
-        public async Task CloseWagesForMonth()
-        { 
-            
-        }
-
         public async Task CheckMonthlyPaymentsEmployee(int? id)
         {
             var lastMonthsSalary = await _salaryArchive.MonthlySalary(id.Value, DateTime.Now.AddMonths(-1).Month, DateTime.Now.Year);

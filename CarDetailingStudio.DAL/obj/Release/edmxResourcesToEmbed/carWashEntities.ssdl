@@ -9,6 +9,7 @@
     <Property Name="Date" Type="datetime" />
     <Property Name="Amount" Type="float" />
     <Property Name="Note" Type="nvarchar" MaxLength="500" />
+    <Property Name="PaymentState" Type="int" />
   </EntityType>
   <EntityType Name="additionalTireStorageServices">
     <Key>
@@ -354,6 +355,25 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PaymentState" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="idPosition" />
+    </Key>
+    <Property Name="idPosition" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
+    <Property Name="positionsOfAdministrators" Type="int" />
+  </EntityType>
+  <EntityType Name="premiumAndRate">
+    <Key>
+      <PropertyRef Name="idPremiumAndRate" />
+    </Key>
+    <Property Name="idPremiumAndRate" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="carWashWorkersId" Type="int" Nullable="false" />
+    <Property Name="percentageStatusForOrder" Type="bit" Nullable="false" />
+    <Property Name="percentageRatePerOrder" Type="float" />
+    <Property Name="positionsStatus" Type="bit" Nullable="false" />
+    <Property Name="positionId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PriceListTireFitting">
     <Key>
@@ -924,6 +944,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_premiumAndRate_CarWashWorkers">
+    <End Role="CarWashWorkers" Type="Self.CarWashWorkers" Multiplicity="1" />
+    <End Role="premiumAndRate" Type="Self.premiumAndRate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarWashWorkers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="premiumAndRate">
+        <PropertyRef Name="carWashWorkersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_premiumAndRate_Position">
+    <End Role="Position" Type="Self.Position" Multiplicity="1" />
+    <End Role="premiumAndRate" Type="Self.premiumAndRate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="idPosition" />
+      </Principal>
+      <Dependent Role="premiumAndRate">
+        <PropertyRef Name="positionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PriceListTireFitting_TireRadius">
     <End Role="TireRadius" Type="Self.TireRadius" Multiplicity="0..1" />
     <End Role="PriceListTireFitting" Type="Self.PriceListTireFitting" Multiplicity="*" />
@@ -1179,6 +1223,8 @@
     <EntitySet Name="OrderCarWashWorkers" EntityType="Self.OrderCarWashWorkers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderServicesCarWash" EntityType="Self.OrderServicesCarWash" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PaymentState" EntityType="Self.PaymentState" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="premiumAndRate" EntityType="Self.premiumAndRate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PriceListTireFitting" EntityType="Self.PriceListTireFitting" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PriceListTireFittingAdditionalServices" EntityType="Self.PriceListTireFittingAdditionalServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="procurement" EntityType="Self.procurement" Schema="dbo" store:Type="Tables" />
@@ -1341,6 +1387,14 @@
     <AssociationSet Name="FK_OrderServicesCarWash_StatusOrder" Association="Self.FK_OrderServicesCarWash_StatusOrder">
       <End Role="StatusOrder" EntitySet="StatusOrder" />
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
+    </AssociationSet>
+    <AssociationSet Name="FK_premiumAndRate_CarWashWorkers" Association="Self.FK_premiumAndRate_CarWashWorkers">
+      <End Role="CarWashWorkers" EntitySet="CarWashWorkers" />
+      <End Role="premiumAndRate" EntitySet="premiumAndRate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_premiumAndRate_Position" Association="Self.FK_premiumAndRate_Position">
+      <End Role="Position" EntitySet="Position" />
+      <End Role="premiumAndRate" EntitySet="premiumAndRate" />
     </AssociationSet>
     <AssociationSet Name="FK_PriceListTireFitting_TireRadius" Association="Self.FK_PriceListTireFitting_TireRadius">
       <End Role="TireRadius" EntitySet="TireRadius" />

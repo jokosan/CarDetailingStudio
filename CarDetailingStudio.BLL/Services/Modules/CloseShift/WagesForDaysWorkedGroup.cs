@@ -48,22 +48,8 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
                                       payroll = y.Sum(s => s.Payroll)
                                   });
 
-        public async Task<IEnumerable<SalaryBalanceBll>> SalaryBalanceGroup(int? Id)
-        {
-            var salaryExpenses = await _salaryBalance.GetTableAll();
-
-            return salaryExpenses.GroupBy(x => x.dateOfPayment?.ToString("dd.MM.yyyy"))
-                                                   .Select(y => new SalaryBalanceBll
-                                                   {
-                                                       idSalaryBalance = y.First().idSalaryBalance,
-                                                       CarWashWorkersId = y.First().CarWashWorkersId,
-                                                       dateOfPayment = y.First().dateOfPayment,
-                                                       payoutAmount = y.Sum(s => s.payoutAmount),
-                                                       currentMonthStatus = y.First().currentMonthStatus
-                                                   });
-        }
-
-        public async Task PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, double SalaryCurrentMonth, double Prize, double BalancLastMonth, double PaidMonth  )
+      
+        public async Task PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, double SalaryCurrentMonth, double Prize, double BalancLastMonth, double PaidMonth, int idPaymentState)
         {
             var lostMonthBalance = await _salaryBalance.LastMonthBalance(employeeId);
             SalaryBalanceBll salaryBalanceBll = new SalaryBalanceBll();
@@ -72,7 +58,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             { 
                 
             }
-
 
             double balance = 0;
 
@@ -100,17 +85,20 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             salaryBalanceBll.accountBalance = totalPayable;
 
             await _salaryBalance.Insert(salaryBalanceBll);
-            await PayrollExpenses(salaryBalanceBll);
+            await PayrollExpenses(salaryBalanceBll, idPaymentState);
         }
 
         // ВНИМАНИЕЕ !!!!!!!!!
         // Изменить в соответствии с новой логикой Расходов
-        private async Task PayrollExpenses(SalaryBalanceBll salaryBalance)
+        private async Task PayrollExpenses(SalaryBalanceBll salaryBalance, int idPaymentState)
         {
             ExpensesBll expenses = new ExpensesBll();
             expenses.Amount = salaryBalance.payoutAmount;
             expenses.dateExpenses = salaryBalance.dateOfPayment;
             expenses.expenseCategoryId = 1;
+            expenses.paymentType = idPaymentState;
+           // expenses.expenseCategoryId = 70;
+            expenses.note =  $"Выплачена через сервис ({salaryBalance.CarWashWorkersId})";
 
             int id = await _expenses.InsertId(expenses);
 

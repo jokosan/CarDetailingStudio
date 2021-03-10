@@ -12,13 +12,10 @@ namespace CarDetailingStudio.Utilities.Map
         public MappingProfile()
         {
             CreateMap<OrderServicesCarWashView, OrderServicesCarWashBll>().ReverseMap();
-           // CreateMap<OrderServicesCarWashBll, OrderServicesCarWashView>();
 
             CreateMap<CarWashWorkersView, CarWashWorkersBll>().ReverseMap();
-            //CreateMap<CarWashWorkersBll, CarWashWorkersView>();
 
             CreateMap<ClientsOfCarWashView, ClientsOfCarWashBll>().ReverseMap();
-           // CreateMap<ClientsOfCarWashBll, ClientsOfCarWashView>();
 
             CreateMap<JobTitleTableView, JobTitleTableBll>();
             CreateMap<JobTitleTableBll, JobTitleTableView>();
@@ -92,7 +89,6 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<OrderCarpetWashingView, OrderCarpetWashingBll>();
             CreateMap<OrderCarpetWashingBll, OrderCarpetWashingView>();
 
-
             // expenses - затраты
 
             CreateMap<ExpenseCategoryView, ExpenseCategoryBll>();
@@ -139,11 +135,6 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<UtilityCostsCategoryView, UtilityCostsCategoryBll>();
             CreateMap<UtilityCostsCategoryBll, UtilityCostsCategoryView>();
 
-            CreateMap<EmployeeSalariesView, EmployeeSalariesBll>();
-            CreateMap<EmployeeSalariesBll, EmployeeSalariesView>();
-
-            CreateMap<OrderInformationWashingDetailingView, OrderInformationWashingDetailingBll>();
-            CreateMap<OrderInformationWashingDetailingBll, OrderInformationWashingDetailingView>();
 
             CreateMap<CostCategoriesView, CostCategoriesBll>();
             CreateMap<CostCategoriesBll, CostCategoriesView>();
@@ -173,6 +164,8 @@ namespace CarDetailingStudio.Utilities.Map
             CreateMap<ProductCategoriesView, ProductCategoriesBll>().ReverseMap();
             CreateMap<EmployeeRateView, EmployeeRateBll>().ReverseMap();
 
+            CreateMap<PremiumAndRateView, PremiumAndRateBll>().ReverseMap();
+            CreateMap<PositionView, PositionBll>().ReverseMap();
         }
     }
 }

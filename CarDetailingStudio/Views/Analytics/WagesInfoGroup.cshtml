@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.OrderCarWashWorkersView>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdOrder)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderServicesCarWash.ClientsOfCarWash.NumberCar)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderServicesCarWash.ClientsOfCarWash.discont)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CarWashWorkers.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderServicesCarWash.DiscountPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Payroll)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderServicesCarWash.OrderDate)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var itemDate in ViewBag.Date)
+                {
+                    if (Model.Any(x => x.OrderServicesCarWash.OrderDate.Value.Date == itemDate))
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center"><b class="text-danger">@itemDate.Date.ToString("dd.MM.yyyy")</b></td>
+                        </tr>
+                    }
+
+                    foreach (var item in Model)
+                    {
+                        if (itemDate.Date == item.OrderServicesCarWash.OrderDate.Value.Date)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdOrder)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.OrderServicesCarWash.ClientsOfCarWash.NumberCar)
+                                </td>
+                                @if (item.OrderServicesCarWash.ClientsOfCarWash.discont != null)
+                                {
+                                    <td>
+                                        @Html.DisplayFor(model => item.OrderServicesCarWash.ClientsOfCarWash.discont)%
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        -
+                                    </td>
+                                }
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CarWashWorkers.Surname)      @Html.DisplayFor(modelItem => item.CarWashWorkers.Name)      @Html.DisplayFor(modelItem => item.CarWashWorkers.Patronymic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.OrderServicesCarWash.DiscountPrice) грн.
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Payroll) грн.
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderServicesCarWash.OrderDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Просмотреть", "../Order/CompletedOrders", new { idOrder = item.IdOrder }, new { @class = "btn btn-outline-info" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+
+
+            </table>
+        </div>
+    </div>
+</div>

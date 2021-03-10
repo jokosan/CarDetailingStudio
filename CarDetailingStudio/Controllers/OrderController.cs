@@ -204,6 +204,8 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
             ViewBag.Price = Price;
 
+          
+
             if (selectionStatus == false)
             {
                 ViewBag.SelectionStatus = selectionStatus;
@@ -231,7 +233,6 @@ namespace CarDetailingStudio.Controllers
         public async Task<ActionResult> CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState, int idStatusOrder, int? typeServese)
         {
             //var resultServices = TempData["ServicesType"] as IEnumerable<ServisesCarWashOrderView>;
-
 
             var brigadeAdmin = await _brigade.AdminTrue(DateTime.Now, 2);
 

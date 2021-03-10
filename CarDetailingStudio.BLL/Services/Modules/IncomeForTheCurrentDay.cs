@@ -205,5 +205,62 @@ namespace CarDetailingStudio.BLL.Services.Modules
 
             return resultDetailsOfSalaries.Where(x => x.typeServicesId == typeOfEmployees);
         }
+
+        public async Task Expenses(DateTime? startDate)
+        {
+            var salaryExpenses = await _expenses.Reports(DateTime.Now);
+            // ds,bh
+        }
+
+        public async Task<(OrderInformationWashingDetailingBll, EmployeeSalariesBll)> SelectCash(DateTime? startDate)
+        {            
+            OrderInformationWashingDetailingBll orderInformation = new OrderInformationWashingDetailingBll();
+
+            var employeeSalaries = await EmployeeSalaries(startDate); // ЗП
+
+            // Запрос на выборку
+            var orderServices = await _orderServicesCarWash.Reports(startDate.Value);
+            var selectCash = orderServices.Where(x => x.PaymentState == 1);
+            
+            // Мойка
+            var OrderCarWashList = selectCash.Where(x => x.typeOfOrder == 2);
+            orderInformation.OrderCarWashSum = OrderCarWashList.Sum(x => x.DiscountPrice);        // Касса мойки
+            
+            var numberOfUnpaidOrdersCarWash = OrderCarWashList.Where(x => x.StatusOrder == 4);
+            orderInformation.carWashCashSum = numberOfUnpaidOrdersCarWash.Sum(x => x.DiscountPrice);
+
+            // Детейлинг
+            var OrderDetelingList = selectCash.Where(x => x.typeOfOrder == 1);
+            orderInformation.OrderDetailing = OrderDetelingList.Sum(x => x.DiscountPrice); // Касса детейлинг
+
+            var numberOfUnpaidOrdersDetailings = OrderDetelingList.Where(x => x.StatusOrder == 4);
+            orderInformation.detailingCashSum = numberOfUnpaidOrdersDetailings.Sum(x => x.DiscountPrice);
+
+            // Ковры
+            var OrderCarpetList = orderServices.Where(x => x.typeOfOrder == 3);
+            orderInformation.carpetOrder = OrderCarpetList.Sum(x => x.DiscountPrice);      // Касса ковров
+
+            var numberOfUnpaidOrdersCarpetWashing = OrderCarpetList.Where(x => x.StatusOrder == 4);
+            orderInformation.cashCarpets = numberOfUnpaidOrdersCarpetWashing.Sum(x => x.DiscountPrice);
+
+            // шиномонтаж
+            var OrderTireList = orderServices.Where(x => x.typeOfOrder == 4);
+            orderInformation.TireOrders = OrderTireList.Sum(x => x.DiscountPrice);       // Касса шиномонтаж
+
+            var numberOfUnpaidOrdersTire = OrderTireList.Where(x => x.StatusOrder == 4);
+            orderInformation.tireCeash = numberOfUnpaidOrdersTire.Sum(x => x.DiscountPrice);
+
+            orderInformation.ordersInProgressCarWash = OrderCarWashList.Count();         // заказы мойки ожидают оплаты
+            orderInformation.ordersInProgressDetailings = OrderDetelingList.Count();     // заказы детейлиинг ожидает оплаты
+            orderInformation.ordersInProgressCarpetWashing = OrderCarpetList.Count();    // заказы чистка ковров ожидает оплаты
+
+            orderInformation.OrderCount = OrderCarWashList.Count();
+            orderInformation.CarCountDetailings = OrderDetelingList.Count();
+            orderInformation.CauntCarpet = OrderCarpetList.Count();
+            orderInformation.CauntTire = OrderTireList.Count();
+
+            var resul = (orderInformation, employeeSalaries);
+            return resul;
+        }
     }
 }

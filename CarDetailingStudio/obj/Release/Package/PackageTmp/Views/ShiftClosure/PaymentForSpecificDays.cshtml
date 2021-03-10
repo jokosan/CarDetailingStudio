@@ -58,6 +58,7 @@
             <div class="card-body">
                 <div class="pull-right m-t-30 text-right">
                     <p>Заработок сотрудника за месяц: @ViewBag.MonthlySalary грн.</p>
+                    <p>Ставка за день: @ViewBag.Rate грн. </p>
                     <p>Премия за месяц: @ViewBag.BonusToSalary грн. </p>
                     <p>Остаток за прошлый месяц:  @ViewBag.LastMonth грн.</p>
 
@@ -87,10 +88,17 @@
                     <div class="col-md-12">
                         @using (Html.BeginForm("PartialPayout", "ShiftClosure", FormMethod.Post))
                         {
-                            if (ViewBag.Message == null)
-                            {
+                            <form>
                                 <div class="input-group">
-                                    <input name="payout" type="text" placeholder="@ViewBag.Message" class="form-control is-invalid" id="validationServer01" />
+                                    <div>
+                                        @Html.DropDownList("idPaymentState", new List<SelectListItem>
+                                           {
+                                               new SelectListItem{ Text = "Выберите форму оплаты", Value = "3"},
+                                               new SelectListItem { Text = "Наличный расчёт", Value = "1"},
+                                               new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
+                                           }, new { @class = "form-control" })
+                                    </div>
+                                    <input name="payout" type="text" placeholder="@ViewBag.Message" class="form-control" id="validationServer01" />
                                     <input type="hidden" name="idEmployee" value=@ViewBag.IdCarWash />
                                     <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
 
@@ -98,85 +106,37 @@
                                     <input type="hidden" name="Prize" value=@ViewBag.BonusToSalary />
                                     <input type="hidden" name="BalancLastMonth" value=@ViewBag.LastMonth />
                                     <input type="hidden" name="PaidMonth" value=@ViewBag.PaidPerMonth />
-                                    <div class="input-group-append">
-                                        <input type="submit" name="submit" value="Выплата заработной платы" id="basic-addon2" class="btn btn-outline-danger" />
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="input-group">
-                                    <input name="payout" type="text" placeholder="@ViewBag.Message" class="form-control is-invalid" id="validationServer01" />
-                                    <input type="hidden" name="idEmployee" value=@ViewBag.IdCarWash />
-                                    <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
 
-                                    <input type="hidden" name="SalaryCurrentMonth" value=@ViewBag.MonthlySalary />
-                                    <input type="hidden" name="Prize" value=@ViewBag.BonusToSalary />
-                                    <input type="hidden" name="BalancLastMonth" value=@ViewBag.LastMonth />
-                                    <input type="hidden" name="PaidMonth" value=@ViewBag.PaidPerMonth />
                                     <div class="input-group-append">
-                                        <input type="submit" name="submit" value="Выплата заработной платы" id="basic-addon2" class="btn btn-outline-danger" />
+                                        <input type="submit" name="submit" value="Выплата заработной платы" id="basic-addon2" class="btn btn-outline" />
                                     </div>
+
                                 </div>
-                            }
-                            if (@ViewBag.LastMonth < 0)
-                            {
-                                <div class="card-body">
-                                    <div class="d-flex flex-row comment-row m-t-0">
-                                        <p>Закрыть частично (полностью) отрицательный баланс прошлого месяца</p>
-                                        <div class="col-md-1">
-                                            <label class="customcheckbox">
-                                                <label class="label">
-                                                    <input class="label__checkbox" type="checkbox" name="NegativeBalance" value="true" />
-                                                    <span class="label__text">
-                                                        <span class="label__check">
-                                                            <i class="fa fa-check icon"></i>
-                                                        </span>
+                            </form>
+                        }
+                        @if (@ViewBag.LastMonth < 0)
+                        {
+                            <div class="card-body">
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <p>Закрыть частично (полностью) отрицательный баланс прошлого месяца</p>
+                                    <div class="col-md-1">
+                                        <label class="customcheckbox">
+                                            <label class="label">
+                                                <input class="label__checkbox" type="checkbox" name="NegativeBalance" value="true" />
+                                                <span class="label__text">
+                                                    <span class="label__check">
+                                                        <i class="fa fa-check icon"></i>
                                                     </span>
-                                                </label>
-                                                <span class="checkmark"></span>
+                                                </span>
                                             </label>
-                                        </div>
+                                            <span class="checkmark"></span>
+                                        </label>
                                     </div>
                                 </div>
-                            }
-
+                            </div>
                         }
                     </div>
-                    @*<div class="col-md-6">
-                            @using (Html.BeginForm())
-                            {
-                                if (ViewBag.MessageClose == null)
-                                {
-                                    <div class="text-right">
-                                        <div class="input-group">
-                                            <input name="payout" type="text" class="form-control" />
-                                            <input type="hidden" name="id" value=@ViewBag.IdCarWash />
-                                            <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
-                                            <div class="input-group-append">
-                                                <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="text-right">
-                                        <div class="input-group">
-                                            <input name="payout" type="text" class="form-control is-invalid" id="validationServer01" placeholder="@ViewBag.MessageClose" />
-                                            <input type="hidden" name="id" value=@ViewBag.IdCarWash />
-                                            <input type="hidden" name="totalPayable" value=@ViewBag.TotalPayable />
-                                            <div class="input-group-append">
-                                                <input class="btn  btn-outline-success" type="submit" id="btnCreate" value="Закрыть месяц" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            }
-                        </div>*@
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -198,9 +158,7 @@
                         </th>
                         <th>
                             Сумма выплаты
-                        @*<th>
-                            Cостояние счета на момент выплаты
-                        </th>*@
+
                         <th>
                             Остаток
                         </th>
@@ -220,8 +178,8 @@
                                     <span class="text-danger">@item.payoutAmount</span>
                                 </td>
                                 @*<td>
-                                    <span class="text-danger">@item.accountBalance</span>
-                                </td>*@
+                                        <span class="text-danger">@item.accountBalance</span>
+                                    </td>*@
 
                                 <td>
                                     <span class="text-danger">@resultSum</span>
@@ -236,8 +194,8 @@
                                     @item.payoutAmount
                                 </td>
                                 @*<td>
-                                    @item.accountBalance
-                                </td>*@
+                                        @item.accountBalance
+                                    </td>*@
                                 <td>
                                     @resultSum
                                 </td>
@@ -253,4 +211,10 @@
     </div>
 </div>
 
-
+<script>
+    $(document).ready(function () {
+        $('form').submit(function () {
+            $(this).find('input[type=submit], button[type=submit]').prop('disabled', true);
+        });
+    });
+</script>

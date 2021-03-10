@@ -45,11 +45,17 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         // db Table [OrderServicesCarWash]
         // Закрыть заказ
         public async Task CloseOrder(int idPaymentState, int idOrder, int idStatusOrder)
+        
         {
             var Order = await _orderServicesCarWash.GetId(idOrder);
 
             Order.PaymentState = idPaymentState;
-            Order.ClosingData = DateTime.Now;
+
+            if (idStatusOrder != 4)
+            {
+                Order.ClosingData = DateTime.Now;
+            }
+          
 
             Order.StatusOrder = idStatusOrder;
 
@@ -110,7 +116,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
         private int StatusTypeServises(int servises, int brigade)
         {
-
             if (brigade == 1 && servises == 1)
                 return 1;
 
@@ -166,7 +171,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.typeServicesId = StatusTypeServises(7, 1); // изменить  
 
             await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
-
         }
 
         private int ConvertStringToInt(string x) => Convert.ToInt32(x);
@@ -176,11 +180,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         {
             var selectedEmployee = await _carWashWorkers.CarWashWorkersId(employeeId);
             double employeePercentage;
-
-            //if (status)
-            //{
-            //   JobTitle = Regex.IsMatch(selectedEmployee.JobTitleTable.Position, "\\bАдминистратор\\b");
-            //}            
 
             if (status)
             {
@@ -192,7 +191,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             }
 
             return employeePercentage * orderPrice / count;
-
         }
 
         // Заработная плата администратора
@@ -227,7 +225,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.typeServicesId = 7;
 
             await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
-
         }
 
         // Выбор Администратора
@@ -235,7 +232,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         {
             var category = await _brigadeForToday.GetDateTimeNow();
             var adminSelectionByCategory = category.Single(x => x.StatusId == adminСategory);
-
 
             OrderCarWashWorkersBll orderCarWashWorkers = new OrderCarWashWorkersBll();
 
@@ -247,7 +243,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.typeServicesId = StatusTypeServises(serveses, 1); // изменить  
 
             await _orderCarWashWorkers.SaveOrderCarWashWorkers(orderCarWashWorkers);
-
         }
     }
 }

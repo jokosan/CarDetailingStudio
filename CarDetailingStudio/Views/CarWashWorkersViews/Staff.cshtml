@@ -54,6 +54,7 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.IdPosition)
                             </th>
+                            <th>Назначение услуги/Заработная плата</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -96,9 +97,14 @@
                                     @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
                                 </td>
                                 <td>
+                                    @Html.ActionLink("Назначить", "EducationOfWages", new { id = item.id })
+                                </td>
+                                <td>
                                     @Html.ActionLink("Редактировать", "EditEmployee", new { id = item.id }) |
                                     @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id })
+
                                 </td>
+
                             </tr>
                         }
                         else
@@ -134,6 +140,9 @@
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Назначить", "EducationOfWages", new { id = item.id })
                                 </td>
                                 <td>
                                     @Html.ActionLink("Редактировать", "EditEmployee", new { id = item.id }) |

@@ -21,9 +21,10 @@ namespace CarDetailingStudio.DAL
             this.brigadeForToday = new HashSet<brigadeForToday>();
             this.Credit = new HashSet<Credit>();
             this.OrderCarWashWorkers = new HashSet<OrderCarWashWorkers>();
+            this.premiumAndRate = new HashSet<premiumAndRate>();
+            this.salaryArchive = new HashSet<salaryArchive>();
             this.salaryBalance = new HashSet<salaryBalance>();
             this.salaryExpenses = new HashSet<salaryExpenses>();
-            this.salaryArchive = new HashSet<salaryArchive>();
         }
     
         public int id { get; set; }
@@ -51,10 +52,12 @@ namespace CarDetailingStudio.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderCarWashWorkers> OrderCarWashWorkers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<premiumAndRate> premiumAndRate { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<salaryArchive> salaryArchive { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<salaryBalance> salaryBalance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<salaryExpenses> salaryExpenses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<salaryArchive> salaryArchive { get; set; }
     }
 }

@@ -30,9 +30,5 @@ namespace CarDetailingStudio.BLL.Services
             return Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.GetWhere(x => x.name.Contains(id)));
         }
 
-        public async Task<IEnumerable<CarMarkBll>> GetInclude()
-        {
-            return Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.GetInclude("car_model"));
-        }
     }
 }

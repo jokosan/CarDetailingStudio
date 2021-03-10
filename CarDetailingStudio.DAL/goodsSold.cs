@@ -18,10 +18,10 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> listOfGoodsId { get; set; }
         public Nullable<int> carWashWorkersId { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<double> orderPrice { get; set; }
-        public Nullable<double> amount { get; set; }
-        public Nullable<double> percentageOfSale { get; set; }
         public Nullable<double> priceForOne { get; set; }
+        public Nullable<double> amount { get; set; }
+        public Nullable<double> orderPrice { get; set; }
+        public Nullable<double> percentageOfSale { get; set; }
         public Nullable<int> PaymentState { get; set; }
     
         public virtual listOfGoods listOfGoods { get; set; }

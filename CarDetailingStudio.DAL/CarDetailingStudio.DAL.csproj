@@ -237,6 +237,12 @@
     <Compile Include="PaymentState.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Position.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="premiumAndRate.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="PriceListTireFitting.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.AnalyticsView.GroupingEmployeesWagesView>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.idEmployees)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.orderCount)
+
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.orderCount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.orderSum)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.wegesSum)
+                    </th>
+                </tr>
+                @foreach (var itemDate in ViewBag.ExpensesDate)
+                {
+                    if (Model.Any(x => x.date.Date == itemDate))
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center"><b class="text-danger">@itemDate.Date.ToString("dd.MM.yyyy")</b></td>
+                        </tr>
+                    }
+
+
+                    foreach (var item in Model)
+                    {
+                        if (itemDate.Date == item.date.Date)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.idEmployees)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.date, "{0:dd/MM/yyyy}")
+                                </td>
+
+                                <td>
+                                    @* <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses =  @ViewBag.TypeExpenses, idEmployees = item.idEmployees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>*@
+                                    <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses =  @ViewBag.TypeExpenses, idEmployees = item.idEmployees, dateStart = @itemDate.Date })>
+                                        @Html.DisplayFor(modelItem => item.nameEmployees)
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.orderCount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.orderSum) грн.
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.wegesSum) грн.
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</div>

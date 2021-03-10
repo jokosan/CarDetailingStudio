@@ -71,41 +71,55 @@ namespace CarDetailingStudio.Controllers.Trade
         [HttpPost]
         public async Task<ActionResult> Basket(Cart cart, int? formPayment)
         {
-            if (cart.Lines.Count() == 0)
+            if (formPayment != 3)
             {
-                ModelState.AddModelError("", "Извините, не добавлено ни одного товара в карзину заказов");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var goodsSold = new List<GoodsSoldBll>();
-
-                foreach (var itemCart in cart.Lines)
+                if (cart.Lines.Count() == 0)
                 {
-                    goodsSold.Add(new GoodsSoldBll
-                    {
-                        listOfGoodsId = itemCart.listOfGoodsView.idListOfGoods,
-                        Date = DateTime.Now,
-                        priceForOne = itemCart.listOfGoodsView.price,
-                        orderPrice = (itemCart.Quantity * itemCart.listOfGoodsView.price),
-                        amount = itemCart.Quantity,
-                        percentageOfSale = (itemCart.Quantity * itemCart.listOfGoodsView.salaryFromSale),
-                        PaymentState = formPayment
-                        
-                    });
+                    ModelState.AddModelError("", "Извините, не добавлено ни одного товара в карзину заказов");
                 }
 
-                await _goodsSold.InsertList(goodsSold);
-                cart.Clear();
+                if (ModelState.IsValid)
+                {
+                    var goodsSold = new List<GoodsSoldBll>();
 
-                return RedirectToAction("OrderShopArxiv");
+                    foreach (var itemCart in cart.Lines)
+                    {
+                        goodsSold.Add(new GoodsSoldBll
+                        {
+                            listOfGoodsId = itemCart.listOfGoodsView.idListOfGoods,
+                            Date = DateTime.Now,
+                            priceForOne = itemCart.listOfGoodsView.price,
+                            orderPrice = (itemCart.Quantity * itemCart.listOfGoodsView.price),
+                            amount = itemCart.Quantity,
+                            percentageOfSale = (itemCart.Quantity * itemCart.listOfGoodsView.salaryFromSale),
+                            PaymentState = formPayment
+
+                        });
+                    }
+
+                    await _goodsSold.InsertList(goodsSold);
+                    cart.Clear();
+
+                    return RedirectToAction("OrderShopArxiv");
+                }
+                else
+                {
+                    return View(new CartIndexViewModels
+                    {
+                        Cart = cart
+                    });
+                }
             }
             else
             {
-                return View();
+                ModelState.AddModelError("", "Выберите форму оплаты");
             }
-        }
 
+            return View(new CartIndexViewModels
+            {
+                Cart = cart
+            });
+        }
 
         [HttpPost]
         public async Task<RedirectToRouteResult> AddToCart(Cart cart, int? productId, string returnUrl, int? quantity)

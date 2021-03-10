@@ -1,4 +1,5 @@
-﻿using CarDetailingStudio.BLL.Model;
+﻿
+using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using System.Data.Entity;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -24,14 +26,15 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<EmployeeRateBll> SelectId(int? elementId) => Mapper.Map<EmployeeRateBll>(await _unitOfWork.EmployeeRateUnitOfWork.GetById(elementId));
 
-        public Task<IEnumerable<EmployeeRateBll>> Reports(DateTime datepresentDay)
+        public async Task<IEnumerable<EmployeeRateBll>> Reports(DateTime datepresentDay)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<EmployeeRateBll>>(await _unitOfWork.EmployeeRateUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.brigadeForToday.Date.Value) >= datepresentDay.Date), "brigadeForToday"));
         }
 
-        public Task<IEnumerable<EmployeeRateBll>> Reports(DateTime startDate, DateTime finalDate)
+        public async Task<IEnumerable<EmployeeRateBll>> Reports(DateTime startDate, DateTime finalDate)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<EmployeeRateBll>>(await _unitOfWork.EmployeeRateUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.brigadeForToday.Date.Value) >= startDate.Date)
+                                                                                                              && (DbFunctions.TruncateTime(x.brigadeForToday.Date.Value) <= finalDate.Date), "brigadeForToday"));
         }      
 
         public async Task Update(EmployeeRateBll elementToUpdate)

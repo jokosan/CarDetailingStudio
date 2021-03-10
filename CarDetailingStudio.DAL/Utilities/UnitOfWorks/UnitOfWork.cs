@@ -43,6 +43,8 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<additionalTireStorageServices> AdditionalTireStorageServicesUW;
         private DbRepository<salaryArchive> salaryArchiveUW;
         private DbRepository<EmployeeRate> EmployeeRateUW;
+        private DbRepository<premiumAndRate> PremiumAndRateServicesUW;
+        private DbRepository<Position> PositionUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -54,6 +56,18 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         // Временное решение
         private DbRepository<AdditionalIncome> AdditionalIncomeUW;
+
+        public DbRepository<Position> PositionUnitOfWork
+        {
+            get => PositionUW ?? (PositionUW = new DbRepository<Position>(_entities));
+            set => PositionUW = value;
+        }
+
+        public DbRepository<premiumAndRate> PremiumAndRateServicesUnitOFWork
+        {
+            get => PremiumAndRateServicesUW ?? (PremiumAndRateServicesUW = new DbRepository<premiumAndRate>(_entities));
+            set => PremiumAndRateServicesUW = value;
+        }
 
         public DbRepository<EmployeeRate> EmployeeRateUnitOfWork
         {

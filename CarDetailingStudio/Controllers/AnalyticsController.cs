@@ -1,124 +1,76 @@
 ﻿using AutoMapper;
+using CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
-using CarDetailingStudio.BLL.Services.Modules.Contract;
-using CarDetailingStudio.BLL.Services.Trade.TradeContract;
-using CarDetailingStudio.Models;
+using CarDetailingStudio.Models.AnalyticsView;
 using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.UI.WebControls;
-
 
 namespace CarDetailingStudio.Controllers
 {
     public partial class AnalyticsController : Controller
     {
-        private IIncomeForTheCurrentDay _incomeForTheCurrent;
-        private IBonusToSalary _bonusToSalary;
-        private ICashier _cashier;
-        private IOrderCarWashWorkersServices _orderCarWash;
-        private IBrigadeForTodayServices _brigadeForTodayServices;
-        private IOrderServicesCarWashServices _orderServices;
-        private IExpenses _expenses;
-        private IGoodsSold _goodsSold;
-
-
-        private double sumOfAllExpenses = 0;
-
-        private EmployeeSalariesView employeeSalaries = new EmployeeSalariesView();
-        private OrderInformationWashingDetailingView orderInformation = new OrderInformationWashingDetailingView();
-
-        double? test { get; set; }
+        private readonly ICashier _cashier;
+        private readonly IAbstractFactory _abstractFactory;
+      
 
         public AnalyticsController(
-            IIncomeForTheCurrentDay incomeForTheCurrent,
-            IBonusToSalary bonusToSalary,
             ICashier cashier,
-            IOrderServicesCarWashServices orderServices,
-            IOrderCarWashWorkersServices orderCarWash,
-            IBrigadeForTodayServices brigadeForTodayServices,
-            IExpenses expenses,
-            IGoodsSold goodsSold)
+            IAbstractFactory abstractFactory)
         {
-            _incomeForTheCurrent = incomeForTheCurrent;
-            _bonusToSalary = bonusToSalary;
             _cashier = cashier;
-            _orderCarWash = orderCarWash;
-            _brigadeForTodayServices = brigadeForTodayServices;
-            _orderServices = orderServices;
-            _expenses = expenses;
-            _goodsSold = goodsSold;
+            _abstractFactory = abstractFactory;
         }
 
         // GET: Analytics
+        [HttpGet]
         public async Task<ActionResult> Report(DateTime? startDate = null, DateTime? finalDate = null)
         {
             if (startDate == null && finalDate == null)
             {
-                startDate = DateTime.Now;
+                startDate = DateTime.Now.AddDays(-7);
+                finalDate = DateTime.Now;
             }
-
-            IEnumerable<BonusToSalaryView> BonusToSalary;
-            IEnumerable<ExpensesView> salaryExpenses;
-
-            if (finalDate == null)
+            else if (finalDate == null)
             {
-                sumOfAllExpenses = await _incomeForTheCurrent.SumOfAllExpenses(startDate.Value);
-                employeeSalaries = Mapper.Map<EmployeeSalariesView>(await _incomeForTheCurrent.EmployeeSalaries(startDate.Value));
-                orderInformation = Mapper.Map<OrderInformationWashingDetailingView>(await _incomeForTheCurrent.AmountOfCompletedOrders(startDate.Value));
-                BonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.Reports(startDate.Value));
-                salaryExpenses = Mapper.Map<IEnumerable<ExpensesView>>(await _expenses.Reports(startDate.Value));
-            }
-            else
-            {
-                sumOfAllExpenses = await _incomeForTheCurrent.SumOfAllExpenses(startDate.Value, finalDate.Value);
-                employeeSalaries = Mapper.Map<EmployeeSalariesView>(await _incomeForTheCurrent.EmployeeSalaries(startDate.Value, finalDate.Value));
-                orderInformation = Mapper.Map<OrderInformationWashingDetailingView>(await _incomeForTheCurrent.AmountOfCompletedOrders(startDate.Value, finalDate.Value));
-                BonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.Reports(startDate.Value, finalDate.Value));
-                salaryExpenses = Mapper.Map<IEnumerable<ExpensesView>>(await _expenses.Reports(startDate.Value, finalDate.Value));
+                startDate = DateTime.Now.AddDays(-7);
+                finalDate = DateTime.Now;
             }
 
-            var selectSalaryExpenses = salaryExpenses.Where(x => x.expenseCategoryId == 1);
-            double salaryExpensesDay = selectSalaryExpenses.Sum(s => s.Amount).Value;
-            ViewBag.SalaryExpensesDay = salaryExpensesDay;
+            var analyticsResult = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriod(startDate.Value, finalDate.Value));
+            var analyticsCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriodFormOfPayment(startDate.Value, finalDate.Value, 2));
+            var analyticsNoCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriodFormOfPayment(startDate.Value, finalDate.Value, 1));
+            var Cashier = Mapper.Map<IEnumerable<CashierView>>(await _cashier.Reports(startDate.Value, finalDate.Value));
 
-            //  Carpet
-            CarpetViewBag(employeeSalaries, orderInformation);
+            AnalyticsFull analyticsFull = new AnalyticsFull();
 
-            // Tire
-            Tire(employeeSalaries, orderInformation);
+            analyticsFull.analyticsViewResult = new AnalyticsView();
+            analyticsFull.analyticsViewResult = analyticsResult;
 
-            //  BonusToSalary
-            BonusSalary(BonusToSalary);
+            analyticsFull.analyticsViewCash = new AnalyticsView();
+            analyticsFull.analyticsViewCash = analyticsCash;
 
-            // CarWash
-            CarWash(employeeSalaries, orderInformation);
+            analyticsFull.analyticsViewNoCash = new AnalyticsView();
+            analyticsFull.analyticsViewNoCash = analyticsNoCash;
 
-            // Detailings
-            Detailings(employeeSalaries, orderInformation);
+            analyticsFull.cashStartOfTheDay = Cashier.Sum(x => x.amountBeginningOfTheDay);
 
-            //// ЗП Администратора мойки и детейлинга
-            //// ЗП Сотрудников мойки и детейлинга
-            AdministratorToStaff(employeeSalaries, orderInformation);
+            analyticsFull.CashEndDay = SumTotalGeneral(analyticsResult);
+            analyticsFull.CashEndDayCash = SumTotal(analyticsCash) + analyticsFull.cashStartOfTheDay;
+            analyticsFull.CashEndDayNoCash = SumTotal(analyticsNoCash);
 
-            // Наличный безналичный доходы
-            ViewBag.Cash = orderInformation.cash;
-            ViewBag.NonCash = orderInformation.nonCash;
+            analyticsFull.SumWegesAdministrator = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator + analyticsResult.wagesForCompletedOrders.Washing.SalaryAdministrator;
+            analyticsFull.SumWegesEmployees = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees + analyticsResult.wagesForCompletedOrders.Washing.SalaryEmployees;
+            analyticsFull.SumPendingPayment = SumOrderPendingPayment(analyticsResult);
 
-            //итого доходы
-            Total(employeeSalaries, orderInformation, salaryExpenses, sumOfAllExpenses);
-
-            // Количество заказов ожидающих оплату
-            ViewBag.NumberOfUnpaidOrders = orderInformation.numberOfUnpaidOrdersCarpetWashing +
-                                           orderInformation.numberOfUnpaidOrdersCarWash +
-                                           orderInformation.numberOfUnpaidOrdersDetailings;
+            ViewBag.StartDate = DateTime.Now.ToString("D");
+            ViewBag.DateWhereStart = DateTime.Now;
+            ViewBag.Date = DateTime.Now.AddDays(1).ToString("d");
 
             var invoice = new DateTime(startDate.Value.Year, startDate.Value.Month, 1);
             ViewBag.InvoiceDate = invoice.ToString("D");
@@ -137,7 +89,7 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.DateWhereFinal = finalDate;
             }
 
-            return View();
+            return View(analyticsFull);
         }
 
         [HttpPost]
@@ -151,127 +103,43 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> AdminReport(bool CloseDay = false, bool message = true)
-        {
-            var sumOfAllExpenses = await _incomeForTheCurrent.SumOfAllExpenses(DateTime.Now);
-            var employeeSalaries = Mapper.Map<EmployeeSalariesView>(await _incomeForTheCurrent.EmployeeSalaries(DateTime.Now));
-            var orderInformation = Mapper.Map<OrderInformationWashingDetailingView>(await _incomeForTheCurrent.AmountOfCompletedOrders(DateTime.Now));
-            var BonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.Reports(DateTime.Now));
-            var Cashier = Mapper.Map<IEnumerable<CashierView>>(await _cashier.Reports(DateTime.Now));
-            var salaryExpenses = Mapper.Map<IEnumerable<ExpensesView>>(await _expenses.Reports(DateTime.Now));
-
-            double salaryExpensesDay = salaryExpenses.Sum(s => s.Amount).Value;
-            double cashierDayStart = Cashier.Sum(x => x.amountBeginningOfTheDay);
-
-            ViewBag.AdministratorCarWash = employeeSalaries.AdministratorCarWash + employeeSalaries.adminCarpet;    // ЗП администратора мойки
-            ViewBag.StaffDetailing = employeeSalaries.StaffDetailing;                                               // ЗП администратора детейлинга
-            ViewBag.StaffCarWashWorker = employeeSalaries.StaffCarWashWorker + employeeSalaries.staffCarpet;        // ЗП сотрудников мойки
-            ViewBag.AdministratorDetailings = employeeSalaries.AdministratorDetailings;                             // ЗП сотрудников детейлинга
-
-            ViewBag.OrderCarWashSum = orderInformation.OrderCarWashSum;                                             // Касса мойки
-            ViewBag.OrderCount = orderInformation.OrderCount;                                                       // Количество Авто мойка
-            ViewBag.OrderDetailingsSum = orderInformation.OrderDetailing;                                           // Касса детейлинг
-            ViewBag.CarCountDetailings = orderInformation.CarCountDetailings;                                       // Количество авто детейлинг  
-
-            ViewBag.CarpetOrder = orderInformation.carpetOrder;                                                     // Касса ковров
-            ViewBag.CauntCarpet = orderInformation.CauntCarpet;                                                     // Количество заказов ковров
-
-            ViewBag.TotalCosts = sumOfAllExpenses;                                                                  // Сумма затрат 
-
-            // Количество заказов ожидающих оплату
-            ViewBag.NumberOfUnpaidOrders = orderInformation.numberOfUnpaidOrdersCarpetWashing +
-                                           orderInformation.numberOfUnpaidOrdersCarWash +
-                                           orderInformation.numberOfUnpaidOrdersDetailings;
-
-            ViewBag.SalaryExpenses = salaryExpensesDay;                                                             // Выданно наличных за текущий день 
-            ViewBag.CashStartDay = cashierDayStart;                                                                 // Касса начало дня (наличные)
-
-            ViewBag.Cash = orderInformation.cash;                                                                   // Приход наличных
-            ViewBag.NonCash = orderInformation.nonCash;                                                             // Приход безналичных
-
-            ViewBag.CashEndDay = orderInformation.cash - sumOfAllExpenses + cashierDayStart;                     // Касса конец дня  (наличные)
-
-            //итого доходы
-            ViewBag.TotalIncome = orderInformation.OrderCarWashSum + orderInformation.OrderDetailing + orderInformation.carpetOrder;
-            //Итого расходы на зарплату
-            ViewBag.TotalSalaryExpenses = employeeSalaries.adminCarpet + employeeSalaries.staffCarpet + employeeSalaries.AdministratorCarWash + employeeSalaries.AdministratorDetailings + employeeSalaries.StaffCarWashWorker + employeeSalaries.StaffDetailing;
-            ViewBag.Total = ViewBag.TotalIncome - ViewBag.TotalCosts - ViewBag.TotalSalaryExpenses;
-            ViewBag.StartDate = DateTime.Now.ToString("D");
-
-            ViewBag.CloseDay = CloseDay;
-
-            ViewBag.Message = message;
-
-            return View();
-        }
-
-        [HttpGet]
         public async Task<ActionResult> SummaryOfTheDay(bool CloseDay = false, bool message = true)
         {
-            var sumOfAllExpenses = await _incomeForTheCurrent.SumOfAllExpenses(DateTime.Now);
-            var employeeSalaries = Mapper.Map<EmployeeSalariesView>(await _incomeForTheCurrent.EmployeeSalaries(DateTime.Now));
-            var orderInformation = Mapper.Map<OrderInformationWashingDetailingView>(await _incomeForTheCurrent.AmountOfCompletedOrders(DateTime.Now));
-            var BonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.Reports(DateTime.Now));
+            var analyticsResult = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheDay(DateTime.Now));
+            var analyticsCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsPerDayFormOfPayment(DateTime.Now, 2));
+            var analyticsNoCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsPerDayFormOfPayment(DateTime.Now, 1));
             var Cashier = Mapper.Map<IEnumerable<CashierView>>(await _cashier.Reports(DateTime.Now));
-            var salaryExpenses = Mapper.Map<IEnumerable<ExpensesView>>(await _expenses.Reports(DateTime.Now));            
 
-            double salaryExpensesDay = salaryExpenses.Sum(s => s.Amount).Value;
-            double cashierDayStart = Cashier.Sum(x => x.amountBeginningOfTheDay);
+            AnalyticsFull analyticsFull = new AnalyticsFull();
 
-            // Carpet
-            CarpetViewBag(employeeSalaries, orderInformation);
+            analyticsFull.analyticsViewResult = new AnalyticsView();
+            analyticsFull.analyticsViewResult = analyticsResult;
 
-            // Tire
-            Tire(employeeSalaries, orderInformation);
+            analyticsFull.analyticsViewCash = new AnalyticsView();
+            analyticsFull.analyticsViewCash = analyticsCash;
 
-            // BonusToSalary
-            BonusSalary(BonusToSalary);
+            analyticsFull.analyticsViewNoCash = new AnalyticsView();
+            analyticsFull.analyticsViewNoCash = analyticsNoCash;
 
-            // CarWash
-            CarWash(employeeSalaries, orderInformation);
+            analyticsFull.cashStartOfTheDay = Cashier.Sum(x => x.amountBeginningOfTheDay);
 
-            // Detailings
-            Detailings(employeeSalaries, orderInformation);
-
-            //// ЗП Администратора мойки и детейлинга
-            //// ЗП Сотрудников мойки и детейлинга
-            AdministratorToStaff(employeeSalaries, orderInformation);
-
-            // Наличный безналичный доходы
-            ViewBag.Cash = orderInformation.cash;
-            ViewBag.NonCash = orderInformation.nonCash;
-
-            //итого доходы
-            Total(employeeSalaries, orderInformation, salaryExpenses, sumOfAllExpenses);
+            analyticsFull.SumWegesAdministrator = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator + analyticsResult.wagesForCompletedOrders.Washing.SalaryAdministrator;
+            analyticsFull.SumWegesEmployees = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees + analyticsResult.wagesForCompletedOrders.Washing.SalaryEmployees;
+            analyticsFull.SumPendingPayment = SumOrderPendingPayment(analyticsResult);
 
 
-            // Количество заказов ожидающих оплату
-            ViewBag.NumberOfUnpaidOrders = orderInformation.numberOfUnpaidOrdersCarpetWashing +
-                                           orderInformation.numberOfUnpaidOrdersCarWash +
-                                           orderInformation.numberOfUnpaidOrdersDetailings;
-
-            ViewBag.SalaryExpenses = salaryExpensesDay;                                                             // Выданно наличных за текущий день 
-            ViewBag.CashStartDay = cashierDayStart;                                                                 // Касса начало дня (наличные)
-
-            ViewBag.Cash = orderInformation.cash;                                                                   // Приход наличных
-            ViewBag.NonCash = orderInformation.nonCash;                                                             // Приход безналичных
-
-            ViewBag.CashEndDay = orderInformation.cash - sumOfAllExpenses + cashierDayStart + orderInformation.tireCeash;                     // Касса конец дня  (наличные)
-
-            //итого доходы
-            double goodsSoldResult = await GoodsSoldAnalytics();
-            ViewBag.TotalIncome = orderInformation.OrderCarWashSum + orderInformation.OrderDetailing + orderInformation.carpetOrder + goodsSoldResult;
+            analyticsFull.CashEndDay = SumTotalGeneral(analyticsResult);
+            analyticsFull.CashEndDayCash = SumTotal(analyticsCash) + analyticsFull.cashStartOfTheDay + SumOrdersForThePreviousPeriod(analyticsCash.informationPreviousPeriod);
+            analyticsFull.CashEndDayNoCash = SumTotal(analyticsNoCash) + SumOrdersForThePreviousPeriod(analyticsNoCash.informationPreviousPeriod);
 
             ViewBag.StartDate = DateTime.Now.ToString("D");
-
             ViewBag.DateWhereStart = DateTime.Now;
             ViewBag.CloseDay = CloseDay;
-
             ViewBag.Message = message;
-
             ViewBag.Date = DateTime.Now.AddDays(1).ToString("d");
 
-            return View();
+
+            return View(analyticsFull);
         }
 
         [HttpPost]
@@ -309,234 +177,341 @@ namespace CarDetailingStudio.Controllers
             }));
         }
 
-        public async Task<ActionResult> EmployeeSalaryDetails()
+        private double SumOrderPendingPayment(AnalyticsView analyticsViews)
         {
-            DateTime date = DateTime.Now.AddDays(-3);
-            var orderCarWashWorker = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWash.Reports(date));
-            var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForTodayServices.Reports(date));
-            var orderServices = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _orderServices.Reports(date));
+            double washing = analyticsViews.completedOrders.Washing.OrdersAwaitingPaymentCashier;
+            double detailing = analyticsViews.completedOrders.Detailing.OrdersAwaitingPaymentCashier;
+            double tireFitting = analyticsViews.completedOrders.TireFitting.OrdersAwaitingPaymentCashier;
+            double carpetWashing = analyticsViews.completedOrders.CarpetWashing.OrdersAwaitingPaymentCashier;
+            double tireStorage = analyticsViews.completedOrders.TireStorage.OrdersAwaitingPaymentCashier;
 
-            var adminDetailing = orderCarWashWorker.Where(x => x.typeServicesId == 1);                  // админ детейлинг
-            var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 2);                    // админ мойка
-
-            var adminCarpetWashing = orderCarWashWorker.Where(x => x.typeServicesId == 3);              // админ ковры
-            var StaffDetailing = orderCarWashWorker.Where(x => x.typeServicesId == 4);                  // услуги детейлинга
-            var staffCarWashWorker = orderCarWashWorker.Where(x => x.typeServicesId == 5);              // услуги мойки
-            var staffCarWashWorkerCarpetWashing = orderCarWashWorker.Where(x => x.typeServicesId == 6); // услуги по стирке ковров
-                                                                                                        // var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 7); // хранение шин админ
-                                                                                                        // var adminCarWash = orderCarWashWorker.Where(x => x.typeServicesId == 8); // хранение шин сортудники 
-
-            ViewBag.AdministratorCarWash = adminCarWash;
-            ViewBag.AdministratorSum = adminCarWash.Sum(x => x.Payroll);                                // ЗП админ мойки
-
-            ViewBag.StaffCarWashWorker = staffCarWashWorker;
-            ViewBag.StaffCarWashWorkerSum = staffCarWashWorker.Sum(x => x.Payroll);                     // ЗП мойщик
-
-            ViewBag.AdministratorCarpetWashing = adminCarpetWashing;
-            ViewBag.AdministratorCarpetWashingSum = adminCarpetWashing.Sum(x => x.Payroll);             // ЗА админ коври
-
-            ViewBag.StaffCarpetWashing = staffCarWashWorkerCarpetWashing;
-            ViewBag.StaffCarpetWashingSum = staffCarWashWorkerCarpetWashing.Sum(x => x.Payroll);        // ЗП мойщик ковры
-
-            ViewBag.AdministratorDetailings = adminDetailing;
-            ViewBag.AdministratorDetailingsSum = adminDetailing.Sum(x => x.Payroll);
-
-            ViewBag.StaffDetailing = StaffDetailing;
-            ViewBag.StaffDetailingSum = StaffDetailing.Sum(x => x.Payroll);
-
-            var OrderCarWashList = orderServices.Where(x => x.typeOfOrder == 2);
-            var OrderDetelingList = orderServices.Where(x => x.typeOfOrder == 1);
-            var OrderCarpetList = orderServices.Where(x => x.typeOfOrder == 3);
-
-
-            ViewBag.OrderCarWash = OrderCarWashList;
-            ViewBag.OrderCarWashSum = OrderCarWashList.Sum(x => x.DiscountPrice);                       // Касса мойки
-
-            ViewBag.Detailings = OrderDetelingList;
-            ViewBag.OrderDetailing = OrderDetelingList.Sum(x => x.DiscountPrice);                       // Касса детейлинг
-
-            ViewBag.CarpetWashing = OrderCarpetList;
-            ViewBag.carpetOrder = OrderCarpetList.Sum(x => x.DiscountPrice);                            // Касса ковров
-
-
-
-
-            return View();
+            return washing + detailing + tireFitting + tireStorage + carpetWashing;
         }
 
-        public async Task<ActionResult> DetailsAboutTheSalaryAdministrator()
+        private double SumTotal(AnalyticsView analyticsView)
         {
-            return View();
+            return analyticsView.completedOrders.Washing.Cashier + analyticsView.completedOrders.Detailing.Cashier + analyticsView.completedOrders.CarpetWashing.Cashier +
+                   analyticsView.completedOrders.TireFitting.Cashier + analyticsView.completedOrders.TireStorage.Cashier + analyticsView.saleOfGoods.SumGoodsSold +
+                   analyticsView.additionalIncome.CashierAvtomir + analyticsView.additionalIncome.CashierCaravan + analyticsView.additionalIncome.CashierDryCleaningKohler -
+            //analyticsView.expenses.AmountExpenses;
+            analyticsView.expensesClassModels.Sum(s => s.Amount);
         }
 
-        public async Task<ActionResult> DetailsAboutOrders(int typeOrder, DateTime start, DateTime? finlDate = null)
+        private double SumTotalGeneral(AnalyticsView analyticsView)
         {
-            var resultOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _incomeForTheCurrent.AboutOrders(typeOrder, start, finlDate));
+            var services = analyticsView.completedOrders.Washing.SumCashierAndOrdersAwaitingPaymentCashier + analyticsView.completedOrders.Detailing.SumCashierAndOrdersAwaitingPaymentCashier +
+                   analyticsView.completedOrders.CarpetWashing.SumCashierAndOrdersAwaitingPaymentCashier + analyticsView.completedOrders.TireFitting.SumCashierAndOrdersAwaitingPaymentCashier +
+                   analyticsView.completedOrders.TireStorage.SumCashierAndOrdersAwaitingPaymentCashier;
 
-            // Количество машин
-            ViewBag.CarCaunt = resultOrder.Count();
+            var wages = analyticsView.wagesForCompletedOrders.Washing.SalaryAdministrator + analyticsView.wagesForCompletedOrders.Washing.SalaryEmployees +
+                   analyticsView.wagesForCompletedOrders.Detailing.SalaryAdministrator + analyticsView.wagesForCompletedOrders.Detailing.SalaryEmployees +
+                   analyticsView.wagesForCompletedOrders.TireFitting.SalaryAdministrator + analyticsView.wagesForCompletedOrders.TireFitting.SalaryEmployees +
+                   analyticsView.wagesForCompletedOrders.TireStorage.SalaryAdministrator + analyticsView.wagesForCompletedOrders.TireStorage.SalaryEmployees +
+                   analyticsView.wagesForCompletedOrders.SumBonusTOSalary + analyticsView.wagesForCompletedOrders.SumEmployeeRate;
 
-            // Сумма всех заказов
-            ViewBag.SumOedweAll = resultOrder.Sum(x => x.DiscountPrice);
+            // var expenses = analyticsView.expenses.AmountExpenses - analyticsView.expenses.PayrollCosts;
+            var expenses = analyticsView.expensesClassModels.Where(x => x.expenseCategoryId != 1).Sum(s => s.Amount);
 
-            // количество не оплаченных заказов
-            var SumUnpaidOrders = resultOrder.Where(x => x.StatusOrder == 4);
-            ViewBag.CountUnpaidOrders = SumUnpaidOrders.Count();
+            var resultServAndWages = services - wages;
 
-            // Сумма не оплаченных заказов
-            ViewBag.SumUnpaidOrders = SumUnpaidOrders.Sum(x => x.DiscountPrice);
-
-            var cashWhere = resultOrder.Where(x => x.PaymentState == 1);
-            var nonCashWhere = resultOrder.Where(x => x.PaymentState == 2);
-
-            ViewBag.Cash = cashWhere.Sum(s => s.DiscountPrice);                 // Наличный расчет
-            ViewBag.nonCash = nonCashWhere.Sum(s => s.DiscountPrice);           // Безналичный расчет  
-
-            ViewBag.TypeOrder = typeOrder;
-            return View(resultOrder);
+            return (resultServAndWages + analyticsView.saleOfGoods.SumGoodsSold + analyticsView.additionalIncome.CashierAvtomir +
+                   analyticsView.additionalIncome.CashierCaravan + analyticsView.additionalIncome.CashierDryCleaningKohler) - expenses;
         }
 
-        public async Task<ActionResult> DetailsOfSalaries(int typeOfEmployees, DateTime start, DateTime? finlDate = null)
+        private double SumOrdersForThePreviousPeriod(InformationPreviousPeriod informationSum)
         {
-            var resultDatailsOfSalaries = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _incomeForTheCurrent.AboutWages(typeOfEmployees, start, finlDate));
+            return informationSum.CarpetWashing.OrderSum + informationSum.Washing.OrderSum + informationSum.Detailing.OrderSum +
+                    informationSum.TireFitting.OrderSum + informationSum.TireStorage.OrderSum;
+        }
 
-            if (typeOfEmployees == 2 || typeOfEmployees == 5)
+        public async Task<ActionResult> DetailsAboutOrders(int typeOrder, int paymentState, DateTime start, DateTime? finlDate, int type = 0, int statusOrder = 0)
+        {
+            if (finlDate == null)
             {
-                int idCarpet = typeOfEmployees + 1;
+                if (paymentState == 0)
+                {
+                    if (statusOrder != 0)
+                    {
+                        ViewBagDateGroup(start, finlDate);
+                        return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start, statusOrder)));
+                    }
 
-                var resultDatailsOfSalariesCarpet = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _incomeForTheCurrent.AboutWages(idCarpet, start, finlDate));
-                var tableResultConcat = resultDatailsOfSalaries.Concat(resultDatailsOfSalariesCarpet);
+                    if (type == 0)
+                    {
+                        ViewBagDateGroup(start, finlDate);
+                        return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start)));
+                    }
+                    else
+                    {
+                        ViewBagDateGroup(start, finlDate);
+                        return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.InformationAboutOrderForThePreviousPeriod(typeOrder, start)));
+                    }
 
-                WebViewBagDetailsOfSalaries(tableResultConcat, typeOfEmployees);
+                }
+                else
+                {
+                    if (type == 0)
+                    {
+                        ViewBagDateGroup(start, finlDate);
+                        return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, paymentState, start)));
+                    }
+                    else
+                    {
+                        ViewBagDateGroup(start, finlDate);
+                        return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.InformationAboutOrderForThePreviousPeriod(typeOrder, paymentState, start)));
+                    }
 
-                return View(tableResultConcat);
+                }
+            }
+            else
+            {
+                if (paymentState == 0)
+                {
+                    if (statusOrder != 0)
+                    {
+                        ViewBagDateGroup(start, finlDate);
+                        return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start, finlDate, statusOrder)));
+                    }
+
+                    ViewBagDateGroup(start, finlDate);
+                    return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start, finlDate)));
+                }
+                else
+                {
+                    ViewBagDateGroup(start, finlDate);
+                    return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, paymentState, start, finlDate)));
+                }
+            }
+        }
+
+        public async Task<ActionResult> DetailsExpenses(int paymentState, DateTime dateStart, DateTime? dateFinal, int typeExpenses = 0)
+        {
+            ViewBag.TypeExpenses = typeExpenses;
+
+            if (dateFinal == null)
+            {
+                if (typeExpenses == 1)
+                {
+                    var salaryExpenses = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>( await _abstractFactory.DetailsSalaryExpenses(1, dateStart));
+                  
+                    ViewBagDateGroup(dateStart, dateFinal);
+
+                    return View(salaryExpenses);
+                }
+
+                if (paymentState != 0)
+                {
+                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, paymentState, dateStart));
+                 
+                    ViewBagDateGroup(dateStart, dateFinal);
+
+                    return View(expensesPaymentStateResult);
+                }
+
+                var expensesResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, dateStart));
+        
+                ViewBagDateGroup(dateStart, dateFinal);
+
+                return View(expensesResult);
+            }
+            else
+            {
+                if (paymentState != 0)
+                {
+                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, paymentState, dateStart, dateFinal));
+                 
+                    ViewBagDateGroup(dateStart, dateFinal);
+
+                    return View(expensesPaymentStateResult);
+                }
+
+                var expensesResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, dateStart, dateFinal));
+             
+                ViewBagDateGroup(dateStart, dateFinal);
+
+                return View(expensesResult);
+            }
+        }
+
+        public async Task<ActionResult> ExpensesGroup(int paymentState, DateTime dateStart, DateTime? dateFinal, int typeExpenses = 0)
+        {
+            ViewBag.PaymentState = paymentState;
+            ViewBag.DateStart = dateStart;
+            ViewBag.DateFinal = dateFinal;
+
+            if (dateFinal == null)
+            {
+                if (paymentState != 0)
+                {
+                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(paymentState, dateStart, typeExpenses));
+                 
+                    ViewBagDateGroup(dateStart, dateFinal);
+
+                    return View(expensesPaymentStateResult);
+                }
+
+                var expensesResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(dateStart, typeExpenses));
+           
+                ViewBagDateGroup(dateStart, dateFinal);
+
+                return View(expensesResult);
+            }
+            else
+            {
+                if (paymentState != 0)
+                {
+                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(paymentState, dateStart, dateFinal, typeExpenses));
+                  
+                    ViewBagDateGroup(dateStart, dateFinal);
+
+                    return View(expensesPaymentStateResult);
+                }
+
+                var expensesResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(dateStart, dateFinal, typeExpenses));
+               
+                ViewBagDateGroup(dateStart, dateFinal);
+
+                return View(expensesResult);
+            }
+        }
+
+        public async Task<ActionResult> WagesInfo(int? typeExpenses, DateTime? dateStart, DateTime? dateFinal)
+        {
+            if (typeExpenses == null)
+            {
+                return RedirectToAction("Report", "Analytics", new RouteValueDictionary(new
+                {
+                    startDate = DateTime.Now
+                }));
             }
 
-            WebViewBagDetailsOfSalaries(resultDatailsOfSalaries, typeOfEmployees);
-            return View(resultDatailsOfSalaries);
+            ViewBag.TypeExpenses = typeExpenses;
+            ViewBag.DateWhereStart = dateStart;
+            ViewBag.DateWhereFinal = dateFinal;
+
+            if (dateFinal == null)
+            {
+                var result = Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(typeExpenses.Value, dateStart.Value));
+              
+                ViewBagDateGroup(dateStart.Value, dateFinal);
+                return View(result);
+            }
+            else
+            {
+                var result = Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(typeExpenses.Value, dateStart.Value, dateFinal));
+             
+                ViewBagDateGroup(dateStart.Value, dateFinal);
+                return View(result);
+            }
         }
 
-        public void WebViewBagDetailsOfSalaries(IEnumerable<OrderCarWashWorkersView> orderCarWashes, int typeOfEmployees)
+        public async Task<ActionResult> GoodsSoldInfo(int paymentState, DateTime dateStart, DateTime? dateFinal)
         {
-            ViewBag.TypeOfEmployees = typeOfEmployees;
-
-            // Всего на зарплату
-            ViewBag.SumOfAllOrdersPayroll = orderCarWashes.Sum(s => s.Payroll);
-
-            //  Сумма всех заказов
-            ViewBag.SumOfAllOrdersDiscountPrice = orderCarWashes.Sum(s => s.OrderServicesCarWash.DiscountPrice);
-
-            if (typeOfEmployees == 2 || typeOfEmployees == 5)
+            if (dateFinal == null)
             {
-                // Сумма заказов мойки
-                var amountOfWashingOrders = orderCarWashes.Where(x => x.typeServicesId == typeOfEmployees);
+                if (paymentState != 0)
+                {
+                    var goodsSoldInforesult = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(paymentState, dateStart));
+                    ViewBagDateGroup(dateStart, dateFinal);
 
-                ViewBag.AmountOfWashingOrdersPayroll = amountOfWashingOrders.Sum(x => x.Payroll);
-                ViewBag.AmountOfWashingOrdersDiscountPrice = amountOfWashingOrders.Sum(x => x.OrderServicesCarWash.DiscountPrice);
+                    return View(goodsSoldInforesult);
+                }
 
-                int idCarpet = typeOfEmployees + 1;
-                var amountOfWashingOrdersCarpet = orderCarWashes.Where(x => x.typeServicesId == idCarpet);
+                var goodsSoldInfo = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(dateStart));
+                ViewBagDateGroup(dateStart, dateFinal);
 
-                ViewBag.AmountOfWashingOrdersCarpetSumPayroll = amountOfWashingOrdersCarpet.Sum(x => x.Payroll);
-                ViewBag.AmountOfWashingOrdersCarpetSumDiscountPrice = amountOfWashingOrdersCarpet.Sum(x => x.OrderServicesCarWash.DiscountPrice);
+                return View();
+            }
+            else
+            {
+                if (paymentState != 0)
+                {
+                    var goodsSoldInforesult = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(paymentState, dateStart, dateFinal));
+                    ViewBagDateGroup(dateStart, dateFinal);
 
+                    return View(goodsSoldInforesult);
+                }
+
+                var goodsSoldInfo = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(dateStart, dateFinal));
+                ViewBagDateGroup(dateStart, dateFinal);
+
+                return View(goodsSoldInfo);
+            }
+        }
+
+        public async Task<ActionResult> AdditionalIncomeInfo(string category, int paymentState, DateTime dateStart, DateTime? dateFinal)
+        {
+            if (dateFinal == null)
+            {
+                if (paymentState != 0)
+                {
+                    return View(Mapper.Map<IEnumerable<AdditionalIncomeBll>>(await _abstractFactory.DetailsAdditionalIncome(category, paymentState, dateStart)));
+                }
+
+                return View(Mapper.Map<IEnumerable<Models.ModelViews.AdditionalIncomeView>>(await _abstractFactory.DetailsAdditionalIncome(category, dateStart)));
+            }
+            else
+            {
+                if (paymentState != 0)
+                {
+                    return View(Mapper.Map<IEnumerable<Models.ModelViews.AdditionalIncomeView>>(await _abstractFactory.DetailsAdditionalIncome(category, paymentState, dateStart, dateFinal)));
+                }
+
+                return View(Mapper.Map<IEnumerable<Models.ModelViews.AdditionalIncomeView>>(await _abstractFactory.DetailsAdditionalIncome(category, dateStart, dateFinal)));
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> WagesInfoGroup(int? typeExpenses, int? idEmployees, DateTime? dateStart, DateTime? dateFinal)
+        {
+            if (idEmployees == null)
+            {
+                return RedirectToAction("Report", "Analytics", new RouteValueDictionary(new
+                {
+                    startDate = DateTime.Now
+                }));
+            }
+
+            if (dateFinal == null)
+            {
+                var result = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _abstractFactory.DetailsWages(typeExpenses.Value, idEmployees.Value, dateStart.Value));
+              //  ViewBagDateWagesInfoGroup(result);
+                ViewBagDateGroup(dateStart.Value, dateFinal);
+
+                return View(result);
+            }
+            else
+            {
+                var result = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _abstractFactory.DetailsWages(typeExpenses.Value, idEmployees.Value, dateStart.Value, dateFinal));
+               // ViewBagDateWagesInfoGroup(result);
+                ViewBagDateGroup(dateStart.Value, dateFinal);
+                return View(result);
             }
         }
 
         #region ViewBag
+       
 
-        public void Tire(EmployeeSalariesView employeeSalaries,
-                               OrderInformationWashingDetailingView orderInformation)
+        public void ViewBagDateGroup(DateTime dateStart, DateTime? dateFinal = null)
         {
+            List<DateTime> dateTimesGrups = new List<DateTime>();
 
-            // Tire 
-            ViewBag.AdministratorTire = employeeSalaries.AdministratorTire;     // ЗП администратор шинтмонтаж
-            ViewBag.StaffTire = employeeSalaries.StaffTire;                     // ЗП сотрудников
-            ViewBag.TireOrders = orderInformation.TireOrders;                   // Заказ шиномантаж
-            ViewBag.CauntTire = orderInformation.CauntTire;                     // Количество заказов шиномантаж
-            ViewBag.numberOfUnpaidTire = orderInformation.numberOfUnpaidTire;   // Количество заказов ожидающих оплату (Шиномонтаж)
-            ViewBag.TireCeash = orderInformation.tireCeash;                     // шиномонта наличные
+            if (dateFinal != null)
+            {
+                for (DateTime date = dateStart.Date; date <= dateFinal.Value.Date; date = date.AddDays(1.0))
+                {
+                    dateTimesGrups.Add(date);
+                }
+            }
+            else
+            {
+                dateTimesGrups.Add(dateStart.Date);
+            }
+           
+            ViewBag.ExpensesDate = dateTimesGrups;
         }
 
-        public async Task<double> GoodsSoldAnalytics()
-        {
-            var goodsSold = Mapper.Map<IEnumerable<GoodsSoldView>>(await _goodsSold.Reports(DateTime.Now));
-
-            double resultReturn = goodsSold.Sum(s => s.orderPrice).Value;
-
-            ViewBag.CauntGoodsSold = goodsSold.Sum(x => x.amount); // Количество проданных товаров
-            ViewBag.SumGoodsSold = resultReturn; // Касса проданных товаров
-            ViewBag.SumAdminstrator = goodsSold.Sum(admin => admin.percentageOfSale); // Зп админа
-
-            return resultReturn;
-        }
-            
-        public void CarpetViewBag(EmployeeSalariesView employeeSalaries,
-                               OrderInformationWashingDetailingView orderInformation)
-        {
-            //  Carpet
-            ViewBag.CarpetOrder = orderInformation.carpetOrder; // Касса ковров  
-            ViewBag.CauntCarpet = orderInformation.CauntCarpet; // Количество заказов ковров
-            ViewBag.AdminCarpet = employeeSalaries.adminCarpet;
-            ViewBag.StaffCarpet = employeeSalaries.staffCarpet;
-        }
-
-        public void CarWash(EmployeeSalariesView employeeSalaries,
-                               OrderInformationWashingDetailingView orderInformation)
-        {
-            ViewBag.OrderCarWashSum = orderInformation.OrderCarWashSum; // Касса мойки
-            ViewBag.OrderCount = orderInformation.OrderCount; // Количество Авто мойка
-        }
-
-        public void Detailings(EmployeeSalariesView employeeSalaries,
-                             OrderInformationWashingDetailingView orderInformation)
-        {
-            ViewBag.OrderDetailingsSum = orderInformation.OrderDetailing; // Касса детейлинг
-            ViewBag.CarCountDetailings = orderInformation.CarCountDetailings; // Количество авто детейлинг
-        }
-
-        public void BonusSalary(IEnumerable<BonusToSalaryView> BonusToSalary)
-        {
-            ViewBag.BonusToSalarySum = BonusToSalary.Sum(x => x.amount);
-            ViewBag.BonusToSalaryCount = BonusToSalary.Count();
-        }
-
-        public void Total(EmployeeSalariesView employeeSalaries,
-                             OrderInformationWashingDetailingView orderInformation,
-                             IEnumerable<ExpensesView> salaryExpenses, double sumOfAllExpenses)
-        {
-            double salaryExpensesDay = salaryExpenses.Sum(s => s.Amount).Value;
-
-            ViewBag.TotalIncome = orderInformation.OrderCarWashSum + orderInformation.OrderDetailing + orderInformation.carpetOrder;
-
-            //итого расходы на обслуживание 
-            ViewBag.TotalCosts = sumOfAllExpenses;
-
-            //Итого расходы на зарплату
-            ViewBag.TotalSalaryExpenses = employeeSalaries.adminCarpet + employeeSalaries.staffCarpet + employeeSalaries.AdministratorCarWash + employeeSalaries.AdministratorDetailings + employeeSalaries.StaffCarWashWorker + employeeSalaries.StaffDetailing;
-
-            //Итого
-            ViewBag.Total = ViewBag.TotalIncome - ViewBag.TotalCosts - ViewBag.TotalSalaryExpenses;
-            //Итого
-            ViewBag.TotalCash = ViewBag.TotalIncome - ViewBag.TotalCosts - salaryExpensesDay;
-        }
-
-        public void AdministratorToStaff(EmployeeSalariesView employeeSalaries,
-                             OrderInformationWashingDetailingView orderInformation)
-        {
-            // ЗП Администратора мойки и детейлинга
-            ViewBag.AdministratorCarWash = employeeSalaries.AdministratorCarWash + employeeSalaries.adminCarpet;
-            ViewBag.AdministratorDetailings = employeeSalaries.AdministratorDetailings;
-
-            // ЗП Сотрудников мойки и детейлинга
-            ViewBag.StaffCarWashWorker = employeeSalaries.StaffCarWashWorker + employeeSalaries.staffCarpet;
-            ViewBag.StaffDetailing = employeeSalaries.StaffDetailing;
-
-            ViewBag.OrderCarWashSum = orderInformation.OrderCarWashSum;                                             // Касса мойки
-            ViewBag.OrderCount = orderInformation.OrderCount;                                                       // Количество Авто мойка
-            ViewBag.OrderDetailingsSum = orderInformation.OrderDetailing;                                           // Касса детейлинг
-
-        }
         #endregion
     }
 }
+

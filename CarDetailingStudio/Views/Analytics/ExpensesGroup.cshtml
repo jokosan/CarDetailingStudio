@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.AnalyticsView.ExpensesClassView>
+
+@*DetailsExpenses(int paymentState, DateTime dateStart, DateTime? dateFinal, int typeExpenses = 0)*@
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.expenseCategoryName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.dateExpenses)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CountExpenses)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.paymentType)
+                    </th>
+                </tr>
+
+                @foreach (var itemDate in ViewBag.ExpensesDate)
+                {
+                    if (Model.Any(x => x.dateExpenses.Value.Date == itemDate))
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center"><b class="text-danger">@itemDate.Date.ToString("dd.MM.yyyy")</b></td>
+                        </tr>
+                    }
+                    foreach (var item in Model)
+                    {
+                        if (itemDate.Date == item.dateExpenses.Value.Date)
+                        {
+                            <tr>
+                                <td>
+                                    <a class="link" href=@Url.Action("../Analytics/DetailsExpenses", new {  typeExpenses = item.expenseCategoryId, paymentState = @ViewBag.PaymentState, dateStart = item.dateExpenses.Value.Date })>
+                                        @Html.DisplayFor(modelItem => item.expenseCategoryName)
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dateExpenses, "{0:dd/MM/yyyy}")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CountExpenses) шт.
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount) грн.
+                                </td>
+                                <td>
+                                    @if (item.paymentType == 1)
+                                    {
+                                        <p> Наличный расчёт</p>
+                                    }
+                                    else
+                                    {
+                                        <p> Безналичный расчёт</p>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</div>

@@ -24,6 +24,7 @@ namespace CarDetailingStudio.Controllers
         private IBonusToSalary _bonusToSalary;
         private ITotalMonthlySalaryModules _totalMonthlySalary;
         private ISalaryArchive _salaryArchive;
+        private IEmployeeRate _employeeRate;
 
         public ShiftClosureController(
             IDayResult dayResult,
@@ -34,7 +35,8 @@ namespace CarDetailingStudio.Controllers
             ICarWashWorkersServices carWashWorkers,
             IBonusToSalary bonusToSalary,
             ITotalMonthlySalaryModules totalMonthlySalary,
-            ISalaryArchive salaryArchive)
+            ISalaryArchive salaryArchive,
+            IEmployeeRate employeeRate)
         {
             _wagesForDays = wagesForDays;
             _closeShiftModule = closeShiftModule;
@@ -45,6 +47,7 @@ namespace CarDetailingStudio.Controllers
             _bonusToSalary = bonusToSalary;
             _totalMonthlySalary = totalMonthlySalary;
             _salaryArchive = salaryArchive;
+            _employeeRate = employeeRate;
         }
 
         public async Task<ActionResult> ShiftInformation()
@@ -66,26 +69,30 @@ namespace CarDetailingStudio.Controllers
                 // var payouts = Mapper.Map<IEnumerable<SalaryBalanceView>>(await _salaryBalance.SelectIdToDate(idCarWash, DateTime.Now));
                 var payouts = Mapper.Map<IEnumerable<SalaryBalanceView>>(await _salaryBalance.SelectIdToDate(idCarWash, DateTime.Now.Month, DateTime.Now.Year));
                 var salaryBalance = Mapper.Map<SalaryBalanceView>(await _salaryBalance.LastMonthBalance(idCarWash));
-                var bonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.WhereMontsBonusToSalary(idCarWash.Value));                
+                var bonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.WhereMontsBonusToSalary(idCarWash.Value));
+                var employeeRate = Mapper.Map<IEnumerable<EmployeeRateView>>(await _employeeRate.WherySumRate(idCarWash.Value));
 
                 var salaryArxiv = Mapper.Map<SalaryArchiveView>(await _salaryArchive.LastMonth(idCarWash.Value));               
 
                 double monthlySalary = viewResult.Sum(s => s.payroll).Value;
                 double paidPerMonth = payouts.Sum(s => s.payoutAmount).Value;
                 double bonusToSalarySum = bonusToSalary.Sum(s => s.amount).Value;
+                double rate = employeeRate.Sum(s => s.wage).Value;
                 double lastMonth = 0;
+
 
                 if (salaryArxiv != null)
                 {
                     lastMonth = salaryArxiv.balanceAtTheEndOfTheMonth.Value;
                 }
-               
+
+                ViewBag.Rate = rate;
                 ViewBag.IdCarWash = idCarWash;
                 ViewBag.MonthlySalary = monthlySalary;
                 ViewBag.PaidPerMonth = paidPerMonth;
                 ViewBag.LastMonth = lastMonth;
                 ViewBag.BonusToSalary = bonusToSalarySum; 
-                ViewBag.TotalPayable = Math.Round(monthlySalary - paidPerMonth + lastMonth + bonusToSalarySum, 3);
+                ViewBag.TotalPayable = Math.Round(monthlySalary - paidPerMonth + lastMonth + bonusToSalarySum + rate, 3);
                 ViewBag.Employee = Mapper.Map<CarWashWorkersView>(await _carWashWorkers.CarWashWorkersId(idCarWash));
                 ViewBag.Payouts = payouts;
 
@@ -120,22 +127,39 @@ namespace CarDetailingStudio.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> PartialPayout(string payout, int? idEmployee, double? totalPayable, double? SalaryCurrentMonth, double? Prize, double? BalancLastMonth, double? PaidMonth )
+        public async Task<ActionResult> PartialPayout(string payout, int? idEmployee, double? totalPayable, double? SalaryCurrentMonth, double? Prize, double? BalancLastMonth, double? PaidMonth, int idPaymentState)
         {
             try
             {
                 string stringReplace = payout.Replace(".", ",");
                 double payoutAmount = Convert.ToDouble(stringReplace);
 
-                if (idEmployee != null)
+                if (idPaymentState != 3)
                 {
-                    await _wagesForDays.PaymentOfPartOfTheSalary(idEmployee, payoutAmount, totalPayable.Value, SalaryCurrentMonth.Value, Prize.Value, BalancLastMonth.Value, PaidMonth.Value);
-                }
+                    if (idEmployee != null)
+                    {
+                        await _wagesForDays.PaymentOfPartOfTheSalary(idEmployee, payoutAmount, totalPayable.Value, SalaryCurrentMonth.Value, Prize.Value, BalancLastMonth.Value, PaidMonth.Value, idPaymentState);
 
-                return RedirectToAction("PaymentForSpecificDays", "ShiftClosure", new RouteValueDictionary(new
+                        return RedirectToAction("ShiftInformation", "ShiftClosure", new RouteValueDictionary(new
+                        {
+                            idCarWash = idEmployee
+                        }));
+                    }
+
+                    return RedirectToAction("PaymentForSpecificDays", "ShiftClosure", new RouteValueDictionary(new
+                    {
+                        idCarWash = idEmployee,
+                        message = false
+                    }));
+                }
+                else
                 {
-                    idCarWash = idEmployee
-                }));
+                    return RedirectToAction("PaymentForSpecificDays", "ShiftClosure", new RouteValueDictionary(new
+                    {
+                        idCarWash = idEmployee,
+                        message = false
+                    }));
+                }
             }
             catch
             {
@@ -144,7 +168,6 @@ namespace CarDetailingStudio.Controllers
                     idCarWash = idEmployee,
                     message = false
                 }));
-
             }
         }
     }

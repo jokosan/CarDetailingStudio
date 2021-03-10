@@ -23,7 +23,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task SaveOrder(OrderServicesCarWashBll orderSave);
         Task<int> CreateOrder(OrderServicesCarWashBll orderSave);
         Task<IEnumerable<OrderServicesCarWashBll>> GetDataClosing();
-        Task<IEnumerable<OrderServicesCarWashBll>> AllOrderOneEmployee(List<int> idOrder);
         Task CloseOrder(int? idOrder, int? idStatusOrder, int? idPaymentState);
+        Task<IEnumerable<OrderServicesCarWashBll>> ReportsClosingData(DateTime datepresentDay);
     }
 }

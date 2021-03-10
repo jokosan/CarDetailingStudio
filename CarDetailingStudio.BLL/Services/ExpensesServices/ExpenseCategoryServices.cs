@@ -17,34 +17,29 @@ namespace CarDetailingStudio.BLL.Services.ExpensesServices
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<ExpenseCategoryBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<ExpenseCategoryBll>>(await _unitOfWork.expenseCategoryUnitOfWork.Get());
-        }
-        public async Task<IEnumerable<ExpenseCategoryBll>> GetTableAll(int id)
-        {
-            return Mapper.Map<IEnumerable<ExpenseCategoryBll>>(await _unitOfWork.expenseCategoryUnitOfWork.GetWhere(x => x.idExpenseCategory == id));
-        }
+        public async Task<IEnumerable<ExpenseCategoryBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<ExpenseCategoryBll>>(await _unitOfWork.expenseCategoryUnitOfWork.Get());
+
+
+        public async Task<IEnumerable<ExpenseCategoryBll>> GetTableAll(int id) =>
+            Mapper.Map<IEnumerable<ExpenseCategoryBll>>(await _unitOfWork.expenseCategoryUnitOfWork.GetWhere(x => x.idExpenseCategory == id));
+
+        public async Task<ExpenseCategoryBll> SelectId(int? elementId) =>
+            Mapper.Map<ExpenseCategoryBll>(await _unitOfWork.expenseCategoryUnitOfWork.GetById(elementId));
+
 
         public async Task Insert(ExpenseCategoryBll element)
         {
-            expenseCategory expenseCategorys = Mapper.Map<ExpenseCategoryBll, expenseCategory>(element);
-
-            _unitOfWork.expenseCategoryUnitOfWork.Insert(expenseCategorys);
+            _unitOfWork.expenseCategoryUnitOfWork.Insert(TransformAnEntity(element));
             await _unitOfWork.Save();
-        }
-
-        public async Task<ExpenseCategoryBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<ExpenseCategoryBll>(await _unitOfWork.expenseCategoryUnitOfWork.GetById(elementId));
         }
 
         public async Task Update(ExpenseCategoryBll elementToUpdate)
         {
-            expenseCategory expenseCategorys = Mapper.Map<ExpenseCategoryBll, expenseCategory>(elementToUpdate);
-
-            _unitOfWork.expenseCategoryUnitOfWork.Update(expenseCategorys);
+            _unitOfWork.expenseCategoryUnitOfWork.Update(TransformAnEntity(elementToUpdate));
             await _unitOfWork.Save();
         }
+
+        public expenseCategory TransformAnEntity(ExpenseCategoryBll entity) => Mapper.Map<ExpenseCategoryBll, expenseCategory>(entity);
     }
 }

@@ -9,6 +9,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract
     {
         Task<IEnumerable<WagesForDaysWorkedBll>> DayOrderResult(int? Id);
         Task<IEnumerable<WagesForDaysWorkedBll>> MonthOrderResult(int? id, int month, int year);
-        Task PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, double SalaryCurrentMonth, double Prize, double BalancLastMonth, double PaidMonth);
+        Task PaymentOfPartOfTheSalary(int? employeeId, double payoutAmount, double totalPayable, double SalaryCurrentMonth, double Prize, double BalancLastMonth, double PaidMonth, int idPaymentState);
     }
 }

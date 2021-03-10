@@ -33,8 +33,8 @@
                    columns.Add(model => model.brigadeForToday.Date);
                    columns.Add(model => model.brigadeForToday.EndTime);
                    columns.Add(model => model.numberHoursWorked);
-                   columns.Add(model => model.hourlyRate);
-                   columns.Add(model => model.wage);
+                   columns.Add(model => Math.Round(model.hourlyRate.Value, 2)).Titled("Ставка за час");
+                   columns.Add(model => Math.Round(model.wage.Value, 2)).Titled("Оплата за ставку");
 
                    columns.Add(model => @Html.ActionLink("Информация", "ClientDetails", new { id = model.idEmployeeRate }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
                })

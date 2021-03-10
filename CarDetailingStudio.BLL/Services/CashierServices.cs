@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
-using CarDetailingStudio.BLL.Services.Modules.Contract;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 
@@ -17,12 +16,12 @@ namespace CarDetailingStudio.BLL.Services
     public class CashierServices : ICashier
     {
         private IUnitOfWork _unitOfWork;
-        private IIncomeForTheCurrentDay _incomeForTheCurrentDay;
+        private IOrderServicesCarWashServices _orderServicesCarWash;
 
-        public CashierServices(IUnitOfWork unitOfWork, IIncomeForTheCurrentDay incomeForTheCurrentDay)
+        public CashierServices(IUnitOfWork unitOfWork, IOrderServicesCarWashServices orderServicesCarWash)
         {
             _unitOfWork = unitOfWork;
-            _incomeForTheCurrentDay = incomeForTheCurrentDay;
+            _orderServicesCarWash = orderServicesCarWash;
         }
 
         public async Task<IEnumerable<CashierBll>> GetTableAll()
@@ -68,13 +67,14 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task EndDay()
         {
-            var EndDay = await _incomeForTheCurrentDay.AmountOfCompletedOrders(DateTime.Now);
+            var Result = await _orderServicesCarWash.Reports(DateTime.Now);
+
             var CashierEndDay = await Reports(DateTime.Now);
-                        
-            if(CashierEndDay.Count() != 0)
+            var EndDay = Result.Where(x => x.PaymentState == 1).Sum(s => s.DiscountPrice);
+            if (CashierEndDay.Count() != 0)
             {
                 var result = CashierEndDay.FirstOrDefault(x => x.date.Day == DateTime.Now.Day);
-                result.amountEndOfTheDay = EndDay.cash.Value;
+                result.amountEndOfTheDay = EndDay.Value;
 
                 await Update(result);
             }

@@ -8,6 +8,15 @@
     padding: 0px 0px;
 }
 
+.check {
+    color: green;
+    font-size: large;
+}
+
+.times {
+    color: brown;
+    font-size: large;
+}
 
 .label__checkbox {
     display: none;

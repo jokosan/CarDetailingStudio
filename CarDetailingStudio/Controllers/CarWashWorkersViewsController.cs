@@ -22,19 +22,28 @@ namespace CarDetailingStudio.Controllers
         private IBrigadeForTodayServices _brigadeForToday;
         private IOrderCarWashWorkersServices _orderCarWash;
         private IOrderServicesCarWashServices _orderServices;
+        private IPremiumAndRateServices _premiumAndRateServices;
+        private IPosition _position;      
 
         public CarWashWorkersViewsController(
-            ICarWashWorkersServices carWashWorkers, IJobTitleTableServices job,
-            IBrigadeForTodayServices brigadeForToday, IOrderCarWashWorkersServices orderCarWash,
-            IOrderServicesCarWashServices orderServices)
+            ICarWashWorkersServices carWashWorkers,
+            IJobTitleTableServices job,
+            IBrigadeForTodayServices brigadeForToday,
+            IOrderCarWashWorkersServices orderCarWash,
+            IOrderServicesCarWashServices orderServices,
+            IPremiumAndRateServices premiumAndRateServices,
+            IPosition position)
         {
             _services = carWashWorkers;
             _job = job;
             _brigadeForToday = brigadeForToday;
             _orderCarWash = orderCarWash;
             _orderServices = orderServices;
+            _premiumAndRateServices = premiumAndRateServices;
+            _position = position;
         }
 
+        #region
         // GET: CarWashWorkersViews
         public async Task<ActionResult> Index()
         {
@@ -70,6 +79,7 @@ namespace CarDetailingStudio.Controllers
 
         [HttpPost]
         public async Task<ActionResult> Index(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
+
         {
             if (adminCarWosh != null && adminDetailing != null && chkRow != null)
             {
@@ -103,15 +113,62 @@ namespace CarDetailingStudio.Controllers
             return View(ReirectModel);
         }
 
-        public async Task<ActionResult> Staff()
+        public async Task<ActionResult> Staff() => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees()));
+
+        public async Task<ActionResult> StaffArxiv() => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees("false")));
+
+        public async Task<ActionResult> EducationOfWages(int? id)
         {
-            var StaffAll = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees());
-            return View(StaffAll);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            IEnumerable<PremiumAndRateView> premiumAndRate;
+            premiumAndRate = Mapper.Map<IEnumerable<PremiumAndRateView>>(await _premiumAndRateServices.SelectPosition(id.Value)).ToList();
+
+            if (premiumAndRate.Count() == 0)
+            {
+                var resultCarWashWorkersView = Mapper.Map<CarWashWorkersView>(await _services.CarWashWorkersId(id));
+                await _premiumAndRateServices.CreatePremiumAndRateServices(resultCarWashWorkersView.IdPosition.Value, id.Value);
+
+                premiumAndRate = Mapper.Map<IEnumerable<PremiumAndRateView>>(await _premiumAndRateServices.SelectPosition(id.Value)).ToList();
+            }
+
+            var position = Mapper.Map<IEnumerable<PositionView>>(await _position.GetTableAll());
+
+            ViewBag.Position = new SelectList(position, "idPosition", "name");
+            ViewBag.PositionAll = position;
+
+            return View(premiumAndRate);
         }
 
-        public async Task<ActionResult> StaffArxiv()
+        [HttpPost]
+        public async Task<ActionResult> EducationOfWages(List<PremiumAndRateView> premiumAndRates)
         {
-            return View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees("false")));
+            if (premiumAndRates == null || premiumAndRates.Count() == 0)
+            {
+                return RedirectToAction("Staff");
+            }
+
+            if (premiumAndRates.Count() != 0)
+            {
+                foreach (var item in premiumAndRates)
+                {
+                    PremiumAndRateBll premiumMap = Mapper.Map<PremiumAndRateView, PremiumAndRateBll>(item);
+                    await _premiumAndRateServices.Update(premiumMap);
+
+                }
+
+                return RedirectToAction("Staff");
+            }
+
+            var position = Mapper.Map<IEnumerable<PositionView>>(await _position.GetTableAll());
+
+            ViewBag.Position = new SelectList(position, "idPosition", "name");
+            ViewBag.PositionAll = position;
+
+            return View();
         }
 
         // GET: CarWashWorkersViews/Create
@@ -140,13 +197,20 @@ namespace CarDetailingStudio.Controllers
                 }
 
                 carWashWorkersView.status = "true";
-                CarWashWorkersBll carWashWorkersBll = Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(carWashWorkersView);
 
-                await _services.InsertEmployee(carWashWorkersBll);
-                return RedirectToAction("Staff");
+                var carWashWorkersResult = TransformAnEntity(carWashWorkersView);
+
+                int idEmployee = await _services.InsertEmployee(carWashWorkersResult);
+                await _premiumAndRateServices.CreatePremiumAndRateServices(carWashWorkersResult.IdPosition.Value, idEmployee);
+
+                return RedirectToAction("EducationOfWages", "CarWashWorkersViews", new RouteValueDictionary(new
+                {
+                    id = idEmployee,
+                }));
             }
 
             ViewBag.Job = new SelectList(await _job.SelectJobTitle(), "Id", "Position");
+            ViewBag.Position = new SelectList(await _position.GetTableAll(), "idPosition", "name");
 
             return View();
         }
@@ -185,9 +249,7 @@ namespace CarDetailingStudio.Controllers
                     carWashWorkersView.AdministratorsInterestRate = 0;
                 }
 
-                CarWashWorkersBll carWashWorkersBll = Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(carWashWorkersView);
-
-                await _services.UpdateEmploee(carWashWorkersBll, command);
+                await _services.UpdateEmploee(TransformAnEntity(carWashWorkersView), command);
                 return RedirectToAction("Staff");
             }
 
@@ -271,5 +333,14 @@ namespace CarDetailingStudio.Controllers
 
             return View(emplotee);
         }
+
+        private CarWashWorkersBll TransformAnEntity(CarWashWorkersView entity) => Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(entity);
+
+
+
+        #endregion
+
+     
+
     }
 }

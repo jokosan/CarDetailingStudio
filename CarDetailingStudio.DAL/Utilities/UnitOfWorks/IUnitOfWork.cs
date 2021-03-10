@@ -65,6 +65,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         // Премия
         DbRepository<bonusToSalary> BonusToSalaryUnitOfWork { get; set; }
+        DbRepository<premiumAndRate> PremiumAndRateServicesUnitOFWork { get; set; }
 
         DbRepository<costCategories> CostCategoriesUnionOfWork { get; set; }
 
@@ -84,6 +85,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<procurement> ProcurementUnitOfWork { get; set; }
 
         DbRepository<EmployeeRate> EmployeeRateUnitOfWork { get; set; }
+        DbRepository<Position> PositionUnitOfWork { get; set; }
 
         // Вреенное решение
         DbRepository<AdditionalIncome> AdditionalIncomeUnitOfWork { get; set; }

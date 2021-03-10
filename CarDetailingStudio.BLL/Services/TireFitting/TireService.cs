@@ -35,7 +35,6 @@ namespace CarDetailingStudio.BLL.Services.TireFitting
 
         public async Task<TireServiceBll> SelectId(int? elementId)
         {
-
             throw new NotImplementedException();
         }
 

@@ -83,7 +83,6 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<OrderCarpetWashingBll, orderCarpetWashing>();
             CreateMap<orderCarpetWashing, OrderCarpetWashingBll>();
 
-
             // expenses - затраты
 
             CreateMap<ExpenseCategoryBll, expenseCategory>();
@@ -120,6 +119,7 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<costCategories, CostCategoriesBll>();
 
             //  шиномонтаж
+
             CreateMap<PriceListTireFittingAdditionalServicesBll, PriceListTireFittingAdditionalServices>();
             CreateMap<PriceListTireFittingAdditionalServices, PriceListTireFittingAdditionalServicesBll>();
 
@@ -144,6 +144,9 @@ namespace CarDetailingStudio.BLL.Utilities.Map
             CreateMap<ProcurementBll, procurement>().ReverseMap();
 
             CreateMap<EmployeeRateBll, EmployeeRate>().ReverseMap();
+
+            CreateMap<PremiumAndRateBll, premiumAndRate>().ReverseMap();
+            CreateMap<PositionBll, Position>().ReverseMap();
         }
     }
 }

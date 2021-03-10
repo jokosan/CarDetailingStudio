@@ -17,9 +17,9 @@ namespace CarDetailingStudio.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Expenses()
         {
+            this.procurement = new HashSet<procurement>();
             this.salaryExpenses = new HashSet<salaryExpenses>();
             this.utilityCosts = new HashSet<utilityCosts>();
-            this.procurement = new HashSet<procurement>();
         }
     
         public int idExpenses { get; set; }
@@ -27,16 +27,16 @@ namespace CarDetailingStudio.DAL
         public Nullable<System.DateTime> dateExpenses { get; set; }
         public Nullable<double> Amount { get; set; }
         public Nullable<int> paymentType { get; set; }
-        public string note { get; set; }
         public Nullable<int> idCostCategories { get; set; }
+        public string note { get; set; }
     
+        public virtual costCategories costCategories { get; set; }
         public virtual expenseCategory expenseCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<procurement> procurement { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<salaryExpenses> salaryExpenses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<utilityCosts> utilityCosts { get; set; }
-        public virtual costCategories costCategories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<procurement> procurement { get; set; }
     }
 }

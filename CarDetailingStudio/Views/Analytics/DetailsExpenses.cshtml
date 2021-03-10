@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.ExpensesView>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.idExpenses)
+                    </th>
+                    @if (ViewBag.TypeExpenses != 1)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.expenseCategory.name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.costCategories.Name)
+                        </th>
+                    }
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.dateExpenses)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.paymentType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.note)
+                    </th>
+                </tr>
+
+                @foreach (var itemDate in ViewBag.ExpensesDate)
+                {
+                    if (Model.Any(x => x.dateExpenses.Value.Date == itemDate))
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center"><b class="text-danger">@itemDate.Date.ToString("dd.MM.yyyy")</b></td>
+                        </tr>
+                    }
+
+                    foreach (var item in Model)
+                    {
+                        if (itemDate.Date == item.dateExpenses.Value.Date)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.idExpenses)
+                                </td>
+                                @if (ViewBag.TypeExpenses != 1)
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.expenseCategory.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.costCategories.Name)
+                                    </td>
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dateExpenses)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount) грн.
+                                </td>
+                                <td>
+                                    @if (item.paymentType == 1)
+                                    {
+                                        <p> Наличный расчёт</p>
+                                    }
+                                    else
+                                    {
+                                        <p> Безналичный расчёт</p>
+                                    }
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.note)
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</div>

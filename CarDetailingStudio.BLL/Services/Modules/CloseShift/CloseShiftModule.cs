@@ -68,7 +68,8 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 
                     var result = test1 + test2 + test3 + test4;
 
-                    await _bonusModules.PremiumAccrual(itemShift.carWashWorkersId, itemShift.payroll.Value / InterestRate);
+                    // await _bonusModules.PremiumAccrual(itemShift.carWashWorkersId, itemShift.payroll.Value / InterestRate);
+                    await _bonusModules.PremiumAccrual(itemShift.carWashWorkersId, result.Value / InterestRate);
                 }
             }
         }

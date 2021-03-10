@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.DAL;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -33,5 +34,19 @@ namespace CarDetailingStudio.BLL.Services
         {
             return Mapper.Map<IEnumerable<CostCategoriesBll>>(await _unitOfWork.CostCategoriesUnionOfWork.GetWhere(x => x.typeOfExpenses == elementId));
         }
+
+        public async Task Insert(CostCategoriesBll element)
+        {
+            _unitOfWork.CostCategoriesUnionOfWork.Insert(TransformAnEntity(element));
+            await _unitOfWork.Save();   
+        }
+
+        public async Task Update(CostCategoriesBll elementToUpdate)
+        {
+            _unitOfWork.CostCategoriesUnionOfWork.Update(TransformAnEntity(elementToUpdate));
+            await _unitOfWork.Save();
+        }
+
+        public costCategories TransformAnEntity(CostCategoriesBll entity) => Mapper.Map<CostCategoriesBll, costCategories>(entity);
     }
 }

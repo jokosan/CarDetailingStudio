@@ -82,7 +82,7 @@ namespace CarDetailingStudio.Controllers
         {
             if (idEmploee != null)
             {
-                var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorker.SampleForPayroll(idEmploee.Value, DateTime.Now));
+                var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorker.SampleForPayrollDay(idEmploee.Value, DateTime.Now));
 
                 ViewBag.CarWashWorker = Mapper.Map<CarWashWorkersView>(await _carWashWorkers.CarWashWorkersId(idEmploee));
                 ViewBag.SumOrder = carWashWorkersDayTotal.Sum(x => x.Payroll);

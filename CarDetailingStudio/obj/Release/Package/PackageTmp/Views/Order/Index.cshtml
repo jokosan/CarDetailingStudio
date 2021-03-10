@@ -5,6 +5,7 @@
 }
 <link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
 <link href="~/Content/form.css" rel="stylesheet" />
+<link href="~/Content/MyStyleSheet.css" rel="stylesheet" />
 
 @Html.Partial("_Menu")
 
@@ -26,28 +27,35 @@
                        .Grid(Model)
                        .Build(columns =>
                        {
-                       columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
-                       columns.Add(model => model.OrderDate).Titled("Дата и время заказа").Filterable(false);
-                       columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа").Filterable(false);
+                           columns.Add(model => model.ClientsOfCarWash.NumberCar).Titled("Номер машины");
+                           columns.Add(model => model.OrderDate).Titled("Дата и время заказа").Filterable(false);
+                           columns.Add(model => model.DiscountPrice).Titled("Стоимость заказа").Filterable(false).Encoded(false).RenderedAs(model =>  model.DiscountPrice + " грн.");
 
-                       columns.Add(model => model.StatusOrder1.StatusOrder1).Titled("Статус заказа").Filterable(false);
-                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Surname).Titled("Фамилия").Filterable(false);
-                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Name).Titled("Имя").Sortable(false).Filterable(false);
-                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.PatronymicName).Titled("Отчество").Filterable(false);
-                       columns.Add(model => model.ClientsOfCarWash.ClientInfo.Phone).Titled("Телефон");
-                       columns.Add(model => @Html.ActionLink("О заказе", "OrderInfo", new { id = model.Id }, new { @class = "btn btn-outline-info" })).Encoded(false);
-                       columns.Add(model => @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = model.Id }, new { @class = "btn btn-outline-success" })).Encoded(false);
-                        })
+                           columns.Add(model => model.ClientsOfCarWash.discont).Titled("Cкидка").Encoded(false).RenderedAs(model => model.ClientsOfCarWash.discont + "%");
+                           columns.Add(model => model.StatusOrder1.StatusOrder1).Titled("Статус заказа").Filterable(false).Encoded(false)
+                                .RenderedAs(model => model.StatusOrder == 4 ? "<span style='color: #CC4444; font-weight: 600'>" + model.StatusOrder1.StatusOrder1 + "</span>" : "<span style='color: #04cc1b; font-weight: 600'>" + model.StatusOrder1.StatusOrder1 + "</span>");
+
+                           columns.Add(model => model.ClientsOfCarWash.ClientInfo.Surname).Titled("Фамилия").Filterable(false);
+                           columns.Add(model => model.ClientsOfCarWash.ClientInfo.Name).Titled("Имя").Sortable(false).Filterable(false);
+                           columns.Add(model => model.ClientsOfCarWash.ClientInfo.PatronymicName).Titled("Отчество").Filterable(false);
+                           columns.Add(model => model.ClientsOfCarWash.ClientInfo.Phone).Titled("Телефон");
+                           columns.Add(model => @Html.ActionLink("О заказе", "OrderInfo", new { id = model.Id }, new { @class = "btn btn-outline-info" })).Encoded(false);
+                           columns.Add(model => @Html.ActionLink("Закрыть заказ", "CloseOrder", new { id = model.Id }, new { @class = "btn btn-outline-success" })).Encoded(false);
+                       })
                        .UsingFilterMode(GridFilterMode.Excel)
                        .Empty("No data found")
                        .Filterable(GridFilterType.Single)
                        .Sortable()
+                        .Css("table")
                        .Pageable(pager =>
                        {
                            pager.PageSizes = new Dictionary<int, string> { { 10, "10" }, { 25, "25" }, { 50, "50" } };
                            pager.ShowPageSizes = true;
                            pager.RowsPerPage = 1;
                        })
+                    //.RowAttributed(model => new { @class = 50 != model.ClientsOfCarWash.discont ? "bolded" : "colorRow"})
+                    //.RowAttributed(model => new { @class = model.StatusOrder == 1 ? "bolded" : "colorRow", id = model.StatusOrder == 1 })
+                    //     columns.Add(model => model.Age).Titled("Not encoded age").Encoded(false).RenderedAs(model => "<span style='color: #CC4444'>" + model.Age + "</span>");
                     )
                 </div>
             </div>

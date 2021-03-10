@@ -15,7 +15,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees(string arxiv = "true");
         Task<IEnumerable<CarWashWorkersBll>> GetStaffAll();
         Task<bool> HomeEntryCondition();
-        Task InsertEmployee(CarWashWorkersBll carWashWorkersBll);
+        Task<int> InsertEmployee(CarWashWorkersBll carWashWorkersBll);
         Task<CarWashWorkersBll> CarWashWorkersId(int? id);
         Task UpdateEmploee(CarWashWorkersBll carWashWorkersId, string action);
     }

@@ -1,4 +1,6 @@
-﻿@using (Html.BeginForm("SummaryOfTheDay", "Analytics", FormMethod.Post))
+﻿@model CarDetailingStudio.Models.AnalyticsView.AnalyticsFull
+
+@using (Html.BeginForm("SummaryOfTheDay", "Analytics", FormMethod.Post))
 {
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -26,259 +28,706 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
-                            <div class="table-responsive m-t-40" style="clear: both;">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th>Наименования</th>
-                                            <th class="text-right">Отчеты</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @* ----------------------------------------------------------------------------------- *@
-                                        <tr>
-                                            <td colspan="3" class="text-center"><b class="text-danger">Мойка</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>Количество Авто</td>
-                                            <td class="text-right">@ViewBag.OrderCount шт.</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса мойки</a></td>
-                                            <td class="text-right">@ViewBag.OrderCarWashSum  грн. </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">3</td>
-                                            <td>Количество ковров</td>
-                                            <td class="text-right"> @ViewBag.CauntCarpet шт.</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">4</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса ковров</a></td>
-                                            <td class="text-right"> @ViewBag.CarpetOrder грн.</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">4</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора (авто + ковры)</a></td>
-                                            <td class="text-right"> @ViewBag.AdministratorCarWash грн. </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">5</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 5, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП автомойщиков (авто + ковры)</a></td>
-                                            <td class="text-right"> @ViewBag.StaffCarWashWorker грн. </td>
-                                        </tr>
+                        <div class="card">
 
-                                        @* ----------------------------------------------------------------------------------- *@
-                                        @*<tr>
-            <td colspan="3" class="text-center"><b class="text-danger">Стирка ковров</b></td>
-        </tr>
-        <tr>
-            <td class="text-center">1</td>
-            <td>Касса за мойку ковров</td>
-            <td class="text-right"> @ViewBag.CarpetOrder грн.</td>
-        </tr>
-        <tr>
-            <td class="text-center">2</td>
-            <td>Количество заказов</td>
-            <td class="text-right"> @ViewBag.CauntCarpet шт.</td>
-        </tr>
-        <tr>
-            <td class="text-center">3</td>
-            <td>ЗП администратора</td>
-            <td class="text-right">@ViewBag.AdminCarpet грн. </td>
-        </tr>
-        <tr>
-            <td class="text-center">4</td>
-            <td>ЗП Сотрудника</td>
-            <td class="text-right"> @ViewBag.StaffCarpet грн. </td>
-        </tr>*@
+                            <!-- Tab panes -->
+                            <div class="tab-content tabcontent-border">
+                                <div class="tab-pane active" id="home" role="tabpanel">
+                                    <div class="p-20">
 
-                                        @* ----------------------------------------------------------------------------------- *@
-                                        <tr>
-                                            <td colspan="3" class="text-center"><b class="text-danger">Детейлинг</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>Количество Авто</td>
-                                            <td class="text-right">@ViewBag.CarCountDetailings шт.</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса детейлинга</a></td>
-                                            <td class="text-right">@ViewBag.OrderDetailingsSum  грн. </td>
-                                        </tr>
+                                        <div class="col-md-12">
+                                            <div class="table-responsive m-t-40" style="clear: both;">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">#</th>
+                                                            <th>Наименования</th>
+                                                            <th class="text-right">Отчеты</th>
+                                                            <th class="text-right">Наличные</th>
+                                                            <th class="text-right">Безналичные</th>
+                                                            <th class="text-right">Неоплаченные</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                        <tr>
-                                            <td class="text-center">4</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
-                                            <td class="text-right"> @ViewBag.AdministratorDetailings грн. </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">5</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП детейлинга</a></td>
-                                            <td class="text-right"> @ViewBag.StaffDetailing грн. </td>
-                                        </tr>
+                                                        @* ----------------------------------------------------------------------------------- *@
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Мойка</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Количество Авто</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Washing.Quantities) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Washing.Quantities) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.OrdersAwaitingPaymentQuantites) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Касса мойки</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Washing.Cashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Washing.Cashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2,  paymentState = 0, statusOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.OrdersAwaitingPaymentCashier) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
 
-                                        @* ----------------------------------------------------------------------------------- *@
+                                                        <tr>
+                                                            <td class="text-center">3</td>
+                                                            <td class="text-success">Заказы за предыдущий период (количество мойка)</td>
+                                                            <td class="text-right text-success">
+                                                                @*    @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.Washing.OrderCount) шт.*@
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                @Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.Washing.OrderCount) шт.
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                @Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.Washing.OrderCount) шт.
+                                                            </td>
+                                                        </tr>
 
-                                        <tr>
-                                            <td colspan="3" class="text-center"><b class="text-danger">Шиномантаж<b /> </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>Количество заказов шиномонтажа</td>
-                                            <td class="text-right">@ViewBag.CauntTire шт.</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>Касса шиномантаж</a></td>
-                                            <td class="text-right">@ViewBag.TireOrders  грн. </td>
-                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">4</td>
+                                                            <td class="text-success">Заказы за предыдущий период (касса мойка)</td>
+                                                            <td class="text-right ">
+                                                                @*<a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                    @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.Washing.OrderSum) грн.
+                </a>*@
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.Washing.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.Washing.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">5</td>
+                                                            <td>Количество ковров</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.CarpetWashing.Quantities) шт.</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.CarpetWashing.Quantities) шт.</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.OrdersAwaitingPaymentQuantites)шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">6</td>
+                                                            <td>Касса ковров</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.CarpetWashing.Cashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.CarpetWashing.Cashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 0, statusOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.OrdersAwaitingPaymentCashier) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">7</td>
+                                                            <td class="text-success">Заказы за предыдущий период (количество ковры)</td>
+                                                            <td class="text-right text-success">
+                                                                @*    @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.CarpetWashing.OrderCount) шт.*@
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                @Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.CarpetWashing.OrderCount) шт.
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                @Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.CarpetWashing.OrderCount) шт.
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">8</td>
+                                                            <td class="text-success">Заказы за предыдущий период (касса ковры)</td>
+                                                            <td class="text-right">
+                                                                @*<a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                    @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.CarpetWashing.OrderSum) грн.
+                </a>*@
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.CarpetWashing.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.CarpetWashing.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
 
-                                        <tr>
-                                            <td class="text-center">4</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 9, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП администратора </a></td>
-                                            <td class="text-right"> @ViewBag.AdministratorTire грн. </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">5</td>
-                                            <td><a class="link" href=@Url.Action("../Analytics/DetailsOfSalaries", new { typeOfEmployees = 10, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>ЗП Сотрудников </a></td>
-                                            <td class="text-right"> @ViewBag.StaffTire грн. </td>
-                                        </tr>
+                                                        <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                                            <td class="text-center">9</td>
+                                                            <td><b>ЗП администратора (авто + ковры)</b></td>
+                                                            <td class="text-right"><b>  @Html.DisplayFor(model => model.SumWegesAdministrator) грн. </b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">9-1</td>
+                                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора мойки</a></td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryAdministrator) грн. </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">9-2</td>
+                                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 3, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора за услугу ковры</a></td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator) грн. </td>
+                                                        </tr>
 
-                                        @* ----------------------------------------------------------------------------------- *@
+                                                        <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
+                                                            <td class="text-center">10</td>
+                                                            <td><b>ЗП автомойщиков (авто + ковры)</b></td>
+                                                            <td class="text-right"> <b> @Html.DisplayFor(model => model.SumWegesEmployees) грн. </b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">10-1</td>
+                                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 5, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника мойки</a></td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryEmployees) грн. </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">10-2</td>
+                                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 6, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника за услугу ковры </a></td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees) грн. </td>
+                                                        </tr>
 
-                                        <tr>
-                                            <td colspan="3" class="text-center"><b class="text-danger">Товары<b /> </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>Количество проданных товаров</td>
-                                            <td class="text-right">@ViewBag.CauntGoodsSold шт.</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td>Касса проданных товаров</td>
-                                            <td class="text-right">@ViewBag.SumGoodsSold  грн. </td>
-                                        </tr>
+                                                        @* ----------------------------------------------------------------------------------- *@
 
-                                        <tr>
-                                            <td class="text-center">4</td>
-                                            <td>ЗП администратора </td>
-                                            <td class="text-right"> @ViewBag.SumAdminstrator  грн. </td>
-                                        </tr>
-                                      
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Детейлинг</b></td>
+                                                        </tr>
 
-                                        @* ----------------------------------------------------------------------------------- *@
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Количество Авто</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Detailing.Quantities) шт.</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Detailing.Quantities) шт.</td>
+                                                            <td class="text-right">  @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.OrdersAwaitingPaymentQuantites) шт</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Касса детейлинга</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.SumCashierAndOrdersAwaitingPaymentCashier)  грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Detailing.Cashier)  грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Detailing.Cashier)  грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1,  paymentState = 0, statusOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.OrdersAwaitingPaymentCashier) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-center">3</td>
+                                                            <td class="text-success">Заказы за предыдущий период (количество)</td>
+                                                            <td class="text-right text-success">
+                                                                @* @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.Detailing.OrderCount) шт.*@
+                                                            </td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.Detailing.OrderCount) шт.</td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.Detailing.OrderCount) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">4</td>
+                                                            <td class="text-success">Заказы за предыдущий период (касса)</td>
+                                                            <td class="text-right">
+                                                                @*<a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                    @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.Detailing.OrderSum) грн.
+                </a>*@
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.Detailing.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.Detailing.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">5</td>
+                                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryAdministrator) грн. </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">6</td>
+                                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП детейлинга</a></td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryEmployees) грн. </td>
+                                                        </tr>
 
 
-                                        <tr>
-                                            <td colspan="3" class="text-center"><b class="text-danger">Заказы ожидающие оплату</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>Сумма заказов ожидающих оплат</td>
-                                            <td class="text-right"> @ViewBag.NumberOfUnpaidOrders грн. </td>
-                                        </tr>
+                                                        @* ----------------------------------------------------------------------------------- *@
 
-                                        @* ----------------------------------------------------------------------------------- *@
-                                        <tr>
-                                            <td colspan="3" class="text-center"><b class="text-danger">Расходы</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>Сумма всех расходов</td>
-                                            <td class="text-right"> @ViewBag.TotalCosts грн. </td>
-                                        </tr>
-                                        @*<tr>
-            <td class="text-center">2</td>
-            <td>Сумма расходов на выдачу заработной платы </td>
-            <td class="text-right">  @ViewBag.SalaryExpenses грн. </td>
-        </tr>*@
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Шиномантаж<b /> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Количество заказов шиномонтажа</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireFitting.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.TireFitting.Quantities) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewCash.completedOrders.TireFitting.Quantities) шт.</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireFitting.OrdersAwaitingPaymentQuantites) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Касса шиномантаж</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireFitting.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.TireFitting.Cashier) грн.
+                                                                </a>
 
-                                        @* ----------------------------------------------------------------------------------- *@
-                                        <tr>
-                                            <td colspan="3" class="text-center"><b class="text-danger">Итог дня </b></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>Начало дня</td>
-                                            <td class="text-right"> @ViewBag.CashStartDay грн. </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td>Касса наличные </td>
-                                            <td class="text-right"> @ViewBag.Cash грн. </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">3</td>
-                                            <td>Касса безналичных</td>
-                                            <td class="text-right"> @ViewBag.NonCash грн. </td>
-                                        </tr>
-                                        @if (@ViewBag.CloseDay == true)
-                                        {
-                                            if (@ViewBag.Message = false)
-                                            {
-                                                <tr>
-                                                    <td colspan="3" class="text-center"><b class="text-danger">* * *</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">1</td>
-                                                    <td>Сформировать кассу наличных на @ViewBag.Date </td>
-                                                    <td>
-                                                        <input type="number" name="amountStartDay" id="quantity" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.TireFitting.Cashier) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4,  paymentState = 0, statusOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireFitting.OrdersAwaitingPaymentCashier) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
 
-                                                    </td>
-                                                </tr>
-                                            }
-                                            else
-                                            {
-                                                <tr>
-                                                    <td colspan="3" class="text-center"><b class="text-danger">* * *</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">1</td>
-                                                    <td>Сформировать кассу наличных на @ViewBag.Date </td>
-                                                    <td>
-                                                        <input type="number" name="amountStartDay" id="quantity" class="is-invalid form-control" placeholder="Обязательное поле для заполнения" aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
+                                                        <tr>
+                                                            <td class="text-center">3</td>
+                                                            <td class="text-success">Заказы за предыдущий период (количество)</td>
+                                                            <td class="text-right text-success">
+                                                                @* @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.TireFitting.OrderCount) шт.*@
+                                                            </td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.TireFitting.OrderCount) шт.</td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.TireFitting.OrderCount) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">4</td>
+                                                            <td class="text-success">Заказы за предыдущий период (касса)</td>
+                                                            <td class="text-right">
+                                                                @*<a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                    @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.TireFitting.OrderSum) грн.
+                </a>*@
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.TireFitting.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right text-success">
+                                                                <a class="link text-success" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 4, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal, type = 1 })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.TireFitting.OrderSum) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">5</td>
+                                                            <td>
+                                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 9, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    ЗП администратора
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryAdministrator) грн. </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">6</td>
+                                                            <td>
+                                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 10, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    ЗП Сотрудников
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryEmployees) грн. </td>
+                                                        </tr>
 
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
+                                                        @*--------------------------------------------------------------------------------------*@
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Хранение шин<b /> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Количество заказов </td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireStorage.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.TireStorage.Quantities) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewCash.completedOrders.TireStorage.Quantities) шт.</td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireStorage.OrdersAwaitingPaymentQuantites) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Касса хранение шин</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireStorage.SumCashierAndOrdersAwaitingPaymentCashier) грн. </td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.TireStorage.Cashier) грн. </td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewCash.completedOrders.TireStorage.Cashier) грн. </td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireStorage.OrdersAwaitingPaymentCashier) грн. </td>
 
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                                        </tr>
 
-                        <div class="col-md-12">
-                            <div class="clearfix"></div>
-                            <hr>
-                            <div class="pull-right m-t-30 text-right">
-                                <h3><b>Наличные остаток:</b>   @ViewBag.CashEndDay грн.</h3>
+                                                        <tr>
+                                                            <td class="text-center">3</td>
+                                                            <td class="text-success">Заказы за предыдущий период (количество)</td>
+                                                            <td class="text-right text-success">
+                                                                @*@Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.TireStorage.OrderCount) шт.*@
+                                                            </td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.TireStorage.OrderCount) шт.</td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.TireStorage.OrderCount) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">4</td>
+                                                            <td class="text-success">Заказы за предыдущий период (касса)</td>
+                                                            <td class="text-right text-success">
+                                                                @*  @Html.DisplayFor(model => model.analyticsViewResult.informationPreviousPeriod.TireStorage.OrderSum) грн.*@
+                                                            </td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewNoCash.informationPreviousPeriod.TireStorage.OrderSum) грн. </td>
+                                                            <td class="text-right text-success">@Html.DisplayFor(model => model.analyticsViewCash.informationPreviousPeriod.TireStorage.OrderSum) грн. </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">7</td>
+                                                            <td>
+                                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    ЗП администратора
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryAdministrator) грн. </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">8</td>
+                                                            <td>
+                                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    ЗП Сотрудников
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryEmployees) грн. </td>
+                                                        </tr>
 
-                                @if (@ViewBag.CloseDay == true)
-                                {
-                                    <h3><b>Отправить на счет фирмы:</b>  <span name="FinalDay" id="FinalDay"> 0</span> грн.</h3>
-                                    <input type="hidden" id="amountFinalDay" value="@ViewBag.CashEndDay" name="amountFinalDay" />
+                                                        @* ----------------------------------------------------------------------------------- *@
 
-                                    <h3><b>Касса наличных на @ViewBag.Date:</b><span name="errmsg" id="errmsg"> 0</span> грн.</h3>
-                                    <input type="hidden" id="sumOrder" value="" name="sum" />
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Дополнительно к заработной плате<b /> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Премия</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.SumBonusTOSalary) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Ставка за день</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.SumEmployeeRate)  грн. </td>
+                                                        </tr>
 
-                                    <hr>
+                                                        @* ----------------------------------------------------------------------------------- *@
 
-                                    <input class="btn btn-outline-secondary" type="submit" value="Закрыть день" id="click" />
-                                    <hr>
-                                }
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Товары<b /> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Количество проданных товаров</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.saleOfGoods.CauntGoodsSold) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewNoCash.saleOfGoods.CauntGoodsSold) шт.</td>
+                                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewCash.saleOfGoods.CauntGoodsSold) шт.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Касса проданных товаров</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/GoodsSoldInfo", new {  paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.saleOfGoods.SumGoodsSold)  грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/GoodsSoldInfo", new {  paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.saleOfGoods.SumGoodsSold)  грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/GoodsSoldInfo", new {  paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.saleOfGoods.SumGoodsSold)  грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-center">4</td>
+                                                            <td>ЗП администратора </td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.saleOfGoods.SumWagesAdminstrator)  грн. </td>
+                                                        </tr>
+                                                        @* ----------------------------------------------------------------------------------- *@
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Дополнительный доход</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Касса автодом</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new { category = "Касса автодом", paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.additionalIncome.CashierAvtomir) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса автодом", paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.additionalIncome.CashierAvtomir) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса автодом", paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.additionalIncome.CashierAvtomir) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Касса автомир</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса автомир", paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.additionalIncome.CashierCaravan) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса автомир", paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.additionalIncome.CashierCaravan) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса автомир", paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.additionalIncome.CashierCaravan) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">3</td>
+                                                            <td>Касса химчистка Колер</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса химчистка Колер", paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+
+                                                                    @Html.DisplayFor(model => model.analyticsViewResult.additionalIncome.CashierDryCleaningKohler) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса химчистка Колер", paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+
+                                                                    @Html.DisplayFor(model => model.analyticsViewNoCash.additionalIncome.CashierDryCleaningKohler) грн.
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/AdditionalIncomeInfo", new {  category = "Касса химчистка Колер", paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+
+                                                                    @Html.DisplayFor(model => model.analyticsViewCash.additionalIncome.CashierDryCleaningKohler) грн.
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                        @* ----------------------------------------------------------------------------------- *@
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Расходы</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Сумма всех расходов</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = 0, paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Model.analyticsViewResult.expensesClassModels.Sum(s => s.Amount) грн.
+                                                                    @*  @Html.DisplayFor(model => model.analyticsViewResult.expenses.AmountExpenses) грн.*@
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = 0, paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Model.analyticsViewNoCash.expensesClassModels.Sum(s => s.Amount) грн.
+                                                                    @*  @Html.DisplayFor(model => model.analyticsViewCash.expenses.AmountExpenses) грн.*@
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = 0, paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @Model.analyticsViewCash.expensesClassModels.Sum(s => s.Amount) грн.
+                                                                    @* @Html.DisplayFor(model => model.analyticsViewNoCash.expenses.AmountExpenses) грн.*@
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                        @foreach (var item in Model.analyticsViewResult.expensesClassModels)
+                                                        {
+                                                            <tr>
+                                                                <td class="text-center">1</td>
+                                                                <td>@item.expenseCategoryName</td>
+                                                                <td class="text-right">
+                                                                    <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                        @item.Amount грн.
+                                                                    </a>
+                                                                </td>
+
+                                                                @foreach (var itemCash in Model.analyticsViewNoCash.expensesClassModels)
+                                                                {
+                                                                    if (item.expenseCategoryId == itemCash.expenseCategoryId)
+                                                                    {
+                                                                        <td class="text-right">
+                                                                            <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                                @itemCash.Amount грн.
+                                                                            </a>
+                                                                        </td>
+                                                                        break;
+                                                                    }
+                                                                }
+
+                                                                @foreach (var itemNoCash in Model.analyticsViewCash.expensesClassModels)
+                                                                {
+                                                                    if (item.expenseCategoryId == itemNoCash.expenseCategoryId)
+                                                                    {
+                                                                        <td class="text-right">
+                                                                            <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                                @itemNoCash.Amount грн.
+                                                                            </a>
+                                                                        </td>
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            </tr>
+                                                        }
+
+                                                        @* ----------------------------------------------------------------------------------- *@
+                                                        @* ----------------------------------------------------------------------------------- *@
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Касса начало дня  </b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Начало дня</td>
+                                                            <td></td>
+                                                            <td class="text-right"> @Html.DisplayFor(model => model.cashStartOfTheDay) грн. </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Итого</b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">#</th>
+                                                            <th>Наименования</th>
+                                                            <th class="text-right">Итого</th>
+                                                            <th class="text-right">Наличные</th>
+                                                            <th class="text-right">Безналичные</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td></td>
+                                                            <td class="text-right"><b>@Html.DisplayFor(model => model.CashEndDay) грн.</b> </td>
+                                                            <td class="text-right"><b>@Html.DisplayFor(model => model.CashEndDayNoCash) грн.</b> </td>
+                                                            <td class="text-right"> <b>@Html.DisplayFor(model => model.CashEndDayCash) грн.</b> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" class="text-center"><b class="text-danger">Итого</b></td>
+                                                        </tr>
+
+
+                                                        @if (@ViewBag.CloseDay == true)
+                                                        {
+                                                            if (@ViewBag.Message = false)
+                                                            {
+                                                                <tr>
+                                                                    <td colspan="3" class="text-center"><b class="text-danger">* * *</b></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">1</td>
+                                                                    <td>Сформировать кассу наличных на @ViewBag.Date </td>
+                                                                    <td>
+                                                                        <input type="number" name="amountStartDay" id="quantity" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
+
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr>
+                                                                    <td colspan="3" class="text-center"><b class="text-danger">* * *</b></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">1</td>
+                                                                    <td>Сформировать кассу наличных на @ViewBag.Date </td>
+                                                                    <td>
+                                                                        <input type="number" name="amountStartDay" id="quantity" class="is-invalid form-control" placeholder="Обязательное поле для заполнения" aria-label="Recipient's username" aria-describedby="basic-addon2" style="text-align: right">
+
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="clearfix"></div>
+                                            <hr>
+                                            <div class="pull-right m-t-30 text-right">
+                                                <h3><b>Наличные остаток:</b>  @Html.DisplayFor(model => model.CashEndDayCash) грн.</h3>
+
+                                                @if (@ViewBag.CloseDay == true)
+                                                {
+                                                    <h3><b>Отправить на счет фирмы:</b>  <span name="FinalDay" id="FinalDay"> 0</span> грн.</h3>
+                                                    <input type="hidden" id="amountFinalDay" value=@Html.DisplayFor(model => model.CashEndDayCash) name="amountFinalDay" />
+
+                                                    <h3><b>Касса наличных на @ViewBag.Date:</b><span name="errmsg" id="errmsg"> 0</span> грн.</h3>
+                                                    <input type="hidden" id="sumOrder" value="" name="sum" />
+
+                                                    <hr>
+
+                                                    <input class="btn btn-outline-secondary" type="submit" value="Закрыть день" id="click" onclick="this.disabled=true; this.value='Отправка, подождите ...'; this.form.submit();" />
+                                                    <hr>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -289,7 +738,7 @@
 <script>
     $('#quantity').keyup(function () {
         var Value = $('#quantity').val();
-        var sum = @ViewBag.CashEndDay - parseFloat(Value.replace(',', '.'));
+        var sum =  @Html.DisplayFor(model => model.CashEndDayCash) - parseFloat(Value.replace(',', '.'));
         $('#errmsg').empty();
         $('#errmsg').text(Value);
 

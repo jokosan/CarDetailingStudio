@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.AdditionalIncomeView>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IncomeCategory)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaymentState)
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IncomeCategory)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentState)
+                        </td>
+                      
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

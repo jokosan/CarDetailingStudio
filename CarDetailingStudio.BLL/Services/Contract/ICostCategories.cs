@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
-    public interface ICostCategories : IGetFromDatabase<CostCategoriesBll>
+    public interface ICostCategories : IGetFromDatabase<CostCategoriesBll>, IDatabaseOperations<CostCategoriesBll>
     {
     }
 }

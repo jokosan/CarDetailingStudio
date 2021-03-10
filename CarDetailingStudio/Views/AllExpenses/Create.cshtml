@@ -31,29 +31,11 @@
                     <div class="form-horizontal">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        @*<div class="form-group row">
-                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
-                                    @Html.LabelFor(model => model.expenseCategoryId)
-                                </label>
-                                <div class="col-md-8">
-                                    @Html.DropDownList("SelectGroupClient", (SelectList)ViewBag.Category, "Выберите значение", new { @id = "CategoryId", @class = "form-control" })
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
-                                    Test
-                                </label>
-                                <div class="col-md-8">
-                                    @Html.DropDownList("Test", new SelectList("."), "-- Выберите значение -- ", new { @id = "CostId", @class = "form-control" })
-                                </div>
-                            </div>*@
-
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label col-form-label">
                                 Выбирите категорию расходов
                             </label>
-                            <div class="col-sm-9">
+                            <div class="col-md-8">
 
                                 <input type="hidden" class="CountryId" id="CarMark" />
                                 <select class="MarkCar form-control" id="purpose">
@@ -65,7 +47,7 @@
                             <label class="col-sm-3 text-right control-label col-form-label">
                                 Тип расходов
                             </label>
-                            <div class="col-sm-9">
+                            <div class="col-md-8">
                                 <input type="hidden" id="CarModelResult" />
                                 <select class="State form-control" id="mySelect2" border-radius:5px;">
                                     <option>Тип расходов</option>
@@ -139,20 +121,10 @@
                                 </div>
                             </div>
 
-                            @*<div style='display:none' class="form-group row" id="utilityCostsCategory">
-                                    <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
-                                        @Html.LabelFor(model => model.expenseCategoryId)
-                                    </label>
-                                    <div class="col-md-8">
-                                        @Html.DropDownList("UtilityCostsCategory", (SelectList)ViewBag.UtilityCostsCategory, "Выберите значение", new { @class = "form-control" })
-                                    </div>
-                                </div>*@
-
-
                             <hr />
                             <div class="form-group">
                                 <div class="pull-right m-t-30 text-right">
-                                    <input type="submit" value="Сохранить" class="btn btn-default" />
+                                    <input type="submit" value="Сохранить" class="btn btn-default" onclick="this.disabled=true; this.value='Отправка, подождите ...'; this.form.submit();" />
                                     @Html.ActionLink("На страницу заказы", "Index", null, new { @class = "btn btn-danger" })
                                 </div>
                             </div>

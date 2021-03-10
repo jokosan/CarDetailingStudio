@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.GoodsSoldView>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.listOfGoods.name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.orderPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaymentState)
+                    </th>
+
+                </tr>
+
+                @foreach (var itemDate in ViewBag.ExpensesDate)
+                {
+                    if (Model.Any(x => x.Date.Value.Date == itemDate))
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center"><b class="text-danger">@itemDate.Date.ToString("dd.MM.yyyy")</b></td>
+                        </tr>
+                    }
+                    foreach (var item in Model)
+                    {
+                        if (itemDate.Date == item.Date.Value.Date)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.listOfGoods.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.orderPrice) грн.
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.amount) шт.
+                                </td>
+
+                                @if (item.PaymentState == 1)
+                                {
+                                    <td> Наличный расчёт</td>
+                                }
+                                else
+                                {
+                                    <td> Безналичный расчёт</td>
+                                }
+
+                            </tr>
+                        }
+                    }
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

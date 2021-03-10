@@ -94,5 +94,11 @@ namespace CarDetailingStudio.Models
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.SalaryArchiveView> SalaryArchiveViews { get; set; }
 
         public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.EmployeeRateView> EmployeeRateViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.PremiumAndRateView> PremiumAndRateViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.ExpenseCategoryView> ExpenseCategoryViews { get; set; }
+
+        public System.Data.Entity.DbSet<CarDetailingStudio.Models.ModelViews.UtilityCostsCategoryView> UtilityCostsCategoryViews { get; set; }
     }
 }

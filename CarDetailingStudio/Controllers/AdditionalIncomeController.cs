@@ -28,7 +28,7 @@ namespace CarDetailingStudio.Controllers
         // GET: AdditionalIncome
         public async Task<ActionResult> Index()
         {
-            return View(Mapper.Map<IEnumerable<AdditionalIncomeView>>(await _additionalIncome.GetTableAll()));
+            return View(Mapper.Map<IEnumerable<AdditionalIncomeView>>(await _additionalIncome.GetTableAll()).OrderByDescending(x => x.idAdditionalIncome));
         }
 
         // GET: AdditionalIncome/Create
@@ -42,7 +42,7 @@ namespace CarDetailingStudio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "idAdditionalIncome,IncomeCategory,Date,Amount,Note")] AdditionalIncomeView additionalIncomeView)
+        public async Task<ActionResult> Create([Bind(Include = "idAdditionalIncome,IncomeCategory,Date,Amount,Note,PaymentState")] AdditionalIncomeView additionalIncomeView)
         {
             if (ModelState.IsValid)
             {

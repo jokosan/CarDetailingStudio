@@ -59,11 +59,11 @@ namespace CarDetailingStudio.BLL.Services.Trade
 
         public async Task<IEnumerable<GoodsSoldBll>> Reports(DateTime datepresentDay) =>
            Mapper.Map<IEnumerable<GoodsSoldBll>>(await _unitOfWork.GoodsSoldUnitOfWork.QueryObjectGraph(x => 
-                (DbFunctions.TruncateTime(x.Date.Value) >= datepresentDay.Date)));
+                (DbFunctions.TruncateTime(x.Date.Value) >= datepresentDay.Date), "listOfGoods"));
 
         public async Task<IEnumerable<GoodsSoldBll>> Reports(DateTime startDate, DateTime finalDate) =>
             Mapper.Map<IEnumerable<GoodsSoldBll>>(await _unitOfWork.GoodsSoldUnitOfWork.QueryObjectGraph(x => 
-                (DbFunctions.TruncateTime(x.Date.Value) >= startDate.Date && (DbFunctions.TruncateTime(x.Date.Value) <= finalDate.Date))));
+                (DbFunctions.TruncateTime(x.Date.Value) >= startDate.Date && (DbFunctions.TruncateTime(x.Date.Value) <= finalDate.Date)), "listOfGoods"));
 
         
     }

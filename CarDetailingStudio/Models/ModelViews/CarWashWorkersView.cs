@@ -17,6 +17,7 @@ namespace CarDetailingStudio.Models.ModelViews
             this.salaryBalance = new HashSet<SalaryBalanceView>();
             this.salaryExpenses = new HashSet<SalaryExpensesView>();
             this.salaryArchive = new HashSet<SalaryArchiveView>();
+            this.premiumAndRate = new HashSet<PremiumAndRateView>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -86,5 +87,6 @@ namespace CarDetailingStudio.Models.ModelViews
         public virtual ICollection<SalaryExpensesView> salaryExpenses { get; set; }
         public virtual JobTitleTableView JobTitleTable { get; set; }
         public virtual ICollection<SalaryArchiveView> salaryArchive { get; set; }
+        public virtual ICollection<PremiumAndRateView> premiumAndRate { get; set; }
     }
 }
