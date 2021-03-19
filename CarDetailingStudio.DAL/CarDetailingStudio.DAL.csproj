@@ -234,6 +234,9 @@
     <Compile Include="OrderServicesCarWash.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="OrderServisesOrderCarWorkers.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="PaymentState.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
@@ -266,6 +269,12 @@
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ServisesCarWashOrder.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>carWashEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
       <DependentUpon>carWashEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="StatusOrder.cs">

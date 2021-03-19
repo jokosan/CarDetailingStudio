@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarDetailingStudio.BLL.EmployeesModules.Contract;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Checkout;
 using CarDetailingStudio.BLL.Services.Contract;
@@ -23,7 +24,9 @@ namespace CarDetailingStudio.Controllers
         private IOrderCarWashWorkersServices _orderCarWash;
         private IOrderServicesCarWashServices _orderServices;
         private IPremiumAndRateServices _premiumAndRateServices;
-        private IPosition _position;      
+        private IPosition _position;
+
+        private readonly IEmployeesFacade _employeesFacade;
 
         public CarWashWorkersViewsController(
             ICarWashWorkersServices carWashWorkers,
@@ -32,7 +35,8 @@ namespace CarDetailingStudio.Controllers
             IOrderCarWashWorkersServices orderCarWash,
             IOrderServicesCarWashServices orderServices,
             IPremiumAndRateServices premiumAndRateServices,
-            IPosition position)
+            IPosition position,
+            IEmployeesFacade  employeesFacade)
         {
             _services = carWashWorkers;
             _job = job;
@@ -41,45 +45,25 @@ namespace CarDetailingStudio.Controllers
             _orderServices = orderServices;
             _premiumAndRateServices = premiumAndRateServices;
             _position = position;
+            _employeesFacade = employeesFacade;
         }
 
         #region
         // GET: CarWashWorkersViews
         public async Task<ActionResult> Index()
         {
-            var ReirectModel = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees());
-
             if (TempData.ContainsKey("BrigadeId"))
-            {
-                var resultBrigade = TempData["BrigadeId"] as IEnumerable<BrigadeForTodayView>;
-                var result = new List<int>();
-
-                var AdministtratorCarWash = resultBrigade.Any(x => (x.StatusId == 1) && (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
-                var AdministtratorDeteling = resultBrigade.Any(x => (x.StatusId == 2) && (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
-
-                ViewBag.StatusAdministtratorCarWash = AdministtratorCarWash;
-                ViewBag.StatusAdministtratorDeteling = AdministtratorDeteling;
-
-                foreach (var i in resultBrigade)
-                    result.Add(i.IdCarWashWorkers.Value);
-
-                return View(ReirectModel.Where(b => result.Contains(b.id)));
-                // return View(ReirectModel.Where(b => !result.Contains(b.id)));
+            {            
+                return View(Mapper.Map<ChangeOfDayModel>(await _employeesFacade.SelectionOfEmployeesToShift(DateTime.Now)));
             }
             else
             {
-                var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForToday.GetDateTimeNow());
-
-                ViewBag.StatusAdministtratorCarWash = brigade.Any(x => (x.StatusId == 1) && (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
-                ViewBag.StatusAdministtratorDeteling = brigade.Any(x => (x.StatusId == 2) && (x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy")));
-
-                return View(ReirectModel);
+                return View(Mapper.Map<ChangeOfDayModel>(await _employeesFacade.SelectionOfEmployeesToShift()));
             }
         }
 
         [HttpPost]
         public async Task<ActionResult> Index(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
-
         {
             if (adminCarWosh != null && adminDetailing != null && chkRow != null)
             {
@@ -115,7 +99,7 @@ namespace CarDetailingStudio.Controllers
 
         public async Task<ActionResult> Staff() => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees()));
 
-        public async Task<ActionResult> StaffArxiv() => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees("false")));
+        public async Task<ActionResult> StaffArxiv() => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees(false)));
 
         public async Task<ActionResult> EducationOfWages(int? id)
         {
@@ -157,7 +141,6 @@ namespace CarDetailingStudio.Controllers
                 {
                     PremiumAndRateBll premiumMap = Mapper.Map<PremiumAndRateView, PremiumAndRateBll>(item);
                     await _premiumAndRateServices.Update(premiumMap);
-
                 }
 
                 return RedirectToAction("Staff");
@@ -196,7 +179,7 @@ namespace CarDetailingStudio.Controllers
                     carWashWorkersView.AdministratorsInterestRate = 0;
                 }
 
-                carWashWorkersView.status = "true";
+                carWashWorkersView.status = true;
 
                 var carWashWorkersResult = TransformAnEntity(carWashWorkersView);
 
@@ -285,7 +268,7 @@ namespace CarDetailingStudio.Controllers
                 order.IdCarWashWorkers = idBrigade.Value;
 
                 OrderCarWashWorkersBll carWashWorkersBll = Mapper.Map<OrderCarWashWorkersView, OrderCarWashWorkersBll>(order);
-                await _orderCarWash.UpdateOrderCarWashWorkers(carWashWorkersBll);
+                await _orderCarWash.Update(carWashWorkersBll);
             }
 
             return RedirectToAction("CompletedOrders", "Order", new RouteValueDictionary(new
@@ -335,12 +318,6 @@ namespace CarDetailingStudio.Controllers
         }
 
         private CarWashWorkersBll TransformAnEntity(CarWashWorkersView entity) => Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(entity);
-
-
-
         #endregion
-
-     
-
     }
 }

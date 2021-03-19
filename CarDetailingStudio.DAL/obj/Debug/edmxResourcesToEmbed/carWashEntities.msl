@@ -4,12 +4,12 @@
     <EntitySetMapping Name="AdditionalIncome">
       <EntityTypeMapping TypeName="carWashServerModel.AdditionalIncome">
         <MappingFragment StoreEntitySet="AdditionalIncome">
-          <ScalarProperty Name="PaymentState" ColumnName="PaymentState" />
           <ScalarProperty Name="idAdditionalIncome" ColumnName="idAdditionalIncome" />
           <ScalarProperty Name="IncomeCategory" ColumnName="IncomeCategory" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="PaymentState" ColumnName="PaymentState" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -383,6 +383,7 @@
           <ScalarProperty Name="idPosition" ColumnName="idPosition" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="positionsOfAdministrators" ColumnName="positionsOfAdministrators" />
+          <ScalarProperty Name="servises" ColumnName="servises" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -391,10 +392,12 @@
         <MappingFragment StoreEntitySet="premiumAndRate">
           <ScalarProperty Name="idPremiumAndRate" ColumnName="idPremiumAndRate" />
           <ScalarProperty Name="carWashWorkersId" ColumnName="carWashWorkersId" />
-          <ScalarProperty Name="percentageStatusForOrder" ColumnName="percentageStatusForOrder" />
-          <ScalarProperty Name="percentageRatePerOrder" ColumnName="percentageRatePerOrder" />
           <ScalarProperty Name="positionsStatus" ColumnName="positionsStatus" />
+          <ScalarProperty Name="percentageRatePerOrder" ColumnName="percentageRatePerOrder" />
           <ScalarProperty Name="positionId" ColumnName="positionId" />
+          <ScalarProperty Name="servicePremium" ColumnName="servicePremium" />
+          <ScalarProperty Name="multiplicityOfTheSum" ColumnName="multiplicityOfTheSum" />
+          <ScalarProperty Name="prizeAmount" ColumnName="prizeAmount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -624,13 +627,32 @@
     <EntitySetMapping Name="infoBrigadeForToday">
       <EntityTypeMapping TypeName="carWashServerModel.infoBrigadeForToday">
         <MappingFragment StoreEntitySet="infoBrigadeForToday">
-          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
-          <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
-          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-          <ScalarProperty Name="Surname" ColumnName="Surname" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderServisesOrderCarWorkers">
+      <EntityTypeMapping TypeName="carWashServerModel.OrderServisesOrderCarWorkers">
+        <MappingFragment StoreEntitySet="OrderServisesOrderCarWorkers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IdClientsOfCarWash" ColumnName="IdClientsOfCarWash" />
+          <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+          <ScalarProperty Name="PaymentState" ColumnName="PaymentState" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="ClosingData" ColumnName="ClosingData" />
+          <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+          <ScalarProperty Name="typeOfOrder" ColumnName="typeOfOrder" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+          <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
+          <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
+          <ScalarProperty Name="Payroll" ColumnName="Payroll" />
+          <ScalarProperty Name="typeServicesId" ColumnName="typeServicesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -649,5 +671,29 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище carWashServerModel.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище carWashServerModel.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище carWashServerModel.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище carWashServerModel.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="carWashServerModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище carWashServerModel.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="carWashServerModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище carWashServerModel.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище carWashServerModel.sp_upgraddiagrams" />
   </EntityContainerMapping>
 </Mapping>

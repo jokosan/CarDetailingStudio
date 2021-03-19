@@ -36,9 +36,9 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> AdministratorsInterestRate { get; set; }
         public Nullable<int> InterestRate { get; set; }
         public Nullable<double> rate { get; set; }
-        public string DataRegistration { get; set; }
-        public string DataDismissal { get; set; }
-        public string status { get; set; }
+        public Nullable<System.DateTime> DataRegistration { get; set; }
+        public Nullable<System.DateTime> DataDismissal { get; set; }
+        public Nullable<bool> status { get; set; }
         public string Photo { get; set; }
         public Nullable<int> IdPosition { get; set; }
     

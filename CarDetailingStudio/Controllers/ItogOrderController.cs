@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarDetailingStudio.BLL.EmployeesModules.Contract;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
@@ -16,7 +17,6 @@ namespace CarDetailingStudio.Controllers
 {
     public class ItogOrderController : Controller
     {
-        private ICloseShiftModule _closeShiftModule;
         private IDayResult _dayResult;
         private IOrderServicesCarWashServices _orderServices;
         private IOrderCarWashWorkersServices _orderCarWashWorker;
@@ -25,24 +25,26 @@ namespace CarDetailingStudio.Controllers
         private IBrigadeForTodayServices _brigadeForToday;
         private IEmployeeRateModules _employeeRate;
 
+        private readonly IEmployeesFacade _employeesFacade;
+
         public ItogOrderController(
             IDayResult dayResult,
-            ICloseShiftModule closeShiftModule,
             IOrderServicesCarWashServices orderServices,
             IOrderCarWashWorkersServices orderCarWashWorkers,
             ICarWashWorkersServices carWashWorkers,
             ICashier cashier,
             IBrigadeForTodayServices brigadeForToday,
-            IEmployeeRateModules employeeRate)
+            IEmployeeRateModules employeeRate,
+             IEmployeesFacade employeesFacade)
         {
             _dayResult = dayResult;
-            _closeShiftModule = closeShiftModule;
             _orderServices = orderServices;
             _orderCarWashWorker = orderCarWashWorkers;
             _carWashWorkers = carWashWorkers;
             _cashier = cashier;
             _brigadeForToday = brigadeForToday;
             _employeeRate = employeeRate;
+            _employeesFacade = employeesFacade;
         }
 
         // GET: OrderInfoViewModels
@@ -64,10 +66,10 @@ namespace CarDetailingStudio.Controllers
         {
             if (confirmation)
             {
-                await _closeShiftModule.CurrentShift();
+                await _employeesFacade.TestBonus1(2);
                 await _cashier.EndDay();
                 await _employeeRate.ClosingShift(await _brigadeForToday.GetDateTimeNow(DateTime.Now));
-                               
+
                 return RedirectToAction("SummaryOfTheDay", "Analytics", new RouteValueDictionary(new
                 {
                     CloseDay = true
@@ -82,7 +84,7 @@ namespace CarDetailingStudio.Controllers
         {
             if (idEmploee != null)
             {
-                var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorker.SampleForPayrollDay(idEmploee.Value, DateTime.Now));
+                var carWashWorkersDayTotal = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorker.Reports(idEmploee.Value, DateTime.Now));
 
                 ViewBag.CarWashWorker = Mapper.Map<CarWashWorkersView>(await _carWashWorkers.CarWashWorkersId(idEmploee));
                 ViewBag.SumOrder = carWashWorkersDayTotal.Sum(x => x.Payroll);

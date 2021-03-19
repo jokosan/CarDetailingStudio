@@ -23,6 +23,7 @@ namespace CarDetailingStudio.DAL
         public int idPosition { get; set; }
         public string name { get; set; }
         public Nullable<int> positionsOfAdministrators { get; set; }
+        public Nullable<int> servises { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<premiumAndRate> premiumAndRate { get; set; }

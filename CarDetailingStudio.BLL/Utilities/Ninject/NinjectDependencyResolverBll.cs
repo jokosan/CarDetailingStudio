@@ -47,7 +47,6 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IClientInfoServices>().To<ClientInfoServices>();
             kernel.Bind<ICreditServices>().To<CreditServices>();
             kernel.Bind<IWageModules>().To<WageModules>();
-            kernel.Bind<ICloseShiftModule>().To<CloseShiftModule>();
             kernel.Bind<IDayResult>().To<DayResult>();
             kernel.Bind<IWagesForDaysWorkedGroup>().To<WagesForDaysWorkedGroup>();
             kernel.Bind<IStatusOrder>().To<StatusOrderServices>();
@@ -70,7 +69,6 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
 
             //bonus
             kernel.Bind<IBonusToSalary>().To<BonusToSalaryServices>();
-            kernel.Bind<IBonusModules>().To<BonusModules>();
 
             kernel.Bind<IRemoveClient>().To<RemoveClient>();
             kernel.Bind<IAllExpenses>().To<AllExpensesModulescs>();
@@ -97,6 +95,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             NinjectDependencyResolverDAL.Initialize(kernel);
             NinjectTrade.Initialize(kernel);
             NinjectAnalytics.Initialize(kernel);
+            NinjectEmployees.Initialize(kernel);
         }
     }
 }

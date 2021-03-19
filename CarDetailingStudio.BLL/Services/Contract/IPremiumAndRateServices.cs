@@ -12,5 +12,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
     {
         Task<IEnumerable<PremiumAndRateBll>> SelectPosition(int carWashWorkersId);
         Task CreatePremiumAndRateServices(int position, int carWashWorkersId);
+        Task<IEnumerable<PremiumAndRateBll>> AllCurrentEmployees();
     }
 }

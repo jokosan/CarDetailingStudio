@@ -33,7 +33,7 @@ namespace CarDetailingStudio.BLL.Services
             foreach (var item in positionResult)
             {
                 premiumAndRates.carWashWorkersId = carWashWorkersId;
-                premiumAndRates.percentageStatusForOrder = true;
+                //premiumAndRates.percentageStatusForOrder = true;
                 premiumAndRates.percentageRatePerOrder = PercentageRatePerOrder(item.positionsOfAdministrators.Value, item.idPosition);
                 premiumAndRates.positionsStatus = PositionsStatus(position, item.idPosition);
                 premiumAndRates.positionId = item.idPosition;
@@ -70,9 +70,13 @@ namespace CarDetailingStudio.BLL.Services
             }
         }
 
+        public async Task<IEnumerable<PremiumAndRateBll>> AllCurrentEmployees() =>
+            Mapper.Map<IEnumerable<PremiumAndRateBll>>(await _unitOfWork.PremiumAndRateServicesUnitOFWork.QueryObjectGraph(x =>
+                x.CarWashWorkers.status == true, "CarWashWorkers", "Position"));
 
         public async Task<IEnumerable<PremiumAndRateBll>> SelectPosition(int carWashWorkersId) =>
-            Mapper.Map<IEnumerable<PremiumAndRateBll>>(await _unitOfWork.PremiumAndRateServicesUnitOFWork.QueryObjectGraph(x => x.carWashWorkersId == carWashWorkersId, "Position"));
+            Mapper.Map<IEnumerable<PremiumAndRateBll>>(await _unitOfWork.PremiumAndRateServicesUnitOFWork.QueryObjectGraph(x =>
+                x.carWashWorkersId == carWashWorkersId, "Position"));
 
         public async Task<PremiumAndRateBll> SelectId(int? elementId) =>
             Mapper.Map<PremiumAndRateBll>(await _unitOfWork.PremiumAndRateServicesUnitOFWork.GetById(elementId));

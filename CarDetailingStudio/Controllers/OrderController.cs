@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarDetailingStudio.BLL.EmployeesModules.Contract;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
@@ -26,10 +27,18 @@ namespace CarDetailingStudio.Controllers
         private IWageModules _wageModules;
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
         private IAdditionalTireStorageServices _additionalTireStorageServices;
+        private readonly IEmployeesFacade _employeesFacade; 
 
-        public OrderController(IOrderServicesCarWashServices orderServices, IServisesCarWashOrderServices servises,
-                               IBrigadeForTodayServices brigade, IOrderServices orderSer, IWageModules wageModules,
-                               IStatusOrder statusOrder, IOrderCarWashWorkersServices orderCarWashWorkers, IAdditionalTireStorageServices additionalTireStorageServices)
+        public OrderController(
+            IOrderServicesCarWashServices orderServices,
+            IServisesCarWashOrderServices servises,
+            IBrigadeForTodayServices brigade,
+            IOrderServices orderSer,
+            IWageModules wageModules,
+            IStatusOrder statusOrder,
+            IOrderCarWashWorkersServices orderCarWashWorkers,
+            IAdditionalTireStorageServices additionalTireStorageServices,
+            IEmployeesFacade employeesFacade)
         {
             _order = orderServices;
             _servisesCarWash = servises;
@@ -39,6 +48,7 @@ namespace CarDetailingStudio.Controllers
             _statusOrder = statusOrder;
             _orderCarWashWorkers = orderCarWashWorkers;
             _additionalTireStorageServices = additionalTireStorageServices;
+            _employeesFacade = employeesFacade;
         }
 
         private double? Price;
@@ -177,7 +187,8 @@ namespace CarDetailingStudio.Controllers
 
             var Order = Mapper.Map<OrderServicesCarWashView>(await _order.GetId(id));
             var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(id));
-            var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
+            // var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
+            ViewBag.Brigade = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _employeesFacade.ListOfEmployeesForService(Order.typeOfOrder.Value));
 
             Price = Services.Sum(x => x.Price);
             var typeServese = Services.FirstOrDefault();
@@ -200,11 +211,8 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.TypeService = 2;
             }
                
-
-            ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
+           // ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
             ViewBag.Price = Price;
-
-          
 
             if (selectionStatus == false)
             {
@@ -226,6 +234,7 @@ namespace CarDetailingStudio.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(Order);
         }
 

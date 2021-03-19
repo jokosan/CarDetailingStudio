@@ -4,10 +4,6 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Utilities.Map;
 using CarDetailingStudio.DAL;
 using CarDetailingStudio.DAL.Utilities.UnitOfWorks;
-using DevExpress.Data.Helpers;
-using DevExpress.Data.Mask;
-using DevExpress.Schedule;
-using DevExpress.Utils.Design;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,135 +16,95 @@ namespace CarDetailingStudio.BLL.Services
     public class OrderCarWashWorkersServices : IOrderCarWashWorkersServices
     {
         private IUnitOfWork _unitOfWork;
-        private IBrigadeForTodayServices _brigade;
-        private IServisesCarWashOrderServices _servisesCarWash;
-        private AutomapperConfig _automapper;
-        private OrderCarWashWorkersBll _orderCarBrigade;
 
-        public OrderCarWashWorkersServices(IUnitOfWork unitOfWork, AutomapperConfig automapperConfig,
-                                           OrderCarWashWorkersBll orderCar, IBrigadeForTodayServices brigade,
-                                           IServisesCarWashOrderServices servisesCarWash)
+        public OrderCarWashWorkersServices(
+            IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _automapper = automapperConfig;
-            _orderCarBrigade = orderCar;
-            _brigade = brigade;
-            _servisesCarWash = servisesCarWash;
         }
 
         public async Task<IEnumerable<OrderCarWashWorkersBll>> SelectMonth(int? id, int month, int year) =>
             Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork
                       .QueryObjectGraph(x => (x.IdCarWashWorkers == id)
-                       && (x.OrderServicesCarWash.OrderDate.Value.Month == month) 
+                       && (x.OrderServicesCarWash.OrderDate.Value.Month == month)
                        && (x.OrderServicesCarWash.OrderDate.Value.Year == year), "OrderServicesCarWash", "CarWashWorkers"));
-        
 
+        // Пересмотреть
         public async Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(DateTime dateTime)
         {
             var getResult = await TableCalculationStatusFolse();
             return getResult.Where(x => x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == dateTime.ToString("dd.MM.yyyy"));
         }
 
-        // Пересмотреть
         public async Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(int id, DateTime date)
         {
             var getResult = await TableCalculationStatusFolse();
             return getResult.Where(x => (x.IdCarWashWorkers == id) && (x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy")));
         }
 
-        // Перемотреть
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayrollDay(int id, DateTime date)
-        {
-            var getResult = await Reports(date);
-            return getResult.Where(x => (x.IdCarWashWorkers == id));
-        }
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> TableCalculationStatusFolse() =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                x.CalculationStatus == false, "OrderServicesCarWash", "OrderServicesCarWash.ClientsOfCarWash"));
 
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> TableCalculationStatusFolse()
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.CalculationStatus == false, "OrderServicesCarWash", "OrderServicesCarWash.ClientsOfCarWash"));
-        }
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(int? IdCarWashWorkers) =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                (x.IdCarWashWorkers == IdCarWashWorkers)
+                && (x.CalculationStatus == false),
+                "OrderServicesCarWash"));
 
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(int? IdCarWashWorkers)
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == IdCarWashWorkers)
-                                                                                                                         && (x.CalculationStatus == false), "OrderServicesCarWash"));
-        }
-
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> GetTableInclud(int month, int year)
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => 
-                                                                                                                            // (x.closedDayStatus == true) &&
-                                                                                                                               (x.CalculationStatus == false) &&
-                                                                                                                               (x.CarWashWorkers.status == "true") &&
-                                                                                                                               (x.OrderServicesCarWash.OrderDate.Value.Month == month) &&
-                                                                                                                               (x.OrderServicesCarWash.OrderDate.Value.Year == year),
-                                                                                                                               "OrderServicesCarWash", "CarWashWorkers"));
-        }
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> GetTableInclud(int month, int year) =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                                                           // (x.closedDayStatus == true) &&
+                                                           (x.CalculationStatus == false) &&
+                                                           (x.CarWashWorkers.status == true) &&
+                                                           (x.OrderServicesCarWash.OrderDate.Value.Month == month) &&
+                                                           (x.OrderServicesCarWash.OrderDate.Value.Year == year),
+                                                           "OrderServicesCarWash", "CarWashWorkers"));
 
         public async Task<OrderCarWashWorkersBll> Change(int? Order, int? Employee)
         {
-            var getResult = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x => (x.IdOrder == Order) && (x.IdCarWashWorkers == Employee)));
+            var getResult = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.GetWhere(x =>
+                                                                                (x.IdOrder == Order) && (x.IdCarWashWorkers == Employee)));
 
             return getResult.First(x => x.IdCarWashWorkers == Employee);
         }
 
         public async Task<IEnumerable<OrderCarWashWorkersBll>> GetTableInclud(int? idCarWashWorkers)
         {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => x.IdOrder == idCarWashWorkers, "CarWashWorkers"));
+            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                                                                                x.IdOrder == idCarWashWorkers, "CarWashWorkers"));
         }
 
-        // Закрыть текущий день 
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> GetClosedDay()
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.closedDayStatus == false)
-                                                                                                                               && (x.CalculationStatus == false), "CarWashWorkers", "OrderServicesCarWash"));
-        }
-
-
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> GetClosedDay(int? id, DateTime? date)
-        {
-            var getResult = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id),
-                                                                                                                                //   && (x.closedDayStatus == true)
-                                                                                                                                //   && (x.CalculationStatus == false),
-                                                                                                                                "OrderServicesCarWash"));
-
-            return getResult.Where(d => d.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date?.ToString("dd.MM.yyyy"));
-        }
-
-        public async Task SaveOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash)
-        {
-            _unitOfWork.OrderCarWasWorkersUnitOFWork.Insert(TransformAnEntity(orderCarWash));
-            await _unitOfWork.Save();
-        }
-
-        public async Task UpdateOrderCarWashWorkers(OrderCarWashWorkersBll orderCarWash)
-        {         
-            _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(TransformAnEntity(orderCarWash));
-            await _unitOfWork.Save();
-        }
-
-        public OrderCarWashWorkers TransformAnEntity(OrderCarWashWorkersBll entity) => Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(entity);
-
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> DailyEmployeeOrders(int? carWashWorkersId, DateTime date)
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) == date.Date
-                                                                                                                                && (x.IdCarWashWorkers == carWashWorkersId),
-                                                                                                                               "OrderServicesCarWash", "CarWashWorkers"));
-        }
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> DailyEmployeeOrders(int? carWashWorkersId, DateTime date) =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                DbFunctions.TruncateTime(x.OrderServicesCarWash.ClosingData.Value) == date.Date
+                && (x.IdCarWashWorkers == carWashWorkersId)
+                , "OrderServicesCarWash", "CarWashWorkers"));
 
         #region Отчеты за день и месяц
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime datepresentDay)
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) == datepresentDay.Date),
-                                                                                                                                         "OrderServicesCarWash", "CarWashWorkers", "OrderServicesCarWash.ClientsOfCarWash"));
-        }
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime datepresentDay) =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                    (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) == datepresentDay.Date)
+                    , "OrderServicesCarWash", "CarWashWorkers", "OrderServicesCarWash.ClientsOfCarWash"));
 
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime startDate, DateTime finalDate)
-        {
-            return Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) >= startDate.Date
-                                                                                                                                    && (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) <= finalDate.Date)),
-                                                                                                                                   "OrderServicesCarWash", "CarWashWorkers", "OrderServicesCarWash.ClientsOfCarWash"));
-        }
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(DateTime startDate, DateTime finalDate) =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                    (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) >= startDate.Date
+                    && (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) <= finalDate.Date)),
+                    "OrderServicesCarWash", "CarWashWorkers", "OrderServicesCarWash.ClientsOfCarWash"));
+
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(int id, DateTime datepresentDay) =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                    (x.IdCarWashWorkers == id)
+                    && (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) == datepresentDay.Date)
+                    , "OrderServicesCarWash", "CarWashWorkers", "OrderServicesCarWash.ClientsOfCarWash"));
+
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> Reports(int id, DateTime startDate, DateTime finalDate) =>
+            Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
+                      (x.IdCarWashWorkers == id)
+                      && (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) >= startDate.Date
+                      && (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) <= finalDate.Date))
+                      , "OrderServicesCarWash", "CarWashWorkers", "OrderServicesCarWash.ClientsOfCarWash"));
 
         #endregion
 
@@ -159,39 +115,21 @@ namespace CarDetailingStudio.BLL.Services
         {
             if (finalDate != null)
             {
-                final = finalDate.Value;
             }
 
             if (id != null)
             {
                 if (finalDate == null)
-                {
-                    var result = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id) &&
-                                                                                                                                        (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) == startDate.Date),
-                                                                                                                                        "OrderServicesCarWash", "CarWashWorkers"));
-                    return OrderCarWashWorkersDayGroup(result);
-                }
+                    return OrderCarWashWorkersDayGroup(await Reports(id.Value, startDate));
                 else
-                {
-                    var result = Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x => (x.IdCarWashWorkers == id) &&
-                                                                                                                                      (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) >= startDate.Date) &&
-                                                                                                                                      (DbFunctions.TruncateTime(x.OrderServicesCarWash.OrderDate.Value) <= final.Date),
-                                                                                                                                       "OrderServicesCarWash", "CarWashWorkers"));
-                    return OrderCarWashWorkersDayGroup(result);
-                }
+                    return OrderCarWashWorkersDayGroup(await Reports(id.Value, startDate, finalDate.Value));
             }
             else
             {
                 if (finalDate == null)
-                {
-                    var result = await Reports(startDate);
-                    return OrderCarWashWorkersDayGroup(result);
-                }
+                    return OrderCarWashWorkersDayGroup(await Reports(startDate));
                 else
-                {
-                    var result = await Reports(startDate, finalDate.Value);
-                    return OrderCarWashWorkersDayGroup(result);
-                }
+                    return OrderCarWashWorkersDayGroup(await Reports(startDate, finalDate.Value));
             }
         }
 
@@ -224,6 +162,21 @@ namespace CarDetailingStudio.BLL.Services
         }
 
         #endregion
+
+        public async Task Insert(OrderCarWashWorkersBll element)
+        {
+            _unitOfWork.OrderCarWasWorkersUnitOFWork.Insert(TransformAnEntity(element));
+            await _unitOfWork.Save();
+        }
+
+        public async Task Update(OrderCarWashWorkersBll elementToUpdate)
+        {
+            _unitOfWork.OrderCarWasWorkersUnitOFWork.Update(TransformAnEntity(elementToUpdate));
+            await _unitOfWork.Save();
+        }
+
+        public OrderCarWashWorkers TransformAnEntity(OrderCarWashWorkersBll entity) =>
+            Mapper.Map<OrderCarWashWorkersBll, OrderCarWashWorkers>(entity);
     }
 }
 

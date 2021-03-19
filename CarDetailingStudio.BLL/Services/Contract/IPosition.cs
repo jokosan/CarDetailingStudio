@@ -10,5 +10,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
 {
     public interface IPosition : IGetFromDatabase<PositionBll>
     {
+        Task<IEnumerable<PositionBll>> ChoiceEmployees(int servisesId);
     }
 }

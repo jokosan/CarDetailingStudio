@@ -16,7 +16,6 @@ namespace CarDetailingStudio.Controllers
     public class ShiftClosureController : Controller
     {
         private IWagesForDaysWorkedGroup _wagesForDays;
-        private ICloseShiftModule _closeShiftModule;
         private IDayResult _dayResult;
         private IOrderCarWashWorkersServices _orderCarWashWorkers;
         private ISalaryBalanceService _salaryBalance;
@@ -29,7 +28,6 @@ namespace CarDetailingStudio.Controllers
         public ShiftClosureController(
             IDayResult dayResult,
             IWagesForDaysWorkedGroup wagesForDays,
-            ICloseShiftModule closeShiftModule,
             IOrderCarWashWorkersServices orderCarWashWorkers,
             ISalaryBalanceService salaryBalance,
             ICarWashWorkersServices carWashWorkers,
@@ -39,7 +37,6 @@ namespace CarDetailingStudio.Controllers
             IEmployeeRate employeeRate)
         {
             _wagesForDays = wagesForDays;
-            _closeShiftModule = closeShiftModule;
             _dayResult = dayResult;
             _orderCarWashWorkers = orderCarWashWorkers;
             _salaryBalance = salaryBalance;
@@ -66,7 +63,6 @@ namespace CarDetailingStudio.Controllers
 
                 var viewResult = Mapper.Map<IEnumerable<WagesForDaysWorkedView>>(await _wagesForDays.MonthOrderResult(idCarWash, DateTime.Now.Month, DateTime.Now.Year)).OrderByDescending(x => x.carWashWorkersId);
                 var remainingUnpaidWages = Mapper.Map<SalaryArchiveView>(await _salaryArchive.SelectId(idCarWash));
-                // var payouts = Mapper.Map<IEnumerable<SalaryBalanceView>>(await _salaryBalance.SelectIdToDate(idCarWash, DateTime.Now));
                 var payouts = Mapper.Map<IEnumerable<SalaryBalanceView>>(await _salaryBalance.SelectIdToDate(idCarWash, DateTime.Now.Month, DateTime.Now.Year));
                 var salaryBalance = Mapper.Map<SalaryBalanceView>(await _salaryBalance.LastMonthBalance(idCarWash));
                 var bonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.WhereMontsBonusToSalary(idCarWash.Value));
@@ -116,7 +112,7 @@ namespace CarDetailingStudio.Controllers
         {
             if (idCarWash != null && date != null)
             {
-                return View(Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.GetClosedDay(idCarWash, date)));
+                return View(Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.Reports(idCarWash.Value, date.Value)));
             }
 
             return RedirectToAction("ShiftInformation");

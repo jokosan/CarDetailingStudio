@@ -35,6 +35,7 @@ namespace CarDetailingStudio.DAL.Infrastructure
                                                 .FirstAsync(x => x.id == id);
         }
 
+       
         public async Task<IEnumerable<CarWashWorkers>> GetWhere(Expression<Func<CarWashWorkers, bool>> predicate)
         {
             var GetWhereResult = await _context.CarWashWorkers.AsNoTracking()

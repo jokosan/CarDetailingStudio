@@ -27,14 +27,17 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork.Dispose();
         }
 
-        public async Task<IEnumerable<CarWashWorkersBll>> GetTable() => Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.CarWashWorkersUnitOfWork.Get());        
+        public async Task<IEnumerable<CarWashWorkersBll>> GetTable() =>
+            Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.CarWashWorkersUnitOfWork.Get());        
 
-        public async Task<IEnumerable<CarWashWorkersBll>> GetStaffAll() => Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.Get());        
+        public async Task<IEnumerable<CarWashWorkersBll>> GetStaffAll() =>
+            Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.Get());        
 
-        public async Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees(string arxiv = "true") =>
+        public async Task<IEnumerable<CarWashWorkersBll>> GetChooseEmployees(bool arxiv = true) =>
                          Mapper.Map<IEnumerable<CarWashWorkersBll>>(await _unitOfWork.WorkersUnitOfWork.GetWhere(x => (x.status == arxiv)));        
 
-        public async Task<CarWashWorkersBll> CarWashWorkersId(int? id) => Mapper.Map<CarWashWorkersBll>(await _unitOfWork.WorkersUnitOfWork.GetById(id));        
+        public async Task<CarWashWorkersBll> CarWashWorkersId(int? id) =>
+            Mapper.Map<CarWashWorkersBll>(await _unitOfWork.WorkersUnitOfWork.GetById(id));        
 
         public async Task AddToCurrentShift(int? adminCarWosh, int? adminDetailing, List<int> chkRow)
         {
@@ -47,8 +50,6 @@ namespace CarDetailingStudio.BLL.Services
                 await AddToCurrentShift(chkRow, currentShiftResult);
             }
         }
-
-
 
         public async Task AddToCurrentShift(List<int> chkRow, IEnumerable<BrigadeForTodayBll> currentShiftResult = null)
         {
@@ -144,8 +145,8 @@ namespace CarDetailingStudio.BLL.Services
 
             if (action == "Delete")// перед увольнением предусмотреть  
             {
-                carWashWorkers.status = "false";
-                carWashWorkers.DataDismissal = DateTime.Now.ToString("dd.MM.yyyy");   /// Внесни изменения в БД!! изменить  тип домена  DateTime
+                carWashWorkers.status = false;
+                carWashWorkers.DataDismissal = DateTime.Now; 
             }
 
             _unitOfWork.CarWashWorkersUnitOfWork.Update(carWashWorkers);
@@ -165,5 +166,7 @@ namespace CarDetailingStudio.BLL.Services
 
             return resultEmployee.AsEnumerable();
         }
+
+
     }
 }

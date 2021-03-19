@@ -59,17 +59,17 @@ namespace CarDetailingStudio.Models.ModelViews
 
         [Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [Display(Name = "Дата трудоустройства")]
-        public string DataRegistration { get; set; }
+        public Nullable<System.DateTime> DataRegistration { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата увольнения")]
-        public string DataDismissal { get; set; }
+        public Nullable<System.DateTime> DataDismissal { get; set; }
 
         //[Required(ErrorMessage = "Данное поле являеться обезательным для заполнения")]
         [DefaultValue("true")]
         [Display(Name = "Статус работы")]
-        public string status { get; set; }
+        public Nullable<bool> status { get; set; }
 
         public string Photo { get; set; }
 

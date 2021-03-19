@@ -20,10 +20,16 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitoGWork;
         }
 
+       public async Task<IEnumerable<PositionBll>> ChoiceEmployees(int servisesId) =>
+            Mapper.Map<IEnumerable<PositionBll>>(await _unitOfWork.PositionUnitOfWork.QueryObjectGraph(x =>
+                x.positionsOfAdministrators == servisesId));
+
         public async Task<IEnumerable<PositionBll>> GetTableAll() =>
             Mapper.Map<IEnumerable<PositionBll>>(await _unitOfWork.PositionUnitOfWork.Get());
 
         public async Task<PositionBll> SelectId(int? elementId) =>
             Mapper.Map<PositionBll>(await _unitOfWork.PositionUnitOfWork.GetById(elementId));
+
+      
     }
 }

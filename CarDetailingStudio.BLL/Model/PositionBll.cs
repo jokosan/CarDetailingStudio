@@ -15,6 +15,7 @@ namespace CarDetailingStudio.BLL.Model
         public int idPosition { get; set; }
         public string name { get; set; }
         public Nullable<int> positionsOfAdministrators { get; set; }
+        public Nullable<int> servises { get; set; }
 
         public virtual ICollection<PremiumAndRateBll> premiumAndRate { get; set; }
     }

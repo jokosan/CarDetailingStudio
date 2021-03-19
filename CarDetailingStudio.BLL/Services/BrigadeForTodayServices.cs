@@ -25,21 +25,18 @@ namespace CarDetailingStudio.BLL.Services
             _employeeRate = employeeRate;
         }
 
-        public async Task<BrigadeForTodayBll> CurrentShift(DateTime date, int id)
-        {
-            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
+        public async Task<BrigadeForTodayBll> CurrentShift(DateTime date, int id) =>
+         Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
                                                               (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && 
                                                               (x.EarlyTermination == true) &&
                                                               x.StatusId == id)).LastOrDefault();
-        }
+        
 
         public async Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow()
         {
             var date = DateTime.Now;
             return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork.GetWhere(x => x.EarlyTermination == true 
                                                                                && DbFunctions.TruncateTime(x.Date.Value) == date.Date));
-
-            //return brigadeResult.Where(x => x.Date?.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"));
         }
 
         public async Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow(DateTime date)
@@ -79,16 +76,13 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<BrigadeForTodayBll> GetId(int id) => Mapper.Map<BrigadeForTodayBll>(await _unitOfWork.BrigadeUnitOfWork.GetById(id));
 
-        public async Task<IEnumerable<BrigadeForTodayBll>> Reports(DateTime datepresentDay)
-        {
-            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => DbFunctions.TruncateTime(x.Date.Value) == datepresentDay.Date));
-        }
+        public async Task<IEnumerable<BrigadeForTodayBll>> Reports(DateTime datepresentDay) =>
+            Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
+                DbFunctions.TruncateTime(x.Date.Value) == datepresentDay.Date));
 
-        public async Task<IEnumerable<BrigadeForTodayBll>> Reports(DateTime startDate, DateTime finalDate)
-        {
-            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date.Value) >= startDate.Date)
-                                                                                                                  && (DbFunctions.TruncateTime(x.Date.Value) <= finalDate.Date)));
-        }    
+        public async Task<IEnumerable<BrigadeForTodayBll>> Reports(DateTime startDate, DateTime finalDate) =>
+            Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
+                (DbFunctions.TruncateTime(x.Date.Value) >= startDate.Date) && (DbFunctions.TruncateTime(x.Date.Value) <= finalDate.Date)));
 
         public brigadeForToday TransformAnEntity(BrigadeForTodayBll entity) => Mapper.Map<BrigadeForTodayBll, brigadeForToday>(entity);
 

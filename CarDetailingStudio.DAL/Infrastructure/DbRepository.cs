@@ -12,7 +12,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
 {
     public class DbRepository<T> : IGetRepository<T>, IDefaultRepository<T>, IGetInclude<T> where T : class
     {
-
         internal carWashEntities _carWashEntitiesContext;
         internal DbSet<T> DbSeT;
 

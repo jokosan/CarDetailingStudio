@@ -19,6 +19,7 @@ namespace CarDetailingStudio.Models.ModelViews
         public int idPosition { get; set; }
         public string name { get; set; }
         public Nullable<int> positionsOfAdministrators { get; set; }
+        public Nullable<int> servises { get; set; }
 
         public virtual ICollection<PremiumAndRateView> premiumAndRate { get; set; }
     }

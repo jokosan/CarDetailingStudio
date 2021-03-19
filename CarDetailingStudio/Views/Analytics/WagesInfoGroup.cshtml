@@ -29,9 +29,9 @@
                     <th></th>
                 </tr>
 
-                @foreach (var itemDate in ViewBag.Date)
+                @foreach (var itemDate in ViewBag.ExpensesDate)
                 {
-                    if (Model.Any(x => x.OrderServicesCarWash.OrderDate.Value.Date == itemDate))
+                    if (Model.Any(x => x.OrderServicesCarWash.OrderDate.Value.Date == itemDate.Date))
                     {
                         <tr>
                             <td colspan="7" class="text-center"><b class="text-danger">@itemDate.Date.ToString("dd.MM.yyyy")</b></td>

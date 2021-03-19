@@ -1,4 +1,4 @@
-﻿using CarDetailingStudio.BLL.Services.Modules.CloseShift.Contract;
+﻿using CarDetailingStudio.BLL.EmployeesModules.Contract;
 using Quartz;
 using System.Threading.Tasks;
 
@@ -6,16 +6,16 @@ namespace CarDetailingStudio.Utilities.Quartz
 {
     public class AutomaticShiftClose : IJob
     {
-        private ICloseShiftModule _closeShiftModule;
+        private readonly IEmployeesFacade _employeesFacade;
 
-        public AutomaticShiftClose(ICloseShiftModule closeShiftModule)
+        public AutomaticShiftClose(IEmployeesFacade employeesFacade)
         {
-            _closeShiftModule = closeShiftModule;
+            _employeesFacade = employeesFacade;
         }
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await _closeShiftModule.CurrentShift();
+            await _employeesFacade.TestBonus1(2);
         }
     }
 }

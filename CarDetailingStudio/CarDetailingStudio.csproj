@@ -295,6 +295,7 @@
     <Compile Include="Models\CarJoinClientModel.cs" />
     <Compile Include="Models\CartIndexViewModels.cs" />
     <Compile Include="Models\CartLineModels.cs" />
+    <Compile Include="Models\ChangeOfDayModel.cs" />
     <Compile Include="Models\ClientJoinCarpetWashingModelView.cs" />
     <Compile Include="Models\CreateOrderView.cs" />
     <Compile Include="Models\DayResultModelView.cs" />
@@ -829,6 +830,7 @@
     <Content Include="Scripts\i18n\zh-TW.js" />
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
     <Content Include="libman.json" />
+    <Content Include="Content\StyleSheet.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -1452,6 +1454,7 @@
     <Content Include="Views\Admin\CostCategoriesCreate.cshtml" />
     <Content Include="Views\Admin\CostCategoriesEdit.cshtml" />
     <Content Include="Views\Analytics\ExpensesGroup.cshtml" />
+    <Content Include="Views\CarWashWorkersViews\Index - Копировать.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

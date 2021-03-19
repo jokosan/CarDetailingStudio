@@ -132,9 +132,9 @@
           <Property Name="AdministratorsInterestRate" Type="int" />
           <Property Name="InterestRate" Type="int" />
           <Property Name="rate" Type="float" />
-          <Property Name="DataRegistration" Type="nvarchar" MaxLength="15" />
-          <Property Name="DataDismissal" Type="nvarchar" MaxLength="15" />
-          <Property Name="status" Type="nvarchar" MaxLength="10" />
+          <Property Name="DataRegistration" Type="datetime2" Precision="7" />
+          <Property Name="DataDismissal" Type="datetime2" Precision="7" />
+          <Property Name="status" Type="bit" />
           <Property Name="Photo" Type="nvarchar" MaxLength="500" />
           <Property Name="IdPosition" Type="int" />
         </EntityType>
@@ -368,6 +368,7 @@
           <Property Name="idPosition" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="100" />
           <Property Name="positionsOfAdministrators" Type="int" />
+          <Property Name="servises" Type="int" />
         </EntityType>
         <EntityType Name="premiumAndRate">
           <Key>
@@ -375,10 +376,12 @@
           </Key>
           <Property Name="idPremiumAndRate" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="carWashWorkersId" Type="int" Nullable="false" />
-          <Property Name="percentageStatusForOrder" Type="bit" Nullable="false" />
-          <Property Name="percentageRatePerOrder" Type="float" />
           <Property Name="positionsStatus" Type="bit" Nullable="false" />
+          <Property Name="percentageRatePerOrder" Type="float" />
           <Property Name="positionId" Type="int" Nullable="false" />
+          <Property Name="servicePremium" Type="bit" Nullable="false" />
+          <Property Name="multiplicityOfTheSum" Type="float" />
+          <Property Name="prizeAmount" Type="float" />
         </EntityType>
         <EntityType Name="PriceListTireFitting">
           <Key>
@@ -605,6 +608,29 @@
           <Property Name="CalculationStatus" Type="bit" />
           <Property Name="Expr1" Type="float" />
         </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "carWashServer.dbo.OrderServisesOrderCarWorkers" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="OrderServisesOrderCarWorkers">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="IdOrder" />
+            <PropertyRef Name="IdCarWashWorkers" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdClientsOfCarWash" Type="int" />
+          <Property Name="StatusOrder" Type="int" />
+          <Property Name="PaymentState" Type="int" />
+          <Property Name="OrderDate" Type="datetime2" Precision="7" />
+          <Property Name="ClosingData" Type="datetime2" Precision="7" />
+          <Property Name="DiscountPrice" Type="float" />
+          <Property Name="typeOfOrder" Type="int" />
+          <Property Name="Expr1" Type="int" Nullable="false" />
+          <Property Name="IdOrder" Type="int" Nullable="false" />
+          <Property Name="IdCarWashWorkers" Type="int" Nullable="false" />
+          <Property Name="Payroll" Type="float" />
+          <Property Name="typeServicesId" Type="int" />
+        </EntityType>
         <Association Name="FK_additionalTireStorageServices_OrderServicesCarWash">
           <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1" />
           <End Role="additionalTireStorageServices" Type="Self.additionalTireStorageServices" Multiplicity="*" />
@@ -812,7 +838,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EmployeeRate_brigadeForToday">
-          <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="0..1" />
+          <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="EmployeeRate" Type="Self.EmployeeRate" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="brigadeForToday">
@@ -1197,6 +1225,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Хранилище carWashServerModelContainer">
           <EntitySet Name="AdditionalIncome" EntityType="Self.AdditionalIncome" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="additionalTireStorageServices" EntityType="Self.additionalTireStorageServices" Schema="dbo" store:Type="Tables" />
@@ -1280,6 +1339,23 @@
     [ItogOrderView].[CalculationStatus] AS [CalculationStatus], 
     [ItogOrderView].[Expr1] AS [Expr1]
     FROM [dbo].[ItogOrderView] AS [ItogOrderView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OrderServisesOrderCarWorkers" EntityType="Self.OrderServisesOrderCarWorkers" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OrderServisesOrderCarWorkers].[Id] AS [Id], 
+    [OrderServisesOrderCarWorkers].[IdClientsOfCarWash] AS [IdClientsOfCarWash], 
+    [OrderServisesOrderCarWorkers].[StatusOrder] AS [StatusOrder], 
+    [OrderServisesOrderCarWorkers].[PaymentState] AS [PaymentState], 
+    [OrderServisesOrderCarWorkers].[OrderDate] AS [OrderDate], 
+    [OrderServisesOrderCarWorkers].[ClosingData] AS [ClosingData], 
+    [OrderServisesOrderCarWorkers].[DiscountPrice] AS [DiscountPrice], 
+    [OrderServisesOrderCarWorkers].[typeOfOrder] AS [typeOfOrder], 
+    [OrderServisesOrderCarWorkers].[Expr1] AS [Expr1], 
+    [OrderServisesOrderCarWorkers].[IdOrder] AS [IdOrder], 
+    [OrderServisesOrderCarWorkers].[IdCarWashWorkers] AS [IdCarWashWorkers], 
+    [OrderServisesOrderCarWorkers].[Payroll] AS [Payroll], 
+    [OrderServisesOrderCarWorkers].[typeServicesId] AS [typeServicesId]
+    FROM [dbo].[OrderServisesOrderCarWorkers] AS [OrderServisesOrderCarWorkers]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_additionalTireStorageServices_OrderServicesCarWash" Association="Self.FK_additionalTireStorageServices_OrderServicesCarWash">
             <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
@@ -1621,9 +1697,9 @@
           <Property Name="AdministratorsInterestRate" Type="Int32" />
           <Property Name="InterestRate" Type="Int32" />
           <Property Name="rate" Type="Double" />
-          <Property Name="DataRegistration" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="DataDismissal" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DataRegistration" Type="DateTime" Precision="7" />
+          <Property Name="DataDismissal" Type="DateTime" Precision="7" />
+          <Property Name="status" Type="Boolean" />
           <Property Name="Photo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IdPosition" Type="Int32" />
           <NavigationProperty Name="bonusToSalary" Relationship="Self.FK_bonusToSalary_CarWashWorkers" FromRole="CarWashWorkers" ToRole="bonusToSalary" />
@@ -1897,6 +1973,7 @@
           <Property Name="idPosition" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="positionsOfAdministrators" Type="Int32" />
+          <Property Name="servises" Type="Int32" />
           <NavigationProperty Name="premiumAndRate" Relationship="Self.FK_premiumAndRate_Position" FromRole="Position" ToRole="premiumAndRate" />
         </EntityType>
         <EntityType Name="premiumAndRate">
@@ -1905,10 +1982,12 @@
           </Key>
           <Property Name="idPremiumAndRate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="carWashWorkersId" Type="Int32" Nullable="false" />
-          <Property Name="percentageStatusForOrder" Type="Boolean" Nullable="false" />
-          <Property Name="percentageRatePerOrder" Type="Double" />
           <Property Name="positionsStatus" Type="Boolean" Nullable="false" />
+          <Property Name="percentageRatePerOrder" Type="Double" />
           <Property Name="positionId" Type="Int32" Nullable="false" />
+          <Property Name="servicePremium" Type="Boolean" Nullable="false" />
+          <Property Name="multiplicityOfTheSum" Type="Double" />
+          <Property Name="prizeAmount" Type="Double" />
           <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_premiumAndRate_CarWashWorkers" FromRole="premiumAndRate" ToRole="CarWashWorkers" />
           <NavigationProperty Name="Position" Relationship="Self.FK_premiumAndRate_Position" FromRole="premiumAndRate" ToRole="Position" />
         </EntityType>
@@ -2141,6 +2220,40 @@
           <Property Name="logo_mark" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="screen_format" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="infoBrigadeForToday">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Expr1" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sumOrder" Type="Int32" />
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderServisesOrderCarWorkers">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="IdOrder" />
+            <PropertyRef Name="IdCarWashWorkers" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdClientsOfCarWash" Type="Int32" />
+          <Property Name="StatusOrder" Type="Int32" />
+          <Property Name="PaymentState" Type="Int32" />
+          <Property Name="OrderDate" Type="DateTime" Precision="7" />
+          <Property Name="ClosingData" Type="DateTime" Precision="7" />
+          <Property Name="DiscountPrice" Type="Double" />
+          <Property Name="typeOfOrder" Type="Int32" />
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
+          <Property Name="IdOrder" Type="Int32" Nullable="false" />
+          <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
+          <Property Name="Payroll" Type="Double" />
+          <Property Name="typeServicesId" Type="Int32" />
+        </EntityType>
         <Association Name="FK_additionalTireStorageServices_OrderServicesCarWash">
           <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1" />
           <End Role="additionalTireStorageServices" Type="Self.additionalTireStorageServices" Multiplicity="*" />
@@ -2190,7 +2303,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EmployeeRate_brigadeForToday">
-          <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="0..1" />
+          <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="EmployeeRate" Type="Self.EmployeeRate" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="brigadeForToday">
@@ -2787,6 +2902,8 @@
           <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" />
           <EntitySet Name="utilityCostsCategory" EntityType="Self.utilityCostsCategory" />
           <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" />
+          <EntitySet Name="infoBrigadeForToday" EntityType="Self.infoBrigadeForToday" />
+          <EntitySet Name="OrderServisesOrderCarWorkers" EntityType="Self.OrderServisesOrderCarWorkers" />
           <AssociationSet Name="FK_additionalTireStorageServices_OrderServicesCarWash" Association="Self.FK_additionalTireStorageServices_OrderServicesCarWash">
             <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
             <End Role="additionalTireStorageServices" EntitySet="additionalTireStorageServices" />
@@ -2979,22 +3096,38 @@
             <End Role="utilityCostsCategory" EntitySet="utilityCostsCategory" />
             <End Role="utilityCosts" EntitySet="utilityCosts" />
           </AssociationSet>
-          <EntitySet Name="infoBrigadeForToday" EntityType="carWashServerModel.infoBrigadeForToday" />
           <EntitySet Name="ItogOrderView" EntityType="carWashServerModel.ItogOrderView" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(carWashServerModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(carWashServerModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
-        <EntityType Name="infoBrigadeForToday">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="Expr1" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="sumOrder" Type="Int32" />
-          <Property Name="Expr1" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="ItogOrderView">
           <Key>
             <PropertyRef Name="id" />
@@ -3009,6 +3142,17 @@
           <Property Name="CalculationStatus" Type="Boolean" />
           <Property Name="Expr1" Type="Double" />
         </EntityType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3018,12 +3162,12 @@
           <EntitySetMapping Name="AdditionalIncome">
             <EntityTypeMapping TypeName="carWashServerModel.AdditionalIncome">
               <MappingFragment StoreEntitySet="AdditionalIncome">
-                <ScalarProperty Name="PaymentState" ColumnName="PaymentState" />
                 <ScalarProperty Name="idAdditionalIncome" ColumnName="idAdditionalIncome" />
                 <ScalarProperty Name="IncomeCategory" ColumnName="IncomeCategory" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="PaymentState" ColumnName="PaymentState" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3397,6 +3541,7 @@
                 <ScalarProperty Name="idPosition" ColumnName="idPosition" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="positionsOfAdministrators" ColumnName="positionsOfAdministrators" />
+                <ScalarProperty Name="servises" ColumnName="servises" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3405,10 +3550,12 @@
               <MappingFragment StoreEntitySet="premiumAndRate">
                 <ScalarProperty Name="idPremiumAndRate" ColumnName="idPremiumAndRate" />
                 <ScalarProperty Name="carWashWorkersId" ColumnName="carWashWorkersId" />
-                <ScalarProperty Name="percentageStatusForOrder" ColumnName="percentageStatusForOrder" />
-                <ScalarProperty Name="percentageRatePerOrder" ColumnName="percentageRatePerOrder" />
                 <ScalarProperty Name="positionsStatus" ColumnName="positionsStatus" />
+                <ScalarProperty Name="percentageRatePerOrder" ColumnName="percentageRatePerOrder" />
                 <ScalarProperty Name="positionId" ColumnName="positionId" />
+                <ScalarProperty Name="servicePremium" ColumnName="servicePremium" />
+                <ScalarProperty Name="multiplicityOfTheSum" ColumnName="multiplicityOfTheSum" />
+                <ScalarProperty Name="prizeAmount" ColumnName="prizeAmount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3638,13 +3785,32 @@
           <EntitySetMapping Name="infoBrigadeForToday">
             <EntityTypeMapping TypeName="carWashServerModel.infoBrigadeForToday">
               <MappingFragment StoreEntitySet="infoBrigadeForToday">
-                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
-                <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
-                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="sumOrder" ColumnName="sumOrder" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderServisesOrderCarWorkers">
+            <EntityTypeMapping TypeName="carWashServerModel.OrderServisesOrderCarWorkers">
+              <MappingFragment StoreEntitySet="OrderServisesOrderCarWorkers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdClientsOfCarWash" ColumnName="IdClientsOfCarWash" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+                <ScalarProperty Name="PaymentState" ColumnName="PaymentState" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="ClosingData" ColumnName="ClosingData" />
+                <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+                <ScalarProperty Name="typeOfOrder" ColumnName="typeOfOrder" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
+                <ScalarProperty Name="IdCarWashWorkers" ColumnName="IdCarWashWorkers" />
+                <ScalarProperty Name="Payroll" ColumnName="Payroll" />
+                <ScalarProperty Name="typeServicesId" ColumnName="typeServicesId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3663,6 +3829,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище carWashServerModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище carWashServerModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище carWashServerModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище carWashServerModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="carWashServerModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище carWashServerModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="carWashServerModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище carWashServerModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище carWashServerModel.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
