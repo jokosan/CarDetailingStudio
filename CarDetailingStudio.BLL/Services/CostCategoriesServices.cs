@@ -20,20 +20,14 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<CostCategoriesBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<CostCategoriesBll>>(await _unitOfWork.CostCategoriesUnionOfWork.Get());
-        }
+        public async Task<IEnumerable<CostCategoriesBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<CostCategoriesBll>>(await _unitOfWork.CostCategoriesUnionOfWork.Get());
 
-        public async Task<CostCategoriesBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<CostCategoriesBll>(await _unitOfWork.CostCategoriesUnionOfWork.GetById(elementId));
-        }
+        public async Task<CostCategoriesBll> SelectId(int? elementId) =>
+            Mapper.Map<CostCategoriesBll>(await _unitOfWork.CostCategoriesUnionOfWork.GetById(elementId));
 
-        public async Task<IEnumerable<CostCategoriesBll>> GetWhere(int elementId)
-        {
-            return Mapper.Map<IEnumerable<CostCategoriesBll>>(await _unitOfWork.CostCategoriesUnionOfWork.GetWhere(x => x.typeOfExpenses == elementId));
-        }
+        public async Task<IEnumerable<CostCategoriesBll>> GetWhere(int elementId) =>
+            Mapper.Map<IEnumerable<CostCategoriesBll>>(await _unitOfWork.CostCategoriesUnionOfWork.GetWhere(x => x.typeOfExpenses == elementId));
 
         public async Task Insert(CostCategoriesBll element)
         {
@@ -47,6 +41,7 @@ namespace CarDetailingStudio.BLL.Services
             await _unitOfWork.Save();
         }
 
-        public costCategories TransformAnEntity(CostCategoriesBll entity) => Mapper.Map<CostCategoriesBll, costCategories>(entity);
+        public costCategories TransformAnEntity(CostCategoriesBll entity) =>
+            Mapper.Map<CostCategoriesBll, costCategories>(entity);
     }
 }

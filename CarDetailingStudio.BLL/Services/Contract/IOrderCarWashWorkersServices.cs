@@ -15,7 +15,6 @@ namespace CarDetailingStudio.BLL.Services.Contract
         Task<OrderCarWashWorkersBll> Change(int? Order, int? Employee);
         Task<IEnumerable<OrderCarWashWorkersBll>> GetTableInclud(int? idCarWashWorkers);
         Task<IEnumerable<OrderCarWashWorkersBll>> GetTableInclud(int month, int year);
-        Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(int id, System.DateTime date);
         Task<IEnumerable<OrderCarWashWorkersBll>> TableCalculationStatusFolse();
         Task<IEnumerable<OrderCarWashWorkersDayGroupBll>> OrderCarWashWorkers(int? id, DateTime startDate, DateTime? finalDate);
         Task<IEnumerable<OrderCarWashWorkersDayGroupBll>> WhereCarWashWorkers(int keyCarWashWorkers);

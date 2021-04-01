@@ -21,26 +21,11 @@ namespace CarDetailingStudio.BLL.Services
             _automapperConfig = automapperConfig;
         }
 
-        public async Task<IEnumerable<GroupWashServicesBll>> GetAllTable()
-        {
-            return Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<GroupWashServicesBll>> GetAllTable() =>
+            Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.Get());
 
-        public async Task <IEnumerable<GroupWashServicesBll>> GetIdAll(int? id)
-        {
-            if (id == 2)
-            {
-                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id <= 2));
-            }
-            else if (id == 1)
-            {
-                return Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Id != 2));
-            }
-            else
-            {
-                return await GetAllTable();
-            }
-        }
+        public async Task <IEnumerable<GroupWashServicesBll>> GetIdAll(int? id) =>
+            Mapper.Map<IEnumerable<GroupWashServicesBll>>(await _unitOfWork.GroupWashServicesUnitOfWork.GetWhere(x => x.Detailings.Any(w => w.IdTypeService == id)));
 
         public async Task<IEnumerable<GroupWashServicesBll>> SelectGroupWashServices(List<int> idServices)
         {
@@ -60,6 +45,7 @@ namespace CarDetailingStudio.BLL.Services
             await _unitOfWork.Save();
         }
 
-        private GroupWashServices TransformAnEntity(GroupWashServicesBll entity) => Mapper.Map<GroupWashServicesBll, GroupWashServices>(entity);
+        private GroupWashServices TransformAnEntity(GroupWashServicesBll entity) => 
+            Mapper.Map<GroupWashServicesBll, GroupWashServices>(entity);
     }
 }

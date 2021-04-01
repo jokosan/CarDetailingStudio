@@ -195,6 +195,7 @@
     <Compile Include="Model\UtilityCostsBll.cs" />
     <Compile Include="Model\UtilityCostsCategoryBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CategoriesEnum.cs" />
     <Compile Include="Services\AdditionalIncomeServices.cs" />
     <Compile Include="Services\BonusToSalaryServices.cs" />
     <Compile Include="Services\BrigadeForTodayServices.cs" />

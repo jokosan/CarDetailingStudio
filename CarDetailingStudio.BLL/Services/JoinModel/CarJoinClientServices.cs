@@ -16,14 +16,18 @@ namespace CarDetailingStudio.BLL.Services.JoinModel
 {
     public class CarJoinClientServices : ICarJoinClientServices 
     {
-        private IClientInfoServices _clientInfo;
-        private IClientsOfCarWashServices _clientsOfCarWash;
+        private readonly IClientInfoServices _clientInfo;
+        private readonly IClientsOfCarWashServices _clientsOfCarWash;
+        private readonly IOrderServicesCarWashServices _orderServicesCarWash;
 
-        public CarJoinClientServices(IClientsOfCarWashServices clientsOfCarWash,
-                                     IClientInfoServices clientInfo)
+        public CarJoinClientServices(
+            IClientsOfCarWashServices clientsOfCarWash,
+            IClientInfoServices clientInfo,
+            IOrderServicesCarWashServices orderServicesCarWash)
         {
             _clientInfo = clientInfo;
             _clientsOfCarWash = clientsOfCarWash;
+            _orderServicesCarWash = orderServicesCarWash;
         }
 
         public async Task<IEnumerable<CarJoinClientModelBll>> JoinServicesClientCar()

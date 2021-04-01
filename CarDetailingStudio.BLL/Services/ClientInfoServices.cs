@@ -18,27 +18,14 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<ClientInfoBll>> ClientInfoAll()
-        {
-            return Mapper.Map<IEnumerable<ClientInfoBll>>(await _unitOfWork.ClientInfoUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<ClientInfoBll>> ClientInfoAll() =>
+            Mapper.Map<IEnumerable<ClientInfoBll>>(await _unitOfWork.ClientInfoUnitOfWork.Get());
+        
+        public async Task<IEnumerable<ClientInfoBll>> ClienWhereId(int id) => 
+            Mapper.Map<IEnumerable<ClientInfoBll>>(await _unitOfWork.ClientInfoUnitOfWork.GetWhere(x => x.Id == id));
 
-        public async Task<IEnumerable<ClientInfoBll>> ClienWhereId(int id)
-        {
-            return Mapper.Map<IEnumerable<ClientInfoBll>>(await _unitOfWork.ClientInfoUnitOfWork.GetWhere(x => x.Id == id));
-        }
-
-        public async Task<ClientInfoBll> ClientInfoGetId(int? IdClient)
-        {
-            return Mapper.Map<ClientInfoBll>(await _unitOfWork.ClientInfoUnitOfWork.GetById(IdClient));
-        }
-
-        public async Task ClientInfoEdit(ClientInfoBll editClient)
-        {
-            ClientInfo clientInfo = Mapper.Map<ClientInfoBll, ClientInfo>(editClient);
-            _unitOfWork.ClientInfoUnitOfWork.Update(clientInfo);
-            await _unitOfWork.Save();
-        }
+        public async Task<ClientInfoBll> ClientInfoGetId(int? IdClient) =>
+            Mapper.Map<ClientInfoBll>(await _unitOfWork.ClientInfoUnitOfWork.GetById(IdClient));
 
         public async Task Delete(ClientInfoBll elementToDelete)
         {
@@ -46,13 +33,19 @@ namespace CarDetailingStudio.BLL.Services
             await _unitOfWork.Save();
         }
 
-        public async Task AddClient(ClientInfoBll client)
+        public async Task Insert(ClientInfoBll element)
         {
-            ClientInfo clientInfoBll  = Mapper.Map<ClientInfoBll, ClientInfo>(client);
-            _unitOfWork.ClientInfoUnitOfWork.Insert(clientInfoBll);
+            _unitOfWork.ClientInfoUnitOfWork.Insert(TransformAnEntity(element));
             await _unitOfWork.Save();
         }
 
-       
+        public async Task Update(ClientInfoBll elementToUpdate)
+        {
+            _unitOfWork.ClientInfoUnitOfWork.Update(TransformAnEntity(elementToUpdate));
+            await _unitOfWork.Save();
+        }
+
+        ClientInfo TransformAnEntity(ClientInfoBll entity) =>
+            Mapper.Map<ClientInfoBll, ClientInfo>(entity);
     }
 }

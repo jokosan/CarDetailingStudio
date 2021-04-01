@@ -136,7 +136,7 @@
                                 @Html.LabelFor(model => model.status)
                             </label>
                             <div class="col-md-9">
-                                @if (Model.status == "true")
+                                @if (Model.status == true)
                                 {
                                     @Html.DropDownListFor(x => x.status, new List<SelectListItem>
                                 {

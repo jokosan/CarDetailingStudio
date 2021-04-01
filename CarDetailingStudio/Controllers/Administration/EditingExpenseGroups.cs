@@ -18,8 +18,8 @@ namespace CarDetailingStudio.Controllers.Administration
         [HttpGet]
         public async Task<ActionResult> EditingExpenseGroups()
         {
-            ViewBag.ExpenseCategory = Mapper.Map<IEnumerable<ExpenseCategoryView>>(await _expenseCategory.GetTableAll());
-            ViewBag.CostCategories = Mapper.Map<IEnumerable<CostCategoriesView>>(await _costCategories.GetTableAll());
+            ViewBag.ExpenseCategory = Mapper.Map<IEnumerable<ExpenseCategoryView>>(await _expenseCategory.GetTableAll()).OrderBy(x => x.idExpenseCategory);
+            ViewBag.CostCategories = Mapper.Map<IEnumerable<CostCategoriesView>>(await _costCategories.GetTableAll()).OrderBy(x => x.typeOfExpenses);
 
             return View();
         }

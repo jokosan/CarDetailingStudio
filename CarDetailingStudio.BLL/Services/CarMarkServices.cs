@@ -14,21 +14,18 @@ namespace CarDetailingStudio.BLL.Services
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapper;
 
-        public CarMarkServices(IUnitOfWork unitOfWork, AutomapperConfig automapper)
+        public CarMarkServices(
+            IUnitOfWork unitOfWork, 
+            AutomapperConfig automapper)
         {
             _unitOfWork = unitOfWork;
             _automapper = automapper;
         }
 
-        public async Task<IEnumerable<CarMarkBll>> Get()
-        {
-            return Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<CarMarkBll>> Get() =>
+            Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.Get());        
 
-        public async Task<IEnumerable<CarMarkBll>> GetWhere(string id)
-        {
-            return Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.GetWhere(x => x.name.Contains(id)));
-        }
-
+        public async Task<IEnumerable<CarMarkBll>> GetWhere(string id) =>
+            Mapper.Map<IEnumerable<CarMarkBll>>(await _unitOfWork.CarMarkUnitOfWork.GetWhere(x => x.name.Contains(id)));
     }
 }

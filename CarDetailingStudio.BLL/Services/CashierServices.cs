@@ -18,16 +18,19 @@ namespace CarDetailingStudio.BLL.Services
         private IUnitOfWork _unitOfWork;
         private IOrderServicesCarWashServices _orderServicesCarWash;
 
-        public CashierServices(IUnitOfWork unitOfWork, IOrderServicesCarWashServices orderServicesCarWash)
+        public CashierServices(
+            IUnitOfWork unitOfWork, 
+            IOrderServicesCarWashServices orderServicesCarWash)
         {
             _unitOfWork = unitOfWork;
             _orderServicesCarWash = orderServicesCarWash;
         }
 
-        public async Task<IEnumerable<CashierBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<CashierBll>>(await _unitOfWork.CashierUtilOfWork.Get());
-        }
+        public async Task<IEnumerable<CashierBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<CashierBll>>(await _unitOfWork.CashierUtilOfWork.Get());
+
+        public async Task<CashierBll> SelectId(int? elementId) =>
+          Mapper.Map<CashierBll>(await _unitOfWork.CashierUtilOfWork.GetById(elementId));
 
         public async Task Insert(CashierBll element)
         {
@@ -35,11 +38,6 @@ namespace CarDetailingStudio.BLL.Services
 
             _unitOfWork.CashierUtilOfWork.Insert(cashier);
             await _unitOfWork.Save();
-        }
-
-        public async Task<CashierBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<CashierBll>(await _unitOfWork.CashierUtilOfWork.GetById(elementId));
         }
 
         public async Task Update(CashierBll elementToUpdate)
@@ -52,16 +50,13 @@ namespace CarDetailingStudio.BLL.Services
 
         #region IReports
 
-        public async Task<IEnumerable<CashierBll>> Reports(DateTime datepresentDay)
-        {
-            return Mapper.Map<IEnumerable<CashierBll>>(await _unitOfWork.CashierUtilOfWork.GetWhere(x => DbFunctions.TruncateTime(x.date) == datepresentDay.Date));
-        }
+        public async Task<IEnumerable<CashierBll>> Reports(DateTime datepresentDay) =>
+            Mapper.Map<IEnumerable<CashierBll>>(await _unitOfWork.CashierUtilOfWork.GetWhere(x =>
+                DbFunctions.TruncateTime(x.date) == datepresentDay.Date));        
 
-        public async Task<IEnumerable<CashierBll>> Reports(DateTime startDate, DateTime finalDate)
-        {
-            return Mapper.Map<IEnumerable<CashierBll>>(await _unitOfWork.CashierUtilOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.date) >= startDate.Date)
-                                                                                                    && (DbFunctions.TruncateTime(x.date) <= finalDate.Date)));
-        }
+        public async Task<IEnumerable<CashierBll>> Reports(DateTime startDate, DateTime finalDate) => 
+            Mapper.Map<IEnumerable<CashierBll>>(await _unitOfWork.CashierUtilOfWork.GetWhere(x => 
+                (DbFunctions.TruncateTime(x.date) >= startDate.Date) && (DbFunctions.TruncateTime(x.date) <= finalDate.Date)));
 
         #endregion
 

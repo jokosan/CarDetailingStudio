@@ -22,20 +22,20 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<AdditionalIncomeBll>> GetTableAll() => Mapper.Map<IEnumerable<AdditionalIncomeBll>>(await _unitOfWork.AdditionalIncomeUnitOfWork.Get());
+        public async Task<IEnumerable<AdditionalIncomeBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<AdditionalIncomeBll>>(await _unitOfWork.AdditionalIncomeUnitOfWork.Get());
 
-        public async Task<AdditionalIncomeBll> SelectId(int? elementId) => Mapper.Map<AdditionalIncomeBll>(await _unitOfWork.AdditionalIncomeUnitOfWork.GetById(elementId));
+        public async Task<AdditionalIncomeBll> SelectId(int? elementId) =>
+            Mapper.Map<AdditionalIncomeBll>(await _unitOfWork.AdditionalIncomeUnitOfWork.GetById(elementId));
 
-        public async Task<IEnumerable<AdditionalIncomeBll>> Reports(DateTime datepresentDay)
-        {
-            return Mapper.Map<IEnumerable<AdditionalIncomeBll>>(await _unitOfWork.AdditionalIncomeUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date) >= datepresentDay.Date)));
-        }
+        public async Task<IEnumerable<AdditionalIncomeBll>> Reports(DateTime datepresentDay) =>
+            Mapper.Map<IEnumerable<AdditionalIncomeBll>>(await _unitOfWork.AdditionalIncomeUnitOfWork.GetWhere(x => 
+            (DbFunctions.TruncateTime(x.Date) >= datepresentDay.Date)));
 
-        public async Task<IEnumerable<AdditionalIncomeBll>> Reports(DateTime startDate, DateTime finalDate)
-        {
-            return Mapper.Map<IEnumerable<AdditionalIncomeBll>>(await _unitOfWork.AdditionalIncomeUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.Date) >= startDate.Date)
-                                                                                                                      && (DbFunctions.TruncateTime(x.Date) <= finalDate.Date)));
-        }
+        public async Task<IEnumerable<AdditionalIncomeBll>> Reports(DateTime startDate, DateTime finalDate) =>
+            Mapper.Map<IEnumerable<AdditionalIncomeBll>>(await _unitOfWork.AdditionalIncomeUnitOfWork.GetWhere(x =>
+            (DbFunctions.TruncateTime(x.Date) >= startDate.Date) && (DbFunctions.TruncateTime(x.Date) <= finalDate.Date)));
+        
 
         public async Task Insert(AdditionalIncomeBll element)
         {
@@ -49,6 +49,7 @@ namespace CarDetailingStudio.BLL.Services
             await _unitOfWork.Save();
         }
 
-        private AdditionalIncome TransformEntity(AdditionalIncomeBll entity) => Mapper.Map<AdditionalIncomeBll, AdditionalIncome>(entity);
+        private AdditionalIncome TransformEntity(AdditionalIncomeBll entity) =>
+            Mapper.Map<AdditionalIncomeBll, AdditionalIncome>(entity);
     }
 }

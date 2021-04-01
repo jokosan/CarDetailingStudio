@@ -7,6 +7,7 @@
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\ProjectCarWash\Public</_PublishTargetUrl>
+    <History>True|2021-04-01T07:48:36.4760652Z;True|2021-03-30T11:24:09.6909124+03:00;True|2021-03-21T21:25:04.0816607+03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -28,28 +29,28 @@
       <publishTime>11/17/2018 10:14:56</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.BLL.dll">
-      <publishTime>03/09/2021 14:05:55</publishTime>
+      <publishTime>04/01/2021 10:48:27</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.BLL.dll.config">
       <publishTime>09/29/2019 12:41:28</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.BLL.pdb">
-      <publishTime>03/09/2021 14:05:55</publishTime>
+      <publishTime>04/01/2021 10:48:27</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.DAL.dll">
-      <publishTime>03/05/2021 01:16:59</publishTime>
+      <publishTime>03/21/2021 21:24:57</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.DAL.dll.config">
-      <publishTime>03/09/2021 14:05:27</publishTime>
+      <publishTime>04/01/2021 10:48:07</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.DAL.pdb">
-      <publishTime>03/05/2021 01:16:59</publishTime>
+      <publishTime>03/21/2021 21:24:57</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.dll">
-      <publishTime>03/09/2021 14:05:56</publishTime>
+      <publishTime>04/01/2021 10:48:28</publishTime>
     </File>
     <File Include="bin/CarDetailingStudio.pdb">
-      <publishTime>03/09/2021 14:05:56</publishTime>
+      <publishTime>04/01/2021 10:48:28</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -430,10 +431,10 @@
       <publishTime>10/01/2020 16:20:23</publishTime>
     </File>
     <File Include="Content/form.css">
-      <publishTime>12/01/2019 14:42:37</publishTime>
+      <publishTime>03/22/2021 12:48:17</publishTime>
     </File>
     <File Include="Content/input.css">
-      <publishTime>01/14/2021 14:25:49</publishTime>
+      <publishTime>03/17/2021 14:16:22</publishTime>
     </File>
     <File Include="Content/jquery-ui.css">
       <publishTime>03/02/2020 16:08:44</publishTime>
@@ -661,7 +662,7 @@
       <publishTime>01/27/2020 15:32:34</publishTime>
     </File>
     <File Include="Content/MvcGrid/mvc-grid.css">
-      <publishTime>01/27/2020 17:22:11</publishTime>
+      <publishTime>03/22/2021 12:42:29</publishTime>
     </File>
     <File Include="Content/MyStyleSheet.css">
       <publishTime>02/18/2021 17:01:08</publishTime>
@@ -674,6 +675,9 @@
     </File>
     <File Include="Content/Site.css">
       <publishTime>09/29/2019 12:17:57</publishTime>
+    </File>
+    <File Include="Content/StyleSheet.scss">
+      <publishTime>03/17/2021 14:59:24</publishTime>
     </File>
     <File Include="Content/Table.css">
       <publishTime>10/19/2019 00:16:25</publishTime>
@@ -3219,11 +3223,14 @@
     <File Include="Views/Analytics/GoodsSoldInfo.cshtml">
       <publishTime>03/09/2021 12:36:16</publishTime>
     </File>
+    <File Include="Views/Analytics/GroupDetailsWages.cshtml">
+      <publishTime>03/29/2021 09:10:25</publishTime>
+    </File>
     <File Include="Views/Analytics/MonthlyReport.cshtml">
       <publishTime>05/29/2020 15:41:14</publishTime>
     </File>
     <File Include="Views/Analytics/Report.cshtml">
-      <publishTime>03/09/2021 10:53:57</publishTime>
+      <publishTime>03/26/2021 14:36:31</publishTime>
     </File>
     <File Include="Views/Analytics/Report_.cshtml">
       <publishTime>08/16/2020 18:04:59</publishTime>
@@ -3231,11 +3238,14 @@
     <File Include="Views/Analytics/SummaryOfTheDay.cshtml">
       <publishTime>03/07/2021 16:50:10</publishTime>
     </File>
+    <File Include="Views/Analytics/TotalChargesForAllServices.cshtml">
+      <publishTime>03/29/2021 09:41:56</publishTime>
+    </File>
     <File Include="Views/Analytics/WagesInfo.cshtml">
-      <publishTime>03/09/2021 12:26:48</publishTime>
+      <publishTime>03/24/2021 22:37:19</publishTime>
     </File>
     <File Include="Views/Analytics/WagesInfoGroup.cshtml">
-      <publishTime>03/09/2021 12:31:09</publishTime>
+      <publishTime>03/13/2021 18:22:47</publishTime>
     </File>
     <File Include="Views/BonusToSalary/Create.cshtml">
       <publishTime>07/08/2020 13:21:29</publishTime>
@@ -3262,25 +3272,28 @@
       <publishTime>09/05/2020 11:47:49</publishTime>
     </File>
     <File Include="Views/CarWashWorkersViews/EditEmployee.cshtml">
-      <publishTime>11/15/2020 21:14:26</publishTime>
+      <publishTime>03/10/2021 17:20:00</publishTime>
     </File>
     <File Include="Views/CarWashWorkersViews/EditingStaffOnOrder.cshtml">
       <publishTime>07/04/2020 20:35:24</publishTime>
     </File>
     <File Include="Views/CarWashWorkersViews/EducationOfWages.cshtml">
-      <publishTime>01/14/2021 14:35:21</publishTime>
+      <publishTime>03/17/2021 15:41:55</publishTime>
     </File>
     <File Include="Views/CarWashWorkersViews/EmployeeWorkDays.cshtml">
       <publishTime>08/09/2020 14:31:37</publishTime>
     </File>
+    <File Include="Views/CarWashWorkersViews/Index - Копировать.cshtml">
+      <publishTime>03/15/2021 10:26:33</publishTime>
+    </File>
     <File Include="Views/CarWashWorkersViews/Index.cshtml">
-      <publishTime>02/17/2021 10:33:14</publishTime>
+      <publishTime>03/15/2021 12:00:55</publishTime>
     </File>
     <File Include="Views/CarWashWorkersViews/OrderDay.cshtml">
       <publishTime>07/16/2020 15:47:54</publishTime>
     </File>
     <File Include="Views/CarWashWorkersViews/Staff.cshtml">
-      <publishTime>01/13/2021 00:09:08</publishTime>
+      <publishTime>03/10/2021 17:19:18</publishTime>
     </File>
     <File Include="Views/CarWashWorkersViews/StaffArxiv.cshtml">
       <publishTime>11/14/2020 19:13:11</publishTime>
@@ -3319,10 +3332,10 @@
       <publishTime>08/19/2020 15:09:16</publishTime>
     </File>
     <File Include="Views/ClientsOfCarWashViews/Checkout.cshtml">
-      <publishTime>11/14/2020 18:41:14</publishTime>
+      <publishTime>03/30/2021 15:45:38</publishTime>
     </File>
     <File Include="Views/ClientsOfCarWashViews/Client.cshtml">
-      <publishTime>10/02/2020 09:25:46</publishTime>
+      <publishTime>03/25/2021 17:12:30</publishTime>
     </File>
     <File Include="Views/ClientsOfCarWashViews/ClientCarpetWashing.cshtml">
       <publishTime>06/11/2020 20:02:34</publishTime>
@@ -3340,7 +3353,7 @@
       <publishTime>08/16/2020 14:54:39</publishTime>
     </File>
     <File Include="Views/ClientsOfCarWashViews/NewOrder.cshtml">
-      <publishTime>12/23/2020 11:07:47</publishTime>
+      <publishTime>03/28/2021 16:00:19</publishTime>
     </File>
     <File Include="Views/ClientsOfCarWashViews/OrderPreview.cshtml">
       <publishTime>12/23/2020 23:41:24</publishTime>
@@ -3415,13 +3428,13 @@
       <publishTime>09/29/2019 12:18:07</publishTime>
     </File>
     <File Include="Views/Order/ArxivOrder.cshtml">
-      <publishTime>02/19/2021 12:16:59</publishTime>
+      <publishTime>03/31/2021 21:42:13</publishTime>
     </File>
     <File Include="Views/Order/CloseOrder.cshtml">
-      <publishTime>02/19/2021 10:29:10</publishTime>
+      <publishTime>03/15/2021 15:08:27</publishTime>
     </File>
     <File Include="Views/Order/CompletedOrders.cshtml">
-      <publishTime>09/04/2020 10:01:47</publishTime>
+      <publishTime>04/01/2021 10:45:50</publishTime>
     </File>
     <File Include="Views/Order/Index.cshtml">
       <publishTime>02/19/2021 14:48:34</publishTime>
@@ -3442,7 +3455,7 @@
       <publishTime>12/04/2020 15:05:54</publishTime>
     </File>
     <File Include="Views/OrderCarpetWashing/AboutOrder.cshtml">
-      <publishTime>08/11/2020 13:50:08</publishTime>
+      <publishTime>03/21/2021 19:02:34</publishTime>
     </File>
     <File Include="Views/OrderCarpetWashing/AddOrderCarpetWashing.cshtml">
       <publishTime>09/11/2020 12:13:49</publishTime>
@@ -3463,7 +3476,7 @@
       <publishTime>02/19/2020 12:20:12</publishTime>
     </File>
     <File Include="Views/Price/PriceList.cshtml">
-      <publishTime>12/05/2020 17:23:33</publishTime>
+      <publishTime>03/22/2021 12:53:55</publishTime>
     </File>
     <File Include="Views/Price/PriceListCreate.cshtml">
       <publishTime>12/05/2020 17:37:55</publishTime>
@@ -3508,7 +3521,7 @@
       <publishTime>10/03/2019 13:08:53</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/01/2021 16:49:53</publishTime>
+      <publishTime>03/22/2021 14:35:17</publishTime>
     </File>
     <File Include="Views/Shared/_Login.cshtml">
       <publishTime>12/24/2019 12:07:08</publishTime>
@@ -3544,7 +3557,7 @@
       <publishTime>12/26/2020 01:43:24</publishTime>
     </File>
     <File Include="Views/TireChangeService/OrderPreview.cshtml">
-      <publishTime>10/22/2020 11:40:12</publishTime>
+      <publishTime>03/31/2021 14:16:21</publishTime>
     </File>
     <File Include="Views/TireService/Create.cshtml">
       <publishTime>11/06/2020 14:01:02</publishTime>
@@ -3583,7 +3596,7 @@
       <publishTime>09/29/2019 12:17:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/09/2021 14:05:57</publishTime>
+      <publishTime>04/01/2021 10:48:29</publishTime>
     </File>
   </ItemGroup>
 </Project>

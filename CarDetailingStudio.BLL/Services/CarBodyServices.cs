@@ -13,20 +13,18 @@ namespace CarDetailingStudio.BLL.Services
         private IUnitOfWork _unitOfWork;
         private AutomapperConfig _automapperConfig;
 
-        public CarBodyServices(IUnitOfWork unitOfWork, AutomapperConfig automapper)
+        public CarBodyServices(
+            IUnitOfWork unitOfWork,
+            AutomapperConfig automapper)
         {
             _unitOfWork = unitOfWork;
             _automapperConfig = automapper;
         }
 
-        public async Task<IEnumerable<CarBodyBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<CarBodyBll>>(await _unitOfWork.CarBodyUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<CarBodyBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<CarBodyBll>>(await _unitOfWork.CarBodyUnitOfWork.Get());
 
-        public async Task<CarBodyBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<CarBodyBll>(await _unitOfWork.CarBodyUnitOfWork.GetById(elementId));
-        }
+        public async Task<CarBodyBll> SelectId(int? elementId) =>
+            Mapper.Map<CarBodyBll>(await _unitOfWork.CarBodyUnitOfWork.GetById(elementId));
     }
 }

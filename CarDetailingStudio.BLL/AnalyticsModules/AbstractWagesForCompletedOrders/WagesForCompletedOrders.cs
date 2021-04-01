@@ -27,27 +27,76 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
             _employeeRate = employeeRate;
         }
 
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> AnalyticsWages(DateTime date) => await _orderCarWashWorkers.Reports(date);
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> AnalyticsWages(DateTime date, DateTime final) => await _orderCarWashWorkers.Reports(date, final);
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> AnalyticsWages(DateTime date) =>
+            await _orderCarWashWorkers.Reports(date);
+        public async Task<IEnumerable<OrderCarWashWorkersBll>> AnalyticsWages(DateTime date, DateTime final) =>
+            await _orderCarWashWorkers.Reports(date, final);
 
         public IEnumerable<OrderCarWashWorkersBll> EarningsPerEmployee(int typeServices, int idEmployees, IEnumerable<OrderCarWashWorkersBll> orderCarWashWorkers) =>
-            orderCarWashWorkers.Where(x => x.IdCarWashWorkers == idEmployees && x.typeServicesId == typeServices );
+            orderCarWashWorkers.Where(x => x.IdCarWashWorkers == idEmployees && x.typeServicesId == typeServices);
 
         public IEnumerable<GroupingEmployeesWages> GroupingByDatesAndEmployees(IEnumerable<OrderCarWashWorkersBll> orderCarWashWorkers)
-        {                        
+        {
             return orderCarWashWorkers.GroupBy(x => new { x.IdCarWashWorkers, x.OrderServicesCarWash.OrderDate.Value.Date })
-                    .Select(y => new GroupingEmployeesWages 
+                    .Select(y => new GroupingEmployeesWages
                     {
                         idEmployees = y.First().IdCarWashWorkers,
                         date = y.First().OrderServicesCarWash.OrderDate.Value,
                         nameEmployees = y.First().CarWashWorkers.Surname + " " +
-                                        y.First().CarWashWorkers.Name + " " + 
+                                        y.First().CarWashWorkers.Name + " " +
                                         y.First().CarWashWorkers.Patronymic,
                         orderCount = y.Count(),
                         wegesSum = y.Sum(s => s.Payroll.Value),
-                        orderSum = y.Sum(s => s.OrderServicesCarWash.DiscountPrice.Value),
-                        idOrder = y.First().IdOrder
+                        orderSum = y.Select(o => new {o.IdOrder, o.OrderServicesCarWash.DiscountPrice }).Distinct().Sum(s => s.DiscountPrice.Value),
+                        idOrder = y.First().IdOrder,
+
                     }).AsEnumerable();
+        }
+
+        public IEnumerable<GroupingEmployeesWages> GroupingEmployees(IEnumerable<OrderCarWashWorkersBll> orderCarWashWorkers)
+        {
+            return orderCarWashWorkers.GroupBy(x => new { x.IdCarWashWorkers })
+                    .Select(y => new GroupingEmployeesWages
+                    {
+                        idEmployees = y.First().IdCarWashWorkers,
+                        nameEmployees = y.First().CarWashWorkers.Surname + " " +
+                                        y.First().CarWashWorkers.Name + " " +
+                                        y.First().CarWashWorkers.Patronymic,
+                        orderCount = y.Count(),
+                        wegesSum = y.Sum(s => s.Payroll.Value),
+                        orderSum = y.Select(o => new { o.IdOrder, o.OrderServicesCarWash.DiscountPrice }).Distinct().Sum(s => s.DiscountPrice.Value),
+                        idOrder = y.First().IdOrder,
+                        date = DateTime.MinValue
+                    }).AsEnumerable();
+        }
+
+        public async Task<IEnumerable<GroupingEmployeesWages>> sumOfAllIncome(IEnumerable<GroupingEmployeesWages> employeesWages, DateTime start, DateTime final)
+        {
+            List<GroupingEmployeesWages> wages = new List<GroupingEmployeesWages>();
+            wages = employeesWages.ToList();
+
+            var bonusToSalaryInfo = await BonusToSalaryInfo(start, final);
+            var employeeRateInfo = await EmployeeRateInfo(start, final);
+
+            double sumBonus, sumRate = 0;
+
+            foreach (var item in wages)
+            {
+                if (item.date == DateTime.MinValue)
+                {
+                    sumBonus = bonusToSalaryInfo.Where(x => x.carWashWorkersId == item.idEmployees).Sum(s => s.amount).Value;
+                    sumRate = employeeRateInfo.Where(x => x.brigadeForToday.IdCarWashWorkers == item.idEmployees).Sum(s => s.wage).Value;
+                }
+                else
+                {
+                    sumBonus = bonusToSalaryInfo.Where(x => x.carWashWorkersId == item.idEmployees && x.date.Value.Date == item.date.Date).Sum(s => s.amount).Value;
+                    sumRate = employeeRateInfo.Where(x => x.brigadeForToday.IdCarWashWorkers == item.idEmployees && x.brigadeForToday.Date.Value.Date == item.date.Date).Sum(s => s.wage).Value;
+                }
+
+                item.bonus = sumBonus + sumRate;
+            }
+
+            return wages.AsEnumerable();
         }
 
         public async Task<WagesForCompletedOrdersModels> WagesForCompletedOrdersForTheSelectedPeriod(DateTime date, DateTime final)
@@ -68,13 +117,44 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
             return AnalyticsFormationWages(wagesResult, bonusToSalary, employeeRate);
         }
 
-        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime date) => await _bonusToSalary.Reports(date);
-        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime dateStaart, DateTime dateFinal) => await _bonusToSalary.Reports(dateStaart, dateFinal);
+        public async Task<WagesForCompletedOrdersModels> WagesForCompletedOrdersForTheSelectedPeriod(int idEmployees, DateTime date, DateTime final)
+        {
+            var wagesResult = await _orderCarWashWorkers.Reports(date, final);
+            var bonusToSalary = await BonusToSalaryInfo(date, final);
+            var employeeRate = await EmployeeRateInfo(date, final);
 
-        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime date) => await _employeeRate.Reports(date);
-        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime dateStaart, DateTime dateFinal) => await _employeeRate.Reports(dateStaart, dateFinal);
+            return AnalyticsFormationWages(
+                    wagesResult.Where(x => x.IdCarWashWorkers == idEmployees),
+                    bonusToSalary.Where(x => x.carWashWorkersId == idEmployees),
+                    employeeRate.Where(x => x.brigadeForToday.IdCarWashWorkers == idEmployees));
+        }
 
-        private WagesForCompletedOrdersModels AnalyticsFormationWages(IEnumerable<OrderCarWashWorkersBll> orderCarWashes, IEnumerable<BonusToSalaryBll> bonus, IEnumerable<EmployeeRateBll> employees )
+        public async Task<WagesForCompletedOrdersModels> WagesForCompletedOrdersPerDay(int idEmployees, DateTime date)
+        {
+            var wagesResult = await _orderCarWashWorkers.Reports(date);
+            var bonusToSalary = await BonusToSalaryInfo(date);
+            var employeeRate = await EmployeeRateInfo(date);
+
+            return AnalyticsFormationWages(
+                   wagesResult.Where(x => x.IdCarWashWorkers == idEmployees),
+                   bonusToSalary.Where(x => x.carWashWorkersId == idEmployees && x.date.Value.Date == date.Date),
+                   employeeRate.Where(x => x.brigadeForToday.IdCarWashWorkers == idEmployees && x.brigadeForToday.Date.Value.Date == date.Date)
+                   );
+        }
+
+        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime date) =>
+            await _bonusToSalary.Reports(date);
+
+        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime dateStaart, DateTime dateFinal) => 
+            await _bonusToSalary.Reports(dateStaart, dateFinal);
+
+        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime date) =>
+            await _employeeRate.Reports(date);
+
+        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime dateStaart, DateTime dateFinal) =>
+            await _employeeRate.Reports(dateStaart, dateFinal);
+
+        private WagesForCompletedOrdersModels AnalyticsFormationWages(IEnumerable<OrderCarWashWorkersBll> orderCarWashes, IEnumerable<BonusToSalaryBll> bonus, IEnumerable<EmployeeRateBll> employees)
         {
             WagesForCompletedOrdersModels models = new WagesForCompletedOrdersModels();
 
@@ -100,6 +180,8 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
 
             models.SumBonusTOSalary = Math.Round(bonus.Sum(s => s.amount).Value, 3);
             models.SumEmployeeRate = Math.Round(employees.Sum(s => s.wage).Value, 3);
+
+            models.TotalSumWages = Math.Round(orderCarWashes.Sum(s => s.Payroll).Value) + models.SumBonusTOSalary + models.SumEmployeeRate;
 
             return models;
         }

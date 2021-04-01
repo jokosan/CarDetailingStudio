@@ -2,7 +2,9 @@
 using CarDetailingStudio.BLL.EmployeesModules.Contract;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
+using CarDetailingStudio.BLL.Services.TireFitting.TireFittingContract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
+using CarDetailingStudio.Enums;
 using CarDetailingStudio.Filters;
 using CarDetailingStudio.Models.ModelViews;
 using System;
@@ -19,15 +21,17 @@ namespace CarDetailingStudio.Controllers
     // [WorkShiftFilter]
     public class OrderController : Controller
     {
-        private IOrderServicesCarWashServices _order;
-        private IServisesCarWashOrderServices _servisesCarWash;
-        private IBrigadeForTodayServices _brigade;
-        private IOrderServices _orderServices;
-        private IStatusOrder _statusOrder;
-        private IWageModules _wageModules;
-        private IOrderCarWashWorkersServices _orderCarWashWorkers;
-        private IAdditionalTireStorageServices _additionalTireStorageServices;
-        private readonly IEmployeesFacade _employeesFacade; 
+        private readonly IOrderServicesCarWashServices _order;
+        private readonly IServisesCarWashOrderServices _servisesCarWash;
+        private readonly IBrigadeForTodayServices _brigade;
+        private readonly IOrderServices _orderServices;
+        private readonly IStatusOrder _statusOrder;
+        private readonly IWageModules _wageModules;
+        private readonly IOrderCarWashWorkersServices _orderCarWashWorkers;
+        private readonly IAdditionalTireStorageServices _additionalTireStorageServices;
+        private readonly IEmployeesFacade _employeesFacade;
+        private readonly ITireChangeService _tireChangeService;
+        private readonly ITireService _tireService;
 
         public OrderController(
             IOrderServicesCarWashServices orderServices,
@@ -38,7 +42,9 @@ namespace CarDetailingStudio.Controllers
             IStatusOrder statusOrder,
             IOrderCarWashWorkersServices orderCarWashWorkers,
             IAdditionalTireStorageServices additionalTireStorageServices,
-            IEmployeesFacade employeesFacade)
+            IEmployeesFacade employeesFacade,
+            ITireService tireService,
+            ITireChangeService tireChangeService)
         {
             _order = orderServices;
             _servisesCarWash = servises;
@@ -49,6 +55,8 @@ namespace CarDetailingStudio.Controllers
             _orderCarWashWorkers = orderCarWashWorkers;
             _additionalTireStorageServices = additionalTireStorageServices;
             _employeesFacade = employeesFacade;
+            _tireService = tireService;
+            _tireChangeService = tireChangeService;
         }
 
         private double? Price;
@@ -64,10 +72,18 @@ namespace CarDetailingStudio.Controllers
             return View(order.OrderByDescending(x => x.Id));
         }
 
-        public async Task<ActionResult> ArxivOrder(int typeOfOrder, int statusOrder)
+        public async Task<ActionResult> ArxivOrder(int? typeOfOrder, int? statusOrder, int? idClient)
         {
-            var arxivOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.ArxivOrder(typeOfOrder, statusOrder));
-            return View(arxivOrder.OrderByDescending(x => x.Id));
+            if (typeOfOrder != null && statusOrder != null)
+            {
+                var arxivOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.ArxivOrder(typeOfOrder.Value, statusOrder.Value));
+                return View(arxivOrder.OrderByDescending(x => x.Id));
+            }
+            else
+            {
+                return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.AllCustomerOrders(idClient.Value)));
+            }
+               
         }
 
         public async Task<ActionResult> OrderTireStorage(int typeOfOrder, int statusOrder)
@@ -150,6 +166,12 @@ namespace CarDetailingStudio.Controllers
             var services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(idOrder));
             var employee = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWashWorkers.GetTableInclud(idOrder));
 
+            if (order.typeOfOrder == (int)TypeOfOrder.TireFitting)
+            {
+                ViewBag.TireService = Mapper.Map<IEnumerable<TireServiceView>>(await _tireService.SelectTireServices(idOrder.Value));
+                ViewBag.TireChangeService = Mapper.Map<IEnumerable<TireChangeServiceView>>(await _tireChangeService.SelectTireService(idOrder.Value)); 
+            }
+
             ViewBag.ServicesOrder = services;
             ViewBag.Employee = employee;
 
@@ -187,7 +209,7 @@ namespace CarDetailingStudio.Controllers
 
             var Order = Mapper.Map<OrderServicesCarWashView>(await _order.GetId(id));
             var Services = Mapper.Map<IEnumerable<ServisesCarWashOrderView>>(await _servisesCarWash.GetAllId(id));
-            // var Brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
+
             ViewBag.Brigade = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _employeesFacade.ListOfEmployeesForService(Order.typeOfOrder.Value));
 
             Price = Services.Sum(x => x.Price);
@@ -210,8 +232,8 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.TireServices = Mapper.Map<IEnumerable<AdditionalTireStorageServicesView>>(await _additionalTireStorageServices.GetOrderId(id.Value));
                 ViewBag.TypeService = 2;
             }
-               
-           // ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
+
+            // ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
             ViewBag.Price = Price;
 
             if (selectionStatus == false)
@@ -299,7 +321,7 @@ namespace CarDetailingStudio.Controllers
                 }));
             }
 
-            
+
 
             return RedirectToAction("Index");
         }

@@ -19,6 +19,9 @@ using CarDetailingStudio.BLL.Services.Modules.Wage.Contract;
 using System.Web.Routing;
 using System.Web.UI.WebControls;
 using CarDetailingStudio.BLL.Services.TireFitting;
+using CarDetailingStudio.BLL.EmployeesModules.Contract;
+using CarDetailingStudio.Enums;
+using CarDetailingStudio.BLL;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -36,6 +39,7 @@ namespace CarDetailingStudio.Controllers
         private IOrderServicesCarWashServices _orderServices;
         private ITireService _tireService;
         private IOrderCarWashWorkersServices _orderCarWash;
+        private readonly IEmployeesFacade _employeesFacade;
 
         private double discontClient;
 
@@ -51,7 +55,8 @@ namespace CarDetailingStudio.Controllers
             IWageModules wageModules,
             IOrderServicesCarWashServices orderServices,
             ITireService tireService,
-            IOrderCarWashWorkersServices orderCarWash)
+            IOrderCarWashWorkersServices orderCarWash,
+            IEmployeesFacade employeesFacade)
         {
             _tireChangeService = tireChangeService;
             _priceListTireFitting = priceListTireFitting;
@@ -65,6 +70,7 @@ namespace CarDetailingStudio.Controllers
             _orderServices = orderServices;
             _tireService = tireService;
             _orderCarWash = orderCarWash;
+            _employeesFacade = employeesFacade;
         }
 
         //// GET: TireChangeService
@@ -81,21 +87,20 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Client = clientList;
             ViewBag.TypeOfCars = Mapper.Map<IEnumerable<TypeOfCarsView>>(await _typeOfCars.GetTableAll());
 
-            ViewBag.PriceListTireFittingOne = priceListTireFitting.Where(x => x.TypeOfCarsId == 1);
-            ViewBag.PriceListTireFittingTwo = priceListTireFitting.Where(x => x.TypeOfCarsId == 2);
+            ViewBag.PriceListTireFittingOne = priceListTireFitting.Where(x => x.TypeOfCarsId == (int)TypeOfCars.PassengerCar);
+            ViewBag.PriceListTireFittingTwo = priceListTireFitting.Where(x => x.TypeOfCarsId == (int)TypeOfCars.CargoVehicle);
 
             ViewBag.PriceTireFittingAdditionalServices = Mapper.Map<IEnumerable<PriceListTireFittingAdditionalServicesView>>(await _priceTireFittingAdditionalServices.GetTableAll());
 
-            ViewBag.RadiusOne = priceListTireFitting.Where(r => r.TypeOfCarsId == 1).GroupBy(x => x.TireRadiusId)
+            ViewBag.RadiusOne = priceListTireFitting.Where(r => r.TypeOfCarsId == (int)TypeOfCars.PassengerCar).GroupBy(x => x.TireRadiusId)
                                                  .Select(y => new IdModels
                                                  {
                                                      idTireRadius = y.First().TireRadius.idTireRadius,
                                                      radius = y.First().TireRadius.radius,
                                                      id = y.First().idPriceListTireFitting
-
                                                  });
 
-            ViewBag.RadiusTwo = priceListTireFitting.Where(r => r.TypeOfCarsId == 2).GroupBy(x => x.TireRadiusId)
+            ViewBag.RadiusTwo = priceListTireFitting.Where(r => r.TypeOfCarsId == (int)TypeOfCars.CargoVehicle).GroupBy(x => x.TireRadiusId)
                                                .Select(y => new IdModels
                                                {
                                                    idTireRadius = y.First().TireRadius.idTireRadius,
@@ -112,9 +117,8 @@ namespace CarDetailingStudio.Controllers
         public async Task<ActionResult> CreateOrder(int? Client, int? NumberOfTires, int? TireRadius, List<int> Services,
                                         List<int> AdditionalServices, List<int> key, List<int> AdditionalServicesQuantity, int? Type)
         {
-          
             CreateOrderView createOrderView = new CreateOrderView();
-                        
+
             if (Client != null && NumberOfTires != null && (TireRadius != null || Services != null))
             {
                 if (Services != null)
@@ -149,6 +153,24 @@ namespace CarDetailingStudio.Controllers
 
                 return RedirectToAction("OrderPreview");
             }
+            else
+            {
+                if (AdditionalServices != null && Client != 0)
+                {
+                    createOrderView.client = Client;
+
+                    if (key.Count != 0 && AdditionalServicesQuantity.Count != 0)
+                    {
+                        var priceAdditionalServices = _createOrder.SaveOrder(key, AdditionalServicesQuantity);
+
+                        createOrderView.priceListTireFittingAdditionals = Mapper.Map<List<PriceListTireFittingAdditionalServicesView>>(await _createOrder.SelectPriceServise(priceAdditionalServices, AdditionalServices));
+
+                        TempData["CreateOrder"] = createOrderView;
+
+                        return RedirectToAction("OrderPreview");
+                    }
+                }
+            }
 
             return RedirectToAction("CreateOrder", "TireChangeService", new RouteValueDictionary(new
             {
@@ -157,45 +179,67 @@ namespace CarDetailingStudio.Controllers
             }));
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SaleOfTireFittingServices(List<int> AdditionalServices, List<int> key, List<int> AdditionalServicesQuantity)
+        {
+            if (AdditionalServices != null)
+            {
+                CreateOrderView createOrderView = new CreateOrderView();
+
+                if (key.Count != 0 && AdditionalServicesQuantity.Count != 0)
+                {
+                    var priceAdditionalServices = _createOrder.SaveOrder(key, AdditionalServicesQuantity);
+
+                    createOrderView.priceListTireFittingAdditionals = Mapper.Map<List<PriceListTireFittingAdditionalServicesView>>(await _createOrder.SelectPriceServise(priceAdditionalServices, AdditionalServices));
+
+                    TempData["CreateOrder"] = createOrderView;
+
+                    return RedirectToAction("OrderPreview");
+                }
+            }
+
+            return RedirectToAction("Checkout", "ClientsOfCarWashViews", new RouteValueDictionary(new
+            {
+                services = (int)TypeServices.TireFitting
+            }));
+        }
 
         [HttpGet]
         public async Task<ActionResult> OrderPreview()
         {
             CreateOrderView createOrderView = new CreateOrderView();
 
+            double priceListTireFittingsSum = 0;
+
             if (TempData.ContainsKey("CreateOrder"))
             {
                 createOrderView = (CreateOrderView)TempData["CreateOrder"];
+                createOrderView.CarWashWorkers = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _employeesFacade.ListOfEmployeesForService((int)TypeService.TireFitting)).ToList();
 
-                var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
-                ViewBag.Brigade = brigade.Where(x => x.StatusId == 3);
-
-                var client = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(createOrderView.client));
-
-                if (client.discont == null)
+                if (createOrderView.client != null)
                 {
-                    discontClient = 0;
-                }
-                else
-                {
-                    discontClient = client.discont.Value;
+                    createOrderView.Client = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(createOrderView.client));
+
+                    if (createOrderView.Client.discont != null)
+                    {
+                        createOrderView.discontClient = createOrderView.Client.discont.Value;
+                    }
                 }
 
-                ViewBag.Client = client;
-
-                ViewBag.NumberOfTires = createOrderView.numberOfTires;
-                ViewBag.PriceListTireFittings = createOrderView.priceListTireFittings;
-
-                var priceListTireFittingsSum = SumTireChangeService(createOrderView.priceListTireFittings, createOrderView.numberOfTires.Value);
+                if (createOrderView.numberOfTires != 0 || createOrderView.priceListTireFittings != null)
+                {
+                    priceListTireFittingsSum = SumTireChangeService(createOrderView.priceListTireFittings, createOrderView.numberOfTires.Value);
+                    createOrderView.PriceListTireFittingsSum = priceListTireFittingsSum;
+                }
 
                 double riceListTireFittingAdditionalsSum = TireServices(createOrderView.priceListTireFittingAdditionals);
-
-                ViewBag.PriceListTireFittingsSum = priceListTireFittingsSum;
-
                 double total = (priceListTireFittingsSum + riceListTireFittingAdditionalsSum) / 100 * discontClient;
-                ViewBag.Total = priceListTireFittingsSum + riceListTireFittingAdditionalsSum - total;
+
+                createOrderView.Total = priceListTireFittingsSum + riceListTireFittingAdditionalsSum - total;
 
                 TempData.Keep("CreateOrder");
+
+                return View(createOrderView);
             }
 
             return View();
@@ -223,6 +267,8 @@ namespace CarDetailingStudio.Controllers
         {
             CreateOrderView createOrderView = new CreateOrderView();
 
+            int idOrder = 0;
+
             if (TempData.ContainsKey("CreateOrder"))
             {
                 createOrderView = (CreateOrderView)TempData["CreateOrder"];
@@ -234,16 +280,22 @@ namespace CarDetailingStudio.Controllers
                     priceListTireFittingAdditionalsSum = createOrderView.priceListTireFittingAdditionals.Sum(x => x.TheCost).Value;
                 }
 
-                double TotalSum = SumTireChangeService(createOrderView.priceListTireFittings, createOrderView.numberOfTires.Value) + priceListTireFittingAdditionalsSum;
-
-                int idOrder = await _createOrder.SaveOrderTireFitting(TotalSum, Total, idPaymentState, idStatusOrder, createOrderView.client.Value, 4);
+                if (createOrderView.numberOfTires != 0 || createOrderView.priceListTireFittings != null)
+                {
+                    double TotalSum = SumTireChangeService(createOrderView.priceListTireFittings, createOrderView.numberOfTires.Value) + priceListTireFittingAdditionalsSum;
+                    idOrder = await _createOrder.SaveOrderTireFitting(TotalSum, Total, idPaymentState, idStatusOrder, createOrderView.client.Value, 4);
+                }
+                else if(priceListTireFittingAdditionalsSum != 0)
+                {
+                    idOrder = await _createOrder.SaveOrderTireFitting(priceListTireFittingAdditionalsSum, Total, idPaymentState, idStatusOrder, createOrderView.client, 4);
+                }
 
                 if (createOrderView.priceListTireFittingAdditionals != null)
                 {
                     List<PriceListTireFittingAdditionalServicesBll> priceListTireFittings = new List<PriceListTireFittingAdditionalServicesBll>();
                     priceListTireFittings = Mapper.Map<List<PriceListTireFittingAdditionalServicesView>, List<PriceListTireFittingAdditionalServicesBll>>(createOrderView.priceListTireFittingAdditionals);
 
-                    await _createOrder.SeveTireService(createOrderView.client.Value, idOrder, priceListTireFittings);
+                    await _createOrder.SeveTireService(createOrderView.client, idOrder, priceListTireFittings);
                 }
 
                 if (createOrderView.priceListTireFittings != null)
@@ -289,7 +341,7 @@ namespace CarDetailingStudio.Controllers
             {
                 tireChangeServiceSum += item.price.Value * item.numberOfTires.Value;
             }
-            
+
             if (orderCarWash == null || orderCarWash.Count() == 0)
             {
                 var brigade = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigade.GetDateTimeNow());
@@ -333,7 +385,6 @@ namespace CarDetailingStudio.Controllers
                     await _wageModules.CloseOrder(idPaymentState.Value, idOrder.Value, idStatusOrder.Value);
                     await _wageModules.Payroll(idOrder.Value, idBrigade, 5);
                 }
-               
 
                 return RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
                 {
@@ -341,13 +392,13 @@ namespace CarDetailingStudio.Controllers
                     statusOrder = 1
                 }));
             }
-            else if ( BrigadeOrder == 1)
+            else if (BrigadeOrder == 1)
             {
                 if (idStatusOrder != 1 && idPaymentState != 3 || idStatusOrder == 4 && idPaymentState == 3)
                 {
                     await _wageModules.CloseOrder(idPaymentState.Value, idOrder.Value, idStatusOrder.Value);
                 }
-                   
+
                 return RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
                 {
                     typeOfOrder = 4,

@@ -1,4 +1,4 @@
-﻿.@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
+﻿@model CarDetailingStudio.Models.ModelViews.ClientsOfCarWashView
 
 @{
     ViewBag.Title = "NewOrder";
@@ -11,7 +11,6 @@
         <div class="card">
             <form class="form-horizontal">
                 <div class="card-body">
-                    @*  <h4 class="card-title">Personal Info</h4>*@
                     <div class="form-group row">
                         <label for="fname" class="col-sm-1 text-right control-label col-form-label">Номер машины</label>
                         <label for="fname" class="col-sm-2 text-right control-label col-form-label">
@@ -34,16 +33,6 @@
                         </label>
                     </div>
                 </div>
-
-                @*<div class="border-top">
-                        <div class="card-body">
-                            <button type="button" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>*@
-                @*<p>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.ib }) |
-                        @Html.ActionLink("Back to List", "Index")
-                    </p>*@
             </form>
         </div>
     </div>
@@ -52,18 +41,13 @@
 
 @using (Html.BeginForm())
 {
-    @*<div class="text-right">
-            <input class="btn btn-success" type="submit" id="btnCreate" value="Create" @Url.Action("OrderPreview", "ClientsOfCarWashViews") />
-            <p></p>
-        </div>*@
-
     <div class="scroll">
         <div class="row">
             <div class="col-md-6">
                 @foreach (var itemGroup in ViewBag.DetailingsGrup)
                 {
                     if ((itemGroup.Id % 2) != 0)
-                    {
+                        {
                         <div class="card">
                             <div class="card-body col-md-6">
 
@@ -139,8 +123,8 @@
             <div class="col-md-6">
                 @foreach (var itemGroup in ViewBag.DetailingsGrup)
                 {
-                    if ((itemGroup.Id % 2) == 0)
-                    {
+                   if ((itemGroup.Id % 2) == 0)
+                        {
                         <div class="card">
                             <div class="card-body col-md-6">
 

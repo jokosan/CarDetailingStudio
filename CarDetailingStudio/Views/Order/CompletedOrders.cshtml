@@ -1,6 +1,6 @@
 ﻿@model CarDetailingStudio.Models.ModelViews.OrderServicesCarWashView
 
-    <link href="~/Content/input.css" rel="stylesheet" />
+<link href="~/Content/input.css" rel="stylesheet" />
 <div class="row">
     <div class="col-md-6">
 
@@ -114,47 +114,140 @@
 
     </div>
     <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title m-b-0">Тип выполненных услуг</h5>
-            </div>
+        @if (Model.typeOfOrder != 4)
+        {
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">
-                                    Вид услуги
-                                </th>
-                                <th scope="col">
-                                    О услуги
-                                </th>
-                                <th scope="col">
-                                    Стоимость услуги
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in ViewBag.ServicesOrder)
-                            {
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title m-b-0">Тип выполненных услуг</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-light">
                                 <tr>
-                                    <td>
-                                        @item.Detailings.services_list
-                                    </td>
-                                    <td>
-                                        @item.Detailings.IdTypeService
-                                    </td>
-                                    <td>
-                                        @item.Price
-                                    </td>
+                                    <th scope="col">
+                                        Вид услуги
+                                    </th>
+                                    <th scope="col">
+                                        О услуги
+                                    </th>
+                                    <th scope="col">
+                                        Стоимость услуги
+                                    </th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.ServicesOrder)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.Detailings.services_list
+                                        </td>
+                                        <td>
+                                            @item.Detailings.IdTypeService
+                                        </td>
+                                        <td>
+                                            @item.Price
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+
+
+        @if (Model.typeOfOrder == 4)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title m-b-0">Тип выполненных услуг</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">
+                                        Вид услуги
+                                    </th>
+                                    <th scope="col">
+                                        О услуги
+                                    </th>
+                                    <th scope="col">
+                                        Количество шин
+                                    </th>
+                                    <th scope="col">
+                                        Стоимость услуг
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.TireChangeService)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.PriceListTireFitting.JobTitle
+                                        </td>
+                                        <td>
+                                            @item.PriceListTireFitting.TireRadius.radius
+                                        </td>
+                                        <td>
+                                            @item.numberOfTires
+                                        </td>
+                                        <td>
+                                            @item.price
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title m-b-0">Тип выполненных услуг (Шиномонтаж)</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">
+                                        О услуги
+                                    </th>
+                                    <th scope="col">
+                                        Стоимость услуги
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.TireService)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.PriceListTireFittingAdditionalServices.JobTitle
+                                        </td>
+                                        <td>
+                                            @item.priceTireFitting
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        }
 
         <div class="card">
             <div class="card-body">
@@ -230,7 +323,7 @@
                         </label>
 
                         <input value="@Model.Id" name="idOrder" type="hidden" />
-                        <input class="btn btn-danger" id="submit" type="submit" disabled="disabled"  value="Удалить заказ" @Url.Action("ArxivOrder", "Order") />
+                        <input class="btn btn-danger" id="submit" type="submit" disabled="disabled" value="Удалить заказ" @Url.Action("ArxivOrder", "Order") />
 
                         @Html.ActionLink("Вернуться к архиву заказов", "ArxivOrder", null, new { @class = "btn btn-info" })
                     }

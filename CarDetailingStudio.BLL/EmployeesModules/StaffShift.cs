@@ -10,18 +10,16 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.EmployeesModules
 {
+    
     public class StaffShift : IStaffShift
     {
-        private readonly ICarWashWorkersServices _carWashWorkers;
         private readonly IBrigadeForTodayServices _brigadeForToday;
         private readonly IPremiumAndRateServices _premiumAndRate;
 
         public StaffShift(
-            ICarWashWorkersServices carWashWorkers,
             IBrigadeForTodayServices brigadeForToday,
             IPremiumAndRateServices premiumAndRate)
         {
-            _carWashWorkers = carWashWorkers;
             _brigadeForToday = brigadeForToday;
             _premiumAndRate = premiumAndRate;
         }
@@ -36,19 +34,19 @@ namespace CarDetailingStudio.BLL.EmployeesModules
 
             var AllEmployees = await _premiumAndRate.AllCurrentEmployees();
 
-            foreach (var item in AllEmployees.Where(a => a.positionId == 1 && a.positionsStatus == true))
+            foreach (var item in AllEmployees.Where(a => a.positionId == (int)ServiceCategories.AdmminDetailing  && a.positionsStatus == true)) // 1
             {
                 if (changeOfDay.DetailingAdministrator.Any(x => x.id == item.carWashWorkersId) == false)
                     changeOfDay.DetailingAdministrator.Add(СreateListCarWashWorkers(item));
             }
 
-            foreach (var item in AllEmployees.Where(a => a.positionId == 2 && a.positionsStatus == true))
+            foreach (var item in AllEmployees.Where(a => a.positionId == (int)ServiceCategories.AdminCarWash && a.positionsStatus == true)) //2
             {
                 if (changeOfDay.WashingAdministrator.Any(x => x.id == item.carWashWorkersId) == false)
                     changeOfDay.WashingAdministrator.Add(СreateListCarWashWorkers(item));
             }
 
-            foreach (var item in AllEmployees.Where(a => a.Position.positionsOfAdministrators == 2 && a.positionsStatus == true))
+            foreach (var item in AllEmployees.Where(a => a.Position.positionsOfAdministrators == (int)PositionsOfAdministrators.Employees && a.positionsStatus == true)) //2
             {
                 if (changeOfDay.ShiftStaff.Any(x => x.id == item.carWashWorkersId) == false)
                     changeOfDay.ShiftStaff.Add(СreateListCarWashWorkers(item));
@@ -67,25 +65,25 @@ namespace CarDetailingStudio.BLL.EmployeesModules
             var currentShiftTrue = currentShift.Where(x => x.EarlyTermination == true);
             var AllEmployees = await _premiumAndRate.AllCurrentEmployees();
 
-            if (currentShiftTrue.Any(a => a.StatusId == 2) == false)
+            if (currentShiftTrue.Any(a => a.StatusId == (int)Employees.AdminDetailing) == false)
             {
-                foreach (var item in AllEmployees.Where(a => a.positionId == 1 && a.positionsStatus == true))
+                foreach (var item in AllEmployees.Where(a => a.positionId == (int)ServiceCategories.AdmminDetailing && a.positionsStatus == true)) //1
                 {
                     if (changeOfDay.DetailingAdministrator.Any(x => x.id == item.carWashWorkersId) == false)
                         changeOfDay.DetailingAdministrator.Add(СreateListCarWashWorkers(item));
                 }
             }
 
-            if (currentShiftTrue.Any(a => a.StatusId == 1) == false)
+            if (currentShiftTrue.Any(a => a.StatusId == (int)Employees.AdminCarWash) == false)
             {
-                foreach (var item in AllEmployees.Where(a => a.positionId == 2 && a.positionsStatus == true))
+                foreach (var item in AllEmployees.Where(a => a.positionId == (int)ServiceCategories.AdminCarWash && a.positionsStatus == true)) //2
                 {
                     if (changeOfDay.WashingAdministrator.Any(x => x.id == item.carWashWorkersId) == false)
                         changeOfDay.WashingAdministrator.Add(СreateListCarWashWorkers(item));
                 }
             }
 
-            foreach (var item in AllEmployees.Where(a => a.Position.positionsOfAdministrators == 2 && a.positionsStatus == true))
+            foreach (var item in AllEmployees.Where(a => a.Position.positionsOfAdministrators == (int)PositionsOfAdministrators.Employees && a.positionsStatus == true))
             {
                 if (currentShiftTrue.Any(x => x.IdCarWashWorkers == item.carWashWorkersId) == false)
                 {
@@ -107,20 +105,20 @@ namespace CarDetailingStudio.BLL.EmployeesModules
 
             switch (idServises)
             {
-                case 1:
-                    premiumAndRates = AllEmployees.Where(x => x.positionId == 4).ToList();
+                case (int)TypeService.Detailing:
+                    premiumAndRates = AllEmployees.Where(x => x.positionId == (int)ServiceCategories.EmployeesDetailing).ToList();
                     break;
-                case 2:
-                    premiumAndRates = AllEmployees.Where(x => x.positionId == 5).ToList();
+                case (int)TypeService.CarWash:
+                    premiumAndRates = AllEmployees.Where(x => x.positionId == (int)ServiceCategories.EmployeesCarWash).ToList();
                     break;
-                case 3:
-                    premiumAndRates = AllEmployees.Where(x => x.positionId == 6).ToList();
+                case (int)TypeService.CarpetCleaning:
+                    premiumAndRates = AllEmployees.Where(x => x.positionId == (int)ServiceCategories.EmployeesCarpetCleaning).ToList();
                     break;
-                case 4:
-                    premiumAndRates = AllEmployees.Where(x => x.positionId == 8).ToList();
+                case (int)TypeService.TireStorage:
+                    premiumAndRates = AllEmployees.Where(x => x.positionId == (int)ServiceCategories.EmployeesTireStorage).ToList();
                     break;
-                case 5:
-                    premiumAndRates = AllEmployees.Where(x => x.positionId == 10).ToList();
+                case (int)TypeService.TireFitting:
+                    premiumAndRates = AllEmployees.Where(x => x.positionId == (int)ServiceCategories.EmployeesTireFitting).ToList();
                     break;
             }
 
@@ -129,7 +127,7 @@ namespace CarDetailingStudio.BLL.EmployeesModules
                 if (brigade.Any(x => x.IdCarWashWorkers == item.carWashWorkersId) && item.positionsStatus == true)
                     carWashWorker.Add(СreateListCarWashWorkers(item));
             }
-
+            
             return carWashWorker.AsEnumerable();
         }
 

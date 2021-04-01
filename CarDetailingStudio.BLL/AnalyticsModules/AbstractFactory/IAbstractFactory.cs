@@ -1,4 +1,5 @@
 ﻿using CarDetailingStudio.BLL.AnalyticsModules.Models;
+using CarDetailingStudio.BLL.AnalyticsModules.Models.WagesForCompletedOrders;
 using CarDetailingStudio.BLL.Model;
 using System;
 using System.Collections.Generic;
@@ -44,22 +45,19 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
 
         #endregion
 
-        #region where T : class
-        //Task<IEnumerable<T>> Details<T>(int typeExpenses, DateTime date);
-        //Task<IEnumerable<T>> Details<T>(int typeExpenses, int paymentState, DateTime date);
-        //Task<IEnumerable<T>> Details<T>(int typeExpenses, DateTime start, DateTime? finlDate);
-        //Task<IEnumerable<T>> Details<T>(int typeExpenses, int paymentState, DateTime start, DateTime? finlDate);
-
-        #endregion
-
         #region  Wages
+      
         Task<IEnumerable<OrderCarWashWorkersBll>> DetailsWages(int typeServices, DateTime date);
         Task<IEnumerable<OrderCarWashWorkersBll>> DetailsWages(int typeServices, DateTime start, DateTime? finlDate);
         Task<IEnumerable<OrderCarWashWorkersBll>> DetailsWages(int typeServices, int idEmployees, DateTime date);
         Task<IEnumerable<OrderCarWashWorkersBll>> DetailsWages(int typeServices, int idEmployees, DateTime start, DateTime? finlDate);
+        Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(DateTime date);
+        Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(DateTime start, DateTime? finlDate);
+        Task<AnalyticsModels> InformationOnAllWages(int idEmployees, DateTime date);
+        Task<AnalyticsModels> InformationOnAllWages(int idEmployees, DateTime start, DateTime? finlDate);
         Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(int typeServices, DateTime date);
         Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(int typeServices, DateTime start, DateTime? finlDate);
-
+        Task<IEnumerable<GroupingEmployeesWages>> GroupingEmployeesByPeriod(DateTime start, DateTime? finlDate);
         #endregion
 
         #region GoodsSold

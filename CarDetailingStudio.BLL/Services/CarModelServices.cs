@@ -19,9 +19,7 @@ namespace CarDetailingStudio.BLL.Services
             _automapper = automapper;
         }
 
-        public async Task<IEnumerable<CarModelBll>> GetWhere(int id)
-        {
-            return Mapper.Map<IEnumerable<CarModelBll>>(await _unitOfWork.CarModelUnitOfWork.GetWhere(x => x.id_car_mark == id));
-        }
+        public async Task<IEnumerable<CarModelBll>> GetWhere(int id) =>
+            Mapper.Map<IEnumerable<CarModelBll>>(await _unitOfWork.CarModelUnitOfWork.GetWhere(x => x.id_car_mark == id));
     }
 }

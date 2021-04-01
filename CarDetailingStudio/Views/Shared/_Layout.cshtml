@@ -246,10 +246,10 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-address-book"></i><span class="hide-menu">Создать заказ</span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new {  services = 1 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Мойка/детейлинг </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new {  services = 2 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Хранение шин</span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new { services = 1 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Мойка/детейлинг </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new { services = 2 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Хранение шин</span></a></li>
                                 <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/ClientCarpetWashing") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Заказ стирка ковров </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new {  services = 3 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
+                                <li class="sidebar-item"><a href=@Url.Action("../ClientsOfCarWashViews/Checkout", new { services = 3 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
                                 <li class="sidebar-item"><a href=@Url.Action("../Shop/Сatalog") class="sidebar-link"><i class="fas fa-shopping-cart"></i><span class="hide-menu"> Товары </span></a></li>
                                 @*  ClientsOfCarWashViews/ClientInfo    "../OrderCarpetWashing/AddOrderCarpetWashing"*@
                             </ul>
@@ -368,6 +368,14 @@
                     <div class="col-12 d-flex no-block align-items-center">
                         <h4 class="page-title">
                             @Html.ViewContext.RouteData.Values["controller"].ToString()
+
+                            @{ 
+                                var action = (ViewContext.RouteData.Values["action"] ?? "").ToString().ToLower();
+                                var controller = (ViewContext.RouteData.Values["controller"] ?? "").ToString().ToLower();
+                                var area = (ViewContext.RouteData.DataTokens["area"] ?? "").ToString().ToLower();
+
+                               
+                            }
                         </h4>
 
                         <div class="ml-auto text-right">

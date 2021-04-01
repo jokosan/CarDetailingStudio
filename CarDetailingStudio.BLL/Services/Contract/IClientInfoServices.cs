@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace CarDetailingStudio.BLL.Services.Contract
 {
-    public interface IClientInfoServices : IDeleteFromDatabase<ClientInfoBll>
+    public interface IClientInfoServices : IDeleteFromDatabase<ClientInfoBll>, IDatabaseOperations<ClientInfoBll>
     {
         Task<IEnumerable<ClientInfoBll>> ClientInfoAll();
         Task<ClientInfoBll> ClientInfoGetId(int? IdClient);
-        Task ClientInfoEdit(ClientInfoBll editClient);
         Task<IEnumerable<ClientInfoBll>> ClienWhereId(int id);
-        Task AddClient(ClientInfoBll client);
     }
 }

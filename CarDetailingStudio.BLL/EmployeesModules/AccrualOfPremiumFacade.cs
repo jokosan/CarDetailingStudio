@@ -84,34 +84,40 @@ namespace CarDetailingStudio.BLL.EmployeesModules
                         }
                     }
                 }
-          
-                    if (employeeDaySummaryList.Any(x => x.status == true))
-                        await TotalShiftBonus(employeeDaySummaryList);
             }
+
+            if (employeeDaySummaryList.Any(x => x.status == true))
+                await TotalShiftBonus(employeeDaySummaryList);
         }
 
         private double MathFloor(double x, double y) => Math.Floor(x / y);
 
         private async Task TotalShiftBonus(List<EmployeeDaySummary> employeeDaySummaries)
         {
-            double multiplicityAverage = employeeDaySummaries.Average(a => a.multiplicityOfTheSum);
-            double prizeAmountAverage = employeeDaySummaries.Average(a => a.prizeAmount);
-            double interestRateAverage = employeeDaySummaries.Average(a => a.InterestRate);
-            double sum = employeeDaySummaries.Sum(a => a.Sum);
-            double bonusResultAverage = MathFloor(sum / interestRateAverage, multiplicityAverage);
-            var carWashWorker = employeeDaySummaries.First();
-
-            if (bonusResultAverage > 0)
+            foreach (var item in employeeDaySummaries.GroupBy(x => x.idEmployee))
             {
-                BonusToSalaryBll bonusToSalaryResult = new BonusToSalaryBll();
+                var resultEmployee = employeeDaySummaries.Where(x => x.idEmployee == item.Key);
 
-                bonusToSalaryResult.amount = bonusResultAverage * prizeAmountAverage;
-                bonusToSalaryResult.carWashWorkersId = carWashWorker.idEmployee;
-                bonusToSalaryResult.date = DateTime.Now;
-                bonusToSalaryResult.note = $"Премия сформирована по средним показателям: сумма кассы среднее за все выполнеые услуги {sum * interestRateAverage}";
+                double multiplicityAverage = resultEmployee.Average(a => a.multiplicityOfTheSum);
+                double prizeAmountAverage = resultEmployee.Average(a => a.prizeAmount);
+                double interestRateAverage = resultEmployee.Average(a => a.InterestRate);
+                double sum = resultEmployee.Sum(a => a.Sum);
+                double bonusResultAverage = MathFloor(sum / interestRateAverage, multiplicityAverage);
 
-                await InsertTableBonus(bonusToSalaryResult);
-            }
+                var carWashWorker = employeeDaySummaries.First();
+
+                if (bonusResultAverage > 0)
+                {
+                    BonusToSalaryBll bonusToSalaryResult = new BonusToSalaryBll();
+
+                    bonusToSalaryResult.amount = bonusResultAverage * prizeAmountAverage;
+                    bonusToSalaryResult.carWashWorkersId = carWashWorker.idEmployee;
+                    bonusToSalaryResult.date = DateTime.Now;
+                    bonusToSalaryResult.note = $"Премия сформирована по средним показателям: {sum / interestRateAverage}";
+
+                    await InsertTableBonus(bonusToSalaryResult);
+                }
+            }        
         }
 
         private async Task<bool> InsertTableBonus(BonusToSalaryBll bonusToSalary)

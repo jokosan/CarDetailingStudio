@@ -52,7 +52,7 @@ namespace CarDetailingStudio.Controllers
         {
             var ItogSalary = Mapper.Map<IEnumerable<DayResultModelView>>(await _dayResult.DayResultViewInfo());
             var ItogSalarySum = ItogSalary.Sum(x => x.payroll);
-            var orderServices = await _orderServices.GetDataClosing();
+            var orderServices = await _orderServices.Reports(DateTime.Now);
 
             ViewBag.NumberOfEmployees = ItogSalary.Sum(x => x.orderCount);
             ViewBag.OrderCount = orderServices.Count();

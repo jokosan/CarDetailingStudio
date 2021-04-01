@@ -2,7 +2,9 @@
 using CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
+using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.AnalyticsView;
+using CarDetailingStudio.Models.AnalyticsView.WagesForCompletedOrders;
 using CarDetailingStudio.Models.ModelViews;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,6 @@ namespace CarDetailingStudio.Controllers
     {
         private readonly ICashier _cashier;
         private readonly IAbstractFactory _abstractFactory;
-      
 
         public AnalyticsController(
             ICashier cashier,
@@ -127,7 +128,6 @@ namespace CarDetailingStudio.Controllers
             analyticsFull.SumWegesEmployees = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees + analyticsResult.wagesForCompletedOrders.Washing.SalaryEmployees;
             analyticsFull.SumPendingPayment = SumOrderPendingPayment(analyticsResult);
 
-
             analyticsFull.CashEndDay = SumTotalGeneral(analyticsResult);
             analyticsFull.CashEndDayCash = SumTotal(analyticsCash) + analyticsFull.cashStartOfTheDay + SumOrdersForThePreviousPeriod(analyticsCash.informationPreviousPeriod);
             analyticsFull.CashEndDayNoCash = SumTotal(analyticsNoCash) + SumOrdersForThePreviousPeriod(analyticsNoCash.informationPreviousPeriod);
@@ -137,7 +137,6 @@ namespace CarDetailingStudio.Controllers
             ViewBag.CloseDay = CloseDay;
             ViewBag.Message = message;
             ViewBag.Date = DateTime.Now.AddDays(1).ToString("d");
-
 
             return View(analyticsFull);
         }
@@ -226,41 +225,36 @@ namespace CarDetailingStudio.Controllers
 
         public async Task<ActionResult> DetailsAboutOrders(int typeOrder, int paymentState, DateTime start, DateTime? finlDate, int type = 0, int statusOrder = 0)
         {
+            ViewBagDateGroup(start, finlDate);
+
             if (finlDate == null)
             {
                 if (paymentState == 0)
                 {
                     if (statusOrder != 0)
                     {
-                        ViewBagDateGroup(start, finlDate);
                         return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start, statusOrder)));
                     }
 
                     if (type == 0)
                     {
-                        ViewBagDateGroup(start, finlDate);
                         return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start)));
                     }
                     else
                     {
-                        ViewBagDateGroup(start, finlDate);
                         return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.InformationAboutOrderForThePreviousPeriod(typeOrder, start)));
                     }
-
                 }
                 else
                 {
                     if (type == 0)
                     {
-                        ViewBagDateGroup(start, finlDate);
                         return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, paymentState, start)));
                     }
                     else
                     {
-                        ViewBagDateGroup(start, finlDate);
                         return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.InformationAboutOrderForThePreviousPeriod(typeOrder, paymentState, start)));
                     }
-
                 }
             }
             else
@@ -269,16 +263,13 @@ namespace CarDetailingStudio.Controllers
                 {
                     if (statusOrder != 0)
                     {
-                        ViewBagDateGroup(start, finlDate);
                         return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start, finlDate, statusOrder)));
                     }
 
-                    ViewBagDateGroup(start, finlDate);
                     return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, start, finlDate)));
                 }
                 else
                 {
-                    ViewBagDateGroup(start, finlDate);
                     return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.DetailsAboutOrders(typeOrder, paymentState, start, finlDate)));
                 }
             }
@@ -287,49 +278,30 @@ namespace CarDetailingStudio.Controllers
         public async Task<ActionResult> DetailsExpenses(int paymentState, DateTime dateStart, DateTime? dateFinal, int typeExpenses = 0)
         {
             ViewBag.TypeExpenses = typeExpenses;
+            ViewBagDateGroup(dateStart, dateFinal);
 
             if (dateFinal == null)
             {
                 if (typeExpenses == 1)
                 {
-                    var salaryExpenses = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>( await _abstractFactory.DetailsSalaryExpenses(1, dateStart));
-                  
-                    ViewBagDateGroup(dateStart, dateFinal);
-
-                    return View(salaryExpenses);
+                    return View(Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsSalaryExpenses(1, dateStart)));
                 }
 
                 if (paymentState != 0)
                 {
-                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, paymentState, dateStart));
-                 
-                    ViewBagDateGroup(dateStart, dateFinal);
-
-                    return View(expensesPaymentStateResult);
+                    return View(Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, paymentState, dateStart)));
                 }
 
-                var expensesResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, dateStart));
-        
-                ViewBagDateGroup(dateStart, dateFinal);
-
-                return View(expensesResult);
+                return View(Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, dateStart)));
             }
             else
             {
                 if (paymentState != 0)
                 {
-                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, paymentState, dateStart, dateFinal));
-                 
-                    ViewBagDateGroup(dateStart, dateFinal);
-
-                    return View(expensesPaymentStateResult);
+                    return View(Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, paymentState, dateStart, dateFinal)));
                 }
 
-                var expensesResult = Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, dateStart, dateFinal));
-             
-                ViewBagDateGroup(dateStart, dateFinal);
-
-                return View(expensesResult);
+                return View(Mapper.Map<IEnumerable<Models.ModelViews.ExpensesView>>(await _abstractFactory.DetailsExpenses(typeExpenses, dateStart, dateFinal)));
             }
         }
 
@@ -338,40 +310,25 @@ namespace CarDetailingStudio.Controllers
             ViewBag.PaymentState = paymentState;
             ViewBag.DateStart = dateStart;
             ViewBag.DateFinal = dateFinal;
+            ViewBagDateGroup(dateStart, dateFinal);
 
             if (dateFinal == null)
             {
                 if (paymentState != 0)
                 {
-                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(paymentState, dateStart, typeExpenses));
-                 
-                    ViewBagDateGroup(dateStart, dateFinal);
-
-                    return View(expensesPaymentStateResult);
+                    return View(Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(paymentState, dateStart, typeExpenses)));
                 }
 
-                var expensesResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(dateStart, typeExpenses));
-           
-                ViewBagDateGroup(dateStart, dateFinal);
-
-                return View(expensesResult);
+                return View(Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(dateStart, typeExpenses)));
             }
             else
             {
                 if (paymentState != 0)
                 {
-                    var expensesPaymentStateResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(paymentState, dateStart, dateFinal, typeExpenses));
-                  
-                    ViewBagDateGroup(dateStart, dateFinal);
-
-                    return View(expensesPaymentStateResult);
+                    return View(Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(paymentState, dateStart, dateFinal, typeExpenses)));
                 }
 
-                var expensesResult = Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(dateStart, dateFinal, typeExpenses));
-               
-                ViewBagDateGroup(dateStart, dateFinal);
-
-                return View(expensesResult);
+                return View(Mapper.Map<IEnumerable<ExpensesClassView>>(await _abstractFactory.ExpensesGroup(dateStart, dateFinal, typeExpenses)));
             }
         }
 
@@ -388,59 +345,46 @@ namespace CarDetailingStudio.Controllers
             ViewBag.TypeExpenses = typeExpenses;
             ViewBag.DateWhereStart = dateStart;
             ViewBag.DateWhereFinal = dateFinal;
+            ViewBagDateGroup(dateStart.Value, dateFinal);
 
             if (dateFinal == null)
             {
-                var result = Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(typeExpenses.Value, dateStart.Value));
-              
-                ViewBagDateGroup(dateStart.Value, dateFinal);
-                return View(result);
+                return View(Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(typeExpenses.Value, dateStart.Value)));
             }
             else
             {
-                var result = Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(typeExpenses.Value, dateStart.Value, dateFinal));
-             
-                ViewBagDateGroup(dateStart.Value, dateFinal);
-                return View(result);
+                return View(Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(typeExpenses.Value, dateStart.Value, dateFinal)));
             }
         }
 
         public async Task<ActionResult> GoodsSoldInfo(int paymentState, DateTime dateStart, DateTime? dateFinal)
         {
+            ViewBagDateGroup(dateStart, dateFinal);
+
             if (dateFinal == null)
             {
                 if (paymentState != 0)
                 {
-                    var goodsSoldInforesult = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(paymentState, dateStart));
-                    ViewBagDateGroup(dateStart, dateFinal);
-
-                    return View(goodsSoldInforesult);
+                    return View(Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(paymentState, dateStart)));
                 }
 
-                var goodsSoldInfo = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(dateStart));
-                ViewBagDateGroup(dateStart, dateFinal);
-
-                return View();
+                return View(Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(dateStart)));
             }
             else
             {
                 if (paymentState != 0)
                 {
-                    var goodsSoldInforesult = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(paymentState, dateStart, dateFinal));
-                    ViewBagDateGroup(dateStart, dateFinal);
-
-                    return View(goodsSoldInforesult);
+                    return View(Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(paymentState, dateStart, dateFinal)));
                 }
 
-                var goodsSoldInfo = Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(dateStart, dateFinal));
-                ViewBagDateGroup(dateStart, dateFinal);
-
-                return View(goodsSoldInfo);
+                return View(Mapper.Map<IEnumerable<GoodsSoldView>>(await _abstractFactory.DetailsGoodsSold(dateStart, dateFinal)));
             }
         }
 
         public async Task<ActionResult> AdditionalIncomeInfo(string category, int paymentState, DateTime dateStart, DateTime? dateFinal)
         {
+            ViewBagDateGroup(dateStart, dateFinal);
+
             if (dateFinal == null)
             {
                 if (paymentState != 0)
@@ -472,25 +416,73 @@ namespace CarDetailingStudio.Controllers
                 }));
             }
 
+            ViewBagDateGroup(dateStart.Value, dateFinal);
+
             if (dateFinal == null)
             {
-                var result = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _abstractFactory.DetailsWages(typeExpenses.Value, idEmployees.Value, dateStart.Value));
-              //  ViewBagDateWagesInfoGroup(result);
-                ViewBagDateGroup(dateStart.Value, dateFinal);
-
-                return View(result);
+                return View(Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _abstractFactory.DetailsWages(typeExpenses.Value, idEmployees.Value, dateStart.Value)));
             }
             else
             {
-                var result = Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _abstractFactory.DetailsWages(typeExpenses.Value, idEmployees.Value, dateStart.Value, dateFinal));
-               // ViewBagDateWagesInfoGroup(result);
-                ViewBagDateGroup(dateStart.Value, dateFinal);
+                return View(Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _abstractFactory.DetailsWages(typeExpenses.Value, idEmployees.Value, dateStart.Value, dateFinal)));
+            }
+        }
+
+
+        public async Task<ActionResult> GroupDetailsWages(DateTime? dateStart, DateTime? dateFinal)
+        {
+            if (dateStart == null && dateFinal == null)
+            {
+                dateStart = DateTime.Now.AddDays(-7);
+                dateFinal = DateTime.Now;
+            }
+            else if (dateFinal == null)
+            {
+                dateStart = DateTime.Now.AddDays(-7);
+                dateFinal = DateTime.Now;
+            }
+
+            ViewBagDateGroup(dateStart.Value, dateFinal);
+
+            if (dateFinal == null)
+            {
+                return View(Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(dateStart.Value)));
+            }
+            else
+            {
+                var groupingEmployeesByPeriod = Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupingEmployeesByPeriod(dateStart.Value, dateFinal));
+                var groupDetailsWages = Mapper.Map<IEnumerable<GroupingEmployeesWagesView>>(await _abstractFactory.GroupDetailsWages(dateStart.Value, dateFinal));
+
+                GroupingEmployeesWagesTwoTable result = new GroupingEmployeesWagesTwoTable();
+
+                result.groupDetailsWages = groupDetailsWages;
+                result.groupingEmployeesByPeriod = groupingEmployeesByPeriod;
+
                 return View(result);
             }
         }
 
+        public async Task<ActionResult> TotalChargesForAllServices(int? idEmployees, string nameEmployees, DateTime? dateStart, DateTime? dateFinal)
+        {
+            if (idEmployees == null)
+            {
+                return RedirectToAction("Report", "Analytics", new RouteValueDictionary(new
+                {
+                    startDate = DateTime.Now
+                }));
+            }
+
+            ViewBagDateGroup(dateStart.Value, dateFinal);
+            ViewBag.Name = nameEmployees;
+            ViewBag.Employees = idEmployees;
+
+            if (dateFinal == null)
+              return View(Mapper.Map<AnalyticsView>(await _abstractFactory.InformationOnAllWages(idEmployees.Value, dateStart.Value)));
+            else
+              return View(Mapper.Map<AnalyticsView>(await _abstractFactory.InformationOnAllWages(idEmployees.Value, dateStart.Value, dateFinal)));
+        }
+
         #region ViewBag
-       
 
         public void ViewBagDateGroup(DateTime dateStart, DateTime? dateFinal = null)
         {
@@ -507,8 +499,10 @@ namespace CarDetailingStudio.Controllers
             {
                 dateTimesGrups.Add(dateStart.Date);
             }
-           
+
             ViewBag.ExpensesDate = dateTimesGrups;
+            ViewBag.DateWhereStart = dateStart;
+            ViewBag.DateWhereFinal = dateFinal;
         }
 
         #endregion

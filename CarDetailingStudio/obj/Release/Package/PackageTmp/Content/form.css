@@ -4,7 +4,7 @@
     background-color: white;
 }
 
-.sum {  
+.sum {
     display: block;
     border: none;
     border-bottom: 1px solid #ccc;
@@ -15,7 +15,7 @@
     }
 
 .preview {
-width: 15%;
+    width: 15%;
 }
 
 .table-order {
@@ -24,7 +24,7 @@ width: 15%;
 }
 
 .Order-link {
-color: aliceblue;
+    color: aliceblue;
 }
 
 
@@ -136,4 +136,8 @@ color: aliceblue;
 .pagination-sm > li:last-child > span {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+
+.catalog-margin{
+margin-bottom: 15px;
 }

@@ -275,6 +275,10 @@
     <Compile Include="Controllers\TireStorage\TireStorageServicesController.cs" />
     <Compile Include="Controllers\Trade\PriceController.cs" />
     <Compile Include="Controllers\Trade\ShopController.cs" />
+    <Compile Include="Enums\PaymentState.cs" />
+    <Compile Include="Enums\TypeOfCars.cs" />
+    <Compile Include="Enums\TypeOfOrder.cs" />
+    <Compile Include="Enums\TypeServices.cs" />
     <Compile Include="Filters\InitialAmountFilter.cs" />
     <Compile Include="Filters\PreviousShiftStatusFilter.cs" />
     <Compile Include="Filters\TotalMonthlySalary.cs" />
@@ -302,6 +306,7 @@
     <Compile Include="Models\entityEmployeeModel.cs" />
     <Compile Include="Models\ExpenseCategoryGroupView.cs" />
     <Compile Include="Models\GeneralExpensesModels.cs" />
+    <Compile Include="Models\GroupingEmployeesWagesTwoTable.cs" />
     <Compile Include="Models\IdModels.cs" />
     <Compile Include="Models\ModelViews\AdditionalIncomeView.cs" />
     <Compile Include="Models\ModelViews\AdditionalTireStorageServicesView.cs" />
@@ -1455,6 +1460,8 @@
     <Content Include="Views\Admin\CostCategoriesEdit.cshtml" />
     <Content Include="Views\Analytics\ExpensesGroup.cshtml" />
     <Content Include="Views\CarWashWorkersViews\Index - Копировать.cshtml" />
+    <Content Include="Views\Analytics\GroupDetailsWages.cshtml" />
+    <Content Include="Views\Analytics\TotalChargesForAllServices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

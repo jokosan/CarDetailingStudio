@@ -5,6 +5,7 @@ using CarDetailingStudio.BLL.AnalyticsModules.AbstractSalaryExpenses;
 using CarDetailingStudio.BLL.AnalyticsModules.AbstractSaleOfGoods;
 using CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrders;
 using CarDetailingStudio.BLL.AnalyticsModules.Models;
+using CarDetailingStudio.BLL.AnalyticsModules.Models.WagesForCompletedOrders;
 using CarDetailingStudio.BLL.Model;
 using System;
 using System.Collections.Generic;
@@ -283,7 +284,6 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
         #endregion
         #endregion
 
-
         #region Wages
 
         public async Task<IEnumerable<OrderCarWashWorkersBll>> DetailsWages(int typeServices, DateTime date)
@@ -310,6 +310,56 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
             return _wagesForCompleted.EarningsPerEmployee(typeServices, idEmployees, result);
         }
 
+        public async Task<AnalyticsModels> InformationOnAllWages(int idEmployees, DateTime date)
+        {
+            analytics.wagesForCompletedOrders = new Models.WagesForCompletedOrders.WagesForCompletedOrdersModels();
+            analytics.wagesForCompletedOrders = await _wagesForCompleted.WagesForCompletedOrdersPerDay(idEmployees, date);
+
+            var resultCompletedOrders = await _completedOrders.CompletedOrdersPerDay(date);
+
+            analytics.completedOrders = new Models.CompletedOrders.CompletedOrdersModels();
+            analytics.completedOrders = _completedOrders.AnalyticsFormationCompletedOrders(resultCompletedOrders.Where(x =>
+                                            x.OrderCarWashWorkers.Any(e => e.IdCarWashWorkers == idEmployees)));
+
+            return analytics;
+        }
+
+        public async Task<AnalyticsModels> InformationOnAllWages(int idEmployees, DateTime start, DateTime? finlDate)
+        {
+            analytics.wagesForCompletedOrders = new Models.WagesForCompletedOrders.WagesForCompletedOrdersModels();
+            analytics.wagesForCompletedOrders = await _wagesForCompleted.WagesForCompletedOrdersForTheSelectedPeriod(idEmployees, start, finlDate.Value);
+
+            var resultCompletedOrders = await _completedOrders.CompletedOrdersForTheSelectedPeriod(start, finlDate.Value);
+
+            analytics.completedOrders = new Models.CompletedOrders.CompletedOrdersModels();
+            analytics.completedOrders = _completedOrders.AnalyticsFormationCompletedOrders(resultCompletedOrders.Where(x =>
+                                            x.OrderCarWashWorkers.Any(e => e.IdCarWashWorkers == idEmployees)));
+
+            return analytics;
+        }
+
+        public async Task<IEnumerable<GroupingEmployeesWages>> GroupingEmployeesByPeriod(DateTime start, DateTime? finlDate)
+        {
+            //var groupResult = _wagesForCompleted.GroupingEmployees(await _wagesForCompleted.AnalyticsWages(start, finlDate.Value));
+            //return await _wagesForCompleted.sumOfAllIncome(groupResult, start, finlDate.Value);
+            var groupResult = _wagesForCompleted.GroupingEmployees(await _wagesForCompleted.AnalyticsWages(start, finlDate.Value));
+            return await _wagesForCompleted.sumOfAllIncome(await _wagesForCompleted.sumOfAllIncome(groupResult, start, finlDate.Value), start, finlDate.Value);
+
+        }
+
+
+        public async Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(DateTime date)
+        {
+            var resultExpenses = await _wagesForCompleted.AnalyticsWages(date);
+            return _wagesForCompleted.GroupingByDatesAndEmployees(resultExpenses);
+        }
+
+        public async Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(DateTime start, DateTime? finlDate)
+        {
+            var result = await _wagesForCompleted.AnalyticsWages(start, finlDate.Value);
+            return await _wagesForCompleted.sumOfAllIncome (_wagesForCompleted.GroupingByDatesAndEmployees(result).AsEnumerable(), start, finlDate.Value);
+        }
+
         public async Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(int typeServices, DateTime date)
         {
             var resultExpenses = await _wagesForCompleted.AnalyticsWages(date);
@@ -321,6 +371,8 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
             var result = await _wagesForCompleted.AnalyticsWages(start, finlDate.Value);
             return _wagesForCompleted.GroupingByDatesAndEmployees(result.Where(x => x.typeServicesId == typeServices)).AsEnumerable();
         }
+
+       // public async Task<IEnumerable<>>
 
         #endregion
 

@@ -1,4 +1,10 @@
 ﻿@model CarDetailingStudio.Models.AnalyticsView.AnalyticsFull
+<style>
+    .collapse-row.collapsed + tr {
+        display: none;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <div class="card">
@@ -135,37 +141,37 @@
                                     </tr>
 
 
-                                    <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
-                                        <td class="text-center">9</td>
-                                        <td><b>ЗП администратора (авто + ковры)</b></td>
-                                        <td class="text-right"><b>  @Html.DisplayFor(model => model.SumWegesAdministrator) грн. </b></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">9-1</td>
-                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора мойки</a></td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryAdministrator) грн. </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">9-2</td>
-                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 3, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора за услугу ковры</a></td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator) грн. </td>
-                                    </tr>
+                                    @*<tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                            <td class="text-center">9</td>
+                                            <td><b>ЗП администратора (авто + ковры)</b></td>
+                                            <td class="text-right"><b>  @Html.DisplayFor(model => model.SumWegesAdministrator) грн. </b></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">9-1</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора мойки</a></td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">9-2</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 3, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора за услугу ковры</a></td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator) грн. </td>
+                                        </tr>
 
-                                    <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
-                                        <td class="text-center">10</td>
-                                        <td><b>ЗП автомойщиков (авто + ковры)</b></td>
-                                        <td class="text-right"> <b> @Html.DisplayFor(model => model.SumWegesEmployees) грн. </b></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">10-1</td>
-                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 5, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника мойки</a></td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryEmployees) грн. </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">10-2</td>
-                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 6, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника за услугу ковры </a></td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees) грн. </td>
-                                    </tr>
+                                        <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
+                                            <td class="text-center">10</td>
+                                            <td><b>ЗП автомойщиков (авто + ковры)</b></td>
+                                            <td class="text-right"> <b> @Html.DisplayFor(model => model.SumWegesEmployees) грн. </b></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">10-1</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 5, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника мойки</a></td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryEmployees) грн. </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">10-2</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 6, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника за услугу ковры </a></td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees) грн. </td>
+                                        </tr>*@
 
                                     @* ----------------------------------------------------------------------------------- *@
 
@@ -207,16 +213,16 @@
                                     </tr>
 
 
-                                    <tr>
-                                        <td class="text-center">5</td>
-                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryAdministrator) грн. </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">6</td>
-                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 4, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП детейлинга</a></td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryEmployees) грн. </td>
-                                    </tr>
+                                    @*<tr>
+                                            <td class="text-center">5</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">6</td>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 4, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП детейлинга</a></td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryEmployees) грн. </td>
+                                        </tr>*@
 
 
                                     @* ----------------------------------------------------------------------------------- *@
@@ -257,25 +263,24 @@
                                         </td>
                                     </tr>
 
-
-                                    <tr>
-                                        <td class="text-center">5</td>
-                                        <td>
-                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 9, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
-                                                ЗП администратора
-                                            </a>
-                                        </td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryAdministrator) грн. </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">6</td>
-                                        <td>
-                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 10, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
-                                                ЗП Сотрудников
-                                            </a>
-                                        </td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryEmployees) грн. </td>
-                                    </tr>
+                                    @*<tr>
+                                            <td class="text-center">5</td>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 9, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    ЗП администратора
+                                                </a>
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">6</td>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 10, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    ЗП Сотрудников
+                                                </a>
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryEmployees) грн. </td>
+                                        </tr>*@
 
                                     @*--------------------------------------------------------------------------------------*@
                                     <tr>
@@ -298,42 +303,153 @@
                                         <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.completedOrders.TireStorage.OrdersAwaitingPaymentCashier) грн. </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="text-center">7</td>
-                                        <td>
-                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 7, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
-                                                ЗП администратора
-                                            </a>
-                                        </td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryAdministrator) грн. </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">8</td>
-                                        <td>
-                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 8, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
-                                                ЗП Сотрудников
-                                            </a>
-                                        </td>
-                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryEmployees) грн. </td>
-                                    </tr>
+                                    @*<tr>
+                                            <td class="text-center">7</td>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 7, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    ЗП администратора
+                                                </a>
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">8</td>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 8, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    ЗП Сотрудников
+                                                </a>
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryEmployees) грн. </td>
+                                        </tr>*@
 
                                     @* ----------------------------------------------------------------------------------- *@
+                                    @*<tr>
+                                            <td colspan="5" class="text-center"><b class="text-danger">Дополнительно к заработной плате<b /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">1</td>
+                                            <td>Премия</td>
+                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.SumBonusTOSalary) грн.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">2</td>
+                                            <td>Ставка за день</td>
+                                            <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.SumEmployeeRate)  грн. </td>
+                                        </tr>*@
+
+                                    @* ----------------------------------------------------------------------------------- *@
+
                                     <tr>
-                                        <td colspan="5" class="text-center"><b class="text-danger">Дополнительно к заработной плате<b /> </td>
+                                        <td colspan="6" class="text-center"><b class="text-danger">Заработная плата<b /> </td>
                                     </tr>
-                                    <tr>
+                                    <tr data-toggle="collapse" data-target="#accordion" class="clickable  collapse-row collapsed">
                                         <td class="text-center">1</td>
-                                        <td>Премия</td>
-                                        <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.SumBonusTOSalary) грн.</td>
+                                        <td>
+                                            <a class="link" href=@Url.Action("../Analytics/GroupDetailsWages", new { dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                Итоговая сумма по заработной плате сотрудников
+                                            </a>
+                                        </td>
+                                        <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TotalSumWages) грн.</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">2</td>
-                                        <td>Ставка за день</td>
-                                        <td class="text-right">@Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.SumEmployeeRate)  грн. </td>
+                                        <td colspan="6">
+                                            <table id="accordion" class="table table-striped collapse ">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th>Наименования</th>
+                                                        <th class="text-right">Отчеты</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                                        <td class="text-center">1</td>
+                                                        <td><b>ЗП администратора (авто + ковры)</b></td>
+                                                        <td class="text-right"><b>  @Html.DisplayFor(model => model.SumWegesAdministrator) грн. </b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">1-1</td>
+                                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора мойки</a></td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryAdministrator) грн. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">1-2</td>
+                                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 3, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора за услугу ковры</a></td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator) грн. </td>
+                                                    </tr>
+
+                                                    <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
+                                                        <td class="text-center">2</td>
+                                                        <td><b>ЗП автомойщиков (авто + ковры)</b></td>
+                                                        <td class="text-right"> <b> @Html.DisplayFor(model => model.SumWegesEmployees) грн. </b></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="text-center">2-1</td>
+                                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 5, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника мойки</a></td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Washing.SalaryEmployees) грн. </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="text-center">2-2</td>
+                                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 6, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП сотрудника за услугу ковры </a></td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees) грн. </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="text-center">3</td>
+                                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryAdministrator) грн. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">4</td>
+                                                        <td><a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 4, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП детейлинга</a></td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.Detailing.SalaryEmployees) грн. </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="text-center">5</td>
+                                                        <td>
+                                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 9, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                ЗП администратора
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryAdministrator) грн. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">6</td>
+                                                        <td>
+                                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 10, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                ЗП Сотрудников
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireFitting.SalaryEmployees) грн. </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="text-center">7</td>
+                                                        <td>
+                                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 7, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                ЗП администратора
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryAdministrator) грн. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">8</td>
+                                                        <td>
+                                                            <a class="link" href=@Url.Action("../Analytics/WagesInfo", new { typeExpenses = 8, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                ЗП Сотрудников
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-right"> @Html.DisplayFor(model => model.analyticsViewResult.wagesForCompletedOrders.TireStorage.SalaryEmployees) грн. </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </td>
                                     </tr>
-
                                     @* ----------------------------------------------------------------------------------- *@
-
                                     <tr>
                                         <td colspan="6" class="text-center"><b class="text-danger">Товары<b /> </td>
                                     </tr>
@@ -373,7 +489,7 @@
                                     <tr>
                                         <td colspan="6" class="text-center"><b class="text-danger">Дополнительный доход</b></td>
                                     </tr>
-                                
+
                                     <tr>
                                         <td class="text-center">1</td>
                                         <td>Касса автодом</td>
@@ -441,7 +557,7 @@
                                     <tr>
                                         <td colspan="6" class="text-center"><b class="text-danger">Расходы</b></td>
                                     </tr>
-                                    <tr>
+                                    <tr data-toggle="collapse" data-target="#accordion2" class="clickable  collapse-row collapsed">
                                         <td class="text-center">1</td>
                                         <td>Сумма всех расходов</td>
                                         <td class="text-right">
@@ -460,45 +576,63 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <table id="accordion2" class="table table-striped collapse ">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th>Наименования</th>
+                                                        <th class="text-right">Отчеты</th>
+                                                        <th class="text-right">Наличные</th>
+                                                        <th class="text-right">Безналичные</th>
+                                                        <th class="text-right">Неоплаченные</th>
 
-                                    @foreach (var item in Model.analyticsViewResult.expensesClassModels)
-                                    {
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>@item.expenseCategoryName</td>
-                                            <td class="text-right">
-                                                <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
-                                                    @item.Amount грн.
-                                                </a>
-                                            </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.analyticsViewResult.expensesClassModels)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>@item.expenseCategoryName</td>
+                                                            <td class="text-right">
+                                                                <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 0, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                    @item.Amount грн.
+                                                                </a>
+                                                            </td>
 
-                                            @foreach (var itemCash in Model.analyticsViewNoCash.expensesClassModels)
-                                            {
-                                                if (item.expenseCategoryId == itemCash.expenseCategoryId)
-                                                {
-                                                    <td class="text-right">
-                                                        <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
-                                                            @itemCash.Amount грн.
-                                                        </a>
-                                                    </td>
-                                                    break;
-                                                }
-                                            }
+                                                            @foreach (var itemCash in Model.analyticsViewNoCash.expensesClassModels)
+                                                            {
+                                                                if (item.expenseCategoryId == itemCash.expenseCategoryId)
+                                                                {
+                                                                    <td class="text-right">
+                                                                        <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 1, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                            @itemCash.Amount грн.
+                                                                        </a>
+                                                                    </td>
+                                                                    break;
+                                                                }
+                                                            }
 
-                                            @foreach (var itemNoCash in Model.analyticsViewCash.expensesClassModels)
-                                            {
-                                                if (item.expenseCategoryId == itemNoCash.expenseCategoryId)
-                                                {
-                                                    <td class="text-right">
-                                                        <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
-                                                            @itemNoCash.Amount грн.
-                                                        </a>
-                                                    </td>
-                                                    break;
-                                                }
-                                            }
-                                        </tr>
-                                    }
+                                                            @foreach (var itemNoCash in Model.analyticsViewCash.expensesClassModels)
+                                                            {
+                                                                if (item.expenseCategoryId == itemNoCash.expenseCategoryId)
+                                                                {
+                                                                    <td class="text-right">
+                                                                        <a class="link" href=@Url.Action("../Analytics/ExpensesGroup", new {  typeExpenses = item.expenseCategoryId, paymentState = 2, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                                            @itemNoCash.Amount грн.
+                                                                        </a>
+                                                                    </td>
+                                                                    break;
+                                                                }
+                                                            }
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                    </tr>
+
 
                                     @* ----------------------------------------------------------------------------------- *@
                                     <tr>

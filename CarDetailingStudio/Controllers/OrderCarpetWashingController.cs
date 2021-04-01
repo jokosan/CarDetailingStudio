@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarDetailingStudio.BLL.EmployeesModules.Contract;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Checkout;
 using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
@@ -30,11 +31,19 @@ namespace CarDetailingStudio.Controllers
         private IClientJoinOrderCarpetWashing _orderCarpetWashing;
         private IOrderServicesCarWashServices _orderServicesCarWash;
         private IPaymentState _paymentState;
+        private readonly IEmployeesFacade _employeesFacade;
 
-        public OrderCarpetWashingController(IOrderCarpetWashingServices orderCarpetWashing, IBrigadeForTodayServices brigadeForTodayServices,
-                                            IDetailingsServises detailings, IOrder order, IWageModules wageModules, IClientInfoServices clientInfo,
-                                            IClientJoinOrderCarpetWashing clientJoinOrderCarpetWashing, IOrderServicesCarWashServices orderServicesCarWash,
-                                            IPaymentState paymentState)
+        public OrderCarpetWashingController(
+            IOrderCarpetWashingServices orderCarpetWashing,
+            IBrigadeForTodayServices brigadeForTodayServices,
+            IDetailingsServises detailings,
+            IOrder order,
+            IWageModules wageModules,
+            IClientInfoServices clientInfo,
+            IClientJoinOrderCarpetWashing clientJoinOrderCarpetWashing,
+            IOrderServicesCarWashServices orderServicesCarWash,
+            IPaymentState paymentState,
+            IEmployeesFacade employeesFacade)
         {
             _orderCarpetWashingServices = orderCarpetWashing;
             _brigadeForToday = brigadeForTodayServices;
@@ -45,6 +54,7 @@ namespace CarDetailingStudio.Controllers
             _orderCarpetWashing = clientJoinOrderCarpetWashing;
             _orderServicesCarWash = orderServicesCarWash;
             _paymentState = paymentState;
+            _employeesFacade = employeesFacade;
         }
 
         // GET: OrderCarpetWashing
@@ -74,7 +84,7 @@ namespace CarDetailingStudio.Controllers
             }
             return View(orderCarpetWashingView);
         }
-               
+
         // GET: OrderCarpetWashing/Create
         public async Task<ActionResult> AddOrderCarpetWashing(int? idClient)
         {
@@ -104,43 +114,22 @@ namespace CarDetailingStudio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddOrderCarpetWashing([Bind(Include = "idOrderCarpetWashing,orderServicesCarWashId,clientId,area,orderDate,orderClosingDate,orderCompletionDate")] OrderCarpetWashingView orderCarpetWashingView,
                                                                List<string> idBrigade, int? idPaymentState, int? clientId, bool chooseEmployee = false)
-        
+
         {
-            if (chooseEmployee == true)
+            if (clientId != null && TempData["priseServis"] != null)
             {
-                //if (ModelState.IsValid && idBrigade != null && TempData["priseServis"] != null && clientId != null)
-                //{
-                //    int priceServis = Convert.ToInt32(TempData["priseServis"].ToString());
-                //    orderCarpetWashingView.clientId = clientId;
+                int priceServis = Convert.ToInt32(TempData["priseServis"].ToString());
+                orderCarpetWashingView.clientId = clientId;
+                orderCarpetWashingView.orderDate = DateTime.Now;
 
-                //    OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
+                OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
 
-                //    int resultOrderServicesCarWash = await _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis, clientId.Value);
-                //    orderCarpetWashing.orderServicesCarWashId = resultOrderServicesCarWash;
+                int resultOrderServicesCarWash = await _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis, clientId.Value);
+                orderCarpetWashing.orderServicesCarWashId = resultOrderServicesCarWash;
 
-                //    await _orderCarpetWashingServices.Insert(orderCarpetWashing);
-                //    await _wageModules.Payroll(resultOrderServicesCarWash, idBrigade);
+                await _orderCarpetWashingServices.Insert(orderCarpetWashing);
 
-                //    return RedirectToAction("OrderCarpetWashing", "OrderCarpetWashing");
-                //}
-            }
-            else
-            {
-                if (clientId != null && TempData["priseServis"] != null)
-                {
-                    int priceServis = Convert.ToInt32(TempData["priseServis"].ToString());
-                    orderCarpetWashingView.clientId = clientId;
-                    orderCarpetWashingView.orderDate = DateTime.Now;
-
-                    OrderCarpetWashingBll orderCarpetWashing = Mapper.Map<OrderCarpetWashingView, OrderCarpetWashingBll>(orderCarpetWashingView);
-
-                    int resultOrderServicesCarWash = await _order.OrderForCarpetCleaning(orderCarpetWashing, idPaymentState, priceServis, clientId.Value);
-                    orderCarpetWashing.orderServicesCarWashId = resultOrderServicesCarWash;
-
-                    await _orderCarpetWashingServices.Insert(orderCarpetWashing);
-
-                    return RedirectToAction("OrderCarpetWashing", "OrderCarpetWashing");
-                }
+                return RedirectToAction("OrderCarpetWashing", "OrderCarpetWashing");
             }
 
             var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForToday.GetDateTimeNow());
@@ -149,7 +138,8 @@ namespace CarDetailingStudio.Controllers
             TempData["priseServis"] = resultServisesPrice.S;
 
             ViewBag.Adninistrator = brigadeForToday.Where(x => x.StatusId < 3);
-            ViewBag.Brigade = brigadeForToday.Where(x => x.StatusId == 3);
+
+            ViewBag.Brigade = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _employeesFacade.ListOfEmployeesForService(3));
             ViewBag.Servises = resultServisesPrice;
 
             return View(orderCarpetWashingView);
@@ -172,7 +162,7 @@ namespace CarDetailingStudio.Controllers
             var test = orderServices.OrderCarWashWorkers.FirstOrDefault(x => x.IdOrder == orderCarpetWashingView.orderServicesCarWashId);
 
             ViewBag.Adninistrator = brigadeForToday.Where(x => x.StatusId < 3);
-            ViewBag.Brigade = brigadeForToday.Where(x => x.StatusId == 3);
+            ViewBag.Brigade = Mapper.Map<IEnumerable<CarWashWorkersView>>(await _employeesFacade.ListOfEmployeesForService(3));
             ViewBag.Sum = orderServices.DiscountPrice;
             ViewBag.BrigateOrder = test;
             ViewBag.ResultPay = orderServices.PaymentState;
@@ -262,9 +252,9 @@ namespace CarDetailingStudio.Controllers
 
                 }
             }
-          
+
             return RedirectToAction("OrderCarpetWashing");
-                        
+
         }
 
         private async Task SaveOrderServices(OrderServicesCarWashView orderServices)

@@ -36,12 +36,6 @@ namespace CarDetailingStudio.BLL.Services
             return getResult.Where(x => x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == dateTime.ToString("dd.MM.yyyy"));
         }
 
-        public async Task<IEnumerable<OrderCarWashWorkersBll>> SampleForPayroll(int id, DateTime date)
-        {
-            var getResult = await TableCalculationStatusFolse();
-            return getResult.Where(x => (x.IdCarWashWorkers == id) && (x.OrderServicesCarWash.ClosingData?.ToString("dd.MM.yyyy") == date.ToString("dd.MM.yyyy")));
-        }
-
         public async Task<IEnumerable<OrderCarWashWorkersBll>> TableCalculationStatusFolse() =>
             Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
                 x.CalculationStatus == false, "OrderServicesCarWash", "OrderServicesCarWash.ClientsOfCarWash"));
@@ -54,12 +48,9 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<IEnumerable<OrderCarWashWorkersBll>> GetTableInclud(int month, int year) =>
             Mapper.Map<IEnumerable<OrderCarWashWorkersBll>>(await _unitOfWork.OrderCarWasWorkersUnitOFWork.QueryObjectGraph(x =>
-                                                           // (x.closedDayStatus == true) &&
-                                                           (x.CalculationStatus == false) &&
-                                                           (x.CarWashWorkers.status == true) &&
-                                                           (x.OrderServicesCarWash.OrderDate.Value.Month == month) &&
-                                                           (x.OrderServicesCarWash.OrderDate.Value.Year == year),
-                                                           "OrderServicesCarWash", "CarWashWorkers"));
+                (x.CalculationStatus == false) && (x.CarWashWorkers.status == true) &&
+                (x.OrderServicesCarWash.OrderDate.Value.Month == month) && (x.OrderServicesCarWash.OrderDate.Value.Year == year),
+                 "OrderServicesCarWash", "CarWashWorkers"));
 
         public async Task<OrderCarWashWorkersBll> Change(int? Order, int? Employee)
         {
@@ -109,14 +100,9 @@ namespace CarDetailingStudio.BLL.Services
         #endregion
 
         #region
-        private DateTime final { get; set; }
-
+    
         public async Task<IEnumerable<OrderCarWashWorkersDayGroupBll>> OrderCarWashWorkers(int? id, DateTime startDate, DateTime? finalDate)
         {
-            if (finalDate != null)
-            {
-            }
-
             if (id != null)
             {
                 if (finalDate == null)

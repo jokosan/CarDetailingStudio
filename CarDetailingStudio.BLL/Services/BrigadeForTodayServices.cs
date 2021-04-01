@@ -27,16 +27,13 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<BrigadeForTodayBll> CurrentShift(DateTime date, int id) =>
          Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
-                                                              (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && 
-                                                              (x.EarlyTermination == true) &&
-                                                              x.StatusId == id)).LastOrDefault();
+               (DbFunctions.TruncateTime(x.Date.Value) == date.Date) && (x.EarlyTermination == true) && x.StatusId == id)).LastOrDefault();
         
-
         public async Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow()
         {
             var date = DateTime.Now;
-            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork.GetWhere(x => x.EarlyTermination == true 
-                                                                               && DbFunctions.TruncateTime(x.Date.Value) == date.Date));
+            return Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeUnitOfWork.GetWhere(x =>
+                x.EarlyTermination == true && DbFunctions.TruncateTime(x.Date.Value) == date.Date));
         }
 
         public async Task<IEnumerable<BrigadeForTodayBll>> GetDateTimeNow(DateTime date)
@@ -59,7 +56,9 @@ namespace CarDetailingStudio.BLL.Services
 
         public async Task<bool> AdminTrue(DateTime date, int ststus)
         {
-            var resultBrigade = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => DbFunctions.TruncateTime(x.Date.Value) == date.Date && x.StatusId >= ststus));
+            var resultBrigade = Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x =>
+                DbFunctions.TruncateTime(x.Date.Value) == date.Date && x.StatusId >= ststus));
+
             return resultBrigade.Any(x => x.StatusId == ststus && x.EarlyTermination == true);
         }
         
@@ -74,7 +73,8 @@ namespace CarDetailingStudio.BLL.Services
             await Update(brigadeForTodayBll);
         }
 
-        public async Task<BrigadeForTodayBll> GetId(int id) => Mapper.Map<BrigadeForTodayBll>(await _unitOfWork.BrigadeUnitOfWork.GetById(id));
+        public async Task<BrigadeForTodayBll> GetId(int id) =>
+            Mapper.Map<BrigadeForTodayBll>(await _unitOfWork.BrigadeUnitOfWork.GetById(id));
 
         public async Task<IEnumerable<BrigadeForTodayBll>> Reports(DateTime datepresentDay) =>
             Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
@@ -84,12 +84,11 @@ namespace CarDetailingStudio.BLL.Services
             Mapper.Map<IEnumerable<BrigadeForTodayBll>>(await _unitOfWork.BrigadeForTodayUnitOfWork.GetWhere(x => 
                 (DbFunctions.TruncateTime(x.Date.Value) >= startDate.Date) && (DbFunctions.TruncateTime(x.Date.Value) <= finalDate.Date)));
 
-        public brigadeForToday TransformAnEntity(BrigadeForTodayBll entity) => Mapper.Map<BrigadeForTodayBll, brigadeForToday>(entity);
+        public brigadeForToday TransformAnEntity(BrigadeForTodayBll entity) =>
+            Mapper.Map<BrigadeForTodayBll, brigadeForToday>(entity);
 
-        public Task Insert(BrigadeForTodayBll element)
-        {
-            throw new NotImplementedException();
-        }
+        public Task Insert(BrigadeForTodayBll element) =>
+            throw new NotImplementedException();        
 
         public async Task Update(BrigadeForTodayBll elementToUpdate)
         {

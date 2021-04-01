@@ -93,25 +93,15 @@ namespace CarDetailingStudio.Controllers
             return RedirectToAction("PriceList");
         }
 
-
         public async Task<ActionResult> EditOrder()//int OrderId
         {
             return View(Mapper.Map<IEnumerable<DetailingsView>>(await _detailings.Converter()));
         }
 
         [HttpPost]
-        public void EditOrder(List<string> idServices
-            //int idOrder, 
-            //int idClient
-            )
+        public void EditOrder(List<string> idServices)
         {
             var x = idServices.Count();
-
-
-            //  List<ServisesCarWashOrderBll> servises = Mapper.Map<List<ServisesCarWashOrderView>, List<ServisesCarWashOrderBll>>(idServices);
-
-            // _services.ServisesInsert(servises, idOrder, idClient);
         }
-
     }
 }

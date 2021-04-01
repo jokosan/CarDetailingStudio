@@ -25,14 +25,94 @@
                             </div>
                             break;
                         case 3:
+
                             <div class="col-md-6 text-right">
-                                @Html.ActionLink("Создать нового клиента", "../Client/NewClient", new { idPage = "Checkout", ServiceType = 3 }, new { @class = "btn btn-cyan btn-sm" })
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button class="btn btn-outline-primary" data-toggle="modal" data-target="#idProductСategories">Продажа услуг</button>
+
+                                    <div class="modal fade" id="idProductСategories" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="background-img">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4 class="card-title">Дополнительные услуги</h4>
+                                                            </div>
+
+                                                            <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
+                                                            @using (Html.BeginForm("SaleOfTireFittingServices", "TireChangeService"))
+                                                            {
+                                                                <div class="scroll">
+
+                                                                    <table class="table table-striped" id="info-table">
+                                                                        <tbody>
+                                                                            @foreach (var item in ViewBag.PriceTireFittingAdditionalServices)
+                                                                            {
+
+                                                                                <tr>
+                                                                                    <th>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-1">
+                                                                                                <label class="customcheckbox">
+                                                                                                    <label class="label">
+                                                                                                        <input class="label__checkbox" type="checkbox" name="AdditionalServices" value="@item.idPriceListTireFittingAdditionalServices" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked" />
+                                                                                                        <span class="label__text">
+                                                                                                            <span class="label__check">
+                                                                                                                <i class="fa fa-check icon"></i>
+                                                                                                            </span>
+                                                                                                        </span>
+                                                                                                    </label>
+                                                                                                    <span class="checkmark"></span>
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                @item.JobTitle
+                                                                                            </div>
+                                                                                            <div class="col-md-3">
+                                                                                                @item.TheCost грн.
+                                                                                            </div>
+                                                                                            <div class="col-md-2">
+                                                                                                <input type="hidden" value=@item.idPriceListTireFittingAdditionalServices name="key" />
+                                                                                                <input class="newOrderInputText" name="AdditionalServicesQuantity" value="1" maxlength="2" type="number" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </th>
+                                                                                </tr>
+                                                                            }
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                            <input type="submit" class="btn btn-outline-dark" value="Выбрать" />
+                                                            }
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @Html.ActionLink("Создать нового клиента", "../Client/NewClient", new { idPage = "Checkout", ServiceType = 3 }, new { @class = "btn btn-outline-primary" })
+                                </div>
                             </div>
                             break;
                     }
                 </div>
             </div>
         </div>
+
+
 
         <div class="card">
             <div class="card-body">
@@ -207,6 +287,7 @@
 </div>
 
 <script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+
 <script>
     [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
         new MvcGrid(element);

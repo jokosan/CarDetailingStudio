@@ -56,9 +56,11 @@ namespace CarDetailingStudio.BLL.Services
             await _unitOfWork.Save();
         }
 
-        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll() => Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.Get());
+        public async Task<IEnumerable<ClientsOfCarWashBll>> GetAll() =>
+            Mapper.Map<IEnumerable<ClientsOfCarWashBll>>(await _unitOfWork.ClientsUnitOfWork.Get());
         
-        private ClientsOfCarWash TransformAnEntity(ClientsOfCarWashBll entity) => Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(entity);
+        private ClientsOfCarWash TransformAnEntity(ClientsOfCarWashBll entity) =>
+            Mapper.Map<ClientsOfCarWashBll, ClientsOfCarWash>(entity);
 
         public async Task ClientCarArxiv(int carId, bool status)
         {

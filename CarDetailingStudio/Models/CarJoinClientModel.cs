@@ -22,5 +22,6 @@ namespace CarDetailingStudio.Models
         public string carModelName { get; set; }
         public string carBodyName { get; set; }
         public string NumberCar { get; set; }
+        public int CountOrder { get; set; }
     }
 }

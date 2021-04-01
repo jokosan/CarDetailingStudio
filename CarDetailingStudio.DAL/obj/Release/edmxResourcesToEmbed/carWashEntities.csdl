@@ -143,9 +143,9 @@
     <Property Name="AdministratorsInterestRate" Type="Int32" />
     <Property Name="InterestRate" Type="Int32" />
     <Property Name="rate" Type="Double" />
-    <Property Name="DataRegistration" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-    <Property Name="DataDismissal" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-    <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="DataRegistration" Type="DateTime" Precision="7" />
+    <Property Name="DataDismissal" Type="DateTime" Precision="7" />
+    <Property Name="status" Type="Boolean" />
     <Property Name="Photo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="IdPosition" Type="Int32" />
     <NavigationProperty Name="bonusToSalary" Relationship="Self.FK_bonusToSalary_CarWashWorkers" FromRole="CarWashWorkers" ToRole="bonusToSalary" />
@@ -419,6 +419,7 @@
     <Property Name="idPosition" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="positionsOfAdministrators" Type="Int32" />
+    <Property Name="servises" Type="Int32" />
     <NavigationProperty Name="premiumAndRate" Relationship="Self.FK_premiumAndRate_Position" FromRole="Position" ToRole="premiumAndRate" />
   </EntityType>
   <EntityType Name="premiumAndRate">
@@ -427,10 +428,12 @@
     </Key>
     <Property Name="idPremiumAndRate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="carWashWorkersId" Type="Int32" Nullable="false" />
-    <Property Name="percentageStatusForOrder" Type="Boolean" Nullable="false" />
-    <Property Name="percentageRatePerOrder" Type="Double" />
     <Property Name="positionsStatus" Type="Boolean" Nullable="false" />
+    <Property Name="percentageRatePerOrder" Type="Double" />
     <Property Name="positionId" Type="Int32" Nullable="false" />
+    <Property Name="servicePremium" Type="Boolean" Nullable="false" />
+    <Property Name="multiplicityOfTheSum" Type="Double" />
+    <Property Name="prizeAmount" Type="Double" />
     <NavigationProperty Name="CarWashWorkers" Relationship="Self.FK_premiumAndRate_CarWashWorkers" FromRole="premiumAndRate" ToRole="CarWashWorkers" />
     <NavigationProperty Name="Position" Relationship="Self.FK_premiumAndRate_Position" FromRole="premiumAndRate" ToRole="Position" />
   </EntityType>
@@ -663,6 +666,40 @@
     <Property Name="logo_mark" Type="Binary" MaxLength="Max" FixedLength="false" />
     <Property Name="screen_format" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
   </EntityType>
+  <EntityType Name="infoBrigadeForToday">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="Expr1" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sumOrder" Type="Int32" />
+    <Property Name="Expr1" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderServisesOrderCarWorkers">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Expr1" />
+      <PropertyRef Name="IdOrder" />
+      <PropertyRef Name="IdCarWashWorkers" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="IdClientsOfCarWash" Type="Int32" />
+    <Property Name="StatusOrder" Type="Int32" />
+    <Property Name="PaymentState" Type="Int32" />
+    <Property Name="OrderDate" Type="DateTime" Precision="7" />
+    <Property Name="ClosingData" Type="DateTime" Precision="7" />
+    <Property Name="DiscountPrice" Type="Double" />
+    <Property Name="typeOfOrder" Type="Int32" />
+    <Property Name="Expr1" Type="Int32" Nullable="false" />
+    <Property Name="IdOrder" Type="Int32" Nullable="false" />
+    <Property Name="IdCarWashWorkers" Type="Int32" Nullable="false" />
+    <Property Name="Payroll" Type="Double" />
+    <Property Name="typeServicesId" Type="Int32" />
+  </EntityType>
   <Association Name="FK_additionalTireStorageServices_OrderServicesCarWash">
     <End Role="OrderServicesCarWash" Type="Self.OrderServicesCarWash" Multiplicity="1" />
     <End Role="additionalTireStorageServices" Type="Self.additionalTireStorageServices" Multiplicity="*" />
@@ -712,7 +749,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_EmployeeRate_brigadeForToday">
-    <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="0..1" />
+    <End Role="brigadeForToday" Type="Self.brigadeForToday" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="EmployeeRate" Type="Self.EmployeeRate" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="brigadeForToday">
@@ -1309,6 +1348,8 @@
     <EntitySet Name="utilityCosts" EntityType="Self.utilityCosts" />
     <EntitySet Name="utilityCostsCategory" EntityType="Self.utilityCostsCategory" />
     <EntitySet Name="logo_mark_car" EntityType="Self.logo_mark_car" />
+    <EntitySet Name="infoBrigadeForToday" EntityType="Self.infoBrigadeForToday" />
+    <EntitySet Name="OrderServisesOrderCarWorkers" EntityType="Self.OrderServisesOrderCarWorkers" />
     <AssociationSet Name="FK_additionalTireStorageServices_OrderServicesCarWash" Association="Self.FK_additionalTireStorageServices_OrderServicesCarWash">
       <End Role="OrderServicesCarWash" EntitySet="OrderServicesCarWash" />
       <End Role="additionalTireStorageServices" EntitySet="additionalTireStorageServices" />
@@ -1501,22 +1542,38 @@
       <End Role="utilityCostsCategory" EntitySet="utilityCostsCategory" />
       <End Role="utilityCosts" EntitySet="utilityCosts" />
     </AssociationSet>
-    <EntitySet Name="infoBrigadeForToday" EntityType="carWashServerModel.infoBrigadeForToday" />
     <EntitySet Name="ItogOrderView" EntityType="carWashServerModel.ItogOrderView" />
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(carWashServerModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(carWashServerModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
-  <EntityType Name="infoBrigadeForToday">
-    <Key>
-      <PropertyRef Name="id" />
-      <PropertyRef Name="Expr1" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="Date" Type="DateTime" Precision="3" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="sumOrder" Type="Int32" />
-    <Property Name="Expr1" Type="Int32" Nullable="false" />
-  </EntityType>
   <EntityType Name="ItogOrderView">
     <Key>
       <PropertyRef Name="id" />
@@ -1531,4 +1588,15 @@
     <Property Name="CalculationStatus" Type="Boolean" />
     <Property Name="Expr1" Type="Double" />
   </EntityType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
 </Schema>

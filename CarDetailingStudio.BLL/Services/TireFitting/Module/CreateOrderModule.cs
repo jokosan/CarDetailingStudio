@@ -20,8 +20,12 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.Module
         private ITireService _tireService;
         private ITireChangeService _tireChangeService;
 
-        public CreateOrderModule(IPriceTireFittingAdditionalServices priceTireFittingAdditionalServices, IPriceListTireFitting priceListTireFitting, IOrderServicesCarWashServices orderServices,
-                                 ITireService tireService, ITireChangeService tireChangeService)
+        public CreateOrderModule(
+            IPriceTireFittingAdditionalServices priceTireFittingAdditionalServices,
+            IPriceListTireFitting priceListTireFitting,
+            IOrderServicesCarWashServices orderServices,
+            ITireService tireService,
+            ITireChangeService tireChangeService)
         {
             _priceTireFittingAdditionalServices = priceTireFittingAdditionalServices;
             _priceListTireFitting = priceListTireFitting;
@@ -30,10 +34,8 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.Module
             _tireChangeService = tireChangeService;
         }
 
-        public Dictionary<int, int> SaveOrder(List<int> AdditionalServices, List<int> AdditionalServicesQuantity)
-        {
-            return AdditionalServices.Zip(AdditionalServicesQuantity, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
-        }
+        public Dictionary<int, int> SaveOrder(List<int> AdditionalServices, List<int> AdditionalServicesQuantity) =>
+            AdditionalServices.Zip(AdditionalServicesQuantity, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
 
         public async Task<List<PriceListTireFittingAdditionalServicesBll>> SelectPriceServise(Dictionary<int, int> keyValues, List<int> AdditionalServices)
         {
@@ -41,8 +43,6 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.Module
 
             var priceResult = priceListTires.Where(a => AdditionalServices.Contains(a.idPriceListTireFittingAdditionalServices));
             var finalResult = keyValues.Where(x => AdditionalServices.Contains(x.Key));
-
-            // var services = keyValues.Where(x => AdditionalServices.Contains(x.Key));
 
             foreach (var item in finalResult)
             {
@@ -54,11 +54,11 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.Module
             return priceListTires.ToList();
         }
 
-        public async Task<int> SaveOrderTireFitting(double Total, double TotalDiscontClient, int idPaymentState, int idStatusOrder, int Client, int typeOfOrder)
+        public async Task<int> SaveOrderTireFitting(double Total, double TotalDiscontClient, int idPaymentState, int idStatusOrder, int? Client, int typeOfOrder)
         {
             OrderServicesCarWashBll orderservices = new OrderServicesCarWashBll();
 
-            orderservices.IdClientsOfCarWash = Client;
+            orderservices.IdClientsOfCarWash = Client != null ? Client : null;
             orderservices.StatusOrder = idStatusOrder;
             orderservices.PaymentState = idPaymentState;
             orderservices.OrderDate = DateTime.Now;
@@ -74,13 +74,13 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.Module
             return await _orderServices.CreateOrder(orderservices);
         }
 
-        public async Task SeveTireService(int ClientId, int orderServicesCarWashId, List<PriceListTireFittingAdditionalServicesBll> priceListTireFittings)
+        public async Task SeveTireService(int? ClientId, int orderServicesCarWashId, List<PriceListTireFittingAdditionalServicesBll> priceListTireFittings)
         {
             TireServiceBll tireService = new TireServiceBll();
 
             foreach (var item in priceListTireFittings)
             {
-                tireService.clientsOfCarWashId = ClientId;
+                tireService.clientsOfCarWashId = ClientId != null ? ClientId.Value : 0;
                 tireService.orderServicesCarWashId = orderServicesCarWashId;
                 tireService.priceListTireFittingAdditionalServicesId = item.idPriceListTireFittingAdditionalServices;
                 tireService.priceTireFitting = item.TheCost;

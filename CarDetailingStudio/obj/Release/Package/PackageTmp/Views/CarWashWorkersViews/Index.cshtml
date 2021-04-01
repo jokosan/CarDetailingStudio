@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CarDetailingStudio.Models.ModelViews.CarWashWorkersView>
+﻿@model CarDetailingStudio.Models.ChangeOfDayModel
 
 @{
     Layout = "~/Views/Shared/_Login.cshtml";
@@ -15,7 +15,7 @@
         @using (Html.BeginForm(new { id = "someform" }))
         {
             <div class="row">
-                @if (ViewBag.StatusAdministtratorCarWash == false && ViewBag.StatusAdministtratorDeteling == false)
+                @if (Model.WashingAdministrator.Count() != 0 && Model.DetailingAdministrator.Count() != 0)
                 {
                     <div class="col-md-4">
                         <div class="card">
@@ -31,14 +31,13 @@
                             <div class="comment-widgets scrollable" id="groupOne">
                                 <!-- Comment Row -->
 
-                                @foreach (var item in Model.Where(x => x.IdPosition <= 2))
+                                @foreach (var item in Model.WashingAdministrator)
                                 {
                                     <div class="d-flex flex-row comment-row m-t-0">
                                         <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
                                         <div class="comment-text w-100">
                                             <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
-                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
-
+                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.Patronymic)<br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
                                         </div>
 
                                         <label class="label">
@@ -72,13 +71,13 @@
                             <div class="comment-widgets scrollable" id="groupTwo">
                                 <!-- Comment Row -->
 
-                                @foreach (var item in Model.Where(x => x.IdPosition <= 2))
+                                @foreach (var item in Model.DetailingAdministrator)
                                 {
                                     <div class="d-flex flex-row comment-row m-t-0">
                                         <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
                                         <div class="comment-text w-100">
                                             <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
-                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
+                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.Patronymic) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
 
                                         </div>
 
@@ -97,7 +96,7 @@
                         </div>
                     </div>
                 }
-                else if (ViewBag.StatusAdministtratorCarWash == true && ViewBag.StatusAdministtratorDeteling == false)
+                else if (Model.WashingAdministrator.Count() ==  0 && Model.DetailingAdministrator.Count() != 0)
                 {
                     <div class="col-md-4">
                         <div class="card">
@@ -113,13 +112,13 @@
                             <div class="comment-widgets scrollable" id="groupOne">
                                 <!-- Comment Row -->
 
-                                @foreach (var item in Model.Where(x => x.IdPosition <= 2))
+                                @foreach (var item in Model.DetailingAdministrator)
                                 {
                                     <div class="d-flex flex-row comment-row m-t-0">
                                         <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
                                         <div class="comment-text w-100">
                                             <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
-                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
+                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.Patronymic) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
                                         </div>
 
                                         <label class="label">
@@ -138,7 +137,7 @@
                         </div>
                     </div>
                 }
-                else if (ViewBag.StatusAdministtratorCarWash == false && ViewBag.StatusAdministtratorDeteling == true)
+                else if (Model.WashingAdministrator.Count() != 0 && Model.DetailingAdministrator.Count() == 0)
                 {
                     <div class="col-md-4">
                         <div class="card">
@@ -155,13 +154,13 @@
                             <div class="comment-widgets scrollable" id="groupTwo">
                                 <!-- Comment Row -->
 
-                                @foreach (var item in Model.Where(x => x.IdPosition <= 2))
+                                @foreach (var item in Model.WashingAdministrator)
                                 {
                                     <div class="d-flex flex-row comment-row m-t-0">
                                         <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
                                         <div class="comment-text w-100">
                                             <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
-                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
+                                            <span class="m-b-15 d-block">@Html.DisplayFor(model => item.Patronymic) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
 
                                         </div>
 
@@ -197,13 +196,13 @@
                         <div class="comment-widgets scrollable">
                             <!-- Comment Row -->
 
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.ShiftStaff)
                             {
                                 <div class="d-flex flex-row comment-row m-t-0">
                                     <div class="p-2"><img src="~/Images/users/User.png" alt="user" width="50" class="rounded-circle"></div>
                                     <div class="comment-text w-100">
                                         <h6 class="font-medium"> @Html.DisplayFor(model => item.Surname) @Html.DisplayFor(model => item.Name) </h6>
-                                        <span class="m-b-15 d-block">@Html.DisplayFor(model => item.JobTitleTable.Position) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
+                                        <span class="m-b-15 d-block">@Html.DisplayFor(model => item.Patronymic) <br /> Тел. +38 @Html.DisplayFor(model => item.MobilePhone)</span>
                                     </div>
 
                                     <label class="label">

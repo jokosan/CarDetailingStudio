@@ -109,7 +109,7 @@ namespace CarDetailingStudio.Controllers
 
                 ClientInfoBll clientInfoBll = Mapper.Map<ClientInfoView, ClientInfoBll>(client);
 
-                await _clientInfo.ClientInfoEdit(clientInfoBll);
+                await _clientInfo.Update(clientInfoBll);
 
                 return RedirectToAction("ClientDetails", "ClientInfo", new RouteValueDictionary(new
                 {

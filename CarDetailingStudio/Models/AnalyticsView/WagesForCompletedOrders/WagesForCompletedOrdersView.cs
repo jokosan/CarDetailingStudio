@@ -14,5 +14,6 @@ namespace CarDetailingStudio.Models.AnalyticsView.WagesForCompletedOrders
         public SalaryInformationView TireStorage { get; set; } // Хранения шин
         public double SumBonusTOSalary { get; set; } // Премии
         public double SumEmployeeRate { get; set; } // Ставка задень 
+        public double TotalSumWages { get; set; }
     }
 }

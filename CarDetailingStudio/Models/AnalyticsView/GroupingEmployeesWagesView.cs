@@ -17,5 +17,6 @@ namespace CarDetailingStudio.Models.AnalyticsView
        
         public double orderSum { get; set; }
         public int idOrder { get; set; }
+        public double bonus { get; set; }
     }
 }

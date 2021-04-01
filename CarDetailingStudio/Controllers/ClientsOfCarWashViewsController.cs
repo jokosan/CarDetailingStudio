@@ -4,7 +4,9 @@ using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.JoinModel.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
 using CarDetailingStudio.BLL.Services.Modules.Clients.Contract;
+using CarDetailingStudio.BLL.Services.TireFitting.TireFittingContract;
 using CarDetailingStudio.BLL.Services.TireStorageServices.TireStorageContract;
+using CarDetailingStudio.Enums;
 using CarDetailingStudio.Filters;
 using CarDetailingStudio.Models;
 using CarDetailingStudio.Models.ModelViews;
@@ -35,6 +37,7 @@ namespace CarDetailingStudio.Controllers
         private ICarJoinClientServices _carJoinClient;
         private IRemoveClient _removeClient;
         private ITireStorageServices _tireStorageServices;
+        private IPriceTireFittingAdditionalServices _priceTireFittingAdditionalServices;
 
 
         public ClientsOfCarWashViewsController(
@@ -51,7 +54,8 @@ namespace CarDetailingStudio.Controllers
             IServisesCarWashOrderServices servisesCarWash,
             ICarJoinClientServices carJoinClient,
             IRemoveClient removeClient,
-            ITireStorageServices tireStorageServices)
+            ITireStorageServices tireStorageServices,
+            IPriceTireFittingAdditionalServices priceTireFittingAdditionalServices)
         {
             _services = clients;
             _detailings = detailingsView;
@@ -66,21 +70,22 @@ namespace CarDetailingStudio.Controllers
             _servisesCarWash = servisesCarWash;
             _carJoinClient = carJoinClient;
             _removeClient = removeClient;
-            _tireStorageServices = tireStorageServices; 
+            _tireStorageServices = tireStorageServices;
+            _priceTireFittingAdditionalServices = priceTireFittingAdditionalServices;
         }
 
         IEnumerable<DetailingsView> Price { get; set; }
         private int? ServicesId;
 
-        public async Task<ActionResult> Client(int idPaymentState = 1)
+        public async Task<ActionResult> Client(int idPaymentState = (int)PaymentState.Cash)
         {
-            if (idPaymentState == 1)
+            if (idPaymentState == (int)PaymentState.Cash)
             {
                 return View(Mapper.Map<IEnumerable<CarJoinClientModel>>(await _carJoinClient.JoinServicesClientCar()));
             }
             else
             {
-                return RedirectToAction("ClientInfo", "ClientInfo", new RouteValueDictionary(new { idPaymentState = 2 }));
+                return RedirectToAction("ClientInfo", "ClientInfo", new RouteValueDictionary(new { idPaymentState = (int)PaymentState.CashlessPayments }));
             }
         }
 
@@ -96,6 +101,11 @@ namespace CarDetailingStudio.Controllers
             {
                 ServicesId = services;
                 ViewBag.Service = ServicesId;
+
+                if (services == (int)TypeServices.TireFitting)
+                {
+                    ViewBag.PriceTireFittingAdditionalServices = Mapper.Map<IEnumerable<PriceListTireFittingAdditionalServicesView>>(await _priceTireFittingAdditionalServices.GetTableAll());
+                }
 
                 return View(Mapper.Map<IEnumerable<CarJoinClientModel>>(await _carJoinClient.JoinServicesClientCar()));
             }
@@ -145,7 +155,6 @@ namespace CarDetailingStudio.Controllers
 
             ViewBag.Detailings = tablePriceResult;
             ViewBag.DetailingsGrup = detailingsGrup;
-            //ViewBag.WashServises = Price.Where(x => x.IdTypeService == 2);
 
             if (CustomerOrders == null)
             {
@@ -215,6 +224,7 @@ namespace CarDetailingStudio.Controllers
             if (idOrder == null)
             {
                 int service = 0;
+
                 if (TempData.ContainsKey("typeServices"))
                 {
                     service = Convert.ToInt32(TempData["typeServices"]);
@@ -233,7 +243,6 @@ namespace CarDetailingStudio.Controllers
         //-----------------------------------------------
 
         public async Task<ActionResult> EditClient(int? id, int? idCar)
-
         {
             if (id == null && idCar == null)
             {
@@ -269,7 +278,7 @@ namespace CarDetailingStudio.Controllers
             if (ModelState.IsValid)
             {
                 ClientInfoBll clientInfo = Mapper.Map<ClientInfoView, ClientInfoBll>(client);
-                await _clientInfo.AddClient(clientInfo);
+                await _clientInfo.Insert(clientInfo);
 
                 return RedirectToAction("ClientCarpetWashing");
             }
@@ -297,7 +306,7 @@ namespace CarDetailingStudio.Controllers
                     ClientsOfCarWashBll clients = Mapper.Map<ClientsOfCarWashView, ClientsOfCarWashBll>(item);
                     await _services.ClientCarUpdate(clients);
                 }
-                await _clientInfo.ClientInfoEdit(clientInfoBll);
+                await _clientInfo.Update(clientInfoBll);
 
                 return RedirectToAction("Info", "ClientsOfCarWashViews", new RouteValueDictionary(new
                 {
@@ -330,6 +339,7 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Body = new SelectList(await _carBody.GetTableAll(), "Id", "Name");
             ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
             ViewBag.IdCar = id;
+
             return View(clientsOfCarWashView);
         }
 

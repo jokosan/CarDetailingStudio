@@ -36,7 +36,7 @@ namespace CarDetailingStudio.Controllers
             IOrderServicesCarWashServices orderServices,
             IPremiumAndRateServices premiumAndRateServices,
             IPosition position,
-            IEmployeesFacade  employeesFacade)
+            IEmployeesFacade employeesFacade)
         {
             _services = carWashWorkers;
             _job = job;
@@ -53,7 +53,7 @@ namespace CarDetailingStudio.Controllers
         public async Task<ActionResult> Index()
         {
             if (TempData.ContainsKey("BrigadeId"))
-            {            
+            {
                 return View(Mapper.Map<ChangeOfDayModel>(await _employeesFacade.SelectionOfEmployeesToShift(DateTime.Now)));
             }
             else
@@ -97,9 +97,11 @@ namespace CarDetailingStudio.Controllers
             return View(ReirectModel);
         }
 
-        public async Task<ActionResult> Staff() => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees()));
+        public async Task<ActionResult> Staff() =>
+            View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees()));
 
-        public async Task<ActionResult> StaffArxiv() => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees(false)));
+        public async Task<ActionResult> StaffArxiv() =>
+            View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees(false)));
 
         public async Task<ActionResult> EducationOfWages(int? id)
         {
@@ -317,7 +319,8 @@ namespace CarDetailingStudio.Controllers
             return View(emplotee);
         }
 
-        private CarWashWorkersBll TransformAnEntity(CarWashWorkersView entity) => Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(entity);
+        private CarWashWorkersBll TransformAnEntity(CarWashWorkersView entity) => 
+            Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(entity);
         #endregion
     }
 }

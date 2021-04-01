@@ -22,20 +22,15 @@ namespace CarDetailingStudio.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<BonusToSalaryBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetInclude("CarWashWorkers"));
-        }
+        public async Task<IEnumerable<BonusToSalaryBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetInclude("CarWashWorkers"));
 
-        public async Task<IEnumerable<BonusToSalaryBll>> GetTableAll(int? elementId)
-        {
-            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => x.carWashWorkersId == elementId, "CarWashWorkers"));
-        }
+        public async Task<IEnumerable<BonusToSalaryBll>> GetTableAll(int? elementId) =>
+            Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x =>
+                x.carWashWorkersId == elementId, "CarWashWorkers"));
 
-        public async Task<BonusToSalaryBll> SelectId(int? elementId)
-        {
-            return Mapper.Map<BonusToSalaryBll>(await _unitOfWork.BonusToSalaryUnitOfWork.GetById(elementId));
-        }
+        public async Task<BonusToSalaryBll> SelectId(int? elementId) =>
+            Mapper.Map<BonusToSalaryBll>(await _unitOfWork.BonusToSalaryUnitOfWork.GetById(elementId));
 
         public async Task Insert(BonusToSalaryBll element)
         {
@@ -71,22 +66,16 @@ namespace CarDetailingStudio.BLL.Services
 
         }
 
-        public async Task<IEnumerable<BonusToSalaryBll>> Reports(DateTime datepresentDay)
-        {
-            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => DbFunctions.TruncateTime(x.date.Value) == datepresentDay.Date));
-        }
+        public async Task<IEnumerable<BonusToSalaryBll>> Reports(DateTime datepresentDay) =>
+            Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x =>
+                DbFunctions.TruncateTime(x.date.Value) == datepresentDay.Date));        
 
-        public async Task<IEnumerable<BonusToSalaryBll>> Reports(DateTime startDate, DateTime finalDate)
-        {
-            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => (DbFunctions.TruncateTime(x.date.Value) >= startDate.Date)
-                                                                                                                && (DbFunctions.TruncateTime(x.date.Value) <= finalDate.Date)));
-        }
+        public async Task<IEnumerable<BonusToSalaryBll>> Reports(DateTime startDate, DateTime finalDate) => 
+            Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => 
+                (DbFunctions.TruncateTime(x.date.Value) >= startDate.Date) && (DbFunctions.TruncateTime(x.date.Value) <= finalDate.Date)));
 
-        public async Task<IEnumerable<BonusToSalaryBll>> WhereMontsBonusToSalary(int idCarWash)
-        {
-            return Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x => (x.date.Value.Month == DateTime.Now.Month
-                                                                                                                  && x.date.Value.Year == DateTime.Now.Year) 
-                                                                                                                  && x.carWashWorkersId == idCarWash));
-        }
+        public async Task<IEnumerable<BonusToSalaryBll>> WhereMontsBonusToSalary(int idCarWash) =>
+            Mapper.Map<IEnumerable<BonusToSalaryBll>>(await _unitOfWork.BonusToSalaryUnitOfWork.GetWhere(x =>
+                (x.date.Value.Month == DateTime.Now.Month && x.date.Value.Year == DateTime.Now.Year) && x.carWashWorkersId == idCarWash));
     }
 }

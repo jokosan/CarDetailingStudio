@@ -15,5 +15,6 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.Models
         public double wegesSum { get; set; }
         public double orderSum { get; set; }
         public int idOrder { get; set; }
+        public double bonus { get; set; }
     }
 }

@@ -16,5 +16,7 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.Models.WagesForCompletedOrders
 
         public double SumBonusTOSalary { get; set; } // Премии
         public double SumEmployeeRate { get; set; } // Ставка задень 
+
+        public double TotalSumWages { get; set; }
       }
 }

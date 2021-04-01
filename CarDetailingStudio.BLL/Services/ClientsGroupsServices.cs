@@ -20,15 +20,11 @@ namespace CarDetailingStudio.BLL.Services
             _automapperConfig = automapperConfig;
         }
 
-        public async Task<IEnumerable<ClientsGroupsBll>> GetClientsGroups()
-        {
-            return Mapper.Map<IEnumerable<ClientsGroupsBll>>(await _unitOfWork.ClientsGroupsUnitOfWork.Get());
-        }
+        public async Task<IEnumerable<ClientsGroupsBll>> GetClientsGroups() =>
+            Mapper.Map<IEnumerable<ClientsGroupsBll>>(await _unitOfWork.ClientsGroupsUnitOfWork.Get());
 
-        public async Task<ClientsGroupsBll> GetId(int? id)
-        {
-            return Mapper.Map<ClientsGroupsBll>(await _unitOfWork.ClientsGroupsUnitOfWork.GetById(id));
-        }
+        public async Task<ClientsGroupsBll> GetId(int? id) =>
+            Mapper.Map<ClientsGroupsBll>(await _unitOfWork.ClientsGroupsUnitOfWork.GetById(id));
 
         public async Task Insert(ClientsGroupsBll element)
         {

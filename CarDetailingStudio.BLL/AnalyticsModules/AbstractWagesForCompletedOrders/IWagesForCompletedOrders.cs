@@ -12,14 +12,20 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
     interface IWagesForCompletedOrders
     {
         Task<WagesForCompletedOrdersModels> WagesForCompletedOrdersPerDay(DateTime date);
+        Task<WagesForCompletedOrdersModels> WagesForCompletedOrdersPerDay(int idEmployees, DateTime date);
         Task<WagesForCompletedOrdersModels> WagesForCompletedOrdersForTheSelectedPeriod(DateTime date, DateTime final);
+        Task<WagesForCompletedOrdersModels> WagesForCompletedOrdersForTheSelectedPeriod(int idEmployees, DateTime date, DateTime final);
         Task<IEnumerable<OrderCarWashWorkersBll>> AnalyticsWages(DateTime date);
         Task<IEnumerable<OrderCarWashWorkersBll>> AnalyticsWages(DateTime date, DateTime final);
         IEnumerable<GroupingEmployeesWages> GroupingByDatesAndEmployees(IEnumerable<OrderCarWashWorkersBll> orderCarWashWorkers);
+        IEnumerable<GroupingEmployeesWages> GroupingEmployees(IEnumerable<OrderCarWashWorkersBll> orderCarWashWorkers);
         IEnumerable<OrderCarWashWorkersBll> EarningsPerEmployee(int typeServices, int idEmployees, IEnumerable<OrderCarWashWorkersBll> orderCarWashWorkers);
         Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime date);
         Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime dateStaart, DateTime dateFinal);
         Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime date);
         Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime dateStaart, DateTime dateFinal);
+        Task<IEnumerable<GroupingEmployeesWages>> sumOfAllIncome(IEnumerable<GroupingEmployeesWages> employeesWages, DateTime start, DateTime final);
+
+
     }
 }
