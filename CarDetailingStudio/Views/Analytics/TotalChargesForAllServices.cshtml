@@ -1,0 +1,218 @@
+﻿@model CarDetailingStudio.Models.AnalyticsView.AnalyticsView
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card card-body printableArea">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h5> @ViewBag.Name</h5>
+                        @if (@ViewBag.DateWhereFinal != null)
+                        {
+                    <p class="text-muted m-l-5">
+                        заработная плата с @ViewBag.DateWhereStart.ToString("dd.MM.yyyy") по @ViewBag.DateWhereFinal.ToString("dd.MM.yyyy")
+                        <br />
+                    </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted m-l-5">
+                                заработная плата за @ViewBag.DateWhereStart.ToString("dd.MM.yyyy")
+                                <br />
+                            </p>
+                        }
+                        <h3> &nbsp;<b class="text-danger"></b></h3>
+                        <br />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive m-t-40" style="clear: both;">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">Наименования услуг</th>
+                                        <th class="text-center">Количество Авто</th>
+                                        <th class="text-center">Касса</th>
+                                        <th class="text-right">Отчеты</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" class="text-center"><b class="text-danger">Мойка</b></td>
+                                    </tr>
+
+                                    @if (Model.wagesForCompletedOrders.Washing.SalaryAdministrator != 0)
+                                    {
+                                        <tr>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 2, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора мойки</a></td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.Washing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.Washing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.Washing.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.Detailing.SalaryAdministrator != 0)
+                                    {
+                                        <tr>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 1, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора детейлинга</a></td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.Detailing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.Detailing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.Detailing.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator != 0)
+                                    {
+                                        <tr>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 3, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>ЗП администратора за услугу ковры</a></td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.CarpetWashing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.CarpetWashing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.TireStorage.SalaryAdministrator != 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 7, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    ЗП администратора хранение шин
+                                                </a>
+                                            </td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.TireStorage.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.TireStorage.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.TireStorage.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.TireFitting.SalaryAdministrator != 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 9, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal})>
+                                                    ЗП администратора шиномонтаж
+                                                </a>
+                                            </td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.TireFitting.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.TireFitting.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.TireFitting.SalaryAdministrator) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.Washing.SalaryEmployees != 0)
+                                    {
+                                        <tr>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 5, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>Мойки</a></td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.Washing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.Washing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.Washing.SalaryEmployees) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.CarpetWashing.SalaryEmployees != 0)
+                                    {
+                                        <tr>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 6, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })> Стирка ковров </a></td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.CarpetWashing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.CarpetWashing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.CarpetWashing.SalaryEmployees) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.Detailing.SalaryEmployees != 0)
+                                    {
+                                        <tr>
+                                            <td><a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 4, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal})>Детейлинга</a></td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.Detailing.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.Detailing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.Detailing.SalaryEmployees) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.TireStorage.SalaryEmployees != 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 8, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal})>
+                                                    Хранение шин
+                                                </a>
+                                            </td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.TireStorage.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.TireStorage.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.TireStorage.SalaryEmployees) грн. </td>
+                                        </tr>
+                                    }
+
+                                    @if (Model.wagesForCompletedOrders.TireFitting.SalaryEmployees != 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 8, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    Шиномонтаж
+                                                </a>
+                                            </td>
+                                            <td class="text-center">@Html.DisplayFor(model => model.completedOrders.TireFitting.SumQuantitiesAndOrdersAwaitingPaymentQuantites) шт.</td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(model => model.completedOrders.TireFitting.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                            </td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.TireFitting.SalaryEmployees) грн. </td>
+                                        </tr>
+                                    }
+
+
+                                    @if (Model.wagesForCompletedOrders.SumEmployeeRate != 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 8, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    Ставка
+                                                </a>
+                                            </td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.SumEmployeeRate) грн. </td>
+                                        </tr>
+                                    }
+
+
+                                    @if (Model.wagesForCompletedOrders.SumBonusTOSalary != 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a class="link" href=@Url.Action("../Analytics/WagesInfoGroup", new { typeExpenses = 8, idEmployees = @ViewBag.Employees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal })>
+                                                    Премия
+                                                </a>
+                                            </td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-right"> @Html.DisplayFor(model => model.wagesForCompletedOrders.SumBonusTOSalary) грн. </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

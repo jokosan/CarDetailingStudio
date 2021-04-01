@@ -1,0 +1,140 @@
+﻿@model CarDetailingStudio.Models.GroupingEmployeesWagesTwoTable
+
+<div class="card">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Сумма заработной платы за выбранный период</span></a> </li>
+        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Статистика заработной платы по дням</span></a> </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content tabcontent-border">
+        <div class="tab-pane active" id="home" role="tabpanel">
+            <div class="p-20">
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            id
+                        </th>
+                        <th>
+                            ФИО
+                        </th>
+                        <th>
+                            Количество заказов
+                        </th>
+                        <th>
+                            Касса
+                        </th>
+                        <th>
+                            Начислено ЗП
+                        </th>
+                        <th>
+                            Премия/Ставка
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.groupingEmployeesByPeriod)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.idEmployees)
+                            </td>
+                            <td>
+                                <a class="link" href=@Url.Action("../Analytics/TotalChargesForAllServices", new {idEmployees = item.idEmployees, nameEmployees = item.nameEmployees, dateStart = @ViewBag.DateWhereStart, dateFinal = @ViewBag.DateWhereFinal})>
+                                    @Html.DisplayFor(modelItem => item.nameEmployees)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.orderCount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.orderSum) грн.
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.wegesSum) грн.
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.bonus) грн.
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane  p-20" id="profile" role="tabpanel">
+            <div class="p-20">
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            id
+                        </th>
+                        <th>
+                            Дата
+                        </th>
+                        <th>
+                            ФИО
+                        </th>
+                        <th>
+                            Количество заказов
+                        </th>
+                        <th>
+                            Касса
+                        </th>
+                        <th>
+                            Начислено ЗП
+                        </th>
+                        <th>
+                            Премия/Ставка
+                        </th>
+                    </tr>
+                    @foreach (var itemDate in ViewBag.ExpensesDate)
+                    {
+                        if (Model.groupDetailsWages.Any(x => x.date.Date == itemDate))
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center"><b class="text-danger">@itemDate.Date.ToString("dd.MM.yyyy")</b></td>
+                            </tr>
+                        }
+
+                        foreach (var item in Model.groupDetailsWages)
+                        {
+                            if (itemDate.Date == item.date.Date)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.idEmployees)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.date, "{0:dd/MM/yyyy}")
+                                    </td>
+                                    <td>
+                                        <a class="link" href=@Url.Action("../Analytics/TotalChargesForAllServices", new {idEmployees = item.idEmployees, nameEmployees = item.nameEmployees, dateStart = item.date})>
+                                            @Html.DisplayFor(modelItem => item.nameEmployees)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.orderCount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.orderSum) грн.
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.wegesSum) грн.
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.bonus) грн.
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
