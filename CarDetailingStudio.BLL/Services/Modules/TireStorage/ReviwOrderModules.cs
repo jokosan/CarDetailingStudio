@@ -102,7 +102,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.TireStorage
                 if (tireStorage.silicone == 4)
                 {
                     var siliconePrice = servicesTireStorage.Single(x => (x.radius == radius) && (x.amount == 4) && (x.ServicesName.Contains("обработать селиконом")));
-                    var demo = detailing.Single(x => x.validity == radius.ToString() && x.note == 4.ToString() && x.services_list.Contains("Обработать селиконом"));
                     AddTireStoregeService(siliconePrice);
                     reviwOrder.priceSilicone = siliconePrice.Price.Value;
                     reviwOrder.IdpriceSilicone = siliconePrice.Id;
@@ -110,7 +109,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.TireStorage
                 else if (tireStorage.silicone < 4)
                 {
                     var siliconePrice = servicesTireStorage.Single(x => (x.radius == radius) && (x.amount == 1) && (x.ServicesName.Contains("обработать селиконом")));
-                    var demo = detailing.Single(x => x.validity == radius.ToString() && x.note == 1.ToString() && x.services_list.Contains("Обработать селиконом"));
                     AddTireStoregeService(siliconePrice);
                     reviwOrder.priceSilicone = siliconePrice.Price.Value * (double)tireStorage.silicone;
                     reviwOrder.IdpriceSilicone = siliconePrice.Id;

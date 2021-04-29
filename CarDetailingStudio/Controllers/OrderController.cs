@@ -19,6 +19,7 @@ using System.Web.Routing;
 namespace CarDetailingStudio.Controllers
 {
     // [WorkShiftFilter]
+    [AuthorizeAttribute]
     public class OrderController : Controller
     {
         private readonly IOrderServicesCarWashServices _order;
@@ -62,6 +63,7 @@ namespace CarDetailingStudio.Controllers
         private double? Price;
 
         // GET: Order
+        //[Authorize]
         [WorkShiftFilter]
         [PreviousShiftStatusFilter]
         [MonitoringTheNumberOfEmployeesFilter]
@@ -76,14 +78,26 @@ namespace CarDetailingStudio.Controllers
         {
             if (typeOfOrder != null && statusOrder != null)
             {
-                var arxivOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.ArxivOrder(typeOfOrder.Value, statusOrder.Value));
-                return View(arxivOrder.OrderByDescending(x => x.Id));
+                var arxivOrder = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.ServiceOrders(typeOfOrder.Value, statusOrder.Value));
+
+                if (typeOfOrder == (int)TypeOfOrder.TireFitting)
+                {
+                    return View(arxivOrder.Where(a => a.IdClientsOfCarWash != null).OrderByDescending(x => x.Id));
+                }
+                else
+                {
+                    return View(arxivOrder.OrderByDescending(x => x.Id));
+                }          
             }
-            else
+            else if (idClient != null)
             {
                 return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.AllCustomerOrders(idClient.Value)));
             }
-               
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         public async Task<ActionResult> OrderTireStorage(int typeOfOrder, int statusOrder)
@@ -117,7 +131,6 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.ServisesId = 2;
                 ViewBag.ServersKey = id;
             }
-
 
             if (OrderInfo == null)
             {
@@ -169,7 +182,7 @@ namespace CarDetailingStudio.Controllers
             if (order.typeOfOrder == (int)TypeOfOrder.TireFitting)
             {
                 ViewBag.TireService = Mapper.Map<IEnumerable<TireServiceView>>(await _tireService.SelectTireServices(idOrder.Value));
-                ViewBag.TireChangeService = Mapper.Map<IEnumerable<TireChangeServiceView>>(await _tireChangeService.SelectTireService(idOrder.Value)); 
+                ViewBag.TireChangeService = Mapper.Map<IEnumerable<TireChangeServiceView>>(await _tireChangeService.SelectTireService(idOrder.Value));
             }
 
             ViewBag.ServicesOrder = services;
@@ -233,7 +246,6 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.TypeService = 2;
             }
 
-            // ViewBag.Brigade = Brigade.Where(x => x.StatusId == 3);
             ViewBag.Price = Price;
 
             if (selectionStatus == false)
@@ -263,8 +275,6 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         public async Task<ActionResult> CloseOrder(List<string> idBrigade, int idOrder, int idPaymentState, int idStatusOrder, int? typeServese)
         {
-            //var resultServices = TempData["ServicesType"] as IEnumerable<ServisesCarWashOrderView>;
-
             var brigadeAdmin = await _brigade.AdminTrue(DateTime.Now, 2);
 
             if (brigadeAdmin)
@@ -321,8 +331,6 @@ namespace CarDetailingStudio.Controllers
                 }));
             }
 
-
-
             return RedirectToAction("Index");
         }
 
@@ -338,8 +346,6 @@ namespace CarDetailingStudio.Controllers
         public async Task<ActionResult> OrderReport()
         {
             var OrderAll = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll(2));
-            //TempData["PageSettings"] = nameof(OrderReport);
-
             return View(OrderAll);
         }
 

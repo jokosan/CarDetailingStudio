@@ -120,38 +120,37 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
         private int StatusTypeServises(int servises, int brigade)
         {
-            if (brigade == 1 && servises == 1)
-                return 1;
+            if (brigade == (int)PositionsOfAdministrators.Administrator && servises == (int)TypeService.Detailing)
+                return (int)ServiceCategories.AdmminDetailing;
 
-            if (brigade == 2 && servises == 1)
-                return 4;
+            if (brigade == (int)PositionsOfAdministrators.Employees && servises == (int)TypeService.Detailing)
+                return (int)ServiceCategories.EmployeesDetailing;
 
-            if (brigade == 1 && servises == 2)
-                return 2;
+            if (brigade == (int)PositionsOfAdministrators.Administrator && servises == (int)TypeService.CarWash)
+                return (int)ServiceCategories.AdminCarWash;
 
-            if (brigade == 2 && servises == 2)
-                return 5;
+            if (brigade == (int)PositionsOfAdministrators.Employees && servises == (int)TypeService.CarWash)
+                return (int)ServiceCategories.EmployeesCarWash;
 
-            if (brigade == 1 && servises == 3)
-                return 3;
+            if (brigade == (int)PositionsOfAdministrators.Administrator && servises == (int)TypeService.CarpetCleaning)
+                return (int)ServiceCategories.AdminCarpetCleaning;
 
-            if (brigade == 2 && servises == 3)
-                return 6;
+            if (brigade == (int)PositionsOfAdministrators.Employees && servises == (int)TypeService.CarpetCleaning)
+                return (int)ServiceCategories.EmployeesCarpetCleaning;
 
-            if (brigade == 1 && servises == 4)
-                return 7;
+            if (brigade == (int)PositionsOfAdministrators.Administrator && servises == (int)TypeService.TireStorage)
+                return (int)ServiceCategories.AdmminTireStorage;
 
-            if (brigade == 2 && servises == 4)
-                return 8;
+            if (brigade == (int)PositionsOfAdministrators.Employees && servises == (int)TypeService.TireStorage)
+                return (int)ServiceCategories.EmployeesTireStorage;
 
-            if (brigade == 1 && servises == 5)
-                return 9;
+            if (brigade == (int)PositionsOfAdministrators.Administrator && servises == (int)TypeService.TireFitting)
+                return (int)ServiceCategories.AdmminTireFitting;
 
-            if (brigade == 2 && servises == 5)
-                return 10;
+            if (brigade == (int)PositionsOfAdministrators.Employees && servises == (int)TypeService.TireFitting)
+                return (int)ServiceCategories.EmployeesTireFitting;
 
             return 0;
-
         }
 
         // Начисление ЗП за хранение шин 
@@ -167,7 +166,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.typeServicesId = StatusTypeServises(8, 2); // изменить  
             orderCarWashWorkers.Payroll = await PercentOfTheOrder(idBrigade, 1, amountOfCurrentOrder, false, orderCarWashWorkers.typeServicesId.Value);
             orderCarWashWorkers.closedDayStatus = false;
-          
 
             await _orderCarWashWorkers.Insert(orderCarWashWorkers);
 
@@ -175,7 +173,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
             orderCarWashWorkers.typeServicesId = StatusTypeServises(7, 1); // изменить  
             orderCarWashWorkers.Payroll = await PercentOfTheOrder(idAdmin, 1, amountOfCurrentOrder, true, orderCarWashWorkers.typeServicesId.Value);
             
-
             await _orderCarWashWorkers.Insert(orderCarWashWorkers);
         }
 
@@ -184,8 +181,6 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
         // Процент от заказа
         private async Task<double?> PercentOfTheOrder(int employeeId, int count, double? orderPrice, bool status, int positio)
         {
-            //var selectedEmployee = await _carWashWorkers.CarWashWorkersId(employeeId);
-
             var selectPercentageOfEmployeeOrder = await _premiumAndRate.SelectPosition(employeeId);
             var result = selectPercentageOfEmployeeOrder.First(x => x.positionId == positio);
 
@@ -193,12 +188,10 @@ namespace CarDetailingStudio.BLL.Services.Modules.Wage
 
             if (status)
             {
-                //employeePercentage = ((double)selectedEmployee.AdministratorsInterestRate) / 100;
                 employeePercentage = ((double)result.percentageRatePerOrder) / 100;
             }
             else
             {
-                // employeePercentage = ((double)selectedEmployee.InterestRate) / 100;
                 employeePercentage = ((double)result.percentageRatePerOrder) / 100;
             }
 

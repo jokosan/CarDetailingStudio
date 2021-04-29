@@ -31,6 +31,7 @@ namespace CarDetailingStudio.Controllers
 
 
         // GET: Client/Create
+
         public async Task<ActionResult> NewClient(string idPage, int ServiceType = 0)
         {
             ViewBag.OpenPage = idPage;

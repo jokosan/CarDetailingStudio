@@ -11,5 +11,6 @@ namespace CarDetailingStudio.BLL.Services.TireFitting.TireFittingContract
     public interface ITireService : IGetFromDatabase<TireServiceBll>, IDatabaseOperations<TireServiceBll>
     {
         Task<IEnumerable<TireServiceBll>> SelectTireServices(int OrderId);
+        Task<IEnumerable<TireServiceBll>> ServiceExecution(int statusOrder);
     }
 }

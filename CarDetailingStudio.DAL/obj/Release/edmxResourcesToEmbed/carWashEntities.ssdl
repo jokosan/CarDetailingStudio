@@ -518,6 +518,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="stockNumber" Type="int" />
     <Property Name="dateOfAdoption" Type="datetime" />
     <Property Name="quantity" Type="int" />
     <Property Name="radius" Type="int" />

@@ -97,11 +97,11 @@ namespace CarDetailingStudio.Controllers
             return View(ReirectModel);
         }
 
-        public async Task<ActionResult> Staff() =>
-            View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees()));
+        public async Task<ActionResult> Staff()
+            => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees()));
 
-        public async Task<ActionResult> StaffArxiv() =>
-            View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees(false)));
+        public async Task<ActionResult> StaffArxiv()
+            => View(Mapper.Map<IEnumerable<CarWashWorkersView>>(await _services.GetChooseEmployees(false)));
 
         public async Task<ActionResult> EducationOfWages(int? id)
         {
@@ -306,9 +306,7 @@ namespace CarDetailingStudio.Controllers
 
         [HttpGet]
         public async Task<ActionResult> OrderDay(int? idEmployee, DateTime date)
-        {
-            return View(Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWash.DailyEmployeeOrders(idEmployee, date)));
-        }
+            => View(Mapper.Map<IEnumerable<OrderCarWashWorkersView>>(await _orderCarWash.DailyEmployeeOrders(idEmployee, date)));        
 
         [HttpGet]
         public async Task<ActionResult> EmployeeWorkDays(int idEmploye)
@@ -319,8 +317,8 @@ namespace CarDetailingStudio.Controllers
             return View(emplotee);
         }
 
-        private CarWashWorkersBll TransformAnEntity(CarWashWorkersView entity) => 
-            Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(entity);
+        private CarWashWorkersBll TransformAnEntity(CarWashWorkersView entity)
+            => Mapper.Map<CarWashWorkersView, CarWashWorkersBll>(entity);
         #endregion
     }
 }

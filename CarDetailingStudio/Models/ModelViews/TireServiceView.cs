@@ -15,8 +15,6 @@ namespace CarDetailingStudio.Models.ModelViews
         public int clientsOfCarWashId { get; set; }
         public int orderServicesCarWashId { get; set; }
         public int priceListTireFittingAdditionalServicesId { get; set; }
-        public Nullable<int> numberOfTires { get; set; }
-        public Nullable<int> tireRadius { get; set; }
         public Nullable<double> priceTireFitting { get; set; }
 
         public virtual OrderServicesCarWashView OrderServicesCarWash { get; set; }

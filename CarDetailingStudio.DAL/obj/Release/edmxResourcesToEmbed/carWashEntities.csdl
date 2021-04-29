@@ -611,6 +611,7 @@
     <Property Name="serviceCostTirePackages" Type="Double" />
     <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_TireStorage_OrderServicesCarWash" FromRole="TireStorage" ToRole="OrderServicesCarWash" />
     <NavigationProperty Name="storageFee" Relationship="Self.FK_TireStorage_storageFee" FromRole="TireStorage" ToRole="storageFee" />
+    <Property Name="stockNumber" Type="Int32" />
   </EntityType>
   <EntityType Name="TireStorageServices">
     <Key>

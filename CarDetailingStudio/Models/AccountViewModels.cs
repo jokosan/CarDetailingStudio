@@ -49,9 +49,9 @@ namespace CarDetailingStudio.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Логин")]
+        [StringLength(20, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
+        public string Login { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +64,11 @@ namespace CarDetailingStudio.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Логин")]
+        [StringLength(20, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
+        public string Login { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Адрес электронной почты")]
@@ -79,6 +84,9 @@ namespace CarDetailingStudio.Models
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "id Сотрудника")]
+        public int? idEmployee { get; set; }
     }
 
     public class ResetPasswordViewModel

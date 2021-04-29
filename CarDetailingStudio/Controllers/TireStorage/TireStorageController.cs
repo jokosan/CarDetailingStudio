@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarDetailingStudio.BLL;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Model.ModelViewBll;
 using CarDetailingStudio.BLL.Services.Checkout.CheckoutContract;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.UI.WebControls;
 
 namespace CarDetailingStudio.Controllers.TireStorage
@@ -34,7 +36,6 @@ namespace CarDetailingStudio.Controllers.TireStorage
         private ICreateOrderModule _createOrder;
         private IAdditionalTireStorageServices _additionalTireStorageServices;
         private IOrderServicesCarWashServices _orderServicesCarWash;
-
 
         public TireStorageController(
             ITireStorage tireStorage,
@@ -63,10 +64,8 @@ namespace CarDetailingStudio.Controllers.TireStorage
         }
 
         // GET: TireStorage
-        public async Task<ActionResult> OrderTireStorage()
-        {
-            return View(Mapper.Map<IEnumerable<TireStorageView>>(await _tireStorage.GetTableAll()));
-        }
+        //public async Task<ActionResult> OrderTireStorage() =>
+        //    View(Mapper.Map<IEnumerable<TireStorageView>>(await _tireStorage.SelectOrderTireStorage()));
 
         IEnumerable<AdditionalTireStorageServicesView> getAdditionalTireStorageServices;
         [HttpGet]
@@ -80,9 +79,9 @@ namespace CarDetailingStudio.Controllers.TireStorage
             var order = Mapper.Map<OrderServicesCarWashView>(await _orderServicesCarWash.GetId(idOrder));
             var tireStorage = Mapper.Map<TireStorageView>(await _tireStorage.GetOrderId(idOrder.Value));
 
-           
-            if (tireStorage != null)            
+            if (tireStorage != null && tireStorage.RelatedOrders != null)
                 getAdditionalTireStorageServices = Mapper.Map<IEnumerable<AdditionalTireStorageServicesView>>(await _additionalTireStorageServices.GetOrderId(tireStorage.RelatedOrders.Value));
+
             var client = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(order.IdClientsOfCarWash));
 
             ViewBag.Order = order;
@@ -90,9 +89,17 @@ namespace CarDetailingStudio.Controllers.TireStorage
             ViewBag.Client = client;
 
             DateTime dateClose = tireStorage.dateOfAdoption.Value;
+            double? sum = 0;
+
+            if (getAdditionalTireStorageServices != null)
+                sum = getAdditionalTireStorageServices.Sum(x => x.Price);
+
+            ViewBag.PaymentState = order.PaymentState;
+            ViewBag.StatusOrder = order.StatusOrder;
+
             ViewBag.CloseDate = dateClose.AddMonths(tireStorage.storageFee.storageTime.Value);
-            ViewBag.Sum = tireStorage.storageFee.amount + getAdditionalTireStorageServices.Sum(x => x.Price) + tireStorage.serviceCostTirePackages;
-            ViewBag.SumAdditional = getAdditionalTireStorageServices.Sum(x => x.Price) + tireStorage.serviceCostTirePackages;
+            ViewBag.Sum = tireStorage.storageFee.amount + sum + tireStorage.serviceCostTirePackages;
+            ViewBag.SumAdditional = sum + tireStorage.serviceCostTirePackages;
 
             if (tireStorage == null)
             {
@@ -106,16 +113,34 @@ namespace CarDetailingStudio.Controllers.TireStorage
         public async Task<ActionResult> InfoOrderTireStorage(int? idOrder, int? idStorageFee, int? idTireStorage, int? idStatusOrder, int? idPaymentState)
         {
             await _orderServicesCarWash.CloseOrder(idOrder, idStatusOrder, idPaymentState);
-            return View();
+
+            return RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
+            {
+                typeOfOrder = 5,
+                statusOrder = 5
+            }));
+
+        }
+
+        public async Task<ActionResult> RenewalOfOrder(int? idOrder, int? idStatusOrder, int? idPaymentState, int? stockNumber, int? Client)
+        {
+            await _orderServicesCarWash.CloseOrder(idOrder, idStatusOrder, idPaymentState);
+
+            return RedirectToAction("InfoOrderTireStorage", "Order", new RouteValueDictionary(new
+            {
+                IdClient = Client,
+                stockNumber = stockNumber
+            }));
         }
 
         // GET: TireStorage/Create
-        public async Task<ActionResult> CreateTireStorageOrder(int? IdClient)
+        public async Task<ActionResult> CreateTireStorageOrder(int? IdClient, int? stockNumber = null)
         {
             if (IdClient != null)
             {
                 ClientsOfCarWashView clientList = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(IdClient));
                 ViewBag.Client = clientList;
+                ViewBag.StockNumber = stockNumber;
 
                 ViewBag.Radius = Mapper.Map<IEnumerable<TireRadiusView>>(await _tireRadius.GetTableAll()).ToList();
                 TempData["Client"] = clientList;
@@ -132,13 +157,13 @@ namespace CarDetailingStudio.Controllers.TireStorage
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateTireStorageOrder([Bind(Include = "Id,ClientId,carWashWorkersId,dateOfAdoption,quantity,radius,firm,discAvailability,storageFeeId,tireStorageBags,wheelWash,IdOrderServicesCarWash,silicone,storageTime")] OrderTireStorageModelView tireStorageView,
-                                                    int customer)
-
+                                                    int customer, int? StockNumber)
         {
             if (ModelState.IsValid)
             {
                 tireStorageView.dateOfAdoption = DateTime.Now;
                 tireStorageView.ClientId = customer;
+                tireStorageView.stockNumber = StockNumber;
 
                 TempData["TireStorageOrder"] = tireStorageView;
 
@@ -168,8 +193,8 @@ namespace CarDetailingStudio.Controllers.TireStorage
                 }
 
                 OrderTireStorageModelBll tireStorageBll = Mapper.Map<OrderTireStorageModelView, OrderTireStorageModelBll>(pageCreateResult);
-                var reviwOrderModules = Mapper.Map<ReviwOrderModelBll, ReviwOrderModelView>(await _reviwOrder.ReviwOrder(tireStorageBll));
 
+                var reviwOrderModules = Mapper.Map<ReviwOrderModelBll, ReviwOrderModelView>(await _reviwOrder.ReviwOrder(tireStorageBll));
                 var brigadeForToday = Mapper.Map<IEnumerable<BrigadeForTodayView>>(await _brigadeForToday.GetDateTimeNow());
 
                 ViewBag.Client = clientList;
@@ -182,6 +207,7 @@ namespace CarDetailingStudio.Controllers.TireStorage
                     reviwOrderModules.priceOfTire + reviwOrderModules.priceSilicone + reviwOrderModules.priceWheelWash;
 
                 TempData["ReviwOrderMode"] = reviwOrderModules;
+                TempData.Keep("Client");
 
                 return View(pageCreateResult);
             }
@@ -191,52 +217,55 @@ namespace CarDetailingStudio.Controllers.TireStorage
 
         int? idOrderServices;
         [HttpPost]
-        public async Task<ActionResult> ReviewTireStorageOrder(double? sum, int? idPaymentState, int? idStatusOrder)
+        public async Task<ActionResult> ReviewTireStorageOrder(double? sum, int? idPaymentState, int? idStatusOrder, int? StockNumber)
         {
-            if (TempData.ContainsKey("TireStorageOrder") && TempData.ContainsKey("ReviwOrderMode"))
+            if (StockNumber != null)
             {
-                var pageCreateResult = TempData["TireStorageOrder"] as OrderTireStorageModelView;
-                var reviwOrderModules = TempData["ReviwOrderMode"] as ReviwOrderModelView;
-
-                OrderTireStorageModelBll orderTireStorage = Mapper.Map<OrderTireStorageModelView, OrderTireStorageModelBll>(pageCreateResult);
-                ReviwOrderModelBll orderModelBll = Mapper.Map<ReviwOrderModelView, ReviwOrderModelBll>(reviwOrderModules);
-
-                int idOrder = await _createOrder.SaveOrderTireFitting(reviwOrderModules.priceOfTire, reviwOrderModules.priceOfTire, idPaymentState.Value, idStatusOrder.Value, orderTireStorage.ClientId.Value, 5);
-                int idStorageFee = await _order.CreateStorageFee(orderTireStorage.storageTime.Value, sum);
-
-                if (reviwOrderModules.priceSilicone != 0 || reviwOrderModules.priceWheelWash != 0)
+                if (TempData.ContainsKey("TireStorageOrder") && TempData.ContainsKey("ReviwOrderMode"))
                 {
-                    idOrderServices = await _createOrder.SaveOrderTireFitting(sum.Value, sum.Value, idPaymentState.Value, 1, orderTireStorage.ClientId.Value, 2);
+                    var pageCreateResult = TempData["TireStorageOrder"] as OrderTireStorageModelView;
+                    var reviwOrderModules = TempData["ReviwOrderMode"] as ReviwOrderModelView;
 
-                    if (reviwOrderModules.priceSilicone != 0)
+                    OrderTireStorageModelBll orderTireStorage = Mapper.Map<OrderTireStorageModelView, OrderTireStorageModelBll>(pageCreateResult);
+                    ReviwOrderModelBll orderModelBll = Mapper.Map<ReviwOrderModelView, ReviwOrderModelBll>(reviwOrderModules);
+
+                    int idOrder = await _createOrder.SaveOrderTireFitting(reviwOrderModules.priceOfTire, reviwOrderModules.priceOfTire, idPaymentState.Value, idStatusOrder.Value, orderTireStorage.ClientId.Value, 5);
+                    int idStorageFee = await _order.CreateStorageFee(orderTireStorage.storageTime.Value, sum);
+
+                    if (reviwOrderModules.priceSilicone != 0 || reviwOrderModules.priceWheelWash != 0)
                     {
-                        var AdditionalTireStorageServicesEntity = new AdditionalTireStorageServicesView
+                        idOrderServices = await _createOrder.SaveOrderTireFitting(sum.Value, sum.Value, idPaymentState.Value, 1, orderTireStorage.ClientId.Value, 2);
+
+                        if (reviwOrderModules.priceSilicone != 0)
                         {
-                            clientsOfCarWashId = orderTireStorage.ClientId.Value,
-                            orderServicesCarWashId = idOrderServices.Value,
-                            tireStorageServicesd = orderModelBll.IdpriceSilicone,
-                            Price = orderModelBll.priceSilicone
-                        };
+                            var AdditionalTireStorageServicesEntity = new AdditionalTireStorageServicesView
+                            {
+                                clientsOfCarWashId = orderTireStorage.ClientId.Value,
+                                orderServicesCarWashId = idOrderServices.Value,
+                                tireStorageServicesd = orderModelBll.IdpriceSilicone,
+                                Price = orderModelBll.priceSilicone
+                            };
 
-                        await _additionalTireStorageServices.Insert(TransformAnEntity(AdditionalTireStorageServicesEntity));
-                    }
+                            await _additionalTireStorageServices.Insert(TransformAnEntity(AdditionalTireStorageServicesEntity));
+                        }
 
-                    if (reviwOrderModules.priceWheelWash != 0)
-                    {
-                        var AdditionalTireStorageServicesEntity = new AdditionalTireStorageServicesView
+                        if (reviwOrderModules.priceWheelWash != 0)
                         {
-                            clientsOfCarWashId = orderTireStorage.ClientId.Value,
-                            orderServicesCarWashId = idOrderServices.Value,
-                            tireStorageServicesd = orderModelBll.IdWheelWash,
-                            Price = orderModelBll.priceWheelWash
-                        };
+                            var AdditionalTireStorageServicesEntity = new AdditionalTireStorageServicesView
+                            {
+                                clientsOfCarWashId = orderTireStorage.ClientId.Value,
+                                orderServicesCarWashId = idOrderServices.Value,
+                                tireStorageServicesd = orderModelBll.IdWheelWash,
+                                Price = orderModelBll.priceWheelWash
+                            };
 
-                        await _additionalTireStorageServices.Insert(TransformAnEntity(AdditionalTireStorageServicesEntity));
+                            await _additionalTireStorageServices.Insert(TransformAnEntity(AdditionalTireStorageServicesEntity));
+                        }
                     }
 
                     var tireStorage = new TireStorageBll
                     {
-                        serviceCostTirePackages = orderModelBll.priceSilicone,
+                        serviceCostTirePackages = orderModelBll.priceNumberOfPackets,
                         dateOfAdoption = orderTireStorage.dateOfAdoption,
                         quantity = orderTireStorage.quantity,
                         radius = orderTireStorage.radius,
@@ -247,21 +276,35 @@ namespace CarDetailingStudio.Controllers.TireStorage
                         wheelWash = orderTireStorage.wheelWash,
                         IdOrderServicesCarWash = idOrder,
                         silicone = orderTireStorage.silicone,
-                        RelatedOrders = idOrderServices
-
+                        RelatedOrders = idOrderServices,
+                        stockNumber = StockNumber
                     };
 
                     await _tireStorage.Insert(tireStorage);
                     await _wage.AdminWageTireStorage(idOrder, pageCreateResult.quantity.Value);
-
                 }
 
-                //pageCreateResult.carWashWorkersId = Convert.ToInt32(idAdmin);
+                return RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
+                {
+                    typeOfOrder = 5,
+                    statusOrder = 5
+                }));
             }
+            else
+            {
+                if (TempData.ContainsKey("Client"))
+                    TempData.Keep("Client");
 
-            return Redirect("/Order/Index");
+                if (TempData.ContainsKey("TireStorageOrder"))
+                    TempData.Keep("TireStorageOrder");
+
+                TempData.Keep("ReviwOrderMode");
+
+                return RedirectToAction("ReviewTireStorageOrder");
+            }
         }
 
-        private AdditionalTireStorageServicesBll TransformAnEntity(AdditionalTireStorageServicesView entity) => Mapper.Map<AdditionalTireStorageServicesView, AdditionalTireStorageServicesBll>(entity);
+        private AdditionalTireStorageServicesBll TransformAnEntity(AdditionalTireStorageServicesView entity) =>
+                Mapper.Map<AdditionalTireStorageServicesView, AdditionalTireStorageServicesBll>(entity);
     }
 }

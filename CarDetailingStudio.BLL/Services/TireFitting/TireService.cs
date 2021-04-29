@@ -21,21 +21,22 @@ namespace CarDetailingStudio.BLL.Services.TireFitting
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<TireServiceBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<TireServiceBll>>(await _unitOfWork.TireServiceUnitOfWork.GetInclude("PriceListTireFittingAdditionalServices"));
-        }
+        public async Task<IEnumerable<TireServiceBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<TireServiceBll>>(await _unitOfWork.TireServiceUnitOfWork.GetInclude("PriceListTireFittingAdditionalServices"));
 
+        public async Task<IEnumerable<TireServiceBll>> ServiceExecution(int statusOrder) =>
+            Mapper.Map<IEnumerable<TireServiceBll>>(await _unitOfWork.TireServiceUnitOfWork.QueryObjectGraph(x =>
+                x.OrderServicesCarWash.StatusOrder == statusOrder && x.clientsOfCarWashId == 0, "PriceListTireFittingAdditionalServices", "OrderServicesCarWash"));
+
+        public async Task<IEnumerable<TireServiceBll>> SelectTireServices(int OrderId) =>
+               Mapper.Map<IEnumerable<TireServiceBll>>(await _unitOfWork.TireServiceUnitOfWork.QueryObjectGraph(x => x.orderServicesCarWashId == OrderId, "PriceListTireFittingAdditionalServices"));
+
+        #region Insert, Update 
         public async Task Insert(TireServiceBll element)
         {
             tireService tireServices = Mapper.Map<TireServiceBll, tireService>(element);
             _unitOfWork.TireServiceUnitOfWork.Insert(tireServices);
             await _unitOfWork.Save();
-        }
-
-        public async Task<TireServiceBll> SelectId(int? elementId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task Update(TireServiceBll elementToUpdate)
@@ -44,10 +45,11 @@ namespace CarDetailingStudio.BLL.Services.TireFitting
             _unitOfWork.TireServiceUnitOfWork.Update(tireServices);
             await _unitOfWork.Save();
         }
+        #endregion
 
-        public async Task<IEnumerable<TireServiceBll>> SelectTireServices(int OrderId)
+        public async Task<TireServiceBll> SelectId(int? elementId)
         {
-            return Mapper.Map<IEnumerable<TireServiceBll>>(await _unitOfWork.TireServiceUnitOfWork.QueryObjectGraph(x => x.orderServicesCarWashId == OrderId, "PriceListTireFittingAdditionalServices"));
+            throw new NotImplementedException();
         }
     }
 }

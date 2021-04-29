@@ -72,6 +72,23 @@ namespace CarDetailingStudio.DAL.Infrastructure
             return result;
         }
 
+        public async Task<IEnumerable<OrderServicesCarWash>> GetWhere(Expression<Func<OrderServicesCarWash, bool>> predicate, string children)
+        {
+            var result = await _context.OrderServicesCarWash
+                                                      .AsNoTracking()
+                                                      .Include("ClientsOfCarWash")
+                                                      .Include("StatusOrder1")
+                                                      .Include("PaymentState1")
+                                                      .Include("ClientsOfCarWash.ClientInfo")
+                                                      .Include("ClientsOfCarWash.car_mark")
+                                                      .Include("ClientsOfCarWash.car_model")
+                                                      .Include("ClientsOfCarWash.CarBody")
+                                                      .Include("ClientsOfCarWash.ClientsGroups")
+                                                      .Include(children)
+                                                      .Where(predicate).AsQueryable().ToListAsync();
+            return result;
+        }
+
         public async Task<IEnumerable<OrderServicesCarWash>> WhereMonthlyReport(Expression<Func<OrderServicesCarWash, bool>> predicate)
         {
             var result = await _context.OrderServicesCarWash

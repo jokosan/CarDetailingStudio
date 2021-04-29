@@ -27,7 +27,7 @@ namespace CarDetailingStudio.Controllers
 {
     public class TireChangeServiceController : Controller
     {
-        private ITireChangeService _tireChangeService;
+        private ITireChangeService _tireChangeService;-/
         private IPriceListTireFitting _priceListTireFitting;
         private IPriceTireFittingAdditionalServices _priceTireFittingAdditionalServices;
         private ITireRadius _tireRadius;
@@ -153,30 +153,35 @@ namespace CarDetailingStudio.Controllers
 
                 return RedirectToAction("OrderPreview");
             }
-            else
+            else if (AdditionalServices != null && Client != 0 && TireRadius == null && NumberOfTires == null)
             {
-                if (AdditionalServices != null && Client != 0)
+                createOrderView.client = Client;
+
+                if (key.Count != 0 && AdditionalServicesQuantity.Count != 0)
                 {
-                    createOrderView.client = Client;
+                    var priceAdditionalServices = _createOrder.SaveOrder(key, AdditionalServicesQuantity);
 
-                    if (key.Count != 0 && AdditionalServicesQuantity.Count != 0)
-                    {
-                        var priceAdditionalServices = _createOrder.SaveOrder(key, AdditionalServicesQuantity);
+                    createOrderView.priceListTireFittingAdditionals = Mapper.Map<List<PriceListTireFittingAdditionalServicesView>>(await _createOrder.SelectPriceServise(priceAdditionalServices, AdditionalServices));
 
-                        createOrderView.priceListTireFittingAdditionals = Mapper.Map<List<PriceListTireFittingAdditionalServicesView>>(await _createOrder.SelectPriceServise(priceAdditionalServices, AdditionalServices));
+                    TempData["CreateOrder"] = createOrderView;
 
-                        TempData["CreateOrder"] = createOrderView;
-
-                        return RedirectToAction("OrderPreview");
-                    }
+                    return RedirectToAction("OrderPreview");
                 }
-            }
 
-            return RedirectToAction("CreateOrder", "TireChangeService", new RouteValueDictionary(new
+                return RedirectToAction("CreateOrder", "TireChangeService", new RouteValueDictionary(new
+                {
+                    IdClient = Client,
+                    Error = true
+                }));
+            }
+            else 
             {
-                IdClient = Client,
-                Error = true
-            }));
+                return RedirectToAction("CreateOrder", "TireChangeService", new RouteValueDictionary(new
+                {
+                    IdClient = Client,
+                    Error = true
+                }));
+            }          
         }
 
         [HttpPost]
@@ -205,8 +210,10 @@ namespace CarDetailingStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> OrderPreview()
+        public async Task<ActionResult> OrderPreview(bool Error = false)
         {
+            ViewBag.Error = Error;
+
             CreateOrderView createOrderView = new CreateOrderView();
 
             double priceListTireFittingsSum = 0;
@@ -269,6 +276,16 @@ namespace CarDetailingStudio.Controllers
 
             int idOrder = 0;
 
+            if (idStatusOrder == (int)StatusOrder.Completed && idBrigade == null)
+            {
+                TempData.Keep("CreateOrder");
+
+                return RedirectToAction("OrderPreview", "TireChangeService", new RouteValueDictionary(new
+                {
+                    Error = true
+                }));
+            }
+
             if (TempData.ContainsKey("CreateOrder"))
             {
                 createOrderView = (CreateOrderView)TempData["CreateOrder"];
@@ -285,7 +302,7 @@ namespace CarDetailingStudio.Controllers
                     double TotalSum = SumTireChangeService(createOrderView.priceListTireFittings, createOrderView.numberOfTires.Value) + priceListTireFittingAdditionalsSum;
                     idOrder = await _createOrder.SaveOrderTireFitting(TotalSum, Total, idPaymentState, idStatusOrder, createOrderView.client.Value, 4);
                 }
-                else if(priceListTireFittingAdditionalsSum != 0)
+                else if (priceListTireFittingAdditionalsSum != 0)
                 {
                     idOrder = await _createOrder.SaveOrderTireFitting(priceListTireFittingAdditionalsSum, Total, idPaymentState, idStatusOrder, createOrderView.client, 4);
                 }
@@ -313,11 +330,7 @@ namespace CarDetailingStudio.Controllers
 
                 TempData.Remove("CreateOrder");
 
-                return RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
-                {
-                    typeOfOrder = 4,
-                    statusOrder = 1
-                }));
+                return RedirectToAction("../Order/Index");
             }
 
             TempData.Keep("CreateOrder");
@@ -335,6 +348,7 @@ namespace CarDetailingStudio.Controllers
             var client = Mapper.Map<ClientsOfCarWashView>(await _clientsOfCarWash.GetId(orderService.IdClientsOfCarWash));
 
             double tireServiceSum = 0;
+            double discont = client.discont ?? 0;
             double tireChangeServiceSum = 0;
 
             foreach (var item in tireChangeService)
@@ -368,7 +382,7 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Client = client;
             ViewBag.Discont = client.discont;
 
-            double totalDiscont = ((tireChangeServiceSum + tireServiceSum) / 100) * client.discont.Value;
+            double totalDiscont = ((tireChangeServiceSum + tireServiceSum) / 100) * discont;
             ViewBag.Total = (tireChangeServiceSum + tireServiceSum) - totalDiscont;
 
             return View();
@@ -386,11 +400,7 @@ namespace CarDetailingStudio.Controllers
                     await _wageModules.Payroll(idOrder.Value, idBrigade, 5);
                 }
 
-                return RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
-                {
-                    typeOfOrder = 4,
-                    statusOrder = 1
-                }));
+                RedirectToAction();
             }
             else if (BrigadeOrder == 1)
             {
@@ -399,14 +409,17 @@ namespace CarDetailingStudio.Controllers
                     await _wageModules.CloseOrder(idPaymentState.Value, idOrder.Value, idStatusOrder.Value);
                 }
 
-                return RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
-                {
-                    typeOfOrder = 4,
-                    statusOrder = 1
-                }));
+                RedirectToAction();
             }
 
             return View();
         }
+
+        private void RedirectToAction() =>
+            RedirectToAction("OrderTireStorage", "Order", new RouteValueDictionary(new
+            {
+                typeOfOrder = (int)TypeOfOrder.TireFitting,
+                statusOrder = (int)StatusOrder.InWork
+            }));
     }
 }

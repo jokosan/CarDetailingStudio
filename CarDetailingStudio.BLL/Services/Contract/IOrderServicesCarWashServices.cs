@@ -9,7 +9,7 @@ namespace CarDetailingStudio.BLL.Services.Contract
     public interface IOrderServicesCarWashServices : IReports<OrderServicesCarWashBll>
     {
         Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage(int typeOfOrder, int statusOrder);
-        Task<IEnumerable<OrderServicesCarWashBll>> ArxivOrder(int typeOfOrder, int statusOrder);
+        Task<IEnumerable<OrderServicesCarWashBll>> ServiceOrders(int typeOfOrder, int statusOrder);
         Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder);
         Task<OrderServicesCarWashBll> GetId(int? id);
         Task InsertOrders(int service, List<double> carBody, List<int> id, List<int> sum, double total);

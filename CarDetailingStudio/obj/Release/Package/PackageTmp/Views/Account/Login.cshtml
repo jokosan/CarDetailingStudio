@@ -21,8 +21,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
                     </div>
-                    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email Asddres", @class = "form-control form-control-lg" })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Login, new { @placeholder = "Login", @class = "form-control form-control-lg" })
+                    @Html.ValidationMessageFor(m => m.Login, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="input-group mb-3">
@@ -41,13 +41,13 @@
                 <div class="form-group">
                     <div class="p-t-20">
 
-                        <input class="btn btn-info" id="to-recover" type="button" onclick="location.href='@Url.Action("Register")'" value="Регистрация нового пользователя" />
+                        @*<input class="btn btn-info" id="to-recover" type="button" onclick="location.href='@Url.Action("Register")'" value="Регистрация нового пользователя" />*@
 
                         <button class="btn btn-success float-right" type="submit">Login</button>
                     </div>
                 </div>
                 <p>
-                    <input class="btn btn-info" id="to-recover" type="button" onclick="location.href='@Url.Action("ForgotPassword")'" value="Забыли пароль?" />
+                    @*<input class="btn btn-info" id="to-recover" type="button" onclick="location.href='@Url.Action("ForgotPassword")'" value="Забыли пароль?" />*@
                 </p>
             </div>
         </div>

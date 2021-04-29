@@ -5,6 +5,7 @@ namespace CarDetailingStudio.Enums
     {
         Detailing = 1,
         Washing = 2,         
-        TireFitting = 4
+        TireFitting = 4,
+        TireStorage = 5
     }
 }

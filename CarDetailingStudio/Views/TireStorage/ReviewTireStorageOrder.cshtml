@@ -200,6 +200,31 @@
                             {
                                 @Html.AntiForgeryToken()
 
+                                if (Model.stockNumber == null)
+                                {
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-lg-4 col-md-12 text-right">
+                                            <span class="text-success">Введите номер хранения</span>
+                                        </div>
+                                        <div class="col-lg-8 col-md-12">
+                                            <input type="number" class="form-control is-valid" name="StockNumber" id="validationServer01">
+                                            <div class="valid-feedback">
+                                                Номер хранения
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-lg-4 col-md-12 text-right">
+                                            <span class="text-success">Номер хранения - #@Model.stockNumber</span>
+                                            <input type="hidden" class="form-control is-valid" name="StockNumber" value="@Model.stockNumber">
+                                        </div>
+                                      
+                                    </div>
+                                }
+
                                 <hr />
                                 <div>
                                     @Html.DropDownList("idStatusOrder", new List<SelectListItem>
@@ -209,7 +234,7 @@
                                            new SelectListItem{ Text = "Отменен", Value = "3"},
                                        }, new { @class = "form-control" })
                                 </div>
-                                <hr/>
+                                <hr />
                                 <div>
                                     @Html.DropDownList("idPaymentState", new List<SelectListItem>
                                        {
@@ -217,6 +242,7 @@
                                            new SelectListItem { Text = "Наличный расчёт", Value = "1"},
                                            new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
                                        }, new { @class = "form-control" })
+
                                 </div>
                                 <hr />
                                 <div class="text-right">
@@ -242,11 +268,9 @@
 
 
 <div class="row">
-
-
     <div class="col-md-6">
-       
-        
+
+
     </div>
 </div>
 

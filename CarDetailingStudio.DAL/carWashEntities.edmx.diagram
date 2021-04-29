@@ -54,7 +54,7 @@
         <EntityTypeShape EntityType="carWashServerModel.TireStorage" Width="1.5" PointX="15.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashServerModel.TireStorageServices" Width="1.5" PointX="7.5" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashServerModel.TypeOfCars" Width="1.5" PointX="8.25" PointY="29.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="carWashServerModel.typeOfOrder" Width="1.5" PointX="2.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="carWashServerModel.typeOfOrder" Width="1.5" PointX="2.75" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashServerModel.utilityCosts" Width="1.5" PointX="22.5" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashServerModel.utilityCostsCategory" Width="1.5" PointX="20.25" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="carWashServerModel.logo_mark_car" Width="1.5" PointX="14.75" PointY="13.875" IsExpanded="true" />

@@ -14,6 +14,7 @@ namespace CarDetailingStudio.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public AccountController()
         {
@@ -49,6 +50,18 @@ namespace CarDetailingStudio.Controllers
             }
         }
 
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -70,13 +83,24 @@ namespace CarDetailingStudio.Controllers
                 return View(model);
             }
 
+            var user = await UserManager.FindAsync(model.Login, model.Password);
             // Сбои при входе не приводят к блокированию учетной записи
             // Чтобы ошибки при вводе пароля инициировали блокирование учетной записи, замените на shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Login, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //if (System.String.IsNullOrEmpty(returnUrl))
+
+                    if (UserManager.IsInRole(user.Id, "Admin") || UserManager.IsInRole(user.Id, "Owner") || UserManager.IsInRole(user.Id, "Partners"))
+                    {
+                        return RedirectToAction("Report", "Analytics");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Order");
+                    }
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -131,11 +155,15 @@ namespace CarDetailingStudio.Controllers
             }
         }
 
-        //
+        //       
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(int? id = null, string Name = null)
         {
+            ViewBag.EmployeeName = Name;
+            ViewBag.EmployeeId = id;
+            ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Description");
+
             return View();
         }
 
@@ -144,14 +172,26 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string NameRole = null, int? id = null, string Name = null)
         {
             if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            {               
+                var user = new ApplicationUser { UserName = model.Login, Email = model.Email, idEmployee = id };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+                    if (NameRole != null)
+                    {
+                        var resultRole = await UserManager.AddToRolesAsync(user.Id, NameRole);
+                        if (!resultRole.Succeeded)
+                        {
+                            ModelState.AddModelError("", resultRole.Errors.First());
+
+                            ViewBagRegister(id, Name);
+                            return View();
+                        }
+                    }
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // Дополнительные сведения о включении подтверждения учетной записи и сброса пароля см. на странице https://go.microsoft.com/fwlink/?LinkID=320771.
@@ -162,13 +202,25 @@ namespace CarDetailingStudio.Controllers
 
                     return RedirectToAction("Index", "Order");
                 }
+
+                ViewBagRegister(id, Name);
+
+                ModelState.AddModelError("", result.Errors.First());
                 AddErrors(result);
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
+
+            ViewBagRegister(id, Name);
             return View(model);
         }
 
+        private void ViewBagRegister(int? id, string Name)
+        {
+            ViewBag.EmployeeName = Name;
+            ViewBag.EmployeeId = id;
+            ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Description");
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

@@ -553,6 +553,7 @@
     <EntitySetMapping Name="TireStorage">
       <EntityTypeMapping TypeName="carWashServerModel.TireStorage">
         <MappingFragment StoreEntitySet="TireStorage">
+          <ScalarProperty Name="stockNumber" ColumnName="stockNumber" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="dateOfAdoption" ColumnName="dateOfAdoption" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />

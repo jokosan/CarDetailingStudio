@@ -271,8 +271,11 @@
                                 <th>
                                     Всего на зарплату
                                 </th>
-                                <th>
-                                </th>
+                                @if (Request.IsAuthenticated && User.IsInRole("Admin") || Request.IsAuthenticated && User.IsInRole("Owner") || Request.IsAuthenticated && User.IsInRole("Manager"))
+                                {
+                                    <th>
+                                    </th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -292,9 +295,14 @@
                                     <td>
                                         @item.Payroll
                                     </td>
-                                    <td>
-                                        @Html.ActionLink("Редактировать", "../CarWashWorkersViews/EditingStaffOnOrder", new { idOrder = Model.Id, idEmployee = item.CarWashWorkers.id }, new { @class = "btn btn-secondary" })
-                                    </td>
+                                    @if (Request.IsAuthenticated && User.IsInRole("Admin") || Request.IsAuthenticated && User.IsInRole("Owner") || Request.IsAuthenticated && User.IsInRole("Manager"))
+                                    {
+                                        <td>
+
+                                            @Html.ActionLink("Редактировать", "../CarWashWorkersViews/EditingStaffOnOrder", new { idOrder = Model.Id, idEmployee = item.CarWashWorkers.id }, new { @class = "btn btn-secondary" })
+
+                                        </td>
+                                    }
                                 </tr>
                             }
                         </tbody>
@@ -308,22 +316,26 @@
                 <div class="text-right">
                     @using (Html.BeginForm("OrderDelete", "Order", FormMethod.Post))
                     {
-                        <label class="myLabel">Подтвердить действия</label>
-                        <label class="customcheckbox">
-                            <label class="label">
+                        if (Request.IsAuthenticated && User.IsInRole("Admin") || Request.IsAuthenticated && User.IsInRole("Owner") || Request.IsAuthenticated && User.IsInRole("Manager"))
+                        {
+                            <label class="myLabel">Подтвердить действия</label>
+                            <label class="customcheckbox">
+                                <label class="label">
 
-                                <input class="label__checkbox" type="checkbox" name="confirmation" value="true" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
-                                <span class="label__text">
-                                    <span class="label__check">
-                                        <i class="fa fa-check icon"></i>
+                                    <input class="label__checkbox" type="checkbox" name="confirmation" value="true" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked;" />
+                                    <span class="label__text">
+                                        <span class="label__check">
+                                            <i class="fa fa-check icon"></i>
+                                        </span>
                                     </span>
-                                </span>
+                                </label>
+                                <span class="checkmark"></span>
                             </label>
-                            <span class="checkmark"></span>
-                        </label>
 
-                        <input value="@Model.Id" name="idOrder" type="hidden" />
-                        <input class="btn btn-danger" id="submit" type="submit" disabled="disabled" value="Удалить заказ" @Url.Action("ArxivOrder", "Order") />
+
+                            <input value="@Model.Id" name="idOrder" type="hidden" />
+                            <input class="btn btn-danger" id="submit" type="submit" disabled="disabled" value="Удалить заказ" @Url.Action("ArxivOrder", "Order") />
+                        }
 
                         @Html.ActionLink("Вернуться к архиву заказов", "ArxivOrder", null, new { @class = "btn btn-info" })
                     }

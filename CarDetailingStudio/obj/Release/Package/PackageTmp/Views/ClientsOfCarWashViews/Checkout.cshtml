@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<CarDetailingStudio.Models.CarJoinClientModel>
 
 <link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
-<link href="~/Content/form.css" rel="stylesheet" />
+@*<link href="~/Content/form.css" rel="stylesheet" />*@
 <link href="~/Content/input.css" rel="stylesheet" />
+
 
 <div class="row">
     <div class="col-md-12">
@@ -59,7 +60,7 @@
                                                                                 <tr>
                                                                                     <th>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-1">
+                                                                                            <div class="col-sm-1">
                                                                                                 <label class="customcheckbox">
                                                                                                     <label class="label">
                                                                                                         <input class="label__checkbox" type="checkbox" name="AdditionalServices" value="@item.idPriceListTireFittingAdditionalServices" id="checkme" onchange="document.getElementById('submit').disabled = !this.checked" />
@@ -72,13 +73,13 @@
                                                                                                     <span class="checkmark"></span>
                                                                                                 </label>
                                                                                             </div>
-                                                                                            <div class="col-md-6">
+                                                                                            <div class="col-sm-6">
                                                                                                 @item.JobTitle
                                                                                             </div>
-                                                                                            <div class="col-md-3">
+                                                                                            <div class="col-sm-3">
                                                                                                 @item.TheCost грн.
                                                                                             </div>
-                                                                                            <div class="col-md-2">
+                                                                                            <div class="col-sm-2">
                                                                                                 <input type="hidden" value=@item.idPriceListTireFittingAdditionalServices name="key" />
                                                                                                 <input class="newOrderInputText" name="AdditionalServicesQuantity" value="1" maxlength="2" type="number" />
                                                                                             </div>

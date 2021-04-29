@@ -24,13 +24,7 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.Name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Surname)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Patronymic)
+                                ФИО
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.MobilePhone)
@@ -38,12 +32,12 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Experience)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AdministratorsInterestRate)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.InterestRate)
-                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.AdministratorsInterestRate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.InterestRate)
+                                </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.DataRegistration)
                             </th>
@@ -54,7 +48,6 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.IdPosition)
                             </th>
-                            <th>Назначение услуги/Заработная плата</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -65,13 +58,7 @@
                         {
                             <tr class="table-danger">
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Surname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Patronymic)
+                                    @Html.DisplayFor(modelItem => item.Surname) @Html.DisplayFor(modelItem => item.Name)  @Html.DisplayFor(modelItem => item.Patronymic)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.MobilePhone)
@@ -79,14 +66,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Experience)
                                 </td>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.AdministratorsInterestRate)%
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InterestRate)%
+                                    </td>*@
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.AdministratorsInterestRate)%
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.InterestRate)%
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DataRegistration)
+                                    @Html.DisplayFor(modelItem => item.DataRegistration.Value.Date)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.DataDismissal)
@@ -96,13 +83,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
                                 </td>
-                                <td>
-                                    @Html.ActionLink("Назначить", "EducationOfWages", new { id = item.id })
-                                </td>
+
                                 <td>
                                     @Html.ActionLink("Редактировать", "EditEmployee", new { id = item.id }) |
-                                    @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id })
-
+                                    @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id }) |
+                                    @Html.ActionLink("Назначить", "EducationOfWages", new { id = item.id })
                                 </td>
 
                             </tr>
@@ -111,13 +96,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Surname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Patronymic)
+                                    @Html.DisplayFor(modelItem => item.Surname) @Html.DisplayFor(modelItem => item.Name)  @Html.DisplayFor(modelItem => item.Patronymic)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.MobilePhone)
@@ -125,14 +104,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Experience)
                                 </td>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.AdministratorsInterestRate)%
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InterestRate)%
+                                    </td>*@
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.AdministratorsInterestRate)%
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.InterestRate)%
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DataRegistration)
+                                    @Html.DisplayFor(modelItem => item.DataRegistration.Value.Date)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.DataDismissal)
@@ -142,11 +121,14 @@
                                     @Html.DisplayFor(modelItem => item.JobTitleTable.Position)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Назначить", "EducationOfWages", new { id = item.id })
-                                </td>
-                                <td>
                                     @Html.ActionLink("Редактировать", "EditEmployee", new { id = item.id }) |
-                                    @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id })
+                                    @Html.ActionLink("Выполненные заказы", "EmployeeWorkDays", new { idEmploye = item.id }) |
+                                    @Html.ActionLink("Назначить", "EducationOfWages", new { id = item.id }) |
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Owner"))
+                                    {
+                                        @Html.ActionLink("Регистрация", "../Account/Register", new { id = item.id, Name = @Html.DisplayFor(modelItem => item.Surname) + " " + @Html.DisplayFor(modelItem => item.Name) + " " + Html.DisplayFor(modelItem => item.Patronymic) })
+                                    }
+
                                 </td>
                             </tr>
                         }

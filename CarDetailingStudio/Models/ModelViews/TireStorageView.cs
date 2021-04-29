@@ -32,6 +32,7 @@ namespace CarDetailingStudio.Models.ModelViews
         [Display(Name = "Селикон (шт)")]
         public Nullable<int> silicone { get; set; }
         public Nullable<double> serviceCostTirePackages { get; set; }
+        public Nullable<int> stockNumber { get; set; }
 
         public virtual OrderServicesCarWashView OrderServicesCarWash { get; set; }
         public virtual StorageFeeView storageFee { get; set; }

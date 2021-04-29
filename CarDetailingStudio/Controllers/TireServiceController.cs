@@ -12,6 +12,7 @@ using CarDetailingStudio.Models.ModelViews;
 using CarDetailingStudio.BLL.Services.TireFitting.TireFittingContract;
 using AutoMapper;
 using CarDetailingStudio.BLL.Model;
+using CarDetailingStudio.BLL;
 
 namespace CarDetailingStudio.Controllers
 {
@@ -72,7 +73,7 @@ namespace CarDetailingStudio.Controllers
                 return RedirectToAction("Index");
             }
 
-           // ViewBag.orderServicesCarWashId = new SelectList(db.OrderServicesCarWashViews, "Id", "Id", tireServiceView.orderServicesCarWashId);
+
             return View(tireServiceView);
         }
 
@@ -89,7 +90,7 @@ namespace CarDetailingStudio.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.orderServicesCarWashId = new SelectList(db.OrderServicesCarWashViews, "Id", "Id", tireServiceView.orderServicesCarWashId);
+
             return View(tireServiceView);
         }
 
@@ -108,7 +109,10 @@ namespace CarDetailingStudio.Controllers
             }
             //ViewBag.orderServicesCarWashId = new SelectList(db.OrderServicesCarWashViews, "Id", "Id", tireServiceView.orderServicesCarWashId);
             return View(tireServiceView);
-        }   
+        }
+
+        public async Task<ActionResult> ArxivTireServices() =>
+            View(Mapper.Map<IEnumerable<TireServiceView>>(await _tireService.ServiceExecution((int)StatusOrder.Completed)));
 
     }
 }

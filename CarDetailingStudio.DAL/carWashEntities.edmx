@@ -523,6 +523,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stockNumber" Type="int" />
           <Property Name="dateOfAdoption" Type="datetime" />
           <Property Name="quantity" Type="int" />
           <Property Name="radius" Type="int" />
@@ -2165,6 +2166,7 @@
           <Property Name="serviceCostTirePackages" Type="Double" />
           <NavigationProperty Name="OrderServicesCarWash" Relationship="Self.FK_TireStorage_OrderServicesCarWash" FromRole="TireStorage" ToRole="OrderServicesCarWash" />
           <NavigationProperty Name="storageFee" Relationship="Self.FK_TireStorage_storageFee" FromRole="TireStorage" ToRole="storageFee" />
+          <Property Name="stockNumber" Type="Int32" />
         </EntityType>
         <EntityType Name="TireStorageServices">
           <Key>
@@ -3711,6 +3713,7 @@
           <EntitySetMapping Name="TireStorage">
             <EntityTypeMapping TypeName="carWashServerModel.TireStorage">
               <MappingFragment StoreEntitySet="TireStorage">
+                <ScalarProperty Name="stockNumber" ColumnName="stockNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="dateOfAdoption" ColumnName="dateOfAdoption" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />

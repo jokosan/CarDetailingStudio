@@ -340,13 +340,9 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
 
         public async Task<IEnumerable<GroupingEmployeesWages>> GroupingEmployeesByPeriod(DateTime start, DateTime? finlDate)
         {
-            //var groupResult = _wagesForCompleted.GroupingEmployees(await _wagesForCompleted.AnalyticsWages(start, finlDate.Value));
-            //return await _wagesForCompleted.sumOfAllIncome(groupResult, start, finlDate.Value);
             var groupResult = _wagesForCompleted.GroupingEmployees(await _wagesForCompleted.AnalyticsWages(start, finlDate.Value));
             return await _wagesForCompleted.sumOfAllIncome(await _wagesForCompleted.sumOfAllIncome(groupResult, start, finlDate.Value), start, finlDate.Value);
-
         }
-
 
         public async Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(DateTime date)
         {

@@ -64,7 +64,6 @@ namespace CarDetailingStudio.DAL.Infrastructure
         public virtual void Update(T entityToUpdate)
         {
             _carWashEntitiesContext.Set<T>().AddOrUpdate(entityToUpdate);
-            //  _carWashEntitiesContext.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
         public virtual void AttachStubs(object[] stubs)

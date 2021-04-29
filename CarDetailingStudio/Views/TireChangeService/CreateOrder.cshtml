@@ -1,5 +1,14 @@
 ﻿@model CarDetailingStudio.Models.ModelViews.TireChangeServiceView
 <link href="~/Content/input.css" rel="stylesheet" />
+<style>
+    .preference {
+        display: flex;
+        justify-content: space-between;
+        width: 60%;
+        margin: .5rem;
+    }
+</style>
+
 @if (ViewBag.Error == true)
 {
     <div class="col-md-12">
@@ -321,7 +330,7 @@
                             @foreach (var item in ViewBag.PriceTireFittingAdditionalServices)
                             {
                                 <tr>
-                                    <th>
+                                    <th >
                                         <div class="row">
                                             <div class="col-md-1">
                                                 <label class="customcheckbox">

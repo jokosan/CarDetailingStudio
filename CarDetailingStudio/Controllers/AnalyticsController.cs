@@ -15,6 +15,7 @@ using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
+    [AuthorizeAttribute]
     public partial class AnalyticsController : Controller
     {
         private readonly ICashier _cashier;

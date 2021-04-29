@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CarDetailingStudio.BLL.EmployeesModules;
 
 namespace CarDetailingStudio.BLL.Services
 {
@@ -36,11 +37,12 @@ namespace CarDetailingStudio.BLL.Services
             _servisesCarWashOrder = servisesCarWashOrder;
         }
 
+        // удалить только для хранения шин 
         public async Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage(int typeOfOrder, int statusOrder) =>
             Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x =>
-                ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == statusOrder)) || ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == 4))));
+                ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == statusOrder)) || ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == 4)), "TireStorage"));
         
-        public async Task<IEnumerable<OrderServicesCarWashBll>> ArxivOrder(int typeOfOrder, int statusOrder) =>
+        public async Task<IEnumerable<OrderServicesCarWashBll>> ServiceOrders(int typeOfOrder, int statusOrder) =>
          Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x =>
              (x.StatusOrder == statusOrder) && (x.typeOfOrder == typeOfOrder)));
 
@@ -216,12 +218,17 @@ namespace CarDetailingStudio.BLL.Services
             return orderCarWashWorkers.Id;
         }
 
-        public async Task CloseOrder(int? idOrder, int? idStatusOrder, int? idPaymentState)
+        public async Task CloseOrder(int? idOrder, int? idStatusOrder, int? idPaymentState )
         {
             var singlOrder = await GetId(idOrder);
 
             singlOrder.StatusOrder = idStatusOrder;
             singlOrder.PaymentState = idPaymentState;
+
+            if (idStatusOrder.Value == 2)
+            {
+                singlOrder.ClosingData = DateTime.Now;
+            }
 
             await SaveOrder(singlOrder);
         }
@@ -252,8 +259,6 @@ namespace CarDetailingStudio.BLL.Services
         #endregion
 
         private OrderServicesCarWash EntityTransformation(OrderServicesCarWashBll Entity) => 
-            Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(Entity);
-
-       
+            Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(Entity); 
     }
 }

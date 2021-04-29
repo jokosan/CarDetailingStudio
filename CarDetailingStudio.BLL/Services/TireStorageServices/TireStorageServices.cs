@@ -25,11 +25,9 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
             return result.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<TireStorageBll>> GetTableAll()
-        {
-            return Mapper.Map<IEnumerable<TireStorageBll>>(await _unitOfWork.tireStorageUnitOfWork.Get());
-        }
-
+        public async Task<IEnumerable<TireStorageBll>> GetTableAll() =>
+            Mapper.Map<IEnumerable<TireStorageBll>>(await _unitOfWork.tireStorageUnitOfWork.Get());
+        
         public async Task<TireStorageBll> SelectId(int? elementId)
         {
             throw new NotImplementedException();
@@ -37,17 +35,18 @@ namespace CarDetailingStudio.BLL.Services.TireStorageServices
 
         public async Task Insert(TireStorageBll element)
         {
-            TireStorage tireStorage = Mapper.Map<TireStorageBll, TireStorage>(element);
-
-            _unitOfWork.tireStorageUnitOfWork.Insert(tireStorage);
+            _unitOfWork.tireStorageUnitOfWork.Insert(TransformAnEntity(element));
             await _unitOfWork.Save();
         }
 
         public async Task Update(TireStorageBll elementToUpdate)
         {
-            throw new NotImplementedException();
+            _unitOfWork.tireStorageUnitOfWork.Update(TransformAnEntity(elementToUpdate));
+            await _unitOfWork.Save();
         }
 
-      
+        private TireStorage TransformAnEntity(TireStorageBll entity) =>
+            Mapper.Map<TireStorageBll, TireStorage>(entity);
+
     }
 }

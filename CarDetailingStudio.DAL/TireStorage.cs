@@ -27,6 +27,7 @@ namespace CarDetailingStudio.DAL
         public Nullable<int> RelatedOrders { get; set; }
         public Nullable<int> silicone { get; set; }
         public Nullable<double> serviceCostTirePackages { get; set; }
+        public Nullable<int> stockNumber { get; set; }
     
         public virtual OrderServicesCarWash OrderServicesCarWash { get; set; }
         public virtual storageFee storageFee { get; set; }

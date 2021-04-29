@@ -1,7 +1,7 @@
 ﻿@model CarDetailingStudio.Models.RegisterViewModel
 
 @{
-   
+
     Layout = "~/Views/Shared/_Login.cshtml";
 }
 
@@ -9,6 +9,14 @@
     <div class="text-center p-t-20 p-b-20">
         <span class="db"><img src="~/Images/LogoLogin.png" alt="logo" /></span>
     </div>
+
+    @if (ViewBag.EmployeeId != null)
+    {
+        <div class="text-center p-t-20">
+            <h3 class="center text-light">@ViewBag.EmployeeName<br /> - @ViewBag.EmployeeId -</h3>
+        </div>
+
+    }
 
     <!-- Form -->
 
@@ -19,6 +27,19 @@
 
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                @if (ViewBag.EmployeeId != null)
+                {
+                    <input type="hidden" name="id" value=@ViewBag.EmployeeId />
+                    @Html.HiddenFor(m => m.idEmployee, new { Value = ViewBag.EmployeeId })
+                }
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark text-white" id="basic-addon1"><i class="ti-pencil"></i></span>
+                    </div>
+                    @Html.TextBoxFor(m => m.Login, new { @placeholder = "Login", @class = "form-control form-control-lg" })
+                </div>
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -41,6 +62,13 @@
                     @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Confirm Password", @class = "form-control form-control-lg" })
                 </div>
 
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                    </div>
+                    @Html.DropDownList("NameRole", (SelectList)ViewBag.Role, "---", new { @class = "form-control form-control-lg" })
+                </div>
+
             </div>
         </div>
 
@@ -48,6 +76,8 @@
             <div class="col-12">
                 <div class="form-group">
                     <div class="p-t-20">
+                        <input type="hidden" name="id" value=@ViewBag.EmployeeId />
+                        <input type="hidden" name="Name" value=@ViewBag.EmployeeName />
                         <button class="btn btn-block btn-lg btn-info" type="submit">Sign Up</button>
                     </div>
                 </div>

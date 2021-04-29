@@ -17,6 +17,7 @@ namespace CarDetailingStudio.BLL.Model
         public Nullable<int> RelatedOrders { get; set; }
         public Nullable<int> silicone { get; set; }
         public Nullable<double> serviceCostTirePackages { get; set; }
+        public Nullable<int> stockNumber { get; set; }
 
         public virtual OrderServicesCarWashBll OrderServicesCarWash { get; set; }
         public virtual StorageFeeBll storageFee { get; set; }

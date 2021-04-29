@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CarDetailingStudio.BLL
+﻿namespace CarDetailingStudio.BLL
 {
     public enum ServiceCategories : int
     {
@@ -19,7 +13,7 @@ namespace CarDetailingStudio.BLL
         AdmminTireFitting = 9,
         EmployeesTireFitting = 10,
     }
-
+    
     public enum TypeService : int
     {
         Detailing = 1,
@@ -46,5 +40,13 @@ namespace CarDetailingStudio.BLL
     {
         cash = 1,
         nonСash = 2,
+    }
+
+    public enum StatusOrder
+    {
+        InWork = 1,
+        Completed = 2,
+        AwaitingPayment = 4,
+        Storage = 5
     }
 }

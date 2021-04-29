@@ -86,23 +86,23 @@
                                         <td>Касса мойки</td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                                <span class="text-success"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.SumCashierAndOrdersAwaitingPaymentCashier) грн.</span>
                                             </a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Washing.Cashier) грн.
-                                            </a>
+                                                <span class="text-success">  @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Washing.Cashier) грн.</span>
+</a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Washing.Cashier) грн.
-                                            </a>
+                                                <span class="text-success">  @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Washing.Cashier) грн.</span>
+</a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 2,  paymentState = 0, statusOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.OrdersAwaitingPaymentCashier) грн.
-                                            </a>
+                                                <span class="text-success"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Washing.OrdersAwaitingPaymentCashier) грн.</span>
+</a>
                                         </td>
                                     </tr>
 
@@ -120,22 +120,22 @@
                                         <td>Касса ковров</td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.SumCashierAndOrdersAwaitingPaymentCashier) грн.
+                                                <span class="text-success"> @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.SumCashierAndOrdersAwaitingPaymentCashier) грн.</span>
                                             </a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.CarpetWashing.Cashier) грн.
+                                                <span class="text-success">   @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.CarpetWashing.Cashier) грн.</span>
                                             </a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.CarpetWashing.Cashier) грн.
+                                                <span class="text-success">  @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.CarpetWashing.Cashier) грн.</span>
                                             </a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 3, paymentState = 0, statusOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.OrdersAwaitingPaymentCashier) грн.
+                                                <span class="text-success">  @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.CarpetWashing.OrdersAwaitingPaymentCashier) грн.</span>
                                             </a>
                                         </td>
                                     </tr>
@@ -192,22 +192,22 @@
                                         <td>Касса детейлинга</td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, paymentState = 0, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.SumCashierAndOrdersAwaitingPaymentCashier)  грн.
+                                                <span class="text-success">   @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.SumCashierAndOrdersAwaitingPaymentCashier)  грн.</span>
                                             </a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, paymentState = 1, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Detailing.Cashier)  грн.
+                                                <span class="text-success"> @Html.DisplayFor(model => model.analyticsViewNoCash.completedOrders.Detailing.Cashier)  грн.</span>
                                             </a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1, paymentState = 2, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Detailing.Cashier)  грн.
+                                                <span class="text-success"> @Html.DisplayFor(model => model.analyticsViewCash.completedOrders.Detailing.Cashier)  грн.</span>
                                             </a>
                                         </td>
                                         <td class="text-right">
                                             <a class="link" href=@Url.Action("../Analytics/DetailsAboutOrders", new { typeOrder = 1,  paymentState = 0, statusOrder = 4, start = @ViewBag.DateWhereStart, finlDate = @ViewBag.DateWhereFinal })>
-                                                @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.OrdersAwaitingPaymentCashier) грн.
+                                                <span class="text-success">  @Html.DisplayFor(model => model.analyticsViewResult.completedOrders.Detailing.OrdersAwaitingPaymentCashier) грн.</span>
                                             </a>
                                         </td>
                                     </tr>

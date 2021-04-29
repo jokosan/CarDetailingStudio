@@ -261,93 +261,101 @@
 
                         @*<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../Detailings/PriceList") aria-expanded="false"><i class="fas fa-dollar-sign"></i><span class="hide-menu">Услуги и цены</span></a></li>*@
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-dollar-sign"></i><span class="hide-menu">Услуги и цены</span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href=@Url.Action("../Detailings/PriceList", new { page = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Мойка </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Detailings/PriceList", new { page = 1 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Детейлинг </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../PriceListTireChangeServices/PriceChangeServices") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../TireStorageServices/Price") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Хранение шин</span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Detailings/PriceList", new { page = 3 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Стирка ковров </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Price/PriceList") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Розничные товары </span></a></li>
-                            </ul>
-                        </li>
-                        @*<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ItogOrder/DayResult") aria-expanded="false"><i class="mdi mdi-function"></i><span class="hide-menu">Зарплата за текущий день</span></a></li>*@
+                        @if (Request.IsAuthenticated && User.IsInRole("Admin") || Request.IsAuthenticated && User.IsInRole("Owner") || Request.IsAuthenticated && User.IsInRole("Manager"))
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-dollar-sign"></i><span class="hide-menu">Услуги и цены</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+                                    <li class="sidebar-item"><a href=@Url.Action("../Detailings/PriceList", new { page = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Мойка </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Detailings/PriceList", new { page = 1 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Детейлинг </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../PriceListTireChangeServices/PriceChangeServices") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../TireStorageServices/Price") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Хранение шин</span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Detailings/PriceList", new { page = 3 }) class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Стирка ковров </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Price/PriceList") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Розничные товары </span></a></li>
+                                </ul>
+                            </li>
+                        }
+                            @*<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../ItogOrder/DayResult") aria-expanded="false"><i class="mdi mdi-function"></i><span class="hide-menu">Зарплата за текущий день</span></a></li>*@
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-credit-card"></i><span class="hide-menu">Заработная плата</span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href=@Url.Action("../ItogOrder/DayResult") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Зарплата за текущий день </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../ShiftClosure/ShiftInformation") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Выплата заработной платы </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../BonusToSalary/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Премии </span></a></li>
-                            </ul>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-credit-card"></i><span class="hide-menu">Заработная плата</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+                                    <li class="sidebar-item"><a href=@Url.Action("../ItogOrder/DayResult") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Зарплата за текущий день </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../ShiftClosure/ShiftInformation") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Выплата заработной платы </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../BonusToSalary/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Премии </span></a></li>
+                                </ul>
+                            </li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../AllExpenses/Create") aria-expanded="false"><i class="fas fa-strikethrough"></i><span class="hide-menu">Расходы</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../AdditionalIncome/Index") aria-expanded="false"><i class="fas fa-strikethrough"></i><span class="hide-menu">Дополнительный доход</span></a></li>
-                        
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class=" fas fa-archive"></i><span class="hide-menu">Архив</span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href=@Url.Action("../Order/ArxivOrder", new { typeOfOrder = 2, statusOrder = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">  Мойка </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Order/ArxivOrder", new { typeOfOrder = 1, statusOrder = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Детейлинг </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Order/ArxivOrder", new { typeOfOrder = 4, statusOrder = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../OrderCarpetWashing/ArxivOrderCarpet") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">  Стирка ковров </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../CarWashWorkersViews/ArxivOrderCarWashWorkers") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Сотрудники </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../CarWashWorkersViews/StaffArxiv") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Уволенные сотрудники </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Expenses/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Расходы </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Shop/OrderShopArxiv") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Товары </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../SalaryArchive/SalaryArchive") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Заработная плата </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Cashier/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Итоги дня </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../EmployeeRate/ArxivRate") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Ставка за день </span></a></li>
+                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../AllExpenses/Create") aria-expanded="false"><i class="fas fa-strikethrough"></i><span class="hide-menu">Расходы</span></a></li>
+                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href=@Url.Action("../AdditionalIncome/Index") aria-expanded="false"><i class="fas fa-strikethrough"></i><span class="hide-menu">Дополнительный доход</span></a></li>
 
-                            </ul>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class=" fas fa-archive"></i><span class="hide-menu">Архив</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+                                    <li class="sidebar-item"><a href=@Url.Action("../Order/ArxivOrder", new { typeOfOrder = 2, statusOrder = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">  Мойка </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Order/ArxivOrder", new { typeOfOrder = 1, statusOrder = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Детейлинг </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Order/ArxivOrder", new { typeOfOrder = 4, statusOrder = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../TireService/ArxivTireServices", new { typeOfOrder = 4, statusOrder = 2 }) class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Услуги шиномонтаж </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../OrderCarpetWashing/ArxivOrderCarpet") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">  Стирка ковров </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../CarWashWorkersViews/ArxivOrderCarWashWorkers") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Сотрудники </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../CarWashWorkersViews/StaffArxiv") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Уволенные сотрудники </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Expenses/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Расходы </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Shop/OrderShopArxiv") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Товары </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../SalaryArchive/SalaryArchive") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Заработная плата </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Cashier/Index") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Итоги дня </span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../EmployeeRate/ArxivRate") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Ставка за день </span></a></li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Аналитика</span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href=@Url.Action("../Analytics/SummaryOfTheDay") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">Отчеты за день</span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Analytics/Report") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">Отчеты за месяц</span></a></li>
-                                @*<li class="sidebar-item"><a href=@Url.Action("../ShiftClosure/ShiftInformation") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Выплата заработной платы </span></a></li>
-                <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Кредит </span></a></li>*@
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-pencil"></i><span class="hide-menu">Администрирование</span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href=@Url.Action("../ClientsGroups/Index") class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Группы клиентов</span></a></li>
-                                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-multiplication-box"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Admin/IndexPriceListTireFittingAdditionalServices") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">  Шиномонтаж услуги</span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Admin/GroupWashTable") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">  Категории прайса</span></a></li>
-                                <li class="sidebar-item"><a href=@Url.Action("../Admin/EditingExpenseGroups") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">Категории расходов</span></a></li>
-                                @*<li class="sidebar-item"><a href=@Url.Action("../ClientsGroups/Index") class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span class="hide-menu"> Услуги </span></a></li>*@
-                                @*<li class="sidebar-item"><a href="pages-chat.html" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span class="hide-menu"> Chat Option </span></a></li>*@
-                            </ul>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Аналитика</span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+                                    <li class="sidebar-item"><a href=@Url.Action("../Analytics/SummaryOfTheDay") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">Отчеты за день</span></a></li>
+                                    <li class="sidebar-item"><a href=@Url.Action("../Analytics/Report") class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu">Отчеты за месяц</span></a></li>
+                                    @*<li class="sidebar-item"><a href=@Url.Action("../ShiftClosure/ShiftInformation") class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Выплата заработной платы </span></a></li>
+                    <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Кредит </span></a></li>*@
+                                </ul>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-key"></i><span class="hide-menu">Authentication </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level">
+                            @if (Request.IsAuthenticated && User.IsInRole("Admin") || Request.IsAuthenticated && User.IsInRole("Owner"))
+                            {
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-pencil"></i><span class="hide-menu">Администрирование</span></a>
+                                    <ul aria-expanded="false" class="collapse  first-level">
+                                        <li class="sidebar-item"><a href=@Url.Action("../ClientsGroups/Index") class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Группы клиентов</span></a></li>
+                                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-multiplication-box"></i><span class="hide-menu"> Шиномонтаж </span></a></li>
+                                        <li class="sidebar-item"><a href=@Url.Action("../Admin/IndexPriceListTireFittingAdditionalServices") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">  Шиномонтаж услуги</span></a></li>
+                                        <li class="sidebar-item"><a href=@Url.Action("../Admin/GroupWashTable") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">  Категории прайса</span></a></li>
+                                        <li class="sidebar-item"><a href=@Url.Action("../Admin/EditingExpenseGroups") class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">Категории расходов</span></a></li>
+                                        @*<li class="sidebar-item"><a href=@Url.Action("../ClientsGroups/Index") class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span class="hide-menu"> Услуги </span></a></li>*@
+                                        @*<li class="sidebar-item"><a href="pages-chat.html" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span class="hide-menu"> Chat Option </span></a></li>*@
+                                    </ul>
+                                </li>
+                            }
 
-                                @Html.Partial("_LoginPartial")
-                                @*<li class="sidebar-item">@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>
-                <li class="sidebar-item">@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>*@
-                                @*<li class="sidebar-item"><a href="authentication-login.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Login </span></a></li>
-                <li class="sidebar-item"><a href="authentication-register.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Register </span></a></li>*@
-                            </ul>
-                        </li>
-                        @*<li class="sidebar-item">
-            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">Errors </span></a>
-            <ul aria-expanded="false" class="collapse  first-level">
-                <li class="sidebar-item"><a href="error-403.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 403 </span></a></li>
-                <li class="sidebar-item"><a href="error-404.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 404 </span></a></li>
-                <li class="sidebar-item"><a href="error-405.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 405 </span></a></li>
-                <li class="sidebar-item"><a href="error-500.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 500 </span></a></li>
-            </ul>
-        </li>*@
-                    </ul>
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-key"></i><span class="hide-menu">Authentication </span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+
+                                    @Html.Partial("_LoginPartial")
+                                    @*<li class="sidebar-item">@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>
+                    <li class="sidebar-item">@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "sidebar-link mdi mdi-all-inclusive hide-menu" })</li>*@
+                                    @*<li class="sidebar-item"><a href="authentication-login.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Login </span></a></li>
+                    <li class="sidebar-item"><a href="authentication-register.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Register </span></a></li>*@
+                                </ul>
+                            </li>
+                            @*<li class="sidebar-item">
+                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">Errors </span></a>
+                <ul aria-expanded="false" class="collapse  first-level">
+                    <li class="sidebar-item"><a href="error-403.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 403 </span></a></li>
+                    <li class="sidebar-item"><a href="error-404.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 404 </span></a></li>
+                    <li class="sidebar-item"><a href="error-405.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 405 </span></a></li>
+                    <li class="sidebar-item"><a href="error-500.html" class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 500 </span></a></li>
+                </ul>
+            </li>*@
+                        </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Security.Claims;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace CarDetailingStudio.Models
@@ -15,18 +17,32 @@ namespace CarDetailingStudio.Models
             // Здесь добавьте утверждения пользователя
             return userIdentity;
         }
+       
+        public Nullable<int> idEmployee { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("IdentityMotorClean", throwIfV1Schema: false)
         {
+        }
+
+        static ApplicationDbContext()
+        {
+            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
         }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+    }
+
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole() : base() { }
+        public ApplicationRole(string name) : base(name) { }
+        public string Description { get; set; }
     }
 }

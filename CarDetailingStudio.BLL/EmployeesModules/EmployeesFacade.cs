@@ -34,6 +34,5 @@ namespace CarDetailingStudio.BLL.EmployeesModules
 
         public async Task TestBonus1(int id) =>
             await _accrualOfPremium.CloseShift(id);
-            
     }
 }

@@ -1,6 +1,18 @@
 ﻿@model CarDetailingStudio.Models.ModelViews.TireStorageView
 
-<h4>Номер заказа №@Model.IdOrderServicesCarWash</h4>
+<div class="row">
+    <div class="col-md-6">
+        <h4>
+            Номер на складе №@Model.stockNumber
+        </h4>
+    </div>
+    <div class="col-md-6">
+        <h4 class="text-right">         
+            Номер заказа №@Model.IdOrderServicesCarWash
+        </h4>
+    </div>
+</div>
+
 <hr />
 
 <div class="row">
@@ -136,86 +148,21 @@
                                             <td>@item.Price</td>
                                         </tr>
                                     }
-
                                 }
-
                             }
-
-
                         </tbody>
                     </table>
                 </div>
             </div>
         }
-
-
     </div>
 
     <div class="col-md-4">
-        @*@using (Html.BeginForm())
-        {
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Продлить хранение *</h4>
-                </div>
-                <div class="card-body">
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-3 text-right control-label col-form-label">
-                                Срок хранения
-                            </label>
-                            <div class="col-md-9">
-                                <div>
-                                    @Html.DropDownList("storageTime", new List<SelectListItem>
-                                       {
-                                           new SelectListItem{ Text = "Выберите срок хранения", Value = "0" },
-                                           new SelectListItem{ Text = "1 - мес.", Value = "1" },
-                                           new SelectListItem{ Text = "2 - мес.", Value = "2" },
-                                           new SelectListItem{ Text = "3 - мес.", Value = "3" },
-                                           new SelectListItem{ Text = "4 - мес.", Value = "4" },
-                                           new SelectListItem{ Text = "5 - мес.", Value = "5" },
-                                           new SelectListItem{ Text = "6 - мес.", Value = "6" },
-                                           new SelectListItem{ Text = "7 - мес.", Value = "7" },
-                                           new SelectListItem{ Text = "8 - мес.", Value = "8" },
-                                           new SelectListItem{ Text = "9 - мес.", Value = "9" },
-                                           new SelectListItem{ Text = "10 - мес.", Value = "10" },
-                                           new SelectListItem{ Text = "11 - мес.", Value = "11" },
-                                           new SelectListItem{ Text = "12 - мес.", Value = "12" },
-                                           new SelectListItem{ Text = "13 - мес.", Value = "13" },
-                                           new SelectListItem{ Text = "14 - мес.", Value = "14" },
-                                           new SelectListItem{ Text = "15 - мес.", Value = "15" },
-                                           new SelectListItem{ Text = "16 - мес.", Value = "16" },
-                                           new SelectListItem{ Text = "17 - мес.", Value = "17" },
-                                           new SelectListItem{ Text = "18 - мес.", Value = "18" },
-                                           new SelectListItem{ Text = "19 - мес.", Value = "19" },
-                                           new SelectListItem{ Text = "20 - мес.", Value = "20" },
-                                           new SelectListItem{ Text = "21 - мес.", Value = "21" },
-                                           new SelectListItem{ Text = "22 - мес.", Value = "22" },
-                                           new SelectListItem{ Text = "23 - мес.", Value = "23" },
-                                           new SelectListItem{ Text = "24 - мес.", Value = "24" },
-                                       }, new { @class = "form-control" })
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <hr>
-                    <div class="text-right">
-
-                        @Html.ActionLink("Продлить срок", "Index", null, new { @class = "btn btn-danger preview" })
-                    </div>
-                </div>
-            </div>
-        }*@
         @using (Html.BeginForm())
         {
             <div class="card">
                 <div class="card-body">
                     <div class="pull-right m-t-30 text-right">
-                        @*<p>Скидка клиента @Html.DisplayFor(model => model.ClientsOfCarWash.discont) %</p>
-                            <p>Общая сумма: @ViewBag.Price грн</p>*@
                         <hr>
                         <div class="row">
                             <div class="col-md-5">
@@ -228,16 +175,28 @@
                                        }, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-7">
-                                <div>
-                                    @Html.DropDownList("idPaymentState", new List<SelectListItem>
-                                       {
-                                           new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
-                                           new SelectListItem { Text = "Наличный расчёт", Value = "1"},
-                                           new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
-                                       }, new { @class = "form-control" })
+                            @if (ViewBag.PaymentState == 3)
+                            {
+                                <div class="col-md-7">
+                                    <div>
+                                        @Html.DropDownList("idPaymentState", new List<SelectListItem>
+                                           {
+                                               new SelectListItem{ Text = "Ожидает оплаты", Value = "3"},
+                                               new SelectListItem { Text = "Наличный расчёт", Value = "1"},
+                                               new SelectListItem{ Text = "Безналичный расчёт", Value = "2"},
+                                           }, new { @class = "form-control" })
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-7">
+                                    <div class="alert alert-success">
+                                        <input type="hidden" name="idPaymentState" value="@ViewBag.PaymentState" />
+                                        <h4 class="alert-heading">Оплачен</h4>
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <br />
                         <div class="row">
@@ -247,7 +206,6 @@
                                 <h3><b>Итого: </b>@ViewBag.Sum  грн.</h3>
                             </div>
                         </div>
-
                     </div>
                     <div class="clearfix"></div>
                     <hr>
@@ -255,60 +213,22 @@
                         <input type="hidden" name="idOrder" value="@Model.IdOrderServicesCarWash" />
                         <input type="hidden" name="idStorageFee" value="@Model.storageFee.idStorageFee" />
                         <input type="hidden" name="idTireStorage" value="@Model.Id" />
+
+                        @if (ViewBag.PaymentState != 3)
+                        {
+                            @Html.ActionLink("Продлить заказ", "RenewalOfOrder", new { Client = @ViewBag.Client.id, stockNumber = Model.stockNumber, idPaymentState = @ViewBag.PaymentState, idStatusOrder = 2, idOrder = @ViewBag.Order.Id }, new { @class = "btn btn-info preview" })
+                        }
+                        else
+                        {
+                            <input type="submit" value="Продлить заказ" class="btn btn-success preview" disabled />
+                        }
+
                         <input type="submit" value="Снять с хранения" class="btn btn-success preview" />
-                        @Html.ActionLink("Вернуться на главную", "Index", null, new { @class = "btn btn-danger preview" })
+                        @Html.ActionLink("Вернуться на главную", "../Order/OrderTireStorage", new { typeOfOrder = 5, statusOrder = 5 }, new { @class = "btn btn-danger preview" })
                     </div>
                 </div>
             </div>
+            <h6 class="text-right">**Продлить заказ возможно только при <b>100%</b><br /> оплате текущего заказа</h6>
         }
     </div>
-
 </div>
-
-@*<div>
-        <h4>TireStorageView</h4>
-        <hr />
-        <dl class="dl-horizontal">
-
-
-
-
-
-            <dt>
-                @Html.DisplayNameFor(model => model.tireStorageBags)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.tireStorageBags)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.wheelWash)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.wheelWash)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.IdOrderServicesCarWash)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.IdOrderServicesCarWash)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.silicone)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.silicone)
-            </dd>
-
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>*@

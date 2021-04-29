@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers.Administration
 {
+    [Authorize(Roles = "Admin, Owner")]
     public partial class AdminController : Controller
     {
         private IPriceTireFittingAdditionalServices _priceTireFittingAdditionalServices;

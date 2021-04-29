@@ -47,5 +47,6 @@ namespace CarDetailingStudio.Models
         [Required]
         [Display(Name = "Срок хранения")]
         public Nullable<int> storageTime { get; set; }
+        public Nullable<int> stockNumber { get; set; }
     }
 }
