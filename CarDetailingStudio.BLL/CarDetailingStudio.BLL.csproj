@@ -113,13 +113,18 @@
     <Compile Include="AnalyticsModules\AdditionalIncome\AdditionalIncome.cs" />
     <Compile Include="AnalyticsModules\AdditionalIncome\IAdditionalIncome.cs" />
     <Compile Include="AnalyticsModules\Models\AdditionalIncomeModels.cs" />
+    <Compile Include="AnalyticsModules\Models\AnalyticsIncomeModel.cs" />
     <Compile Include="AnalyticsModules\Models\AnalyticsModels.cs" />
     <Compile Include="AnalyticsModules\Models\CompletedOrders\CompletedOrdersModels.cs" />
     <Compile Include="AnalyticsModules\Models\CompletedOrders\InformationCompletedOrders.cs" />
     <Compile Include="AnalyticsModules\Models\ExpensesModels.cs" />
+    <Compile Include="AnalyticsModules\Models\FinanceModel.cs" />
     <Compile Include="AnalyticsModules\Models\GroupingEmployeesWages.cs" />
+    <Compile Include="AnalyticsModules\Models\IncomeModel.cs" />
     <Compile Include="AnalyticsModules\Models\InformationPreviousPeriod.cs" />
     <Compile Include="AnalyticsModules\Models\OrdersForThePreviousPeriod.cs" />
+    <Compile Include="AnalyticsModules\Models\PaymentOfArrears.cs" />
+    <Compile Include="AnalyticsModules\Models\PayoutsModel.cs" />
     <Compile Include="AnalyticsModules\Models\SaleOfGoodsModels.cs" />
     <Compile Include="AnalyticsModules\Models\WagesForCompletedOrders\SalaryInformation.cs" />
     <Compile Include="AnalyticsModules\Models\WagesForCompletedOrders\WagesForCompletedOrdersModels.cs" />
@@ -233,6 +238,7 @@
     <Compile Include="Services\Contract\ISalaryArchive.cs" />
     <Compile Include="Services\Contract\ISalaryBalanceService.cs" />
     <Compile Include="Services\Contract\IStatusOrder.cs" />
+    <Compile Include="Services\Contract\ITypeOfOrderServices.cs" />
     <Compile Include="Services\Contract\IUpdate.cs" />
     <Compile Include="Services\Contract\IUtilityCostsCategory.cs" />
     <Compile Include="Services\CostCategoriesServices.cs" />
@@ -336,6 +342,8 @@
     <Compile Include="Services\Trade\TradeContract\IListOfGoods.cs" />
     <Compile Include="Services\Trade\TradeContract\IProcurement.cs" />
     <Compile Include="Services\Trade\TradeContract\IProductCategories.cs" />
+    <Compile Include="Services\TypeOfOrderBll.cs" />
+    <Compile Include="Services\TypeOfOrderServices.cs" />
     <Compile Include="Services\UtilityCostsCategoryServices.cs" />
     <Compile Include="Utilities\Map\AutomapperConfig.cs" />
     <Compile Include="Utilities\Ninject\NinjectAnalytics.cs" />

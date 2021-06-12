@@ -14,6 +14,7 @@ using CarDetailingStudio.BLL.Services.ExpensesServices.ExpensesContract;
 
 namespace CarDetailingStudio.Controllers.Expenses
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class ExpensesController : Controller
     {
         private IExpenses _expenses;

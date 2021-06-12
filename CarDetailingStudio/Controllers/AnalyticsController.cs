@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarDetailingStudio.BLL;
 using CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
@@ -16,6 +17,7 @@ using System.Web.Routing;
 namespace CarDetailingStudio.Controllers
 {
     [AuthorizeAttribute]
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public partial class AnalyticsController : Controller
     {
         private readonly ICashier _cashier;
@@ -28,6 +30,10 @@ namespace CarDetailingStudio.Controllers
             _cashier = cashier;
             _abstractFactory = abstractFactory;
         }
+
+        public async Task<ActionResult> VisualizeStudentResult()
+            => Json(Mapper.Map<IEnumerable<IncomeView>>(await _abstractFactory.AnalyticsFinance(DateTime.Now)).ToList(), JsonRequestBehavior.AllowGet);
+        
 
         // GET: Analytics
         [HttpGet]
@@ -45,8 +51,8 @@ namespace CarDetailingStudio.Controllers
             }
 
             var analyticsResult = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriod(startDate.Value, finalDate.Value));
-            var analyticsCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriodFormOfPayment(startDate.Value, finalDate.Value, 2));
-            var analyticsNoCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriodFormOfPayment(startDate.Value, finalDate.Value, 1));
+            var analyticsCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriodFormOfPayment(startDate.Value, finalDate.Value, (int)PaymentMethod.cash));
+            var analyticsNoCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheSelectedPeriodFormOfPayment(startDate.Value, finalDate.Value, (int)PaymentMethod.nonСash));
             var Cashier = Mapper.Map<IEnumerable<CashierView>>(await _cashier.Reports(startDate.Value, finalDate.Value));
 
             AnalyticsFull analyticsFull = new AnalyticsFull();
@@ -62,9 +68,9 @@ namespace CarDetailingStudio.Controllers
 
             analyticsFull.cashStartOfTheDay = Cashier.Sum(x => x.amountBeginningOfTheDay);
 
-            analyticsFull.CashEndDay = SumTotalGeneral(analyticsResult);
-            analyticsFull.CashEndDayCash = SumTotal(analyticsCash) + analyticsFull.cashStartOfTheDay;
-            analyticsFull.CashEndDayNoCash = SumTotal(analyticsNoCash);
+            // analyticsFull.CashEndDay = SumTotalGeneral(analyticsResult);
+            // analyticsFull.CashEndDayCash = SumTotal(analyticsCash) + analyticsFull.cashStartOfTheDay;
+            // analyticsFull.CashEndDayNoCash = SumTotal(analyticsNoCash);
 
             analyticsFull.SumWegesAdministrator = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator + analyticsResult.wagesForCompletedOrders.Washing.SalaryAdministrator;
             analyticsFull.SumWegesEmployees = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees + analyticsResult.wagesForCompletedOrders.Washing.SalaryEmployees;
@@ -91,8 +97,27 @@ namespace CarDetailingStudio.Controllers
                 ViewBag.DateWhereFinal = finalDate;
             }
 
+            var resultIncome = Mapper.Map<AnalyticsIncomeView>(await _abstractFactory.AnalyticsFinance(startDate.Value, finalDate));
+
+            analyticsResult.incomeViews = resultIncome.incomeViews;
+            analyticsResult.paymentofArrears = resultIncome.paymentofArrears;
+
+            analyticsFull.PaymentOfArrearsTotal = resultIncome.paymentofArrears.Sum(s => s.SumOfIncome);
+            analyticsFull.PaymentOfArrearsCash = resultIncome.paymentofArrears.Sum(s => s.SumCash);
+            analyticsFull.PaymentOfArrearsNoCash = resultIncome.paymentofArrears.Sum(s => s.SumNoCash);
+
+            analyticsFull.CashEndDay = Math.Round(analyticsResult.incomeViews.Sum(s => s.SumOfIncome) - analyticsResult.expensesClassModels.Sum(s => s.Amount), 1);
+            analyticsFull.CashEndDayCash = SumCashEndDayCash(analyticsResult.incomeViews.Sum(s => s.SumCash), analyticsCash.expensesClassModels.Sum(s => s.Amount), analyticsFull.cashStartOfTheDay, analyticsFull.PaymentOfArrearsCash);
+            analyticsFull.CashEndDayNoCash = Math.Round(analyticsResult.incomeViews.Sum(s => s.SumNoCash) - analyticsNoCash.expensesClassModels.Sum(s => s.Amount), 1);
+            analyticsFull.SumTotal = Math.Round(analyticsFull.CashEndDayCash + analyticsFull.cashStartOfTheDay, 1);
+            analyticsFull.Profit = Math.Round(analyticsResult.incomeViews.Sum(x => x.SumOfIncome) - analyticsResult.expensesClassModels.Sum(x => x.Amount), 1);
+
+            analyticsFull.SumTotal = Math.Round(analyticsResult.incomeViews.Sum(s => s.SumOfIncome) + analyticsResult.incomeViews.Sum(s => s.AwaitingPayment));
+
             return View(analyticsFull);
         }
+
+        private double SumCashEndDayCash(double income, double expenses, double cashStartOfTheDay, double PaymentOfArrearsCash) => Math.Round(income + cashStartOfTheDay + PaymentOfArrearsCash - expenses, 1);
 
         [HttpPost]
         public ActionResult MonthlyReport(DateTime? startdateViewUser, DateTime? finaldateViewUser)
@@ -104,12 +129,13 @@ namespace CarDetailingStudio.Controllers
             }));
         }
 
+        #region SummaryOfTheDay
         [HttpGet]
         public async Task<ActionResult> SummaryOfTheDay(bool CloseDay = false, bool message = true)
         {
             var analyticsResult = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsForTheDay(DateTime.Now));
-            var analyticsCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsPerDayFormOfPayment(DateTime.Now, 2));
-            var analyticsNoCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsPerDayFormOfPayment(DateTime.Now, 1));
+            var analyticsCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsPerDayFormOfPayment(DateTime.Now, (int)PaymentMethod.cash));
+            var analyticsNoCash = Mapper.Map<AnalyticsView>(await _abstractFactory.AnalyticsPerDayFormOfPayment(DateTime.Now, (int)PaymentMethod.nonСash));
             var Cashier = Mapper.Map<IEnumerable<CashierView>>(await _cashier.Reports(DateTime.Now));
 
             AnalyticsFull analyticsFull = new AnalyticsFull();
@@ -123,15 +149,24 @@ namespace CarDetailingStudio.Controllers
             analyticsFull.analyticsViewNoCash = new AnalyticsView();
             analyticsFull.analyticsViewNoCash = analyticsNoCash;
 
-            analyticsFull.cashStartOfTheDay = Cashier.Sum(x => x.amountBeginningOfTheDay);
+            analyticsFull.cashStartOfTheDay = Math.Round(Cashier.Sum(x => x.amountBeginningOfTheDay), 1);
 
-            analyticsFull.SumWegesAdministrator = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator + analyticsResult.wagesForCompletedOrders.Washing.SalaryAdministrator;
-            analyticsFull.SumWegesEmployees = analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees + analyticsResult.wagesForCompletedOrders.Washing.SalaryEmployees;
-            analyticsFull.SumPendingPayment = SumOrderPendingPayment(analyticsResult);
+            analyticsFull.SumWegesAdministrator = Math.Round(analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryAdministrator
+                                                + analyticsResult.wagesForCompletedOrders.Washing.SalaryAdministrator, 1);
 
-            analyticsFull.CashEndDay = SumTotalGeneral(analyticsResult);
-            analyticsFull.CashEndDayCash = SumTotal(analyticsCash) + analyticsFull.cashStartOfTheDay + SumOrdersForThePreviousPeriod(analyticsCash.informationPreviousPeriod);
-            analyticsFull.CashEndDayNoCash = SumTotal(analyticsNoCash) + SumOrdersForThePreviousPeriod(analyticsNoCash.informationPreviousPeriod);
+            analyticsFull.SumWegesEmployees = Math.Round(analyticsResult.wagesForCompletedOrders.CarpetWashing.SalaryEmployees
+                                            + analyticsResult.wagesForCompletedOrders.Washing.SalaryEmployees, 1);
+
+            analyticsFull.SumPendingPayment = Math.Round(SumOrderPendingPayment(analyticsResult), 1);
+
+            //analyticsFull.CashEndDay = Math.Round(SumTotalGeneral(analyticsCash), 1);
+            //analyticsFull.CashEndDayCash = Math.Round(SumTotal(analyticsCash)
+            //                            + analyticsFull.cashStartOfTheDay
+            //                            + SumOrdersForThePreviousPeriod(analyticsCash.informationPreviousPeriod), 1);
+
+            //analyticsFull.CashEndDayCash = analyticsFull.CashEndDayCash - analyticsCash.expensesClassModels.Sum(x => x.Amount);
+            //analyticsFull.CashEndDayNoCash = Math.Round(SumTotal(analyticsNoCash) 
+            //                               + SumOrdersForThePreviousPeriod(analyticsNoCash.informationPreviousPeriod), 1);
 
             ViewBag.StartDate = DateTime.Now.ToString("D");
             ViewBag.DateWhereStart = DateTime.Now;
@@ -139,6 +174,21 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Message = message;
             ViewBag.Date = DateTime.Now.AddDays(1).ToString("d");
 
+            var resultIncome = Mapper.Map<AnalyticsIncomeView>(await _abstractFactory.AnalyticsFinance(DateTime.Now));
+
+            analyticsResult.incomeViews = resultIncome.incomeViews;
+            analyticsResult.paymentofArrears = resultIncome.paymentofArrears;
+
+            analyticsFull.PaymentOfArrearsTotal = resultIncome.paymentofArrears.Sum(s => s.SumOfIncome);
+            analyticsFull.PaymentOfArrearsCash = resultIncome.paymentofArrears.Sum(s => s.SumCash);
+            analyticsFull.PaymentOfArrearsNoCash = resultIncome.paymentofArrears.Sum(s => s.SumNoCash);
+
+            analyticsFull.CashEndDay = Math.Round(analyticsResult.incomeViews.Sum(s => s.SumOfIncome) - analyticsResult.expensesClassModels.Sum(s => s.Amount), 1);
+            analyticsFull.CashEndDayCash = SumCashEndDayCash(analyticsResult.incomeViews.Sum(s => s.SumCash), analyticsCash.expensesClassModels.Sum(s => s.Amount), analyticsFull.cashStartOfTheDay, analyticsFull.PaymentOfArrearsCash);
+            analyticsFull.CashEndDayNoCash = Math.Round(analyticsResult.incomeViews.Sum(s => s.SumNoCash) - analyticsNoCash.expensesClassModels.Sum(s => s.Amount), 1);
+            analyticsFull.SumTotal = Math.Round(analyticsFull.CashEndDayCash + analyticsFull.cashStartOfTheDay, 1);
+
+            analyticsFull.SumTotal = Math.Round(analyticsResult.incomeViews.Sum(s => s.SumOfIncome) + analyticsResult.incomeViews.Sum(s => s.AwaitingPayment));
             return View(analyticsFull);
         }
 
@@ -176,7 +226,9 @@ namespace CarDetailingStudio.Controllers
                 message = false
             }));
         }
+        #endregion
 
+        #region private 
         private double SumOrderPendingPayment(AnalyticsView analyticsViews)
         {
             double washing = analyticsViews.completedOrders.Washing.OrdersAwaitingPaymentCashier;
@@ -185,17 +237,20 @@ namespace CarDetailingStudio.Controllers
             double carpetWashing = analyticsViews.completedOrders.CarpetWashing.OrdersAwaitingPaymentCashier;
             double tireStorage = analyticsViews.completedOrders.TireStorage.OrdersAwaitingPaymentCashier;
 
-            return washing + detailing + tireFitting + tireStorage + carpetWashing;
+            return Math.Round(washing + detailing + tireFitting + tireStorage + carpetWashing, 1);
         }
 
         private double SumTotal(AnalyticsView analyticsView)
-        {
-            return analyticsView.completedOrders.Washing.Cashier + analyticsView.completedOrders.Detailing.Cashier + analyticsView.completedOrders.CarpetWashing.Cashier +
-                   analyticsView.completedOrders.TireFitting.Cashier + analyticsView.completedOrders.TireStorage.Cashier + analyticsView.saleOfGoods.SumGoodsSold +
-                   analyticsView.additionalIncome.CashierAvtomir + analyticsView.additionalIncome.CashierCaravan + analyticsView.additionalIncome.CashierDryCleaningKohler -
-            //analyticsView.expenses.AmountExpenses;
-            analyticsView.expensesClassModels.Sum(s => s.Amount);
-        }
+            => Math.Round(
+                analyticsView.completedOrders.Washing.Cashier
+                + analyticsView.completedOrders.Detailing.Cashier
+                + analyticsView.completedOrders.CarpetWashing.Cashier
+                + analyticsView.completedOrders.TireFitting.Cashier
+                + analyticsView.completedOrders.TireStorage.Cashier
+                + analyticsView.saleOfGoods.SumGoodsSold
+                + analyticsView.additionalIncome.CashierAvtomir
+                + analyticsView.additionalIncome.CashierCaravan
+                + analyticsView.additionalIncome.CashierDryCleaningKohler, 1);
 
         private double SumTotalGeneral(AnalyticsView analyticsView)
         {
@@ -209,24 +264,25 @@ namespace CarDetailingStudio.Controllers
                    analyticsView.wagesForCompletedOrders.TireStorage.SalaryAdministrator + analyticsView.wagesForCompletedOrders.TireStorage.SalaryEmployees +
                    analyticsView.wagesForCompletedOrders.SumBonusTOSalary + analyticsView.wagesForCompletedOrders.SumEmployeeRate;
 
-            // var expenses = analyticsView.expenses.AmountExpenses - analyticsView.expenses.PayrollCosts;
             var expenses = analyticsView.expensesClassModels.Where(x => x.expenseCategoryId != 1).Sum(s => s.Amount);
 
             var resultServAndWages = services - wages;
 
-            return (resultServAndWages + analyticsView.saleOfGoods.SumGoodsSold + analyticsView.additionalIncome.CashierAvtomir +
-                   analyticsView.additionalIncome.CashierCaravan + analyticsView.additionalIncome.CashierDryCleaningKohler) - expenses;
+            return Math.Round((resultServAndWages + analyticsView.saleOfGoods.SumGoodsSold + analyticsView.additionalIncome.CashierAvtomir +
+                   analyticsView.additionalIncome.CashierCaravan + analyticsView.additionalIncome.CashierDryCleaningKohler) - expenses, 1);
         }
 
         private double SumOrdersForThePreviousPeriod(InformationPreviousPeriod informationSum)
         {
-            return informationSum.CarpetWashing.OrderSum + informationSum.Washing.OrderSum + informationSum.Detailing.OrderSum +
-                    informationSum.TireFitting.OrderSum + informationSum.TireStorage.OrderSum;
+            return Math.Round(informationSum.CarpetWashing.OrderSum + informationSum.Washing.OrderSum + informationSum.Detailing.OrderSum +
+                    informationSum.TireFitting.OrderSum + informationSum.TireStorage.OrderSum, 1);
         }
+        #endregion
 
         public async Task<ActionResult> DetailsAboutOrders(int typeOrder, int paymentState, DateTime start, DateTime? finlDate, int type = 0, int statusOrder = 0)
         {
             ViewBagDateGroup(start, finlDate);
+            ViewBag.TypeOrder = typeOrder;
 
             if (finlDate == null)
             {
@@ -430,17 +486,21 @@ namespace CarDetailingStudio.Controllers
         }
 
 
-        public async Task<ActionResult> GroupDetailsWages(DateTime? dateStart, DateTime? dateFinal)
+
+        public async Task<ActionResult> GroupDetailsWages(DateTime? dateStart, DateTime? dateFinal, bool? page)
         {
-            if (dateStart == null && dateFinal == null)
+            if (page == null)
             {
-                dateStart = DateTime.Now.AddDays(-7);
-                dateFinal = DateTime.Now;
-            }
-            else if (dateFinal == null)
-            {
-                dateStart = DateTime.Now.AddDays(-7);
-                dateFinal = DateTime.Now;
+                if (dateStart == null && dateFinal == null)
+                {
+                    dateStart = DateTime.Now.AddDays(-7);
+                    dateFinal = DateTime.Now;
+                }
+                else if (dateFinal == null)
+                {
+                    dateStart = DateTime.Now.AddDays(-7);
+                    dateFinal = DateTime.Now;
+                }
             }
 
             ViewBagDateGroup(dateStart.Value, dateFinal);
@@ -478,9 +538,23 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Employees = idEmployees;
 
             if (dateFinal == null)
-              return View(Mapper.Map<AnalyticsView>(await _abstractFactory.InformationOnAllWages(idEmployees.Value, dateStart.Value)));
+                return View(Mapper.Map<AnalyticsView>(await _abstractFactory.InformationOnAllWages(idEmployees.Value, dateStart.Value)));
             else
-              return View(Mapper.Map<AnalyticsView>(await _abstractFactory.InformationOnAllWages(idEmployees.Value, dateStart.Value, dateFinal)));
+                return View(Mapper.Map<AnalyticsView>(await _abstractFactory.InformationOnAllWages(idEmployees.Value, dateStart.Value, dateFinal)));
+        }
+
+        public async Task<ActionResult> ServiceDebt(int typeOrder, DateTime start, DateTime? finlDate)
+        {
+            ViewBagDateGroup(start, finlDate);
+
+            if (finlDate == null)
+            {
+                return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.PaidServiceDebt(typeOrder, start)));
+            }
+            else
+            {
+                return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _abstractFactory.PaidServiceDebt(typeOrder, start, finlDate)));
+            }
         }
 
         #region ViewBag

@@ -240,54 +240,8 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-    <script>
-        $(function () {
-            $(document).on("input", ".mat_count input", function () {
-                var count = $('[id^="count"]').val(0),
-                    len = count.length;
-                $(".mat_count input").each(function (i, el) {
-                    i %= len;
-                    count[i].value -= -(+el.value || 0)
-                })
-            })
-        });
-
-
-    </script>*@
 
 <script>
-
-    //var $total = $('.sub_total');
-    //$('[class^="total"]').each(function () {
-    //    $total.val(parseInt($total.val()) + parseInt($(this).val()));
-    //});
-
-    //function subtractOperands() {
-    //    var result = $('#operand1').val() - $('#operand2').val();
-    //    $('#result').val(result);
-    //}
-
-    //document.getElementById("table-price-box").addEventListener("input", function (e) {
-    //    var inp = e.target;
-    //    if (inp.tagName === "INPUT") {
-    //        var tr = inp.parentElement.parentElement;
-    //        tr.querySelector(".sum").textContent = tr.querySelector(".price").textContent * inp.value;
-    //    }
-    //});
-
-
-    //var table = document.getElementById("tableSum"), sumVal = 0;
-
-    //for (var i = 1; i < table.rows.length; i++) {
-    //    sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
-    //}
-
-    //document.getElementById("val").innerHTML = "Sum Value = " + sumVal;
-    //console.log(sumVal);
-
-
     $(document).on("change", ".qty1", function () {
         var sum = 0;
         $(".qty1").each(function () {
@@ -303,6 +257,12 @@
             sum += +$(this).val();
         });
         $(".total").val(sum);
+    });
+
+    $(document).ready(function () {
+        $('form').submit(function () {
+            $(this).find('input[type=submit], button[type=submit]').prop('disabled', true);
+        });
     });
 
 </script>

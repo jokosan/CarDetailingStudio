@@ -16,6 +16,7 @@ using System.Globalization;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class SalaryArchiveController : Controller
     {
         private readonly ISalaryArchive _salaryArchive;

@@ -20,6 +20,7 @@ namespace CarDetailingStudio.Controllers
 {
     // [WorkShiftFilter]
     [AuthorizeAttribute]
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser, SalesManager")]
     public class OrderController : Controller
     {
         private readonly IOrderServicesCarWashServices _order;
@@ -74,6 +75,12 @@ namespace CarDetailingStudio.Controllers
             return View(order.OrderByDescending(x => x.Id));
         }
 
+        public async Task<ActionResult> IndexTest()
+        {
+            var order = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.GetAll());
+            return View(order.OrderByDescending(x => x.Id));
+        }
+
         public async Task<ActionResult> ArxivOrder(int? typeOfOrder, int? statusOrder, int? idClient)
         {
             if (typeOfOrder != null && statusOrder != null)
@@ -91,7 +98,8 @@ namespace CarDetailingStudio.Controllers
             }
             else if (idClient != null)
             {
-                return View(Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.AllCustomerOrders(idClient.Value)));
+                var ArxivClient = Mapper.Map<IEnumerable<OrderServicesCarWashView>>(await _order.AllCustomerOrders(idClient.Value));
+                return View(ArxivClient.OrderByDescending(x => x.Id));
             }
             else
             {

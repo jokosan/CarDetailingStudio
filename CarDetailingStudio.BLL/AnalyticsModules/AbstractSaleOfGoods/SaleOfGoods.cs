@@ -18,7 +18,8 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractSaleOfGoods
             _goodsSold = goodsSold;
         }
 
-        public async Task<IEnumerable<GoodsSoldBll>> SaleOfGoodsForTheSelectedPeriod(DateTime date, DateTime final) => await _goodsSold.Reports(date, final);       
+        public async Task<IEnumerable<GoodsSoldBll>> SaleOfGoodsForTheSelectedPeriod(DateTime date, DateTime final) 
+            => await _goodsSold.Reports(date, final);       
 
         public async Task<IEnumerable<GoodsSoldBll>> SaleOfGoodsForTheSelectedPeriod(DateTime date, DateTime final, int paymentState)
         {
@@ -26,7 +27,8 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractSaleOfGoods
             return selectGoodsSold.Where(x => x.PaymentState == paymentState);
         }
 
-        public async Task<IEnumerable<GoodsSoldBll>> SaleOfGoodsPerDay(DateTime date) => await _goodsSold.Reports(date);
+        public async Task<IEnumerable<GoodsSoldBll>> SaleOfGoodsPerDay(DateTime date)
+            => await _goodsSold.Reports(date);
 
         public async Task<IEnumerable<GoodsSoldBll>> SaleOfGoodsPerDay(DateTime date, int paymentState)
         {
@@ -57,5 +59,21 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractSaleOfGoods
                                 PaymentState = y.First().PaymentState
                              });
         }
+
+        public List<IncomeModel> GoodsSoldIncome(IEnumerable<GoodsSoldBll> goodsSolds)
+        {
+            var financServises = new List<IncomeModel>();
+            financServises.Add(new IncomeModel
+            {
+                ServicesOfInvome = "Товары",
+                DateOfIncome = DateTime.Now.Date,
+                SumOfIncome = Math.Round(goodsSolds.Sum(s => s.orderPrice).Value, 1),
+                SumNoCash = Math.Round(goodsSolds.Where(x => x.PaymentState == (int)PaymentMethod.nonСash).Sum(s => s.orderPrice).Value, 1),
+                SumCash = Math.Round(goodsSolds.Where(x => x.PaymentState == (int)PaymentMethod.cash).Sum(s => s.orderPrice).Value, 1)
+            });
+
+            return financServises;
+        }
+            
     }
 }

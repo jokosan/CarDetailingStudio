@@ -16,6 +16,7 @@ using CarDetailingStudio.BLL;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class TireServiceController : Controller
     {
         private ITireService _tireService;

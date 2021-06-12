@@ -15,6 +15,7 @@ using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class AdditionalIncomeController : Controller
     {
         private readonly IAdditionalIncome _additionalIncome;

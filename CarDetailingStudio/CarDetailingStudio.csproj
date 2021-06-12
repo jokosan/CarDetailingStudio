@@ -55,6 +55,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Highcharts, Version=9.0.1.1, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Highsoft.Highcharts.9.0.1.1\lib\netstandard2.0\Highcharts.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.dll</HintPath>
     </Reference>
@@ -157,6 +160,9 @@
     </Reference>
     <Reference Include="Mvc.Grid.Core, Version=7.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NonFactors.Grid.Core.Mvc5.7.1.2\lib\net45\Mvc.Grid.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
@@ -294,9 +300,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
@@ -404,11 +407,13 @@
     <Compile Include="Models\AllExpenses.cs" />
     <Compile Include="Models\AnalyticsView\AdditionalIncomeView.cs" />
     <Compile Include="Models\AnalyticsView\AnalyticsFull.cs" />
+    <Compile Include="Models\AnalyticsView\AnalyticsIncomeView.cs" />
     <Compile Include="Models\AnalyticsView\AnalyticsView.cs" />
     <Compile Include="Models\AnalyticsView\CompletedOrders\CompletedOrdersView.cs" />
     <Compile Include="Models\AnalyticsView\CompletedOrders\InformationCompletedOrdersView.cs" />
     <Compile Include="Models\AnalyticsView\ExpensesView.cs" />
     <Compile Include="Models\AnalyticsView\GroupingEmployeesWagesView.cs" />
+    <Compile Include="Models\AnalyticsView\IncomeView.cs" />
     <Compile Include="Models\AnalyticsView\InformationPreviousPeriod.cs" />
     <Compile Include="Models\AnalyticsView\OrdersForThePreviousPeriod.cs" />
     <Compile Include="Models\AnalyticsView\SaleOfGoodsView.cs" />
@@ -611,6 +616,7 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\shop.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\StyleAnalytics.css" />
     <Content Include="Content\Table.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -1585,6 +1591,8 @@
     <Content Include="Views\RolesAdmin\Index.cshtml" />
     <Content Include="Views\RolesAdmin\Create.cshtml" />
     <Content Include="Views\RolesAdmin\Edit.cshtml" />
+    <Content Include="Views\Analytics\ServiceDebt.cshtml" />
+    <Content Include="Views\Order\IndexTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

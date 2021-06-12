@@ -15,6 +15,7 @@ using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class ItogOrderController : Controller
     {
         private IDayResult _dayResult;

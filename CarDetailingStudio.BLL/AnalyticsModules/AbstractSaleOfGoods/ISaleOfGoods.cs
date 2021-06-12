@@ -17,5 +17,6 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractSaleOfGoods
         Task<IEnumerable<GoodsSoldBll>> SaleOfGoodsForTheSelectedPeriod(DateTime date, DateTime final, int paymentState);
         SaleOfGoodsModels AnalyticsFormationSaleOfGoods(IEnumerable<GoodsSoldBll> saleOfGoods);
         IEnumerable<GoodsSoldBll> GoodsSoldGroup(IEnumerable<GoodsSoldBll> goodsSolds);
+        List<IncomeModel> GoodsSoldIncome(IEnumerable<GoodsSoldBll> goodsSolds);
     }
 }

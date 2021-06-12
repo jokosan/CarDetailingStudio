@@ -21,6 +21,10 @@
         CarpetCleaning = 3,
         TireStorage = 4,
         TireFitting = 5,
+        ParkingLotAvtomir = 6,
+        ParkingAutoHouse = 7,
+        DryCleaningKohler = 8
+
     }
 
     public enum Employees : int

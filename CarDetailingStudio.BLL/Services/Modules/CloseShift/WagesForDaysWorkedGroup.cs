@@ -40,6 +40,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
              orderCarWashes.GroupBy(x => x.OrderServicesCarWash.OrderDate?.ToString("dd.MM.yyyy"))
                                   .Select(y => new WagesForDaysWorkedBll
                                   {
+                                      idOrder = y.First().OrderServicesCarWash.Id,
                                       carWashWorkersId = y.First().IdCarWashWorkers,
                                       ClosingData = y.First().OrderServicesCarWash.ClosingData,
                                       DiscountPrice = y.Sum(s => s.OrderServicesCarWash.DiscountPrice),

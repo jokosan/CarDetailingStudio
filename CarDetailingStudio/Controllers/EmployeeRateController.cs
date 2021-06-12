@@ -14,6 +14,7 @@ using AutoMapper;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class EmployeeRateController : Controller
     {
         private readonly IEmployeeRate _employeeRate;

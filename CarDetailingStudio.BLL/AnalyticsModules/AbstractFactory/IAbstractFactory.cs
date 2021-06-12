@@ -73,5 +73,11 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
         Task<IEnumerable<AdditionalIncomeBll>> DetailsAdditionalIncome(string IncomeCategory, DateTime start, DateTime? finlDate);
         Task<IEnumerable<AdditionalIncomeBll>> DetailsAdditionalIncome(string IncomeCategory, int paymentState, DateTime start, DateTime? finlDate);
         #endregion
+
+        Task<AnalyticsIncomeModel> AnalyticsFinance(DateTime date);
+        Task<AnalyticsIncomeModel> AnalyticsFinance(DateTime start, DateTime? finlDate);
+
+        Task<IEnumerable<OrderServicesCarWashBll>> PaidServiceDebt(int typeServices, DateTime date);
+        Task<IEnumerable<OrderServicesCarWashBll>> PaidServiceDebt(int typeServices, DateTime start, DateTime? finlDate);
     }
 }

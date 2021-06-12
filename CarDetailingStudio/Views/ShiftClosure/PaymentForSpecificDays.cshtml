@@ -12,58 +12,259 @@
 
         <div class="card">
             <div class="card-body">
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ClosingData)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DiscountPrice)
-                        <th>
-                            @Html.DisplayNameFor(model => model.orderCount)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.payroll)
-                        </th>
-                        @*<th></th>*@
-                    </tr>
 
-                    @foreach (var item in Model)
-                    {
-                        <tr>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClosingData)
-                                <input type="hidden" name="closingData" value="@item.ClosingData" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DiscountPrice)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.orderCount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.payroll)
-                            </td>
-                            @*<td>
-                                    @Html.ActionLink("Подробнее о заказах", "PaymentForTheCompletedOrder", new { idCarWash = item.carWashWorkersId, date = item.ClosingData })
-                                </td>*@
-                        </tr>
-                    }
+                <!-- toggle part -->
+                <div id="accordian-4">
+                    <div class="card m-t-30">
+                        <a class="card-header link border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-1" aria-expanded="false" aria-controls="Toggle-2">
+                            <i class="fas fa-angle-double-up text-success" aria-hidden="true"></i>
+                            <span class="text-right text-success"><h6>Заработок сотрудника за месяц: @ViewBag.MonthlySalary грн.</h6></span>
+                        </a>
+                        <div id="Toggle-1" class="multi-collapse collapse" style="">
+                            <div class="card-body widget-content">
 
-                </table>
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ClosingData)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DiscountPrice)
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.orderCount)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.payroll)
+                                        </th>
+                                        <th class="text-center">
+                                            О заказе
+                                        </th>
+                                    </tr>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ClosingData)
+                                                <input type="hidden" name="closingData" value="@item.ClosingData" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DiscountPrice)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.orderCount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.payroll)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Просмотреть", "../Order/CompletedOrders", new { idOrder = item.idOrder }, new { @class = "btn btn-outline-info" })
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <a class="card-header link collapsed border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-2" aria-expanded="false" aria-controls="Toggle-3">
+                            <i class="fas fa-angle-double-up text-success" aria-hidden="true"></i>
+                            <span class="text-right  text-success"><h6>Ставка за день: @ViewBag.Rate грн. </h6></span>
+                        </a>
+                        <div id="Toggle-2" class="collapse multi-collapse">
+                            <div class="card-body widget-content">
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            Дата сммены
+                                        </th>
+                                        <th>
+                                            numberHoursWorked
+                                        <th>
+                                            hourlyRate
+                                        </th>
+                                        <th>
+                                            wage
+                                        </th>
+                                    </tr>
+                                    @foreach (var item in ViewBag.EmployeeRate)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="text-danger"> @item.brigadeForToday.Date</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">@item.numberHoursWorked</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">@item.hourlyRate</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">@item.wage</span>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <a class="card-header link collapsed border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-3" aria-expanded="false" aria-controls="Toggle-3">
+                            <i class="fas fa-angle-double-up text-success" aria-hidden="true"></i>
+                            <span class="text-right  text-success"><h6>Премия за месяц: @ViewBag.BonusToSalary грн.</h6></span>
+                        </a>
+                        <div id="Toggle-3" class="collapse multi-collapse">
+                            <div class="card-body widget-content">
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            amount
+                                        </th>
+                                        <th>
+                                            date
+                                        </th>
+                                        <th>
+                                            note
+                                        </th>
+                                    </tr>
+                                    @foreach (var item in ViewBag.BonusToSalaryList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="text-danger"> @item.amount</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">@item.date</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">@item.note</span>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+
+                        @*<a class="card-header link collapsed border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-4" aria-expanded="false" aria-controls="Toggle-3">
+                                <i class="fas fa-angle-double-up text-success" aria-hidden="true"></i>
+                                <span class="text-right  text-success"><h6>Премия за месяц: @ViewBag.BonusToSalary грн.</h6></span>
+                            </a>
+                            <div id="Toggle-4" class="collapse multi-collapse">
+                                <div class="card-body widget-content">
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                amount
+                                            </th>
+                                            <th>
+                                                date
+                                            </th>
+                                            <th>
+                                                note
+                                            </th>
+                                        </tr>
+                                        @foreach (var item in ViewBag.BonusToSalaryList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="text-danger"> @item.amount</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-danger">@item.date</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-danger">@item.note</span>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </div>
+                            </div>*@
+
+                        <a class="card-header link collapsed border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-5" aria-expanded="false" aria-controls="Toggle-3">
+                            <i class="fas fa-angle-double-down text-danger" aria-hidden="true"></i>
+                            <span class="text-right text-danger"><h6>Выплачено в этом месяце: @ViewBag.PaidPerMonth грн</h6></span>
+                        </a>
+                        <div id="Toggle-5" class="collapse multi-collapse">
+                            <div class="card-body widget-content">
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            Дата выплаты
+                                        </th>
+                                        <th>
+                                            Сумма выплаты
+
+                                        <th>
+                                            Остаток
+                                        </th>
+                                    </tr>
+                                    @foreach (var item in ViewBag.Payouts)
+                                    {
+                                        <tr>
+                                            @{
+                                                double resultSum = item.accountBalance - item.payoutAmount;
+                                            }
+                                            @if (resultSum < 0)
+                                            {
+                                                <td>
+                                                    <span class="text-danger"> @item.dateOfPayment</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-danger">@item.payoutAmount</span>
+                                                </td>
+                                                @*<td>
+                                                        <span class="text-danger">@item.accountBalance</span>
+                                                    </td>*@
+
+                                                <td>
+                                                    <span class="text-danger">@resultSum</span>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.dateOfPayment
+                                                </td>
+                                                <td>
+                                                    @item.payoutAmount
+                                                </td>
+                                                @*<td>
+                                                        @item.accountBalance
+                                                    </td>*@
+                                                <td>
+                                                    @resultSum
+                                                </td>
+                                            }
+
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                        <hr />
+                        <p class="text-right">Остаток за прошлый месяц:  @ViewBag.LastMonth грн.</p>
+
+
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-body">
                 <div class="pull-right m-t-30 text-right">
-                    <p>Заработок сотрудника за месяц: @ViewBag.MonthlySalary грн.</p>
-                    <p>Ставка за день: @ViewBag.Rate грн. </p>
-                    <p>Премия за месяц: @ViewBag.BonusToSalary грн. </p>
-                    <p>Остаток за прошлый месяц:  @ViewBag.LastMonth грн.</p>
+                    @*<p>Заработок сотрудника за месяц: @ViewBag.MonthlySalary грн.</p>*@
+                    @*<p>Ставка за день: @ViewBag.Rate грн. </p>*@
+                    @*<p>Премия за месяц: @ViewBag.BonusToSalary грн. </p>*@
+                    @*<p>Остаток за прошлый месяц:  @ViewBag.LastMonth грн.</p>*@
 
                     @*<p>Дополнительно:<input class="text-input inside" type="hidden" id="count_1" name="column_1"></p>*@
-                    <p>Выплачено в этом месяце: @ViewBag.PaidPerMonth грн</p>
+                    @*<p>Выплачено в этом месяце: @ViewBag.PaidPerMonth грн</p>*@
                     <hr>
                     <h3>
                         <b>Остаток к выплате: </b>
@@ -142,71 +343,6 @@
     </div>
 
     <div class="col-6">
-        <div class="card">
-
-            <div class="card-body">
-                <h3>Отчет по выплатам за текущий месяц</h3>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <table class="table">
-                    <tr>
-                        <th>
-                            Дата выплаты
-                        </th>
-                        <th>
-                            Сумма выплаты
-
-                        <th>
-                            Остаток
-                        </th>
-                    </tr>
-                    @foreach (var item in ViewBag.Payouts)
-                    {
-                        <tr>
-                            @{
-                                double resultSum = item.accountBalance - item.payoutAmount;
-                            }
-                            @if (resultSum < 0)
-                            {
-                                <td>
-                                    <span class="text-danger"> @item.dateOfPayment</span>
-                                </td>
-                                <td>
-                                    <span class="text-danger">@item.payoutAmount</span>
-                                </td>
-                                @*<td>
-                                        <span class="text-danger">@item.accountBalance</span>
-                                    </td>*@
-
-                                <td>
-                                    <span class="text-danger">@resultSum</span>
-                                </td>
-                            }
-                            else
-                            {
-                                <td>
-                                    @item.dateOfPayment
-                                </td>
-                                <td>
-                                    @item.payoutAmount
-                                </td>
-                                @*<td>
-                                        @item.accountBalance
-                                    </td>*@
-                                <td>
-                                    @resultSum
-                                </td>
-                            }
-
-                        </tr>
-                    }
-
-                </table>
-            </div>
-        </div>
 
     </div>
 </div>

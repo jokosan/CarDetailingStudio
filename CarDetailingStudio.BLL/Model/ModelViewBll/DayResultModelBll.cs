@@ -12,6 +12,7 @@ namespace CarDetailingStudio.BLL.Model.ModelViewBll
         public Nullable<bool> calculationStatus { get; set; }
         public Nullable<double> payroll { get; set; }
         public Nullable<System.DateTime> salaryDate { get; set; }
+        public int countDays { get; set; } 
 
     }
 }

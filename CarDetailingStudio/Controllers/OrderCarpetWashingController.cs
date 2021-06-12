@@ -16,10 +16,12 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Services.Description;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser, SalesManager")]
     public class OrderCarpetWashingController : Controller
     {
         private IOrderCarpetWashingServices _orderCarpetWashingServices;
@@ -167,13 +169,13 @@ namespace CarDetailingStudio.Controllers
             ViewBag.BrigateOrder = test;
             ViewBag.ResultPay = orderServices.PaymentState;
 
-
             ViewBag.IdPage = idPage;
             ViewBag.ClientInfo = clientInfoView;
 
             var paymentSate = Mapper.Map<IEnumerable<PaymentStateView>>(await _paymentState.GetTableAll());
-            ViewBag.PaymentState = new SelectList(paymentSate, "Id", "PaymentState1", orderServices.PaymentState);
+            ViewBag.PaymentState = new SelectList(paymentSate, "Id", "PaymentState1");
             ViewBag.PaymentStateResult = orderServices.PaymentState;
+            ViewBag.ClientId = idClient;
 
             if (orderCarpetWashingView == null)
             {
@@ -189,7 +191,7 @@ namespace CarDetailingStudio.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AboutOrder([Bind(Include = "orderCompletionDate")] OrderCarpetWashingView orderCarpetWashingView, int idOrderServis,
-                                                   int idOrder, int? idPage, int? PaymentStateList, List<string> idBrigade = null, int? idAdmin = null)
+                                                   int idOrder, int? idPage, int? PaymentStateList, int? idClient, List<string> idBrigade = null, int? idAdmin = null)
         {
             if (idPage == 2)
             {
@@ -223,7 +225,6 @@ namespace CarDetailingStudio.Controllers
                 }
                 else if (PaymentStateList == 1 || PaymentStateList == 2)
                 {
-                    // if (idBrigade != null && idAdmin != null)
                     if (idBrigade != null)
                     {
                         int idOrderServices = await EditOrderCarpetWashing(idOrder, idPage.Value, PaymentStateList.Value);
@@ -249,7 +250,15 @@ namespace CarDetailingStudio.Controllers
 
                         await SaveOrderServices(orderServices);
                     }
-
+                }
+                else
+                {
+                    return RedirectToAction("AboutOrder", "OrderCarpetWashing", new RouteValueDictionary(new
+                    {
+                         idOrder = idOrder,
+                         idClient = idClient,
+                         idPage = idPage
+                    }));
                 }
             }
 

@@ -11,6 +11,7 @@ using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser, SalesManager")]
     public class ClientController : Controller
     {
         private IClientModules _clientModules;

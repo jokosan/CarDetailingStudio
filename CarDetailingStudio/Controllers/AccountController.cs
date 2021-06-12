@@ -96,6 +96,10 @@ namespace CarDetailingStudio.Controllers
                     {
                         return RedirectToAction("Report", "Analytics");
                     }
+                    else if (UserManager.IsInRole(user.Id, "SalesManager"))
+                    {
+                        return RedirectToAction("Client", "ClientsOfCarWashViews"); 
+                    }
                     else
                     {
                         return RedirectToAction("Index", "Order");
@@ -175,7 +179,7 @@ namespace CarDetailingStudio.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model, string NameRole = null, int? id = null, string Name = null)
         {
             if (ModelState.IsValid)
-            {               
+            {
                 var user = new ApplicationUser { UserName = model.Login, Email = model.Email, idEmployee = id };
                 var result = await UserManager.CreateAsync(user, model.Password);
 

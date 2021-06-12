@@ -18,6 +18,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
         private readonly IBonusToSalary _bonusToSalary;
         private readonly ISalaryArchive _salaryArchive;
         private readonly IEmployeeRate _employeeRate;
+        private readonly IJobTitleTableServices _jobTitleTable;
 
         public DayResult(
             IOrderCarWashWorkersServices orderCarWashWorkersServices,
@@ -25,7 +26,8 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             ISalaryBalanceService salaryBalance,
             IBonusToSalary bonusToSalary,
             ISalaryArchive salaryArchive,
-            IEmployeeRate employeeRate)
+            IEmployeeRate employeeRate,
+            IJobTitleTableServices jobTitleTable)
         {
             _orderCarWashWorkersServices = orderCarWashWorkersServices;
             _wagesForDays = wagesForDays;
@@ -33,6 +35,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
             _bonusToSalary = bonusToSalary;
             _salaryArchive = salaryArchive;
             _employeeRate = employeeRate;
+            _jobTitleTable = jobTitleTable;
         }
 
         public async Task<IEnumerable<DayResultModelBll>> DayResultViewInfo()
@@ -55,7 +58,7 @@ namespace CarDetailingStudio.BLL.Services.Modules.CloseShift
 
         public async Task<IEnumerable<DayResultModelBll>> TotalForEachEmployee()
         {
-            var result = await _orderCarWashWorkersServices.GetTableInclud(DateTime.Now.Month, DateTime.Now.Year);
+            var result = await _orderCarWashWorkersServices.GetTableInclud(DateTime.Now.Month, DateTime.Now.Year);            
             return GrupDayResult(result);
         }
 

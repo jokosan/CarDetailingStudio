@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿
+
+using AutoMapper;
 using CarDetailingStudio.BLL.Model;
 using CarDetailingStudio.BLL.Services.Contract;
 using CarDetailingStudio.BLL.Services.Modules;
@@ -25,9 +27,9 @@ namespace CarDetailingStudio.BLL.Services
 
         public OrderServicesCarWashServices(
             IUnitOfWork unitOfWork,
-            IOrderServices orderServices, 
+            IOrderServices orderServices,
             ServisesCarWashOrderBll servisesCar,
-            IOrderCarWashWorkersServices orderCarWash, 
+            IOrderCarWashWorkersServices orderCarWash,
             IServisesCarWashOrderServices servisesCarWashOrder)
         {
             _unitOfWork = unitOfWork;
@@ -41,10 +43,14 @@ namespace CarDetailingStudio.BLL.Services
         public async Task<IEnumerable<OrderServicesCarWashBll>> GetOrderAllTireStorage(int typeOfOrder, int statusOrder) =>
             Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x =>
                 ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == statusOrder)) || ((x.typeOfOrder == typeOfOrder) && (x.StatusOrder == 4)), "TireStorage"));
-        
+
         public async Task<IEnumerable<OrderServicesCarWashBll>> ServiceOrders(int typeOfOrder, int statusOrder) =>
          Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x =>
              (x.StatusOrder == statusOrder) && (x.typeOfOrder == typeOfOrder)));
+
+        public async Task<IEnumerable<OrderServicesCarWashBll>> GetAll()
+            => Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x => 
+                (x.typeOfOrder != (int)TypeService.CarpetCleaning) && (x.StatusOrder == 4)));
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> GetAll(int statusOrder)
         {
@@ -52,7 +58,7 @@ namespace CarDetailingStudio.BLL.Services
             {
                 var GetAllResult = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhere(x =>
                     ((x.StatusOrder == statusOrder) && (x.typeOfOrder <= 2)) || ((x.StatusOrder == 4) && (x.typeOfOrder <= 2))));
-                
+
                 return GetAllResult;
             }
             else
@@ -218,7 +224,7 @@ namespace CarDetailingStudio.BLL.Services
             return orderCarWashWorkers.Id;
         }
 
-        public async Task CloseOrder(int? idOrder, int? idStatusOrder, int? idPaymentState )
+        public async Task CloseOrder(int? idOrder, int? idStatusOrder, int? idPaymentState)
         {
             var singlOrder = await GetId(idOrder);
 
@@ -234,17 +240,21 @@ namespace CarDetailingStudio.BLL.Services
         }
 
         #region Отчеты
-        public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime datepresentDay) =>
-            Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x =>
+        public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime datepresentDay)
+            => Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x =>
                 DbFunctions.TruncateTime(x.OrderDate.Value) == datepresentDay.Date));
 
-        public async Task<IEnumerable<OrderServicesCarWashBll>> ReportsClosingData(DateTime datepresentDay) =>
-            Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x =>
+        public async Task<IEnumerable<OrderServicesCarWashBll>> ReportsClosingData(DateTime datepresentDay)
+            => Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x =>
                 DbFunctions.TruncateTime(x.ClosingData.Value) == datepresentDay.Date));
 
-        public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime startDate, DateTime finalDate) => 
-            Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x =>
+        public async Task<IEnumerable<OrderServicesCarWashBll>> Reports(DateTime startDate, DateTime finalDate)
+            => Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x =>
                 (DbFunctions.TruncateTime(x.OrderDate.Value) >= startDate.Date) && (DbFunctions.TruncateTime(x.OrderDate.Value) <= finalDate.Date)));
+
+        public async Task<IEnumerable<OrderServicesCarWashBll>> ReportsClosingData(DateTime startDate, DateTime finalDate)
+            => Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.WhereMonthlyReport(x =>
+                (DbFunctions.TruncateTime(x.ClosingData.Value) >= startDate.Date) && (DbFunctions.TruncateTime(x.ClosingData.Value) <= finalDate.Date)));
 
         public async Task<IEnumerable<OrderServicesCarWashBll>> OrderReport(DateTime start, DateTime final)
         {
@@ -252,13 +262,13 @@ namespace CarDetailingStudio.BLL.Services
             var dateFinal = final.Date.AddDays(1);
 
             var OrderByDate = Mapper.Map<IEnumerable<OrderServicesCarWashBll>>(await _unitOfWork.orderUnitiOfWork.GetWhereDate(x => x.StatusOrder == 2));
-            
+
             return OrderByDate.Where(x => x.ClosingData > dateStart && x.ClosingData <= final.Date.AddDays(1));
         }
 
         #endregion
 
-        private OrderServicesCarWash EntityTransformation(OrderServicesCarWashBll Entity) => 
-            Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(Entity); 
+        private OrderServicesCarWash EntityTransformation(OrderServicesCarWashBll Entity) =>
+            Mapper.Map<OrderServicesCarWashBll, OrderServicesCarWash>(Entity);
     }
 }

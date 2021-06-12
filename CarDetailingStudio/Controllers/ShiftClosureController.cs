@@ -13,6 +13,7 @@ using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class ShiftClosureController : Controller
     {
         private IWagesForDaysWorkedGroup _wagesForDays;
@@ -68,6 +69,11 @@ namespace CarDetailingStudio.Controllers
                 var bonusToSalary = Mapper.Map<IEnumerable<BonusToSalaryView>>(await _bonusToSalary.WhereMontsBonusToSalary(idCarWash.Value));
                 var employeeRate = Mapper.Map<IEnumerable<EmployeeRateView>>(await _employeeRate.WherySumRate(idCarWash.Value));
 
+                ViewBag.EmployeeRate = employeeRate;
+                ViewBag.BonusToSalaryList = bonusToSalary;
+                ViewBag.SalaryBalance = salaryBalance;
+
+
                 var salaryArxiv = Mapper.Map<SalaryArchiveView>(await _salaryArchive.LastMonth(idCarWash.Value));               
 
                 double monthlySalary = viewResult.Sum(s => s.payroll).Value;
@@ -76,10 +82,10 @@ namespace CarDetailingStudio.Controllers
                 double rate = employeeRate.Sum(s => s.wage).Value;
                 double lastMonth = 0;
 
-
                 if (salaryArxiv != null)
                 {
                     lastMonth = salaryArxiv.balanceAtTheEndOfTheMonth.Value;
+                    ViewBag.LastMonthList = salaryArxiv;
                 }
 
                 ViewBag.Rate = rate;

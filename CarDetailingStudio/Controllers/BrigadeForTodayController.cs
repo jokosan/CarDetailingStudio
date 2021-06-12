@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager")]
     public class BrigadeForTodayController : Controller
     {
         private IBrigadeForTodayServices _services;

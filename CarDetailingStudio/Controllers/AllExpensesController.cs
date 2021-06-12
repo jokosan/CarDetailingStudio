@@ -16,6 +16,7 @@ using CarDetailingStudio.Models.ModelViews;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class AllExpensesController : Controller
     {
         private IAllExpenses _allExpenses;

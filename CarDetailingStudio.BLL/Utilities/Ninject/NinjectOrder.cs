@@ -20,6 +20,7 @@ namespace CarDetailingStudio.BLL.Utilities.Ninject
             kernel.Bind<IServisesCarWashOrderServices>().To<ServisesCarWashOrderServices>();
             kernel.Bind<IOrderCarWashWorkersServices>().To<OrderCarWashWorkersServices>();
             kernel.Bind<IOrderServices>().To<OrderServices>();
+            kernel.Bind<ITypeOfOrderServices>().To<TypeOfOrderServices>(); 
             kernel.Bind<IOrder>().To<Order>();
         }
     }

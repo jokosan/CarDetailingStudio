@@ -27,7 +27,7 @@ namespace CarDetailingStudio.Controllers
 {
     public class TireChangeServiceController : Controller
     {
-        private ITireChangeService _tireChangeService;-/
+        private ITireChangeService _tireChangeService;
         private IPriceListTireFitting _priceListTireFitting;
         private IPriceTireFittingAdditionalServices _priceTireFittingAdditionalServices;
         private ITireRadius _tireRadius;
@@ -230,6 +230,7 @@ namespace CarDetailingStudio.Controllers
                     if (createOrderView.Client.discont != null)
                     {
                         createOrderView.discontClient = createOrderView.Client.discont.Value;
+                        discontClient = createOrderView.discontClient;
                     }
                 }
 

@@ -15,6 +15,7 @@ using CarDetailingStudio.BLL.Model;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class BonusToSalaryController : Controller
     {
         private IBonusToSalary _bonusToSalary;

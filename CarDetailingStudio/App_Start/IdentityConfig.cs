@@ -31,7 +31,8 @@ namespace CarDetailingStudio.Models
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
+                RequireUniqueEmail =
+                true
             };
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
@@ -117,7 +118,6 @@ namespace CarDetailingStudio.Models
         {
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             var roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
 
             const string name = "Vasilenko";
             const string password = "AdmIn5!49_V@si1enk018";

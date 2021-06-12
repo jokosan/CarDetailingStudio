@@ -16,6 +16,7 @@ using System.Web.Routing;
 
 namespace CarDetailingStudio.Controllers
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class CarWashWorkersViewsController : Controller
     {
         private ICarWashWorkersServices _services;

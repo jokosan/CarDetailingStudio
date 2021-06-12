@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace CarDetailingStudio.Controllers
 {
-    [Authorize(Roles = "Admin, Owner")]
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser")]
     public class DetailingsController : Controller
     {
         private IDetailingsServises _detailings;

@@ -48,7 +48,6 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractSalaryExpenses
                 {
                     idExpenses = item.expenseId.Value,
                     dateExpenses = item.Expenses.dateExpenses.Value.Date,
-                   //expenseCategory = new ExpenseCategoryBll() { name = item.Expenses.costCategories.Name},
                     Amount = item.Expenses.Amount.Value,
                     paymentType = item.Expenses.paymentType,
                     note = $"{item.CarWashWorkers.Surname} {item.CarWashWorkers.Name} {item.CarWashWorkers.Patronymic}"

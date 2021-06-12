@@ -29,7 +29,6 @@ D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.Razor.xml
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.WebPages.Razor.xml
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.WebPages.xml
-D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Microsoft.Web.Infrastructure.xml
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\de\DevExpress.Data.v19.1.resources.dll
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\es\DevExpress.Data.v19.1.resources.dll
@@ -41,11 +40,6 @@ D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ja\DevE
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\DevExpress.Xpo.v19.1.resources.dll
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\EntityFramework.resources.dll
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
-D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.Mvc.resources.dll
-D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.Razor.resources.dll
-D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.WebPages.Razor.resources.dll
-D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.WebPages.resources.dll
-D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\System.Web.WebPages.Deployment.resources.dll
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\obj\Debug\CarDetailingStudio.BLL.csprojAssemblyReference.cache
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\obj\Debug\CarDetailingStudio.BLL.csproj.CopyComplete
 D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\obj\Debug\CarDetailingStudio.BLL.dll
@@ -218,3 +212,15 @@ C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailin
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\EntityFramework.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
 C:\Users\Vasilenko\Desktop\CarDetailingStudioTask\CarDetailingStudio\CarDetailingStudio.BLL\obj\Debug\CarDetailingStudio.BLL.csproj.CopyComplete
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.dll
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.WebHost.dll
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Mvc.dll
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Quartz.dll
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.Helpers.dll
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.xml
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Common.WebHost.xml
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Ninject.Web.Mvc.xml
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Quartz.pdb
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\Quartz.xml
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\bin\Debug\System.Web.Helpers.xml
+D:\ProjectCarWash\C#\CarDetailingStudio\CarDetailingStudio.BLL\obj\Debug\CarDetailingStudio.BLL.csproj.CoreCompileInputs.cache

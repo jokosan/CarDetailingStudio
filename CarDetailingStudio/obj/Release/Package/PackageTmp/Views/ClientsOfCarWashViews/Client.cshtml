@@ -87,7 +87,7 @@
                    //columns.Add(model => @Html.ActionLink("Редакировать", "EditCarClient", new { id = model.id }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
                    //columns.Add(model => @Html.ActionLink("Создать авто", "AddCar", new { id = model.IdInfoClient }, new { @class = "btn btn-cyan btn-sm" })).Encoded(false);
                    columns.Add(model => @Html.ActionLink("Информация", "Info", new { idClientInfo = model.idClien, idClient = model.idCar }, new { @class = "btn btn-success btn-sm" })).Encoded(false);
-                   columns.Add(model => @Html.ActionLink("История", "../Order/ArxivOrder", new { idClient = model.idClien }, new { @class = "btn btn-info btn-sm" })).Encoded(false);
+                   columns.Add(model => @Html.ActionLink("История", "../Order/ArxivOrder", new { idClient = model.idCar }, new { @class = "btn btn-info btn-sm" })).Encoded(false);
 
                })
                .UsingFilterMode(GridFilterMode.Excel)

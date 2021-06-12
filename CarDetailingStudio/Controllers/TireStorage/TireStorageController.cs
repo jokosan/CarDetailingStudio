@@ -23,6 +23,7 @@ using System.Web.UI.WebControls;
 
 namespace CarDetailingStudio.Controllers.TireStorage
 {
+    [Authorize(Roles = "Admin, Owner, Manager, SuperUser, SalesManager")]
     public class TireStorageController : Controller
     {
         private ITireStorage _tireStorage;

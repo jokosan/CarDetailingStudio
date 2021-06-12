@@ -286,7 +286,7 @@ namespace CarDetailingStudio.Controllers
             ViewBag.Group = new SelectList(await _clientsGroups.GetClientsGroups(), "Id", "Name");
             return View(client);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditClient([Bind(Include = "id,Surname,Name,PatronymicName,Phone,DateRegistration,Email,barcode,note")] ClientInfoView client, int IdClient, int idCar, int? SelectGroupClient)
@@ -298,7 +298,7 @@ namespace CarDetailingStudio.Controllers
 
                 ClientInfoBll clientInfoBll = Mapper.Map<ClientInfoView, ClientInfoBll>(client);
                 var clientsOfCarWashView = Mapper.Map<IEnumerable<ClientsOfCarWashView>>(await _services.GetAll(idCar));
-
+                
                 foreach (var item in clientsOfCarWashView)
                 {
                     item.IdClientsGroups = SelectGroupClient;
@@ -310,8 +310,8 @@ namespace CarDetailingStudio.Controllers
 
                 return RedirectToAction("Info", "ClientsOfCarWashViews", new RouteValueDictionary(new
                 {
-                    idClientInfo = IdClient,
-                    idClient = idCar
+                    idClientInfo = idCar,
+                    idClient = IdClient
                 }));
             }
 
@@ -353,7 +353,6 @@ namespace CarDetailingStudio.Controllers
             if (ModelState.IsValid)
             {
                 ClientsOfCarWashView clientsOfCarWash = Mapper.Map<ClientsOfCarWashView>(await _services.GetId(idCar));
-                //clientsOfCarWash = clientsOfCarWashView;
 
                 clientsOfCarWashView.id = clientsOfCarWash.id;
                 clientsOfCarWashView.IdInfoClient = clientsOfCarWash.IdInfoClient;

@@ -17,5 +17,10 @@ namespace CarDetailingStudio.Models.AnalyticsView
         public double SumWegesAdministrator { get; set; }
         public double SumWegesEmployees { get; set; }
         public double SumPendingPayment { get; set; } // Сумма заказов ожидающих оплат
+        public double SumTotal { get; set; }
+        public double Profit { get; set; }
+        public double PaymentOfArrearsTotal { get; set; }
+        public double PaymentOfArrearsCash { get; set; }
+        public double PaymentOfArrearsNoCash { get; set; }
     }
 }

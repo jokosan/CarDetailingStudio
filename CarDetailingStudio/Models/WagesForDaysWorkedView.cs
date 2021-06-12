@@ -8,6 +8,7 @@ namespace CarDetailingStudio.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+        public int idOrder { get; set; }
         public int carWashWorkersId { get; set; }
         [Display(Name = "Дата Выполнения заказа")]
         public Nullable<DateTime> ClosingData { get; set; }

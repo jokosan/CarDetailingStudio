@@ -45,6 +45,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         private DbRepository<EmployeeRate> EmployeeRateUW;
         private DbRepository<premiumAndRate> PremiumAndRateServicesUW;
         private DbRepository<Position> PositionUW;
+        private DbRepository<typeOfOrder> TypeOfOrderUW;
 
         private OrderServicesCarWashRepository orderUW;
         private ClientsOfCarWashRepository ClientsUW;
@@ -56,6 +57,12 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
 
         // Временное решение
         private DbRepository<AdditionalIncome> AdditionalIncomeUW;
+
+        public DbRepository<typeOfOrder> TypeOfOrderUnitOfWork
+        {
+            get => TypeOfOrderUW ?? (TypeOfOrderUW = new DbRepository<typeOfOrder>(_entities));
+            set => TypeOfOrderUW = value;
+        }
 
         public DbRepository<Position> PositionUnitOfWork
         {

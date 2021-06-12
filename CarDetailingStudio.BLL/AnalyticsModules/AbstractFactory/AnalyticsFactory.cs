@@ -353,7 +353,7 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
         public async Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(DateTime start, DateTime? finlDate)
         {
             var result = await _wagesForCompleted.AnalyticsWages(start, finlDate.Value);
-            return await _wagesForCompleted.sumOfAllIncome (_wagesForCompleted.GroupingByDatesAndEmployees(result).AsEnumerable(), start, finlDate.Value);
+            return await _wagesForCompleted.sumOfAllIncome(_wagesForCompleted.GroupingByDatesAndEmployees(result).AsEnumerable(), start, finlDate.Value);
         }
 
         public async Task<IEnumerable<GroupingEmployeesWages>> GroupDetailsWages(int typeServices, DateTime date)
@@ -368,7 +368,7 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
             return _wagesForCompleted.GroupingByDatesAndEmployees(result.Where(x => x.typeServicesId == typeServices)).AsEnumerable();
         }
 
-       // public async Task<IEnumerable<>>
+        // public async Task<IEnumerable<>>
 
         #endregion
 
@@ -410,6 +410,48 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractFactory
         {
             var result = await _additionalIncome.SaleOfGoodsForTheSelectedPeriod(start, finlDate.Value, paymentState);
             return result.Where(x => x.IncomeCategory == IncomeCategory);
+        }
+        #endregion
+
+        #region Finance
+        public async Task<AnalyticsIncomeModel> AnalyticsFinance(DateTime date)
+        {
+            var analyticsIncomeModel = new AnalyticsIncomeModel();
+
+            var resultServisesList = await _completedOrders.ServiceIncome(await _completedOrders.CompletedOrdersPerDay(date));
+            var FormationAdditionalIncomeList = _additionalIncome.FormationAdditionalIncome(await _additionalIncome.SaleOfGoodsPerDay(date));
+            var SaleOfGoodsPerDayList = _saleOfGoods.GoodsSoldIncome(await _saleOfGoods.SaleOfGoodsPerDay(date));
+            analyticsIncomeModel.incomeViews = resultServisesList.Union(FormationAdditionalIncomeList).Union(SaleOfGoodsPerDayList).ToList();
+
+            analyticsIncomeModel.paymentofArrears = await _completedOrders.ServiceIncome(date);
+
+            return analyticsIncomeModel;
+        }
+
+        public async Task<AnalyticsIncomeModel> AnalyticsFinance(DateTime start, DateTime? finlDate)
+        {
+            var analyticsIncomeModel = new AnalyticsIncomeModel();
+
+            var resultServisesList = await _completedOrders.ServiceIncome(await _completedOrders.CompletedOrdersForTheSelectedPeriod(start, finlDate.Value));
+            var FormationAdditionalIncomeList = _additionalIncome.FormationAdditionalIncome(await _additionalIncome.SaleOfGoodsForTheSelectedPeriod(start, finlDate.Value));
+            var SaleOfGoodsPerDayList = _saleOfGoods.GoodsSoldIncome(await _saleOfGoods.SaleOfGoodsForTheSelectedPeriod(start, finlDate.Value));
+            analyticsIncomeModel.incomeViews = resultServisesList.Union(FormationAdditionalIncomeList).Union(SaleOfGoodsPerDayList).ToList();
+
+            analyticsIncomeModel.paymentofArrears = await _completedOrders.ServiceIncome(start, finlDate.Value);
+            
+            return analyticsIncomeModel;
+        }
+
+        public async Task<IEnumerable<OrderServicesCarWashBll>> PaidServiceDebt(int typeServices, DateTime date)
+        {
+            var resultExpenses = await _completedOrders.PaidServiceDebtInformation(date);
+            return resultExpenses.Where(x => x.typeOfOrder == typeServices);
+        }
+
+        public async Task<IEnumerable<OrderServicesCarWashBll>> PaidServiceDebt(int typeServices, DateTime start, DateTime? finlDate)
+        {
+            var resultExpenses = await _completedOrders.PaidServiceDebtInformation(start, finlDate.Value);
+            return resultExpenses.Where(x => x.typeOfOrder == typeServices);
         }
         #endregion
     }

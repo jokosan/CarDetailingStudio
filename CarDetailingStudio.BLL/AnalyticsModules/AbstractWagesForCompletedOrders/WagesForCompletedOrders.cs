@@ -47,7 +47,7 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
                                         y.First().CarWashWorkers.Patronymic,
                         orderCount = y.Count(),
                         wegesSum = y.Sum(s => s.Payroll.Value),
-                        orderSum = y.Select(o => new {o.IdOrder, o.OrderServicesCarWash.DiscountPrice }).Distinct().Sum(s => s.DiscountPrice.Value),
+                        orderSum = Math.Round(y.Select(o => new {o.IdOrder, o.OrderServicesCarWash.DiscountPrice }).Distinct().Sum(s => s.DiscountPrice.Value), 1),
                         idOrder = y.First().IdOrder,
 
                     }).AsEnumerable();
@@ -64,7 +64,7 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
                                         y.First().CarWashWorkers.Patronymic,
                         orderCount = y.Count(),
                         wegesSum = y.Sum(s => s.Payroll.Value),
-                        orderSum = y.Select(o => new { o.IdOrder, o.OrderServicesCarWash.DiscountPrice }).Distinct().Sum(s => s.DiscountPrice.Value),
+                        orderSum = Math.Round(y.Select(o => new { o.IdOrder, o.OrderServicesCarWash.DiscountPrice }).Distinct().Sum(s => s.DiscountPrice.Value), 1),
                         idOrder = y.First().IdOrder,
                         date = DateTime.MinValue
                     }).AsEnumerable();
@@ -84,16 +84,16 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
             {
                 if (item.date == DateTime.MinValue)
                 {
-                    sumBonus = bonusToSalaryInfo.Where(x => x.carWashWorkersId == item.idEmployees).Sum(s => s.amount).Value;
-                    sumRate = employeeRateInfo.Where(x => x.brigadeForToday.IdCarWashWorkers == item.idEmployees).Sum(s => s.wage).Value;
+                    sumBonus = Math.Round(bonusToSalaryInfo.Where(x => x.carWashWorkersId == item.idEmployees).Sum(s => s.amount).Value, 1);
+                    sumRate = Math.Round(employeeRateInfo.Where(x => x.brigadeForToday.IdCarWashWorkers == item.idEmployees).Sum(s => s.wage).Value, 1);
                 }
                 else
                 {
-                    sumBonus = bonusToSalaryInfo.Where(x => x.carWashWorkersId == item.idEmployees && x.date.Value.Date == item.date.Date).Sum(s => s.amount).Value;
-                    sumRate = employeeRateInfo.Where(x => x.brigadeForToday.IdCarWashWorkers == item.idEmployees && x.brigadeForToday.Date.Value.Date == item.date.Date).Sum(s => s.wage).Value;
+                    sumBonus = Math.Round(bonusToSalaryInfo.Where(x => x.carWashWorkersId == item.idEmployees && x.date.Value.Date == item.date.Date).Sum(s => s.amount).Value, 1);
+                    sumRate = Math.Round(employeeRateInfo.Where(x => x.brigadeForToday.IdCarWashWorkers == item.idEmployees && x.brigadeForToday.Date.Value.Date == item.date.Date).Sum(s => s.wage).Value, 1);
                 }
 
-                item.bonus = sumBonus + sumRate;
+                item.bonus = Math.Round(sumBonus + sumRate, 1);
             }
 
             return wages.AsEnumerable();
@@ -142,44 +142,44 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractWagesForCompletedOrder
                    );
         }
 
-        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime date) =>
-            await _bonusToSalary.Reports(date);
+        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime date) 
+            => await _bonusToSalary.Reports(date);
 
-        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime dateStaart, DateTime dateFinal) => 
-            await _bonusToSalary.Reports(dateStaart, dateFinal);
+        public async Task<IEnumerable<BonusToSalaryBll>> BonusToSalaryInfo(DateTime dateStaart, DateTime dateFinal)
+            => await _bonusToSalary.Reports(dateStaart, dateFinal);
 
-        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime date) =>
-            await _employeeRate.Reports(date);
+        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime date)
+            => await _employeeRate.Reports(date);
 
-        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime dateStaart, DateTime dateFinal) =>
-            await _employeeRate.Reports(dateStaart, dateFinal);
+        public async Task<IEnumerable<EmployeeRateBll>> EmployeeRateInfo(DateTime dateStaart, DateTime dateFinal)
+            => await _employeeRate.Reports(dateStaart, dateFinal);
 
         private WagesForCompletedOrdersModels AnalyticsFormationWages(IEnumerable<OrderCarWashWorkersBll> orderCarWashes, IEnumerable<BonusToSalaryBll> bonus, IEnumerable<EmployeeRateBll> employees)
         {
             WagesForCompletedOrdersModels models = new WagesForCompletedOrdersModels();
 
             models.Detailing = new SalaryInformation();
-            models.Detailing.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 1).Sum(s => s.Payroll).Value, 3);
-            models.Detailing.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 4).Sum(s => s.Payroll).Value, 3);
+            models.Detailing.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 1).Sum(s => s.Payroll).Value, 1);
+            models.Detailing.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 4).Sum(s => s.Payroll).Value, 1);
 
             models.Washing = new SalaryInformation();
-            models.Washing.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 2).Sum(s => s.Payroll).Value, 3);
-            models.Washing.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 5).Sum(s => s.Payroll).Value, 3);
+            models.Washing.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 2).Sum(s => s.Payroll).Value, 1);
+            models.Washing.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 5).Sum(s => s.Payroll).Value, 1);
 
             models.CarpetWashing = new SalaryInformation();
-            models.CarpetWashing.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 3).Sum(s => s.Payroll).Value, 3);
-            models.CarpetWashing.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 6).Sum(s => s.Payroll).Value, 3);
+            models.CarpetWashing.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 3).Sum(s => s.Payroll).Value, 1);
+            models.CarpetWashing.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 6).Sum(s => s.Payroll).Value, 1);
 
             models.TireStorage = new SalaryInformation();
-            models.TireStorage.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 7).Sum(s => s.Payroll).Value, 3);
-            models.TireStorage.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 8).Sum(s => s.Payroll).Value, 3);
+            models.TireStorage.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 7).Sum(s => s.Payroll).Value, 1);
+            models.TireStorage.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 8).Sum(s => s.Payroll).Value, 1);
 
             models.TireFitting = new SalaryInformation();
-            models.TireFitting.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 9).Sum(s => s.Payroll).Value, 3);
-            models.TireFitting.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 10).Sum(s => s.Payroll).Value, 3);
+            models.TireFitting.SalaryAdministrator = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 9).Sum(s => s.Payroll).Value, 1);
+            models.TireFitting.SalaryEmployees = Math.Round(orderCarWashes.Where(x => x.typeServicesId == 10).Sum(s => s.Payroll).Value, 1);
 
-            models.SumBonusTOSalary = Math.Round(bonus.Sum(s => s.amount).Value, 3);
-            models.SumEmployeeRate = Math.Round(employees.Sum(s => s.wage).Value, 3);
+            models.SumBonusTOSalary = Math.Round(bonus.Sum(s => s.amount).Value, 1);
+            models.SumEmployeeRate = Math.Round(employees.Sum(s => s.wage).Value, 1);
 
             models.TotalSumWages = Math.Round(orderCarWashes.Sum(s => s.Payroll).Value) + models.SumBonusTOSalary + models.SumEmployeeRate;
 

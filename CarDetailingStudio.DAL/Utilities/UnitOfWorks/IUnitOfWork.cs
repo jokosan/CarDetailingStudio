@@ -27,7 +27,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<ExchangeRates> ExchangeRatesUnitOfWork { get; set; }
         DbRepository<GroupWashServices> GroupWashServicesUnitOfWork { get; set; }
 
-        
+
 
         DbRepository<ClientsGroups> ClientsGroupsUnitOfWork { get; set; }
         DbRepository<ClientInfo> ClientInfoUnitOfWork { get; set; }
@@ -36,6 +36,7 @@ namespace CarDetailingStudio.DAL.Utilities.UnitOfWorks
         DbRepository<salaryBalance> SalaruBalanceUnitOfWork { get; set; }
         DbRepository<orderCarpetWashing> OrderCarpetWashingUnitOfWork { get; set; }
         DbRepository<PaymentState> PaymentStateUnitOfWork { get; set; }
+        DbRepository<typeOfOrder> TypeOfOrderUnitOfWork { get; set; }
 
         // expenses - затраты
 

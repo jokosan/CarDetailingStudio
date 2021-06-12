@@ -16,5 +16,6 @@ namespace CarDetailingStudio.BLL.AnalyticsModules
         Task<IEnumerable<AdditionalIncomeBll>> SaleOfGoodsPerDay(DateTime date, int paymentState);
         Task<IEnumerable<AdditionalIncomeBll>> SaleOfGoodsForTheSelectedPeriod(DateTime date, DateTime final, int paymentState);
         AdditionalIncomeModels AnalyticsFormationAdditionalIncome(IEnumerable<AdditionalIncomeBll> additionalIncomes);
+        List<IncomeModel> FormationAdditionalIncome(IEnumerable<AdditionalIncomeBll> additionalIncomes);
     }
 }

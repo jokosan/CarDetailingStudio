@@ -1,4 +1,5 @@
-﻿using CarDetailingStudio.BLL.AnalyticsModules.Models.CompletedOrders;
+﻿using CarDetailingStudio.BLL.AnalyticsModules.Models;
+using CarDetailingStudio.BLL.AnalyticsModules.Models.CompletedOrders;
 using CarDetailingStudio.BLL.Model;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,10 @@ namespace CarDetailingStudio.BLL.AnalyticsModules.AbstractCompletedOrders
         Task<IEnumerable<OrderServicesCarWashBll>> CompletedOrdersForTheSelectedPeriod(DateTime date, DateTime final);
         Task<IEnumerable<OrderServicesCarWashBll>> CompletedOrdersForTheSelectedPeriod(DateTime date, DateTime final, int paymentState);
         CompletedOrdersModels AnalyticsFormationCompletedOrders(IEnumerable<OrderServicesCarWashBll> orderServicesCarWashes);
+        Task<List<IncomeModel>> ServiceIncome(IEnumerable<OrderServicesCarWashBll> orderServicesCarWashes);
+        Task<List<IncomeModel>> ServiceIncome(DateTime start);
+        Task<List<IncomeModel>> ServiceIncome(DateTime start, DateTime final);
+        Task<IEnumerable<OrderServicesCarWashBll>> PaidServiceDebtInformation(DateTime start);
+        Task<IEnumerable<OrderServicesCarWashBll>> PaidServiceDebtInformation(DateTime start, DateTime final);
     }
 }

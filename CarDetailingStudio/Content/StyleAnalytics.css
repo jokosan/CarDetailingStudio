@@ -1,0 +1,9 @@
+﻿@media (min-width: 768px) {
+    .modal-dialog-centered {
+        width: 90%;
+        max-width: 1000px;
+    }
+}
+
+
+
